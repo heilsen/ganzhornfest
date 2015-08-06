@@ -1,0 +1,29 @@
+<ion-view view-title="Die Vereine und ihr Angebot">
+  <ion-pane style="height:110px; top:93px; "> 
+    <ion-list>  
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Filter 
+        </div>
+        <select ng-model="category" ng-change="updateCategoryFilter()">
+          <option value="food"><i class="icon ion-fork"></i>Essen</option>
+          <option value="drink"><i class="icon ion-ios-pint"></i>Getränke</option>
+          <option value="other"><i class="icon ion-pricetag"></i>Sonstiges</option>
+          <option value="stands">Vereine</option>
+        </select>
+      </label>
+      <div class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Suchbegriff" ng-model="searchTerm">
+        <button class="button input-button button-icon ion-close" ng-click="clearSearch()"></button>
+      </div>
+    </ion-list>  
+  </ion-pane>
+  <ion-content style="top:203px" class="has-header has-subheader">
+    <ion-list>
+      <ion-item collection-repeat="listItem in list | filter:searchTerm | orderBy:'name'" ui-sref="tab.detail({ type: category, id: listItem.id })" ng-click="">
+       {{listItem.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

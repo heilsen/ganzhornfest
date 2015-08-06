@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="de.sebastianheil.ganzhornfest" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Ganzhornfest</name>
+  <description>
+    An App for "Ganzhornfest" in Neckarsulm, Germany. Useful extension to the existing brochure or maybe even an replacement.
+    An Ionic Framework and Cordova project.
+  </description>
+  <author email="mail+ganzhornfest@sebastianheil.de" href="http://www.sebastianheil.de/ganzhornfest">
+    Sebastian Heil
+  </author>
+  <author email="hi@ionicframework" href="http://ionicframework.com/">
+    Ionic Framework Team
+  </author>
+  <content src="index.html"/>
+  <access origin="*"/>
+  <preference name="webviewbounce" value="false"/>
+  <preference name="UIWebViewBounce" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
+  <preference name="android-minSdkVersion" value="16"/>
+  <preference name="BackupWebStorage" value="none"/>
+  <preference name="SplashScreen" value="screen"/>
+  <preference name="SplashScreenDelay" value="3000"/>
+  <feature name="StatusBar">
+    <param name="ios-package" value="CDVStatusBar" onload="true"/>
+  </feature>
+  <platform name="android">
+    <icon src="resources/android/icon/ganzhornfest-ldpi-icon.png" density="ldpi"/>
+    <icon src="resources/android/icon/ganzhornfest-mdpi-icon.png" density="mdpi"/>
+    <icon src="resources/android/icon/ganzhornfest-hdpi-icon.png" density="hdpi"/>
+    <icon src="resources/android/icon/ganzhornfest-xhdpi-icon.png" density="xhdpi"/>
+    <icon src="resources/android/icon/ganzhornfest-xxhdpi-icon.png" density="xxhdpi"/>
+    <icon src="resources/android/icon/ganzhornfest-xxxhdpi-icon.png" density="xxxhdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-land-ldpi-screen.png" density="land-ldpi"/>
+    <splash src="resources/android/splash/ganzhornfest-land-mdpi-screen.png" density="land-mdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-land-hdpi-screen.png" density="land-hdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-land-xhdpi-screen.png" density="land-xhdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-land-xxhdpi-screen.png" density="land-xxhdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-land-xxxhdpi-screen.png" density="land-xxxhdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-port-ldpi-screen.png" density="port-ldpi"/>
+    <splash src="resources/android/splash/ganzhornfest-port-mdpi-screen.png" density="port-mdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-port-hdpi-screen.png" density="port-hdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-port-xhdpi-screen.png" density="port-xhdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-port-xxhdpi-screen.png" density="port-xxhdpi"/>
+    <splash src="resources/android/splash/ganzhornfest-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
+  </platform>
+</widget>
