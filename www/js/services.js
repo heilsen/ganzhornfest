@@ -184,7 +184,7 @@ angular.module('starter.services', [])
     {id: 71,  type: "food",     name: "Bogenwurst"},
     {id: 72,  type: "food",     name: "Calamaris"},
     {id: 73,  type: "food",     name: "Snacks"},
-    {id: 74,  type: "food",     name: "Seelen mit Schinken und Küse überbacken (Spitzdappen)"},
+    {id: 74,  type: "food",     name: "Seelen mit Schinken und Käse überbacken (Spitzdappen)"},
     {id: 75,  type: "food",     name: "Germknödel"},
     {id: 76,  type: "food",     name: "Kässpätzle"},
     {id: 77,  type: "food",     name: "Gulaschsuppe"},
