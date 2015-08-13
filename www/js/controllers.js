@@ -59,6 +59,8 @@ angular.module('starter.controllers', [])
 .controller('DetailCtrl', ['$scope', '$stateParams', 'Detail', function($scope, $stateParams, Detail) {
 
   $scope.filteredStands = Detail.getFilteredStands($stateParams.type,$stateParams.id);
+  $scope.itemArray = Detail.getList($stateParams.type).filter(function(item) { return item.id == $stateParams.id; });
+  $scope.itemName = $scope.itemArray[0].name;
 
   $scope.mapDefaults = {
 //    scrollWheelZoom: false,
