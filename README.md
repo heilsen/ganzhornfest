@@ -33,7 +33,7 @@ Copyright (c) 2015 Sebastian Heil
 
 
 [info]: resources/ganzhornfest_app_info.png "Info Tab"
-[vereine]: resources/ganzhornfest_app_verein.png "Vereine Tab"
+[vereine]: resources/ganzhornfest_app_vereine.png "Vereine Tab"
 [details]: resources/ganzhornfest_app_details.png "Details Tab"
 [karte]: resources/ganzhornfest_app_karte.png "Karte Tab"
 [programm]: resources/ganzhornfest_app_programm.png "Programm Tab"
