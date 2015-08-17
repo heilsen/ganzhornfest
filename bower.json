@@ -1,7 +1,8 @@
 {
-  "name": "HelloIonic",
+  "name": "Ganzhornfest",
   "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0"
+  "dependencies": {
+    "angular-leaflet": "~0.8.6",
+    "ionic": "~1.1.0"
   }
 }

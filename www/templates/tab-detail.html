@@ -1,10 +1,10 @@
-<ion-view view-title="Details">
+<ion-view view-title="{{ itemName }}">
   <ion-pane style="top:93px; height:300px;">
      <leaflet center="neckarsulm" markers="markersHash" defaults="mapDefaults" width="100%" height="300px"></leaflet>
   </ion-pane>
   <ion-content class="has-header" style="top:397px;">
     <ion-list>
-      <ion-item collection-repeat="stand in filteredStands | orderBy:'name'" ng-click="">
+      <ion-item collection-repeat="stand in filteredStands | orderBy:'name'" ng-click="" ui-sref="tab.stand({ type: 'stands', id: stand.id})">
         {{ stand.name }}
       </ion-item>
     </ion-list>
