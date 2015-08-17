@@ -4,6 +4,7 @@ angular.module('starter.controllers', [])
 
   $scope.category = "food";
   $scope.list = Detail.getList($scope.category);
+  $scope.sref = "detail";
 
   // TODO: rename other to program
 
@@ -13,6 +14,11 @@ angular.module('starter.controllers', [])
   };
 
   $scope.updateCategoryFilter = function() {
+    if($scope.category == 'stands') {
+      $scope.sref = 'stand';
+    } else {
+      $scope.sref = 'detail';
+    }
     $scope.list = Detail.getList($scope.category);
   };
 
@@ -55,6 +61,31 @@ angular.module('starter.controllers', [])
 
 
 })
+
+.controller('DetailStandCtrl', ['$scope', '$stateParams', 'Detail', function($scope, $stateParams, Detail) {
+
+  $scope.stand = Detail.getFilteredStands('stands',$stateParams.id);
+  $scope.standName = $scope.stand[0].name;
+  $scope.standURL = $scope.stand[0].url;
+  $scope.standDescription = $scope.stand[0].description;
+  $scope.standItemIDs = $scope.stand[0].items;
+  $scope.itemArray = Detail.getList().filter(function(item) { return $scope.standItemIDs.indexOf(item.id) > -1; });
+
+  $scope.mapDefaults = {
+//    scrollWheelZoom: false,
+//    doubleClickZoom: false,
+    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  };
+
+  $scope.neckarsulm = {
+    lat: 49.1920114764648,
+    lng: 9.22389686107636,
+    zoom: 17,
+  };
+
+  $scope.markersHash = Detail.getMarker($scope.stand);
+
+}])
 
 .controller('DetailCtrl', ['$scope', '$stateParams', 'Detail', function($scope, $stateParams, Detail) {
 

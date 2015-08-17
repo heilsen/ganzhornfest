@@ -4,7 +4,7 @@
   </ion-pane>
   <ion-content class="has-header" style="top:397px;">
     <ion-list>
-      <ion-item collection-repeat="stand in filteredStands | orderBy:'name'" ng-click="">
+      <ion-item collection-repeat="stand in filteredStands | orderBy:'name'" ng-click="" ui-sref="tab.stand({ type: 'stands', id: stand.id})">
         {{ stand.name }}
       </ion-item>
     </ion-list>

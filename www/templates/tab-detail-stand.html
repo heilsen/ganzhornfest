@@ -1,0 +1,19 @@
+<ion-view view-title="{{ standName }}">
+  <ion-pane style="top:93px; height:300px;">
+     <leaflet center="neckarsulm" markers="markersHash" defaults="mapDefaults" width="100%" height="300px"></leaflet>
+  </ion-pane>
+  <ion-content class="has-header" style="top:367px;">
+    <div class="list list-inset">
+      <div class="item item-divider item-text-wrap" style="margin-bottom:10px;margin-top:10px;">
+        <h2>{{ standName }}</h2>
+        <p><a ng-if="standURL" href="http://{{standURL}}">{{standURL}}</a></p>
+        <p class="item-text-wrap" ng-if="standDescription">{{standDescription}}</p>
+        <div style="margin-top:10px;">
+        <div ng-repeat="item in itemArray | orderBy: 'name'" class="item item-text-wrapper" ui-sref="tab.detail({ type: item.type, id: item.id})" ng-click="">
+          {{item.name}}
+        </div>
+        </div>
+      <div>
+    </div>
+  </ion-content>
+</ion-view>
