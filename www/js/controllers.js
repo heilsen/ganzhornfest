@@ -75,12 +75,14 @@ angular.module('starter.controllers', [])
 //    scrollWheelZoom: false,
 //    doubleClickZoom: false,
     tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    minZoom: 15,
   };
 
   $scope.neckarsulm = {
     lat: 49.1920114764648,
     lng: 9.22389686107636,
     zoom: 17,
+    zoomControl: true,
   };
 
   $scope.markersHash = Detail.getMarker($scope.stand);
@@ -97,12 +99,14 @@ angular.module('starter.controllers', [])
 //    scrollWheelZoom: false,
 //    doubleClickZoom: false,
     tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    minZoom: 15,
   };
 
   $scope.neckarsulm = {
     lat: 49.1920114764648,
     lng: 9.22389686107636,
     zoom: 17,
+    zoomControl: true,
   };
 
   $scope.markersHash = Detail.getMarker($scope.filteredStands);
@@ -116,11 +120,13 @@ angular.module('starter.controllers', [])
     lat: 49.1920114764648,
     lng: 9.22389686107636,
     zoom: 17,
+    zoomControl: true,
   };
   $scope.defaults = {
 //    scrollWheelZoom: false,
 //    doubleClickZoom: false,
     tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    minZoom: 15,
   };
   $scope.markers = Detail.getMarker();
 
