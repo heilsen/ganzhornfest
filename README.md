@@ -18,12 +18,7 @@ This project is build upon the ionic framework (which itself builds upon angular
 
 ## Screenshots
 
-![Info Tab][info]
-![Vereine Tab][vereine]
-![Details Tab][details]
-![Karte Tab][karte]
-![Programm Tab][programm]
-![Busfahrplan Tab][busfahrplan]
+![Ganzhornfest App][gallery]
 
 ## License
 
@@ -32,9 +27,4 @@ MIT License (MIT)
 Copyright (c) 2015 Sebastian Heil
 
 
-[info]: resources/ganzhornfest_app_info.png "Info Tab"
-[vereine]: resources/ganzhornfest_app_vereine.png "Vereine Tab"
-[details]: resources/ganzhornfest_app_details.png "Details Tab"
-[karte]: resources/ganzhornfest_app_karte.png "Karte Tab"
-[programm]: resources/ganzhornfest_app_programm.png "Programm Tab"
-[busfahrplan]: resources/ganzhornfest_app_busfahrplan.png "Busfahrplan Tab"
+[gallery]: resources/ganzhornfest_app_gallery.png "Ganzhornfest App"
