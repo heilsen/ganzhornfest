@@ -7,7 +7,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ListCtrl', function($scope, Detail, $state) {
+.controller('ListCtrl', function($scope, Detail, $state, $ionicScrollDelegate) {
 
   $scope.swipeRight = function() {
     $state.go('tab.info');
@@ -27,6 +27,7 @@ angular.module('starter.controllers', [])
   };
 
   $scope.updateCategoryFilter = function() {
+    $ionicScrollDelegate.scrollTop();
     if($scope.category == 'stands') {
       $scope.sref = 'stand';
     } else {
@@ -101,52 +102,6 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ProgramCtrl', function($scope, Detail, $state) {
-
-  $scope.swipeRight = function() {
-    $state.go('tab.map');
-  };
-  $scope.swipeLeft = function() {
-    $state.go('tab.bus');
-  };
-  $scope.events = Detail.getEvents();
-  $scope.stages = Detail.getStages();
-  $scope.requestedDay = "6";
-  $scope.requestedStage = "0";
-
-  $scope.stageFilter = function(item,index) {
-    if(parseInt($scope.requestedStage) === 0) {
-      return true;
-    };
-    return parseInt($scope.requestedStage) === item.id;
-  };
-  $scope.dayFilter = function(item,index) {
-    var date = new Date(item.start);
-    return parseInt($scope.requestedDay) === date.getDay();
-  };
-
-})
-
-.controller('BusCtrl', function($scope, Detail, $state) {
-
-  $scope.swipeRight = function() {
-    $state.go('tab.program');
-  };
-  $scope.busstops   = Detail.getBusstops();
-  $scope.directions = Detail.getDirections();
-  $scope.requestedDay = "6";
-  $scope.requestedDestination = "1";
-
-  $scope.dayFilter = function(item,index) {
-    var date = new Date(item.time);
-    // let's also account for the two hour after midnight in this filter
-    date.setHours(date.getHours()-2);
-    return parseInt($scope.requestedDay) === date.getDay();
-  };
-
-
-})
-
 .controller('MapCtrl', function($scope, Detail, $state) {
 
   $scope.swipeRight = function() {
@@ -169,5 +124,58 @@ angular.module('starter.controllers', [])
     minZoom: 15,
   };
   $scope.markers = Detail.getMarker();
+
+})
+
+.controller('ProgramCtrl', function($scope, Detail, $state, $ionicScrollDelegate) {
+
+  $scope.swipeRight = function() {
+    $state.go('tab.map');
+  };
+  $scope.swipeLeft = function() {
+    $state.go('tab.bus');
+  };
+  $scope.events = Detail.getEvents();
+  $scope.stages = Detail.getStages();
+  $scope.requestedDay = "6";
+  $scope.requestedStage = "0";
+
+  $scope.stageFilter = function(item,index) {
+    $ionicScrollDelegate.scrollTop();
+    if(parseInt($scope.requestedStage) === 0) {
+      return true;
+    };
+    return parseInt($scope.requestedStage) === item.id;
+  };
+  $scope.dayFilter = function(item,index) {
+    $ionicScrollDelegate.scrollTop();
+    var date = new Date(item.start);
+    return parseInt($scope.requestedDay) === date.getDay();
+  };
+
+})
+
+.controller('BusCtrl', function($scope, Detail, $state, $ionicScrollDelegate) {
+
+  $scope.swipeRight = function() {
+    $state.go('tab.program');
+  };
+  $scope.busstops   = Detail.getBusstops();
+  $scope.directions = Detail.getDirections();
+  $scope.requestedDay = "6";
+  $scope.requestedDestination = "1";
+  $scope.directionFilter = function(item,index) {
+    $ionicScrollDelegate.scrollTop();
+    return item.id === parseInt($scope.requestedDestination);
+  };
+  $scope.dayFilter = function(item,index) {
+    $ionicScrollDelegate.scrollTop();
+    var date = new Date(item.time);
+    // let's also account for the two hour after midnight in this filter
+    date.setHours(date.getHours()-2);
+    return parseInt($scope.requestedDay) === date.getDay();
+  };
+
+
 
 });

@@ -34,7 +34,7 @@
 
   <ion-content style="top:243px" class="has-header has-subheader">
    <div class="list list-inset">
-     <div class="item item-divider" style="margin-bottom:10px;margin-top:10px;" ng-repeat="direction in directions | filter:{id : requestedDestination}">
+     <div class="item item-divider" style="margin-bottom:10px;margin-top:10px;" ng-repeat="direction in directions | filter:directionFilter">
        {{ direction.destination }}
        <div ng-repeat="busstop in busstops | filter:{direction: direction.id} | filter:dayFilter">
          <div class="item item-text-wrapper">
