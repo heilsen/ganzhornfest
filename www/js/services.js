@@ -1,315 +1,328 @@
 angular.module('starter.services', [])
 
 .factory('Detail', function() {
-
-  var standMapping = [
-    {id: 1,  standId: 1,  lat: 49.192290,   lng: 9.223065, focus: false},
-    {id: 2,  standId: 2,  lat: 49.191768,   lng: 9.224544, focus: false},
-    {id: 3,  standId: 3,  lat: 49.191893,   lng: 9.224606, focus: false},
-    {id: 4,  standId: 4,  lat: 49.191959,   lng: 9.222619, focus: false},
-    {id: 5,  standId: 5,  lat: 49.191662,   lng: 9.224517, focus: false},
-    {id: 6,  standId: 6,  lat: 49.191618,   lng: 9.225298, focus: false},
-    {id: 7,  standId: 7,  lat: 49.191957,   lng: 9.222933, focus: false},
-    {id: 8,  standId: 8,  lat: 49.192041,   lng: 9.222668, focus: false},
-    {id: 9,  standId: 9,  lat: 49.191110,   lng: 9.222178, focus: false},
-    {id: 10, standId: 10, lat: 49.191835,   lng: 9.224575, focus: false},
-    {id: 11, standId: 11, lat: 49.192071,   lng: 9.223429, focus: false},
-    {id: 12, standId: 12, lat: 49.192345,   lng: 9.222834, focus: false},
-    {id: 13, standId: 13, lat: 49.191917,   lng: 9.222370, focus: false},
-    {id: 14, standId: 14, lat: 49.191493,   lng: 9.223252, focus: false},
-    {id: 15, standId: 15, lat: 49.191196,   lng: 9.222500, focus: false},
-    {id: 16, standId: 16, lat: 49.191778,   lng: 9.222837, focus: false},
-    {id: 17, standId: 17, lat: 49.191543,   lng: 9.225009, focus: false},
-    {id: 18, standId: 18, lat: 49.191687,   lng: 9.222300, focus: false},
-    {id: 19, standId: 19, lat: 49.191537,   lng: 9.222614, focus: false},
-    {id: 20, standId: 20, lat: 49.191805,   lng: 9.224282, focus: false},
-    {id: 21, standId: 21, lat: 49.191779,   lng: 9.224976, focus: false},
-    {id: 22, standId: 22, lat: 49.191981,   lng: 9.223804, focus: false},
-    {id: 23, standId: 23, lat: 49.192164,   lng: 9.223170, focus: false},
-    {id: 24, standId: 24, lat: 49.191367,   lng: 9.222389, focus: false},
-    {id: 25, standId: 25, lat: 49.191443,   lng: 9.224773, focus: false},
-    {id: 26, standId: 26, lat: 49.191527,   lng: 9.225092, focus: false},
-    {id: 27, standId: 27, lat: 49.191535,   lng: 9.223440, focus: false},
-    {id: 28, standId: 28, lat: 49.191535,   lng: 9.223440, focus: false},
-    {id: 29, standId: 29, lat: 49.191771,   lng: 9.225205, focus: false},
-    {id: 30, standId: 30, lat: 49.191452,   lng: 9.222574, focus: false},
-    {id: 31, standId: 31, lat: 49.191638,   lng: 9.222142, focus: false},
-    {id: 32, standId: 32, lat: 49.191584,   lng: 9.225269, focus: false},
-    {id: 33, standId: 33, lat: 49.191691,   lng: 9.222882, focus: false},
-    {id: 34, standId: 34, lat: 49.191682,   lng: 9.224902, focus: false},
-    {id: 35, standId: 35, lat: 49.191596,   lng: 9.222654, focus: false},
-    {id: 36, standId: 36, lat: 49.191835,   lng: 9.224575, focus: false},
-    {id: 37, standId: 37, lat: 49.192232,   lng: 9.222689, focus: false},
-    {id: 38, standId: 38, lat: 49.192161,   lng: 9.222780, focus: false},
-    {id: 39, standId: 39, lat: 49.191691,   lng: 9.222882, focus: false},
-    {id: 40, standId: 40, lat: 49.192001,   lng: 9.222960, focus: false},
-    {id: 41, standId: 41, lat: 49.191693,   lng: 9.222072, focus: false},
-    {id: 42, standId: 42, lat: 49.191992,   lng: 9.223657, focus: false},
-    {id: 43, standId: 43, lat: 49.191405,   lng: 9.223370, focus: false},
-    {id: 44, standId: 44, lat: 49.191856,   lng: 9.222512, focus: false},
-    {id: 45, standId: 45, lat: 49.191625,   lng: 9.224728, focus: false},
-    {id: 46, standId: 46, lat: 49.191428,   lng: 9.223834, focus: false},
-    {id: 47, standId: 47, lat: 49.191808,   lng: 9.222764, focus: false},
-    {id: 48, standId: 48, lat: 49.191850,   lng: 9.222794, focus: false},
-    {id: 49, standId: 49, lat: 49.191143,   lng: 9.222473, focus: false},
-    {id: 50, standId: 50, lat: 49.191459,   lng: 9.223019, focus: false},
-    {id: 51, standId: 51, lat: 49.191715,   lng: 9.224514, focus: false},
-    {id: 52, standId: 52, lat: 49.191996,   lng: 9.222762, focus: false},
-  ];
-  var stands = [
-    {id: 1, name: "Arbeiter-Samariter-Bund (ASB)",                items:   [1,2,101,102,103,104], url: "", description: ""},
-    {id: 2, name: "Bowlingsportverein (BSV)",                     items:   [3,4,5,6,110], url: "", description: ""},
-    {id: 3, name: "Budakesser Gemeinschaft",                      items:   [7,8,107,128,201,202], url: "", description: ""},
-    {id: 4, name: "Circolo Italiano",                             items:   [9,10,11,12,13,14,109,110,111,112,113], url: "", description: ""},
-    {id: 5, name: "DLRG",                                         items:   [114,115,116,203], url: "", description: ""},
-    {id: 6, name: "Downtownboys",                                 items:   [5,117,101,102,115,106,15,104], url: "", description: ""},
-    {id: 7, name: "DRK Ortsverein",                               items:   [16], url: "", description: ""},
-    {id: 8, name: "Fischerei- und Sportangler-Verein (FSV)",      items:   [17,18,19,20,114,109,121,103,122], url: "", description: ""},
-    {id: 9, name: "Freier Kindergarten Neckarsulm",               items:   [16,104,103,123,124,204,205], url: "", description: ""},
-    {id: 10, name: "Freizeitbad AQUAtoll",                        items:   [206], url: "", description: ""},
-    {id: 11, name: "Georgspfadfinder",                            items:   [9,21,123,117,110,104], url: "", description: ""},
-    {id: 12, name: "Gesangsverein Concordia",                     items:   [22,23,24,25,117,106,109,114,103,101,102,124,125,26,27], url: "", description: ""},
-    {id: 13, name: "Gesangsverein Lassallia",                     items:   [3,28,29,30,126,109,117,110], url: "", description: ""},
-    {id: 14, name: "Griechischer Fußballverein Odysseas",         items:   [31,127,113,128,117,129,115,110], url: "", description: ""},
-    {id: 15, name: "Griechische Gemeinde",                        items:   [32,127,128,128,110], url: "", description: ""},
-    {id: 16, name: "Harmonika-Club",                              items:   [33,34,35,36,29,117,133,109,128,124,110], url: "", description: ""},
-    {id: 17, name: "Jugendfarm",                                  items:   [37,128,207], url: "", description: ""},
-    {id: 18, name: "Junge Union Stadtverband",                    items:   [116,128,134,115,110], url: "", description: ""},
-    {id: 19, name: "Jusos",                                       items:   [106,128,110], url: "", description: ""},
-    {id: 20, name: "Katholischer Kirchenchor St. Dionysius",      items:   [16], url: "", description: ""},
-    {id: 21, name: "KIWANIS",                                     items:   [38,135,109,114,103], url: "", description: ""},
-    {id: 22, name: "Kolping Blasorchester",                       items:   [39,109,114,117,110,208], url: "", description: ""},
-    {id: 23, name: "Kolpingsfamilie",                             items:   [40,41,42,43,44,45,46,47,15,48,49,50,109,114,125,110], url: "", description: ""},
-    {id: 24, name: "Kreatief - Kultur im Unterland",              items:   [110,113,136,117], url: "", description: ""},
-    {id: 25, name: "Metropolitan Jazz Community",                 items:   [51,52,25,53,47,54,55,109,117,110,128], url: "", description: ""},
-    {id: 26, name: "Neckar Valley Dancer",                        items:   [56,57,48,104,101,103,124], url: "", description: ""},
-    {id: 27, name: "NSU - Fußball Aktive",                        items:   [106,117,101], url: "", description: ""},
-    {id: 28, name: "NSU - Jugend-Fußball",                        items:   [58,59,104,209], url: "", description: ""},
-    {id: 29, name: "NSU - Handball",                              items:   [4,5,60,6,110,117,115], url: "", description: ""},
-    {id: 30, name: "NSU - Kanu",                                  items:   [61,109,110], url: "", description: ""},
-    {id: 31, name: "NSU - Karate",                                items:   [115,116], url: "", description: ""},
-    {id: 32, name: "NSU - Leichtathletik",                        items:   [117,115], url: "", description: ""},
-    {id: 33, name: "NSU - Rugby",                                 items:   [137,110], url: "", description: ""},
-    {id: 34, name: "NSU - Tischtennis 1",                         items:   [117,106,103,101,102,124], url: "", description: ""},
-    {id: 35, name: "NSU - Tischtennis 2",                         items:   [62,63,64,65,66,210], url: "", description: ""},
-    {id: 36, name: "Tierschutzverein Pfötchenhilfe Neckarsulm",   items:   [67,68,69,117,114,109,128,110], url: "", description: ""},
-    {id: 37, name: "Sängerbund",                                  items:   [5,70,109,117,104,15], url: "", description: ""},
-    {id: 38, name: "SC Amorbach",                                 items:   [70,5,6,101,102,103,106,117,128], url: "", description: ""},
-    {id: 39, name: "Schützengilde",                               items:   [71,72,4,5,3,6,139,106,133,140,110,211], url: "", description: ""},
-    {id: 40, name: "SPD Ortsverein",                              items:   [73,109,114,128], url: "", description: ""},
-    {id: 41, name: "Stone Heads",                                 items:   [106,109,128,114,134,124,103], url: "", description: ""},
-    {id: 42, name: "St. Paulus Club",                             items:   [74,75,76,77,141,109,110,104,15], url: "www.st-paulus-club.de", description: "Der Sankt Paulus Club verfolgt ausschließlich und unmittelbar gemeinnützige, mildtätige und kirchliche Zwecke. Als Ergänzung zur organisierten Jugend- und Gemeindearbeit bietet er auch ein Treffpunkt für aufgeschlossene Personen, die ihre Freizeit gemeinsam gestalten wollen."},
-    {id: 43, name: "Sulmanafetza",                                items:   [51,117,135,106,110], url: "", description: ""},
-    {id: 44, name: "Tauchclub Walhai",                            items:   [78,106,117,115,110], url: "", description: ""},
-    {id: 45, name: "TC Neckarsulm",                               items:   [47,109,117,114,110], url: "", description: ""},
-    {id: 46, name: "TC Sulmtal",                                  items:   [5,4,115,117,109,114,110], url: "", description: ""},
-    {id: 47, name: "Türkspor Neckarsulm",                         items:   [79,6,80,15,81,82,83,84,85,101,102,142,143,144,128,103,106,117,104,145], url: "", description: ""},
-    {id: 48, name: "Türkspor Neckarsulm - Jugendabteilung",       items:   [83,86,87,88,89,15,90,91,48,143,146], url: "", description: ""},
-    {id: 49, name: "Türkiyemspor Obereisesheim",                  items:   [92,93,94,95,96,97,88,6,110,143], url: "", description: ""},
-    {id: 50, name: "UFC",                                         items:   [115,117,116,101,103], url: "", description: ""},
-    {id: 51, name: 'Waldkindergarten "Waldzauber"',               items:   [208], url: "", description: ""},
-    {id: 52, name: "Weinbauverein",                               items:   [109,114,125,103], url: "", description: ""},
+  var geodata = {
+    1  : {lat: 49.192290,   lng: 9.223065},
+    2  : {lat: 49.191768,   lng: 9.224544},
+    3  : {lat: 49.191893,   lng: 9.224606},
+    4  : {lat: 49.191959,   lng: 9.222619},
+    5  : {lat: 49.191662,   lng: 9.224517},
+    6  : {lat: 49.191618,   lng: 9.225298},
+    7  : {lat: 49.191957,   lng: 9.222933},
+    8  : {lat: 49.192041,   lng: 9.222668},
+    9  : {lat: 49.191110,   lng: 9.222178},
+    10 : {lat: 49.191835,   lng: 9.224575},
+    11 : {lat: 49.192071,   lng: 9.223429},
+    12 : {lat: 49.192345,   lng: 9.222834},
+    13 : {lat: 49.191917,   lng: 9.222370},
+    14 : {lat: 49.191493,   lng: 9.223252},
+    15 : {lat: 49.191196,   lng: 9.222500},
+    16 : {lat: 49.191778,   lng: 9.222837},
+    17 : {lat: 49.191543,   lng: 9.225009},
+    18 : {lat: 49.191687,   lng: 9.222300},
+    19 : {lat: 49.191537,   lng: 9.222614},
+    20 : {lat: 49.191805,   lng: 9.224282},
+    21 : {lat: 49.191779,   lng: 9.224976},
+    22 : {lat: 49.191981,   lng: 9.223804},
+    23 : {lat: 49.192164,   lng: 9.223170},
+    24 : {lat: 49.191367,   lng: 9.222389},
+    25 : {lat: 49.191443,   lng: 9.224773},
+    26 : {lat: 49.191527,   lng: 9.225092},
+    27 : {lat: 49.191535,   lng: 9.223440},
+    28 : {lat: 49.191535,   lng: 9.223440},
+    29 : {lat: 49.191771,   lng: 9.225205},
+    30 : {lat: 49.191452,   lng: 9.222574},
+    31 : {lat: 49.191638,   lng: 9.222142},
+    32 : {lat: 49.191584,   lng: 9.225269},
+    33 : {lat: 49.191691,   lng: 9.222882},
+    34 : {lat: 49.191682,   lng: 9.224902},
+    35 : {lat: 49.191596,   lng: 9.222654},
+    36 : {lat: 49.191835,   lng: 9.224575},
+    37 : {lat: 49.192232,   lng: 9.222689},
+    38 : {lat: 49.192161,   lng: 9.222780},
+    39 : {lat: 49.191691,   lng: 9.222882},
+    40 : {lat: 49.192001,   lng: 9.222960},
+    41 : {lat: 49.191693,   lng: 9.222072},
+    42 : {lat: 49.191992,   lng: 9.223657},
+    43 : {lat: 49.191405,   lng: 9.223370},
+    44 : {lat: 49.191856,   lng: 9.222512},
+    45 : {lat: 49.191625,   lng: 9.224728},
+    46 : {lat: 49.191428,   lng: 9.223834},
+    47 : {lat: 49.191808,   lng: 9.222764},
+    48 : {lat: 49.191850,   lng: 9.222794},
+    49 : {lat: 49.191143,   lng: 9.222473},
+    50 : {lat: 49.191459,   lng: 9.223019},
+    51 : {lat: 49.191715,   lng: 9.224514},
+    52 : {lat: 49.191996,   lng: 9.222762},
+    53 : {lat: 49.191853,   lng: 9.224752},
+    54 : {lat: 49.192436,   lng: 9.223148},
+    55 : {lat: 49.191764,   lng: 9.223357},
+    56 : {lat: 49.191197,   lng: 9.222202},
+    57 : {lat: 49.191756,   lng: 9.225421},
+    58 : {lat: 49.192685,   lng: 9.222914},
+    59 : {lat: 49.192106,   lng: 9.222767},
+    60 : {lat: 49.191460,   lng: 9.221921},
+    61 : {lat: 49.191238,   lng: 9.222961},
+    62 : {lat: 49.191036,   lng: 9.222433},
+    63 : {lat: 49.191665,   lng: 9.225433},
+    64 : {lat: 49.192083,   lng: 9.222574},
+    65 : {lat: 49.191405,   lng: 9.222139},
+    66 : {lat: 49.192039,   lng: 9.223518},
+    67 : {lat: 49.192608,   lng: 9.223059},
+    68 : {lat: 49.192080,   lng: 9.222880},
+  };
+  var pois = [
+    {id: 1,  name: "Arbeiter-Samariter-Bund (ASB)",               geoid: 1,  items:   [1,2,101,102,103,104], url: "", description: "", type: "club"},
+    {id: 2,  name: "Bowlingsportverein (BSV)",                    geoid: 2,  items:   [3,4,5,6,110], url: "", description: "", type: "club"},
+    {id: 3,  name: "Budakesser Gemeinschaft",                     geoid: 3,  items:   [7,8,107,128,201,202], url: "", description: "", type: "club"},
+    {id: 4,  name: "Circolo Italiano",                            geoid: 4,  items:   [9,10,11,12,13,14,109,110,111,112,113], url: "", description: "", type: "club"},
+    {id: 5,  name: "DLRG",                                        geoid: 5,  items:   [114,115,116,203], url: "", description: "", type: "club"},
+    {id: 6,  name: "Downtownboys",                                geoid: 6,  items:   [5,117,101,102,115,106,15,104], url: "", description: "", type: "club"},
+    {id: 7,  name: "DRK Ortsverein",                              geoid: 7,  items:   [16], url: "", description: "", type: "club"},
+    {id: 8,  name: "Fischerei- und Sportangler-Verein (FSV)",     geoid: 8,  items:   [17,18,19,20,114,109,121,103,122], url: "", description: "", type: "club"},
+    {id: 9,  name: "Freier Kindergarten Neckarsulm",              geoid: 9,  items:   [16,104,103,123,124,204,205], url: "", description: "", type: "club"},
+    {id: 10, name: "Freizeitbad AQUAtoll",                        geoid: 10, items:   [206], url: "", description: "", type: "club"},
+    {id: 11, name: "Georgspfadfinder",                            geoid: 11, items:   [9,21,123,117,110,104], url: "", description: "", type: "club"},
+    {id: 12, name: "Gesangsverein Concordia",                     geoid: 12, items:   [22,23,24,25,117,106,109,114,103,101,102,124,125,26,27], url: "", description: "", type: "club"},
+    {id: 13, name: "Gesangsverein Lassallia",                     geoid: 13, items:   [3,28,29,30,126,109,117,110], url: "", description: "", type: "club"},
+    {id: 14, name: "Griechischer Fußballverein Odysseas",         geoid: 14, items:   [31,127,113,128,117,129,115,110], url: "", description: "", type: "club"},
+    {id: 15, name: "Griechische Gemeinde",                        geoid: 15, items:   [32,127,128,128,110], url: "", description: "", type: "club"},
+    {id: 16, name: "Harmonika-Club",                              geoid: 16, items:   [33,34,35,36,29,117,133,109,128,124,110], url: "", description: "", type: "club"},
+    {id: 17, name: "Jugendfarm",                                  geoid: 17, items:   [37,128,207], url: "", description: "", type: "club"},
+    {id: 18, name: "Junge Union Stadtverband",                    geoid: 18, items:   [116,128,134,115,110], url: "", description: "", type: "club"},
+    {id: 19, name: "Jusos",                                       geoid: 19, items:   [106,128,110], url: "", description: "", type: "club"},
+    {id: 20, name: "Katholischer Kirchenchor St. Dionysius",      geoid: 20, items:   [16], url: "", description: "", type: "club"},
+    {id: 21, name: "KIWANIS",                                     geoid: 21, items:   [38,135,109,114,103], url: "", description: "", type: "club"},
+    {id: 22, name: "Kolping Blasorchester",                       geoid: 22, items:   [39,109,114,117,110,208], url: "", description: "", type: "club"},
+    {id: 23, name: "Kolpingsfamilie",                             geoid: 23, items:   [40,41,42,43,44,45,46,47,15,48,49,50,109,114,125,110], url: "", description: "", type: "club"},
+    {id: 24, name: "Kreatief - Kultur im Unterland",              geoid: 24, items:   [110,113,136,117], url: "", description: "", type: "club"},
+    {id: 25, name: "Metropolitan Jazz Community",                 geoid: 25, items:   [51,52,25,53,47,54,55,109,117,110,128], url: "", description: "", type: "club"},
+    {id: 26, name: "Neckar Valley Dancer",                        geoid: 26, items:   [56,57,48,104,101,103,124], url: "", description: "", type: "club"},
+    {id: 27, name: "NSU - Fußball Aktive",                        geoid: 27, items:   [106,117,101], url: "", description: "", type: "club"},
+    {id: 28, name: "NSU - Jugend-Fußball",                        geoid: 28, items:   [58,59,104,209], url: "", description: "", type: "club"},
+    {id: 29, name: "NSU - Handball",                              geoid: 29, items:   [4,5,60,6,110,117,115], url: "", description: "", type: "club"},
+    {id: 30, name: "NSU - Kanu",                                  geoid: 30, items:   [61,109,110], url: "", description: "", type: "club"},
+    {id: 31, name: "NSU - Karate",                                geoid: 31, items:   [115,116], url: "", description: "", type: "club"},
+    {id: 32, name: "NSU - Leichtathletik",                        geoid: 32, items:   [117,115], url: "", description: "", type: "club"},
+    {id: 33, name: "NSU - Rugby",                                 geoid: 33, items:   [137,110], url: "", description: "", type: "club"},
+    {id: 34, name: "NSU - Tischtennis 1",                         geoid: 34, items:   [117,106,103,101,102,124], url: "", description: "", type: "club"},
+    {id: 35, name: "NSU - Tischtennis 2",                         geoid: 35, items:   [62,63,64,65,66,210], url: "", description: "", type: "club"},
+    {id: 36, name: "Tierschutzverein Pfötchenhilfe Neckarsulm",   geoid: 36, items:   [67,68,69,117,114,109,128,110], url: "", description: "", type: "club"},
+    {id: 37, name: "Sängerbund",                                  geoid: 37, items:   [5,70,109,117,104,15], url: "", description: "", type: "club"},
+    {id: 38, name: "SC Amorbach",                                 geoid: 38, items:   [70,5,6,101,102,103,106,117,128], url: "", description: "", type: "club"},
+    {id: 39, name: "Schützengilde",                               geoid: 39, items:   [71,72,4,5,3,6,139,106,133,140,110,211], url: "", description: "", type: "club"},
+    {id: 40, name: "SPD Ortsverein",                              geoid: 40, items:   [73,109,114,128], url: "", description: "", type: "club"},
+    {id: 41, name: "Stone Heads",                                 geoid: 41, items:   [106,109,128,114,134,124,103], url: "", description: "", type: "club"},
+    {id: 42, name: "St. Paulus Club",                             geoid: 42, items:   [74,75,76,77,141,109,110,104,15], url: "www.st-paulus-club.de", description: "Der Sankt Paulus Club verfolgt ausschließlich und unmittelbar gemeinnützige, mildtätige und kirchliche Zwecke. Als Ergänzung zur organisierten Jugend- und Gemeindearbeit bietet er auch ein Treffpunkt für aufgeschlossene Personen, die ihre Freizeit gemeinsam gestalten wollen.", type: "club"},
+    {id: 43, name: "Sulmanafetza",                                geoid: 43, items:   [51,117,135,106,110], url: "", description: "", type: "club"},
+    {id: 44, name: "Tauchclub Walhai",                            geoid: 44, items:   [78,106,117,115,110], url: "", description: "", type: "club"},
+    {id: 45, name: "TC Neckarsulm",                               geoid: 45, items:   [47,109,117,114,110], url: "", description: "", type: "club"},
+    {id: 46, name: "TC Sulmtal",                                  geoid: 46, items:   [5,4,115,117,109,114,110], url: "", description: "", type: "club"},
+    {id: 47, name: "Türkspor Neckarsulm",                         geoid: 47, items:   [79,6,80,15,81,82,83,84,85,101,102,142,143,144,128,103,106,117,104,145], url: "", description: "", type: "club"},
+    {id: 48, name: "Türkspor Neckarsulm - Jugendabteilung",       geoid: 48, items:   [83,86,87,88,89,15,90,91,48,143,146], url: "", description: "", type: "club"},
+    {id: 49, name: "Türkiyemspor Obereisesheim",                  geoid: 49, items:   [92,93,94,95,96,97,88,6,110,143], url: "", description: "", type: "club"},
+    {id: 50, name: "UFC",                                         geoid: 50, items:   [115,117,116,101,103], url: "", description: "", type: "club"},
+    {id: 51, name: 'Waldkindergarten "Waldzauber"',               geoid: 51, items:   [208], url: "", description: "", type: "club"},
+    {id: 52, name: "Weinbauverein",                               geoid: 52, items:   [109,114,125,103], url: "", description: "", type: "club"},
+    {id: 53, name: "Karussell",                                   geoid: 53, type: "playground"},
+    {id: 54, name: "Eisenbähnle",                                 geoid: 54, type: "playground"},
+    {id: 55, name: "Kinder-Flohmarkt",                            geoid: 55, type: "playground"},
+    {id: 56, name: "Waldkindergarten",                            geoid: 56, type: "playground"},
+    {id: 57, name: "WC",                                          geoid: [57,58,59,60,61,62], type: "toilets"},
+    {id: 58, name: "Hauptbühne Museumsplatz",                     geoid: 64, type: "stage"},
+    {id: 59, name: "Bühne Marktplatz",                            geoid: 63, type: "stage"},
+    {id: 60, name: "Bühne Karlplatz",                             geoid: 65, type: "stage"},
+    {id: 61, name: "Quergasse",                                   geoid: 66, type: "stage"},
+    {id: 62, name: "Stand Metropolitan Jazz Community",           geoid: 25, type: "stage"},
+    {id: 63, name: "Erste-Hilfe (ASB)",                           geoid: 67, type: "first_aid"},
+    {id: 64, name: "Kiosk",                                       geoid: 68, type: "kiosk"},
   ];
   var items = [
-    {id: 1,   type: "food",     name: "Linsen & Spätzle", remark: "Mit Saitenwürstle"   },
-    {id: 2,   type: "food",     name: "Apfelküchle"     , remark: "Mit Zimt/Zucker und Vanillesoße"  },
-    {id: 3,   type: "food",     name: "Steak"     , remark: "Mit Zwiebel"  },
-    {id: 4,   type: "food",     name: "Currywurst"},
-    {id: 5,   type: "food",     name: "Bratwurst"}, // auch Grillwurst
-    {id: 6,   type: "food",     name: "Pommes frites"},
-    {id: 7,   type: "food",     name: "Kesselgulasch"},
-    {id: 8,   type: "food",     name: "Ungarische Paprikawürste"},
-    {id: 9,   type: "food",     name: "Pizza"},
-    {id: 10,  type: "food",     name: "Salciccia"},
-    {id: 11,  type: "food",     name: "Arancina"},
-    {id: 12,  type: "food",     name: "Lasagne al forno"},
-    {id: 13,  type: "food",     name: "Spaghetti aglio olio e Peperoncino", remark:"Nur mit Vorbestellung"},
-    {id: 14,  type: "food",     name: "Antipasto all'italiana"},
-    {id: 15,  type: "food",     name: "Kuchen" ,remark: "Nur Sonntag"},
-    {id: 16,  type: "food",     name: "Crêpes" ,remark: "Süß und pikant"},
-    {id: 17,  type: "food",     name: "Geräucherte Forellen" ,remark: "Mit Kartoffelsalat"},
-    {id: 18,  type: "food",     name: "Lachsbröchten"},
-    {id: 19,  type: "food",     name: "Aalbrötchen"},
-    {id: 20,  type: "food",     name: "Shrimps", remark: "Mit Soße"},
-    {id: 21,  type: "food",     name: "Neckarsulmer Rädle"},
-    {id: 22,  type: "food",     name: "Schnitzel", remark: "Mit Kartoffelsalat oder Brot"},
-    {id: 23,  type: "food",     name: "Wurst vom Sud"},
-    {id: 24,  type: "food",     name: "Rauchfleisch-Kräuterkäsbrot"},
-    {id: 25,  type: "food",     name: "Wurstsalat"},
-    {id: 26,  type: "food",     name: "Gefüllter Hals mit Spätzle + Kartoffelsalat"},
-    {id: 27,  type: "food",     name: "Schälrippchen", remark:"Mit Brot"},
-    {id: 28,  type: "food",     name: "Hacksteak"},
-    {id: 29,  type: "food",     name: "Kartoffelsalat"},
-    {id: 30,  type: "food",     name: "Zwiebelkuchen"},
-    {id: 31,  type: "food",     name: "Saitenwurst", remark:"Mit Brötchen"},
-    {id: 32,  type: "food",     name: "Souvlaki", remark:"Spieß mit Brötchen"},
-    {id: 33,  type: "food",     name: "Maultaschen"},
-    {id: 34,  type: "food",     name: "Bratwurstschnecken"},
-    {id: 35,  type: "food",     name: "Fleischkäse"},
-    {id: 36,  type: "food",     name: "Ganzhornteller"},
-    {id: 37,  type: "food",     name: "Langos"},
-    {id: 38,  type: "food",     name: "Flammkuchen"},
-    {id: 39,  type: "food",     name: "Baguettes"},
-    {id: 40,  type: "food",     name: "Schupfnudeln"},
-    {id: 41,  type: "food",     name: "Sauerkraut"},
-    {id: 42,  type: "food",     name: "Blutwurst"},
-    {id: 43,  type: "food",     name: "Leberwurst"},
-    {id: 44,  type: "food",     name: "Besentoast"},
-    {id: 45,  type: "food",     name: "Käsebrot"},
-    {id: 46,  type: "food",     name: "Rauchfleischbrot"},
-    {id: 47,  type: "food",     name: "Käsewürfel"},
-    {id: 48,  type: "food",     name: "Waffeln"},
-    {id: 49,  type: "food",     name: "Zuckerwatte"},
-    {id: 50,  type: "food",     name: "Bratwürste mit Kartoffelsalat", remark:"Nur Montag"},
-    {id: 51,  type: "food",     name: "Burger"},
-    {id: 52,  type: "food",     name: "Baguette mit Lachs"},
-    {id: 53,  type: "food",     name: "Tapas-Teller"},
-    {id: 54,  type: "food",     name: "Oliven"},
-    {id: 55,  type: "food",     name: "Weißwürste", remark:"Nur Sonntag"},
-    {id: 56,  type: "food",     name: "Kartoffelpuffer"},
-    {id: 57,  type: "food",     name: "Maiskolben"},
-    {id: 58,  type: "food",     name: "Überbackene Seele"},
-    {id: 59,  type: "food",     name: "Überbackene Hörner"},
-    {id: 60,  type: "food",     name: "Country-Potatoes (Kartoffelspalten)", remark:"mit Dip"},
-    {id: 61,  type: "food",     name: "Raclette"},
-    {id: 62,  type: "food",     name: "Gebrannte Mandeln"},
-    {id: 63,  type: "food",     name: "Gebrannte Erdnüsse"},
-    {id: 64,  type: "food",     name: "Magenbrot"},
-    {id: 65,  type: "food",     name: "Popcorn"},
-    {id: 66,  type: "food",     name: "sonstige Süßigkeiten"},
-    {id: 67,  type: "food",     name: "Thai Suppe"},
-    {id: 68,  type: "food",     name: "Bigos", remark: "Polnischer Eintopf"},
-    {id: 69,  type: "food",     name: "Piroschki", remark: "Russische gefüllte Teigtaschen"},
-    {id: 70,  type: "food",     name: "Hähnchen"},
-    {id: 71,  type: "food",     name: "Bogenwurst"},
-    {id: 72,  type: "food",     name: "Calamaris"},
-    {id: 73,  type: "food",     name: "Snacks"},
-    {id: 74,  type: "food",     name: "Seelen mit Schinken und Käse überbacken (Spitzdappen)"},
-    {id: 75,  type: "food",     name: "Germknödel"},
-    {id: 76,  type: "food",     name: "Kässpätzle"},
-    {id: 77,  type: "food",     name: "Gulaschsuppe"},
-    {id: 78,  type: "food",     name: "Weißwürste mit frischen Brezel", remark:"Sonntag, Montag"},
-    {id: 79,  type: "food",     name: "Döner Kebab"},
-    {id: 80,  type: "food",     name: "Pfannkuchen"},
-    {id: 81,  type: "food",     name: "Köfte", remark:"verschiedene Sorten, deutsche Frikadelle"},
-    {id: 82,  type: "food",     name: "türkische Fleisch-Grillspezialitäten"},
-    {id: 83,  type: "food",     name: "Börek", remark:"deutsche Blätterteigspezialitäten"},
-    {id: 84,  type: "food",     name: "türkische Süßspeisen aus Blätterteig"},
-    {id: 85,  type: "food",     name: "Eis"},
-    {id: 86,  type: "food",     name: "Gefüllter Blätterteig"},
-    {id: 87,  type: "food",     name: "Su-Börek"},
-    {id: 88,  type: "food",     name: "Sarma", remark:"Gefüllte Weinblätter"},
-    {id: 89,  type: "food",     name: "Salate"},
-    {id: 90,  type: "food",     name: "Muffins"},
-    {id: 91,  type: "food",     name: "Putenwiener"},
-    {id: 92,  type: "food",     name: "Soguk Mezze", remark:"Mediterrane-Platte"},
-    {id: 93,  type: "food",     name: "Sac Kavurma", remark:"Hirtenpfanne"},
-    {id: 94,  type: "food",     name: "Tantuni", remark:"Teigrolle mit einer Fleisch- und Gemüsefüllung"},
-    {id: 95,  type: "food",     name: "Manti", remark:"Türkische Teigtasche mit Joghurtsoße"},
-    {id: 96,  type: "food",     name: "Icli Köfte", remark:"Mit Hackfleisch gefüllte Bulgurklöße"},
-    {id: 97,  type: "food",     name: "Chicken-Nuggets"},
-    {id: 101, type: "drink",    name: "Cola"          },
-    {id: 102, type: "drink",    name: "Fanta/Mirinda" },
-    {id: 103, type: "drink",    name: "Sprudel sauer" }, // auch Wasser, Mineralwasser
-    {id: 104, type: "drink",    name: "Kaffee"        },
-    {id: 105, type: "drink",    name: "Bier (Kellerbier)"        },
-    {id: 106, type: "drink",    name: "Bier (Weizenbier)"        },
-    {id: 107, type: "drink",    name: "Wein (Budakesser)"        },
-    {id: 109, type: "drink",    name: "Wein (Neckarsulmer)"        },
-    {id: 110, type: "drink",    name: "Alkoholfreie Getränke"        }, //TODO: merge mit cola,fanta, sprudel ,... ?!
-    {id: 111, type: "drink",    name: "Alkoholische Getränke"        }, // TODO: wft? rausschmeißen!
-    {id: 112, type: "drink",    name: "Espresso"        },
-    {id: 113, type: "drink",    name: "Red Bull"        },
-    {id: 114, type: "drink",    name: "Sekt"        },
-    {id: 115, type: "drink",    name: "Cocktails"        }, // auch "Barbetrieb"
-    {id: 116, type: "drink",    name: "Mixgetränke"        }, // unterschied Barbetrieb? Biermischgetränke? Cocktails? Longdrinks?
-    {id: 117, type: "drink",    name: "Bier (Pils)"        }, // auch "Bier", "versch. Biere"
-    {id: 121, type: "drink",    name: "Orangensaft"        },
-    {id: 122, type: "drink",    name: "Sprudel süß"        },
-    {id: 123, type: "drink",    name: "Bionade"        },
-    {id: 124, type: "drink",    name: "Apfelsaftschorle"        },
-    {id: 125, type: "drink",    name: "Traubensaft(schorle)"        }, // Traubensaft und Traubensaftschorle
-    {id: 126, type: "drink",    name: "Wein (Neuer Wein)"        },
-    {id: 127, type: "drink",    name: "Wein (Griechischer)"        },
-    {id: 128, type: "drink",    name: "Spirituosen"        }, // auch Kurze, Schnaps
-    {id: 129, type: "drink",    name: "Biermischgetränke"        },
-    {id: 133, type: "drink",    name: "Bier (alkoholfrei)"        },
-    {id: 134, type: "drink",    name: "Longdrinks"        },
-    {id: 135, type: "drink",    name: "Bier (Kölsch)"        },
-    {id: 136, type: "drink",    name: "Karamalz"        },
-    {id: 137, type: "drink",    name: "Rugbeer"        },
-    {id: 139, type: "drink",    name: "Bier (Export)"        },
-    {id: 140, type: "drink",    name: "Cola light"        },
-    {id: 141, type: "drink",    name: "Bier (Landbier)"        },
-    {id: 142, type: "drink",    name: "Sprite"        },
-    {id: 143, type: "drink",    name: "Ayran",remark:"Türkisches Joghurt-Getränk"        },
-    {id: 144, type: "drink",    name: "Gazoz",remark:"Türkische Limonade" },
-    {id: 145, type: "drink",    name: "Tee" },
-    {id: 146, type: "drink",    name: "Tee (türkisch)" },
-    {id: 201, type: "other",    name: "ungarische Spezialitäten", remark:"In Gläsern und Tuben"  },
-    {id: 202, type: "other",    name: "ungarisches Paprikapulver", remark:"Süß oder Scharf"  },
-    {id: 203, type: "other",    name: "Schnappfalle"  },
-    {id: 204, type: "other",    name: "Tombola"  },
-    {id: 205, type: "other",    name: "Bastelangebote"  },
-    {id: 206, type: "other",    name: "Glücksrad"  },
-    {id: 207, type: "other",    name: "Ponyreiten"  },
-    {id: 208, type: "other",    name: "Kinderspiele"  },
-    {id: 209, type: "other",    name: "Losbude"  },
-    {id: 210, type: "other",    name: "Wurfwand"  },
-    {id: 211, type: "other",    name: "Schießbudenstand"  },
-  ];
-  var timeRestrictions = [
-  ];
-  var days = [
-    {id: 1, name: "Samstag, 5.September 2015"},
-    {id: 2, name: "Sonntag, 6.September 2015"},
-    {id: 3, name: "Montag, 7.September 2015"},
-  ];
-  var stages = [
-    {id: 1, name: "Hauptbühne Museumsplatz",            lat: 49.191981, lng: 9.223804, focus: false},
-    {id: 2, name: "Bühne Marktplatz",                   lat: 49.191981, lng: 9.223804, focus: false},
-    {id: 3, name: "Karlsplatz",                         lat: 49.191981, lng: 9.223804, focus: false},
-    {id: 4, name: "Quergasse",                          lat: 49.191981, lng: 9.223804, focus: false},
-    {id: 5, name: "Stand Metropolitan Jazz Community",  lat: 49.191981, lng: 9.223804, focus: false},
+    { id: 1  , type: "food",     name: "Linsen & Spätzle", remark: "Mit Saitenwürstle"   },
+    { id: 2  , type: "food",     name: "Apfelküchle"     , remark: "Mit Zimt/Zucker und Vanillesoße"  },
+    { id: 3  , type: "food",     name: "Steak"     , remark: "Mit Zwiebel"  },
+    { id: 4  , type: "food",     name: "Currywurst"},
+    { id: 5  , type: "food",     name: "Bratwurst"}, // auch Grillwurst
+    { id: 6  , type: "food",     name: "Pommes frites"},
+    { id: 7  , type: "food",     name: "Kesselgulasch"},
+    { id: 8  , type: "food",     name: "Ungarische Paprikawürste"},
+    { id: 9  , type: "food",     name: "Pizza"},
+    { id: 10 , type: "food",     name: "Salciccia"},
+    { id: 11 , type: "food",     name: "Arancina"},
+    { id: 12 , type: "food",     name: "Lasagne al forno"},
+    { id: 13 , type: "food",     name: "Spaghetti aglio olio e Peperoncino", remark:"Nur mit Vorbestellung"},
+    { id: 14 , type: "food",     name: "Antipasto all'italiana"},
+    { id: 15 , type: "food",     name: "Kuchen" ,remark: "Nur Sonntag"},
+    { id: 16 , type: "food",     name: "Crêpes" ,remark: "Süß und pikant"},
+    { id: 17 , type: "food",     name: "Geräucherte Forellen" ,remark: "Mit Kartoffelsalat"},
+    { id: 18 , type: "food",     name: "Lachsbröchten"},
+    { id: 19 , type: "food",     name: "Aalbrötchen"},
+    { id: 20 , type: "food",     name: "Shrimps", remark: "Mit Soße"},
+    { id: 21 , type: "food",     name: "Neckarsulmer Rädle"},
+    { id: 22 , type: "food",     name: "Schnitzel", remark: "Mit Kartoffelsalat oder Brot"},
+    { id: 23 , type: "food",     name: "Wurst vom Sud"},
+    { id: 24 , type: "food",     name: "Rauchfleisch-Kräuterkäsbrot"},
+    { id: 25 , type: "food",     name: "Wurstsalat"},
+    { id: 26 , type: "food",     name: "Gefüllter Hals mit Spätzle + Kartoffelsalat"},
+    { id: 27 , type: "food",     name: "Schälrippchen", remark:"Mit Brot"},
+    { id: 28 , type: "food",     name: "Hacksteak"},
+    { id: 29 , type: "food",     name: "Kartoffelsalat"},
+    { id: 30 , type: "food",     name: "Zwiebelkuchen"},
+    { id: 31 , type: "food",     name: "Saitenwurst", remark:"Mit Brötchen"},
+    { id: 32 , type: "food",     name: "Souvlaki", remark:"Spieß mit Brötchen"},
+    { id: 33 , type: "food",     name: "Maultaschen"},
+    { id: 34 , type: "food",     name: "Bratwurstschnecken"},
+    { id: 35 , type: "food",     name: "Fleischkäse"},
+    { id: 36 , type: "food",     name: "Ganzhornteller"},
+    { id: 37 , type: "food",     name: "Langos"},
+    { id: 38 , type: "food",     name: "Flammkuchen"},
+    { id: 39 , type: "food",     name: "Baguettes"},
+    { id: 40 , type: "food",     name: "Schupfnudeln"},
+    { id: 41 , type: "food",     name: "Sauerkraut"},
+    { id: 42 , type: "food",     name: "Blutwurst"},
+    { id: 43 , type: "food",     name: "Leberwurst"},
+    { id: 44 , type: "food",     name: "Besentoast"},
+    { id: 45 , type: "food",     name: "Käsebrot"},
+    { id: 46 , type: "food",     name: "Rauchfleischbrot"},
+    { id: 47 , type: "food",     name: "Käsewürfel"},
+    { id: 48 , type: "food",     name: "Waffeln"},
+    { id: 49 , type: "food",     name: "Zuckerwatte"},
+    { id: 50 , type: "food",     name: "Bratwürste mit Kartoffelsalat", remark:"Nur Montag"},
+    { id: 51 , type: "food",     name: "Burger"},
+    { id: 52 , type: "food",     name: "Baguette mit Lachs"},
+    { id: 53 , type: "food",     name: "Tapas-Teller"},
+    { id: 54 , type: "food",     name: "Oliven"},
+    { id: 55 , type: "food",     name: "Weißwürste", remark:"Nur Sonntag"},
+    { id: 56 , type: "food",     name: "Kartoffelpuffer"},
+    { id: 57 , type: "food",     name: "Maiskolben"},
+    { id: 58 , type: "food",     name: "Überbackene Seele"},
+    { id: 59 , type: "food",     name: "Überbackene Hörner"},
+    { id: 60 , type: "food",     name: "Country-Potatoes (Kartoffelspalten)", remark:"mit Dip"},
+    { id: 61 , type: "food",     name: "Raclette"},
+    { id: 62 , type: "food",     name: "Gebrannte Mandeln"},
+    { id: 63 , type: "food",     name: "Gebrannte Erdnüsse"},
+    { id: 64 , type: "food",     name: "Magenbrot"},
+    { id: 65 , type: "food",     name: "Popcorn"},
+    { id: 66 , type: "food",     name: "sonstige Süßigkeiten"},
+    { id: 67 , type: "food",     name: "Thai Suppe"},
+    { id: 68 , type: "food",     name: "Bigos", remark: "Polnischer Eintopf"},
+    { id: 69 , type: "food",     name: "Piroschki", remark: "Russische gefüllte Teigtaschen"},
+    { id: 70 , type: "food",     name: "Hähnchen"},
+    { id: 71 , type: "food",     name: "Bogenwurst"},
+    { id: 72 , type: "food",     name: "Calamaris"},
+    { id: 73 , type: "food",     name: "Snacks"},
+    { id: 74 , type: "food",     name: "Seelen mit Schinken und Käse überbacken (Spitzdappen)"},
+    { id: 75 , type: "food",     name: "Germknödel"},
+    { id: 76 , type: "food",     name: "Kässpätzle"},
+    { id: 77 , type: "food",     name: "Gulaschsuppe"},
+    { id: 78 , type: "food",     name: "Weißwürste mit frischen Brezel", remark:"Sonntag, Montag"},
+    { id: 79 , type: "food",     name: "Döner Kebab"},
+    { id: 80 , type: "food",     name: "Pfannkuchen"},
+    { id: 81 , type: "food",     name: "Köfte", remark:"verschiedene Sorten, deutsche Frikadelle"},
+    { id: 82 , type: "food",     name: "türkische Fleisch-Grillspezialitäten"},
+    { id: 83 , type: "food",     name: "Börek", remark:"deutsche Blätterteigspezialitäten"},
+    { id: 84 , type: "food",     name: "türkische Süßspeisen aus Blätterteig"},
+    { id: 85 , type: "food",     name: "Eis"},
+    { id: 86 , type: "food",     name: "Gefüllter Blätterteig"},
+    { id: 87 , type: "food",     name: "Su-Börek"},
+    { id: 88 , type: "food",     name: "Sarma", remark:"Gefüllte Weinblätter"},
+    { id: 89 , type: "food",     name: "Salate"},
+    { id: 90 , type: "food",     name: "Muffins"},
+    { id: 91 , type: "food",     name: "Putenwiener"},
+    { id: 92 , type: "food",     name: "Soguk Mezze", remark:"Mediterrane-Platte"},
+    { id: 93 , type: "food",     name: "Sac Kavurma", remark:"Hirtenpfanne"},
+    { id: 94 , type: "food",     name: "Tantuni", remark:"Teigrolle mit einer Fleisch- und Gemüsefüllung"},
+    { id: 95 , type: "food",     name: "Manti", remark:"Türkische Teigtasche mit Joghurtsoße"},
+    { id: 96 , type: "food",     name: "Icli Köfte", remark:"Mit Hackfleisch gefüllte Bulgurklöße"},
+    { id: 97 , type: "food",     name: "Chicken-Nuggets"},
+    { id: 101, type: "drink",    name: "Cola"          },
+    { id: 102, type: "drink",    name: "Fanta/Mirinda" },
+    { id: 103, type: "drink",    name: "Sprudel sauer" }, // auch Wasser, Mineralwasser
+    { id: 104, type: "drink",    name: "Kaffee"        },
+    { id: 105, type: "drink",    name: "Bier (Kellerbier)"        },
+    { id: 106, type: "drink",    name: "Bier (Weizenbier)"        },
+    { id: 107, type: "drink",    name: "Wein (Budakesser)"        },
+    { id: 109, type: "drink",    name: "Wein (Neckarsulmer)"        },
+    { id: 110, type: "drink",    name: "Alkoholfreie Getränke"        }, //TODO: merge mit cola,fanta, sprudel ,... ?!
+    { id: 111, type: "drink",    name: "Alkoholische Getränke"        }, // TODO: wft? rausschmeißen!
+    { id: 112, type: "drink",    name: "Espresso"        },
+    { id: 113, type: "drink",    name: "Red Bull"        },
+    { id: 114, type: "drink",    name: "Sekt"        },
+    { id: 115, type: "drink",    name: "Cocktails"        }, // auch "Barbetrieb"
+    { id: 116, type: "drink",    name: "Mixgetränke"        }, // unterschied Barbetrieb? Biermischgetränke? Cocktails? Longdrinks?
+    { id: 117, type: "drink",    name: "Bier (Pils)"        }, // auch "Bier", "versch. Biere"
+    { id: 121, type: "drink",    name: "Orangensaft"        },
+    { id: 122, type: "drink",    name: "Sprudel süß"        },
+    { id: 123, type: "drink",    name: "Bionade"        },
+    { id: 124, type: "drink",    name: "Apfelsaftschorle"        },
+    { id: 125, type: "drink",    name: "Traubensaft(schorle)"        }, // Traubensaft und Traubensaftschorle
+    { id: 126, type: "drink",    name: "Wein (Neuer Wein)"        },
+    { id: 127, type: "drink",    name: "Wein (Griechischer)"        },
+    { id: 128, type: "drink",    name: "Spirituosen"        }, // auch Kurze, Schnaps
+    { id: 129, type: "drink",    name: "Biermischgetränke"        },
+    { id: 133, type: "drink",    name: "Bier (alkoholfrei)"        },
+    { id: 134, type: "drink",    name: "Longdrinks"        },
+    { id: 135, type: "drink",    name: "Bier (Kölsch)"        },
+    { id: 136, type: "drink",    name: "Karamalz"        },
+    { id: 137, type: "drink",    name: "Rugbeer"        },
+    { id: 139, type: "drink",    name: "Bier (Export)"        },
+    { id: 140, type: "drink",    name: "Cola light"        },
+    { id: 141, type: "drink",    name: "Bier (Landbier)"        },
+    { id: 142, type: "drink",    name: "Sprite"        },
+    { id: 143, type: "drink",    name: "Ayran",remark:"Türkisches Joghurt-Getränk"        },
+    { id: 144, type: "drink",    name: "Gazoz",remark:"Türkische Limonade" },
+    { id: 145, type: "drink",    name: "Tee" },
+    { id: 146, type: "drink",    name: "Tee (türkisch)" },
+    { id: 201, type: "other",    name: "ungarische Spezialitäten", remark:"In Gläsern und Tuben"  },
+    { id: 202, type: "other",    name: "ungarisches Paprikapulver", remark:"Süß oder Scharf"  },
+    { id: 203, type: "other",    name: "Schnappfalle"  },
+    { id: 204, type: "other",    name: "Tombola"  },
+    { id: 205, type: "other",    name: "Bastelangebote"  },
+    { id: 206, type: "other",    name: "Glücksrad"  },
+    { id: 207, type: "other",    name: "Ponyreiten"  },
+    { id: 208, type: "other",    name: "Kinderspiele"  },
+    { id: 209, type: "other",    name: "Losbude"  },
+    { id: 210, type: "other",    name: "Wurfwand"  },
+    { id: 211, type: "other",    name: "Schießbudenstand"  },
   ];
   var events = [
-    {id: 1,  stage: 1, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T16:00:00+0200", type: 'speech', type: 'music', name: "Eröffnung", remark: "Oberbürgermeister Joachim Scholz<br>Württ. Weinprinziessin Annekatrin Gauger"},
-    {id: 2,  stage: 1, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T17:30:00+0200", type: 'music', name: "MV Obereisesheim", remark: ""},
-    {id: 3,  stage: 1, start: "2015-09-05T18:40:00+0200", end: "2015-09-05T19:00:00+0200", type: 'dance', name: 'Tanzgruppe "Hotsteppers"', remark: "Neckarsulmer Sportunion"},
-    {id: 4,  stage: 1, start: "2015-09-05T20:00:00+0200", end: "2015-09-05T23:00:00+0200", type: 'music', name: 'MGV Dahenfeld', remark: ""},
-    {id: 5,  stage: 2, start: "2015-09-05T20:00:00+0200", end: "", type: 'music', name: 'Crazy Zoo', remark: ""},
-    {id: 6,  stage: 5, start: "2015-09-05T19:00:00+0200", end: "", type: 'music', name: 'MET-Swing Unit', remark: ""},
-    {id: 7,  stage: 1, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T11:00:00+0200", type: 'music', name: "Harmonikaclub", remark: ""},
-    {id: 8,  stage: 1, start: "2015-09-06T13:15:00+0200", end: "2015-09-06T13:45:00+0200", type: 'dance', name: "Square Dance", remark: "Neckar-Valley-Dancers"},
-    {id: 9,  stage: 1, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T14:30:00+0200", type: 'show', name: "Aikido-Vorführung", remark: "SC Amorbach"},
-    {id: 10, stage: 1, start: "2015-09-06T15:00:00+0200", end: "2015-09-06T17:00:00+0200", type: 'music', name: "Blaskapelle der Audi Bläserphilharmonie aus Ingolstadt", remark: ""},
-    {id: 11, stage: 1, start: "2015-09-06T18:00:00+0200", end: "", type: 'music', name: "Biggi & Friends", remark: ""},
-    {id: 12, stage: 2, start: "2015-09-06T18:00:00+0200", end: "", type: 'music', name: "The Shakermakers", remark: ""},
-    {id: 13, stage: 3, start: "2015-09-06T10:15:00+0200", end: "", type: 'church', name: "Ökumenischer Gottesdienst zum Ganzhornfest", remark: "bei schlechtem Wetter in der Klosterkirche"},
-    {id: 14, stage: 5, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T14:00:00+0200", type: 'music', name: "Oldtime Jazz Collegium", remark: ""},
-    {id: 15, stage: 5, start: "2015-09-06T19:00:00+0200", end: "", type: 'music', name: "Jazzophonics Big Band", remark: ""},
-    {id: 16, stage: 1, start: "2015-09-07T17:40:00+0200", end: "2015-09-07T18:00:00+0200", type: 'dance', name: 'Tanzgruppe "Hotsteppers"', remark: "Neckarsulmer Sportunion"},
-    {id: 17, stage: 1, start: "2015-09-07T19:30:00+0200", end: "2015-09-07T22:00:00+0200", type: 'music', name: "Polizei Big Band Heilbronn", remark: ""},
-    {id: 18, stage: 2, start: "2015-09-07T19:00:00+0200", end: "", type: 'music', name: "Janas Jungs", remark: ""},
-    {id: 19, stage: 5, start: "2015-09-07T19:00:00+0200", end: "", type: 'music', name: "Combination Big Band", remark: ""},
-    {id: 20, stage: 3, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T18:30:00+0200", type: 'youth', name: "Graffiti Battle", remark: ""},
-    {id: 21, stage: 3, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T18:00:00+0200", type: 'youth', name: "Ponyreiten", remark: "Jugendfarmverein"},
-    {id: 22, stage: 3, start: "2015-09-05T16:30:00+0200", end: "2015-09-05T18:30:00+0200", type: 'show', name: "Kreatief Open Stage", remark: "Kreatief"},
-    {id: 23, stage: 3, start: "2015-09-05T20:00:00+0200", end: "2015-09-05T23:30:00+0200", type: 'music', name: "Bunter Musikcocktail mit Bands aus der Region", remark: 'Highlight: "Fürschd Renjay + Nafdalin (Schwobeland)"'},
-    {id: 24, stage: 4, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T20:00:00+0200", type: 'market', name: "Kinder-Flohmarkt", remark: "Stadtverwaltung"},
-    {id: 25, stage: 3, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: "Ponyreiten", remark: "Jugendfarmverein"},
-    {id: 26, stage: 3, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: 'BAMBOX', remark: 'Kreativaktion vom Kinder-Jugend-Kultur Zentrum "Gleis 3"'},
-    {id: 27, stage: 3, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: 'Kinderschminken', remark: "Mit dem Tigermobil"},
-    {id: 28, stage: 3, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T14:40:00+0200", type: 'youth', name: 'Kaspertheater', remark: ""},
-    {id: 29, stage: 3, start: "2015-09-06T16:00:00+0200", end: "2015-09-06T16:40:00+0200", type: 'youth', name: 'Kaspertheater', remark: ""},
-    {id: 30, stage: 3, start: "2015-09-06T16:00:00+0200", end: "2015-09-06T17:00:00+0200", type: 'youth', name: 'Kunterbunte Spiel- und Bastelaktionen', remark: "Freier Kindergarten und Waldkindergarten"},
-    {id: 31, stage: 3, start: "2015-09-06T19:00:00+0200", end: "2015-09-06T23:00:00+0200", type: 'youth', name: 'Bands aus der Region von Rock bis Metal', remark: "Highlights: Strangelet, The Prophecy 23"},
-    {id: 32, stage: 4, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'market', name: "Kinder-Flohmarkt", remark: "Stadtverwaltung"},
-    {id: 33, stage: 3, start: "2015-09-07T17:00:00+0200", end: "", type: 'show', name: "Kreatiefes Abendprogramm", remark: ""},
-    {id: 34, stage: 3, start: "2015-09-07T18:30:00+0200", end: "2015-09-07T19:00:00+0200", type: 'music', name: "Smartins", remark: "A Cappella Chor"},
-    {id: 35, stage: 3, start: "2015-09-07T19:00:00+0200", end: "2015-09-07T19:30:00+0200", type: 'music', name: "Annalena & Sofie", remark: "Acoustic Duo"},
-    {id: 36, stage: 3, start: "2015-09-07T19:45:00+0200", end: "2015-09-07T20:30:00+0200", type: 'music', name: "Beauties and the Beats", remark: "A Cappella Chor"},
-    {id: 37, stage: 3, start: "2015-09-07T20:30:00+0200", end: "2015-09-07T23:00:00+0200", type: 'music', name: "3,2,1...los! mit Special Guests", remark: "Party Cover Band"},
+    {id: 1,  poi: 58, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T16:00:00+0200", type: 'speech', type: 'music', name: "Eröffnung", remark: "Oberbürgermeister Joachim Scholz<br>Württ. Weinprinziessin Annekatrin Gauger"},
+    {id: 2,  poi: 58, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T17:30:00+0200", type: 'music', name: "MV Obereisesheim", remark: ""},
+    {id: 3,  poi: 58, start: "2015-09-05T18:40:00+0200", end: "2015-09-05T19:00:00+0200", type: 'dance', name: 'Tanzgruppe "Hotsteppers"', remark: "Neckarsulmer Sportunion"},
+    {id: 4,  poi: 58, start: "2015-09-05T20:00:00+0200", end: "2015-09-05T23:00:00+0200", type: 'music', name: 'MGV Dahenfeld', remark: ""},
+    {id: 5,  poi: 59, start: "2015-09-05T20:00:00+0200", end: "", type: 'music', name: 'Crazy Zoo', remark: ""},
+    {id: 6,  poi: 62, start: "2015-09-05T19:00:00+0200", end: "", type: 'music', name: 'MET-Swing Unit', remark: ""},
+    {id: 7,  poi: 58, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T11:00:00+0200", type: 'music', name: "Harmonikaclub", remark: ""},
+    {id: 8,  poi: 58, start: "2015-09-06T13:15:00+0200", end: "2015-09-06T13:45:00+0200", type: 'dance', name: "Square Dance", remark: "Neckar-Valley-Dancers"},
+    {id: 9,  poi: 58, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T14:30:00+0200", type: 'show', name: "Aikido-Vorführung", remark: "SC Amorbach"},
+    {id: 10, poi: 58, start: "2015-09-06T15:00:00+0200", end: "2015-09-06T17:00:00+0200", type: 'music', name: "Blaskapelle der Audi Bläserphilharmonie aus Ingolstadt", remark: ""},
+    {id: 11, poi: 58, start: "2015-09-06T18:00:00+0200", end: "", type: 'music', name: "Biggi & Friends", remark: ""},
+    {id: 12, poi: 59, start: "2015-09-06T18:00:00+0200", end: "", type: 'music', name: "The Shakermakers", remark: ""},
+    {id: 13, poi: 60, start: "2015-09-06T10:15:00+0200", end: "", type: 'church', name: "Ökumenischer Gottesdienst zum Ganzhornfest", remark: "bei schlechtem Wetter in der Klosterkirche"},
+    {id: 14, poi: 62, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T14:00:00+0200", type: 'music', name: "Oldtime Jazz Collegium", remark: ""},
+    {id: 15, poi: 62, start: "2015-09-06T19:00:00+0200", end: "", type: 'music', name: "Jazzophonics Big Band", remark: ""},
+    {id: 16, poi: 58, start: "2015-09-07T17:40:00+0200", end: "2015-09-07T18:00:00+0200", type: 'dance', name: 'Tanzgruppe "Hotsteppers"', remark: "Neckarsulmer Sportunion"},
+    {id: 17, poi: 58, start: "2015-09-07T19:30:00+0200", end: "2015-09-07T22:00:00+0200", type: 'music', name: "Polizei Big Band Heilbronn", remark: ""},
+    {id: 18, poi: 59, start: "2015-09-07T19:00:00+0200", end: "", type: 'music', name: "Janas Jungs", remark: ""},
+    {id: 19, poi: 62, start: "2015-09-07T19:00:00+0200", end: "", type: 'music', name: "Combination Big Band", remark: ""},
+    {id: 20, poi: 60, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T18:30:00+0200", type: 'youth', name: "Graffiti Battle", remark: ""},
+    {id: 21, poi: 60, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T18:00:00+0200", type: 'youth', name: "Ponyreiten", remark: "Jugendfarmverein"},
+    {id: 22, poi: 60, start: "2015-09-05T16:30:00+0200", end: "2015-09-05T18:30:00+0200", type: 'show', name: "Kreatief Open Stage", remark: "Kreatief"},
+    {id: 23, poi: 60, start: "2015-09-05T20:00:00+0200", end: "2015-09-05T23:30:00+0200", type: 'music', name: "Bunter Musikcocktail mit Bands aus der Region", remark: 'Highlight: "Fürschd Renjay + Nafdalin (Schwobeland)"'},
+    {id: 24, poi: 61, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T20:00:00+0200", type: 'market', name: "Kinder-Flohmarkt", remark: "Stadtverwaltung"},
+    {id: 25, poi: 60, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: "Ponyreiten", remark: "Jugendfarmverein"},
+    {id: 26, poi: 60, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: 'BAMBOX', remark: 'Kreativaktion vom Kinder-Jugend-Kultur Zentrum "Gleis 3"'},
+    {id: 27, poi: 60, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: 'Kinderschminken', remark: "Mit dem Tigermobil"},
+    {id: 28, poi: 60, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T14:40:00+0200", type: 'youth', name: 'Kaspertheater', remark: ""},
+    {id: 29, poi: 60, start: "2015-09-06T16:00:00+0200", end: "2015-09-06T16:40:00+0200", type: 'youth', name: 'Kaspertheater', remark: ""},
+    {id: 30, poi: 60, start: "2015-09-06T16:00:00+0200", end: "2015-09-06T17:00:00+0200", type: 'youth', name: 'Kunterbunte Spiel- und Bastelaktionen', remark: "Freier Kindergarten und Waldkindergarten"},
+    {id: 31, poi: 60, start: "2015-09-06T19:00:00+0200", end: "2015-09-06T23:00:00+0200", type: 'youth', name: 'Bands aus der Region von Rock bis Metal', remark: "Highlights: Strangelet, The Prophecy 23"},
+    {id: 32, poi: 61, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'market', name: "Kinder-Flohmarkt", remark: "Stadtverwaltung"},
+    {id: 33, poi: 60, start: "2015-09-07T17:00:00+0200", end: "", type: 'show', name: "Kreatiefes Abendprogramm", remark: ""},
+    {id: 34, poi: 60, start: "2015-09-07T18:30:00+0200", end: "2015-09-07T19:00:00+0200", type: 'music', name: "Smartins", remark: "A Cappella Chor"},
+    {id: 35, poi: 60, start: "2015-09-07T19:00:00+0200", end: "2015-09-07T19:30:00+0200", type: 'music', name: "Annalena & Sofie", remark: "Acoustic Duo"},
+    {id: 36, poi: 60, start: "2015-09-07T19:45:00+0200", end: "2015-09-07T20:30:00+0200", type: 'music', name: "Beauties and the Beats", remark: "A Cappella Chor"},
+    {id: 37, poi: 60, start: "2015-09-07T20:30:00+0200", end: "2015-09-07T23:00:00+0200", type: 'music', name: "3,2,1...los! mit Special Guests", remark: "Party Cover Band"},
   ];
   var directions = [
     {id: 1, destination: "Amorbach (Linie 624/691/Sonderbus)"},
@@ -406,80 +419,113 @@ angular.module('starter.services', [])
     {id: 85, direction: 4, time: "2015-09-07T22:27:00+0200"},
     {id: 86, direction: 4, time: "2015-09-07T23:05:00+0200"},
     {id: 87, direction: 4, time: "2015-09-08T00:10:00+0200"},
-   ];
-  var detailedItem = '';
+  ];
+
+  // params optional type
+  // returns array all POIs or only those of given type
+  _getPois = function(type) {
+    if(typeof type === 'undefined') {
+      return pois;
+    };
+    var poisOfGivenType = pois.filter(function(poi) {
+      return poi.type === type;
+    });
+    return poisOfGivenType;
+  };
+
+  // returns array clubs
+  _getClubs = function() {
+    var clubs = _getPois("club");
+    return clubs;
+  };
+  // params optional string itemType
+  // returns hash items
+  _getItems = function(itemType) {
+    if(typeof itemType === 'undefined') {
+      return items;
+    };
+    var itemsOfGivenType = items.filter(function(item) { 
+      return item.type === itemType; 
+    });
+    return itemsOfGivenType;
+  };
 
   return {
-    /**
-     * @ngdoc function
-     * @name getStandsByItemId
-     * @kind function
-     *
-     * @description
-     * Get all stands that have an item ID matching the given ID. Parameter is commonly
-     * comming from the angular-ui router and therefore is expected to be a string.
-     *
-     * @param   {string}          number ID of one item of items hash.
-     * @returns {array of hashes} all items of stands which contain item ID in items array
-     */
-    getFilteredStands: function(type,id) {
-      var filteredStands = [];
-      id = parseInt(id);
-      for(var i=0; i<stands.length; i++) {
-        if(type === 'stands') {
-          if(stands[i].id === id) {
-            filteredStands.push(stands[i]);
-          };
-        } else {
-          if(stands[i].items.indexOf(id) > -1) {
-            filteredStands.push(stands[i]);
-          };
+
+    // returns array pois
+    getPois: _getPois,
+
+    // returns array clubs
+    getClubs: _getClubs,
+
+    // params number clubId
+    // returns object club
+    getClub: function(clubId) {
+      var clubs = _getClubs();
+      for(var i=0; i<clubs.length; i++) {
+        if (clubs[i].id === clubId) {
+          var club = clubs[i];
+          break;
         };
       };
-      return filteredStands;
+      return club;
     },
-    getMarker: function(filteredStands) {
-      var markersHash = {};
-      if(typeof(filteredStands) === 'undefined') {
-        filteredStands = stands;
-      };
-      for(var i=0; i<filteredStands.length; i++) {
-        standGeodata = standMapping.filter(function(item) {
-          return item.standId === filteredStands[i].id;
-        })[0];
-        markersHash[filteredStands[i].id] = {
-          lat: standGeodata.lat,
-          lng: standGeodata.lng,
-          focus: standGeodata.focus,
-          name: filteredStands[i].name,
-          title: filteredStands[i].name,
-          alt: filteredStands[i].name,
-        };
-      };
-      return markersHash;
+
+    // params number itemId
+    // returns array clubs which provide itemId
+    filterClubsByItem: function(itemId) {
+      var clubs = _getClubs();
+      var clubsWithCertainItem = clubs.filter(function(club) {
+        return club.items.indexOf(itemId) !== -1;
+      });
+      return clubsWithCertainItem;
     },
-    getList: function(category) {
-      if(typeof category === 'undefined') {
-        return items;
-      } else if( category === 'stands') {
-        return stands;
+
+    // returns hash items
+    getItems: _getItems,
+
+    // params array itemIds
+    // returns array items which match given Ids
+    getItemsByIds: function(itemIds) {
+      var items = _getItems();
+      var filteredItemsArray = items.filter(function(item) {
+        return itemIds.indexOf(item.id) !== -1;
+      });
+      return filteredItemsArray;
+    },
+
+    // params string category
+    // returns array all clubs or all items of given category
+    getListByCategory: function(category) {
+      if(category === 'stands') {
+        return _getClubs();
       } else {
-        return items.filter(function(item) {
-          return (item.type === category);
-        });
-      }
+        return _getItems(category);
+      };
     },
+
+    // returns array events
     getEvents: function() {
       return events;
     },
+
+    // returns hash stages
     getStages: function() {
-      return stages;
+      return _getPois("stage");
     },
-    getDirections: function() {
-      return directions;
-    },
+
+    // return array busstops
     getBusstops: function() {
       return busstops;
+    },
+
+    // returns hash geodata
+    getGeodata: function() {
+      return  geodata;
+    },
+
+    getDirections: function() {
+      return directions;
     },
   };
 });

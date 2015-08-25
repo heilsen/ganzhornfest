@@ -15,60 +15,24 @@ angular.module('starter.controllers', [])
   $scope.swipeLeft = function() {
     $state.go('tab.map');
   };
-  $scope.category = "food";
-  $scope.list = Detail.getList($scope.category);
-  $scope.sref = "detail";
 
-  // TODO: rename other to program
-
+  // search form
   $scope.searchTerm = "";
   $scope.clearSearch = function() {
     $scope.searchTerm = "";
   };
 
+  // category filter
+  $scope.category = "food";
+  $scope.list = Detail.getItems("food");
   $scope.updateCategoryFilter = function() {
     $ionicScrollDelegate.scrollTop();
-    if($scope.category == 'stands') {
-      $scope.sref = 'stand';
+    if($scope.category === 'stands') {
+      $scope.list = Detail.getClubs();
     } else {
-      $scope.sref = 'detail';
+      $scope.list = Detail.getItems($scope.category);
     }
-    $scope.list = Detail.getList($scope.category);
   };
-
-
-})
-
-.controller('DetailStandCtrl', function($scope, $stateParams, Detail, $state) {
-
-  $scope.swipeRight = function() {
-    $state.go('tab.info');
-  };
-  $scope.swipeLeft = function() {
-    $state.go('tab.map');
-  };
-  $scope.stand = Detail.getFilteredStands('stands',$stateParams.id);
-  $scope.standName = $scope.stand[0].name;
-  $scope.standURL = $scope.stand[0].url;
-  $scope.standDescription = $scope.stand[0].description;
-  $scope.standItemIDs = $scope.stand[0].items;
-  $scope.itemArray = Detail.getList().filter(function(item) { return $scope.standItemIDs.indexOf(item.id) > -1; });
-
-  $scope.mapDefaults = {
-//    scrollWheelZoom: false,
-//    doubleClickZoom: false,
-    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    minZoom: 15,
-  };
-
-  $scope.neckarsulm = {
-    lat: 49.1920114764648,
-    lng: 9.22389686107636,
-    zoom: 17,
-    zoomControl: true,
-  };
-
-  $scope.markersHash = Detail.getMarker($scope.stand);
 
 })
 
@@ -80,9 +44,10 @@ angular.module('starter.controllers', [])
   $scope.swipeLeft = function() {
     $state.go('tab.map');
   };
-  $scope.filteredStands = Detail.getFilteredStands($stateParams.type,$stateParams.id);
-  $scope.itemArray = Detail.getList($stateParams.type).filter(function(item) { return item.id == $stateParams.id; });
-  $scope.itemName = $scope.itemArray[0].name;
+
+  $scope.filteredStands = Detail.filterClubsByItem(parseInt($stateParams.id));
+  // only looking for one item
+  $scope.item = Detail.getItemsByIds($stateParams.id).shift();
 
   $scope.mapDefaults = {
 //    scrollWheelZoom: false,
@@ -98,7 +63,158 @@ angular.module('starter.controllers', [])
     zoomControl: true,
   };
 
-  $scope.markersHash = Detail.getMarker($scope.filteredStands);
+  var markerIconMap = {
+    'club'       : 'record',
+    'first_aid'  : 'ios-medkit',
+    'stage'      : 'ios-musical-notes',
+    'kiosk'      : 'ios-pint',
+    'playground' : 'ios-football',
+    'toilets'    : 'waterdrop',
+  };
+  var markerColorMap = {
+// posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
+    'club'       : 'cadetblue',
+    'stage'      : 'darkpurple',
+    'first_aid'  : 'red',
+    'kiosk'      : 'purple',
+    'playground' : 'green',
+    'toilets'    : 'blue',
+  };
+
+  generateMarkers = function(clubs) {
+    var markersHash = {};
+    var geodata = Detail.getGeodata();
+
+    for(var i=0; i<clubs.length; i++) {
+      var club = clubs[i];
+      if(typeof club.geoid === 'number') {
+        markersHash[club.id] = {
+          lat: geodata[club.geoid].lat,
+          lng: geodata[club.geoid].lng,
+          name: club.name,
+          title: club.name,
+          alt: club.name,
+          icon: {
+            type: 'awesomeMarker',
+            prefix: 'ion',
+            icon: markerIconMap[club.type],
+            markerColor: markerColorMap[club.type],
+          },
+        };
+      // club.geoid contains multiple ids
+      } else {
+        for(var j=0; j<club.geoid.length; j++) {
+          markersHash[club.id + "_" + j] = {
+            lat: geodata[club.geoid[j]].lat,
+            lng: geodata[club.geoid[j]].lng,
+            name: club.name,
+            title: club.name,
+            alt: club.name,
+            icon: {
+              type: 'awesomeMarker',
+              prefix: 'ion',
+              icon: markerIconMap[club.type],
+              markerColor: markerColorMap[club.type],
+            },
+          };
+        };
+      };
+    };
+    return markersHash;
+  };
+ 
+  $scope.markersHash = generateMarkers($scope.filteredStands);
+
+})
+
+.controller('DetailStandCtrl', function($scope, $stateParams, Detail, $state) {
+
+  $scope.swipeRight = function() {
+    $state.go('tab.info');
+  };
+  $scope.swipeLeft = function() {
+    $state.go('tab.map');
+  };
+
+  $scope.stand = Detail.getClub(parseInt($stateParams.id));
+  $scope.standName = $scope.stand.name;
+  $scope.standURL = $scope.stand.url;
+  $scope.standDescription = $scope.stand.description;
+  $scope.standItemIds = $scope.stand.items;
+  $scope.itemArray = Detail.getItemsByIds($scope.standItemIds);
+
+  $scope.mapDefaults = {
+//    scrollWheelZoom: false,
+//    doubleClickZoom: false,
+    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    minZoom: 15,
+  };
+
+  $scope.neckarsulm = {
+    lat: 49.1920114764648,
+    lng: 9.22389686107636,
+    zoom: 17,
+    zoomControl: true,
+  };
+
+  var markerIconMap = {
+    'club'       : 'record',
+    'first_aid'  : 'ios-medkit',
+    'stage'      : 'ios-musical-notes',
+    'kiosk'      : 'ios-pint',
+    'playground' : 'ios-football',
+    'toilets'    : 'waterdrop',
+  };
+  var markerColorMap = {
+// posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
+    'club'       : 'cadetblue',
+    'stage'      : 'darkpurple',
+    'first_aid'  : 'red',
+    'kiosk'      : 'purple',
+    'playground' : 'green',
+    'toilets'    : 'blue',
+  };
+
+  generateMarkers = function(club) {
+    var markersHash = {};
+    var geodata = Detail.getGeodata();
+
+    if(typeof club.geoid === 'number') {
+      markersHash[club.id] = {
+        lat: geodata[club.geoid].lat,
+        lng: geodata[club.geoid].lng,
+        name: club.name,
+        title: club.name,
+        alt: club.name,
+        icon: {
+          type: 'awesomeMarker',
+          prefix: 'ion',
+          icon: markerIconMap[club.type],
+          markerColor: markerColorMap[club.type],
+        },
+      };
+    // club.geoid contains multiple ids
+    } else {
+      for(var j=0; j<club.geoid.length; j++) {
+        markersHash[club.id + "_" + j] = {
+          lat: geodata[club.geoid[j]].lat,
+          lng: geodata[club.geoid[j]].lng,
+          name: club.name,
+          title: club.name,
+          alt: club.name,
+          icon: {
+            type: 'awesomeMarker',
+            prefix: 'ion',
+            icon: markerIconMap[club.type],
+            markerColor: markerColorMap[club.type],
+          },
+        };
+      };
+    };
+    return markersHash;
+  };
+ 
+  $scope.markersHash = generateMarkers($scope.stand);
 
 })
 
@@ -110,7 +226,9 @@ angular.module('starter.controllers', [])
   $scope.swipeLeft = function() {
     $state.go('tab.program');
   };
-  $scope.stands = Detail.getList('stands'); 
+
+  $scope.stands = Detail.getClubs(); 
+
   $scope.neckarsulm = {
     lat: 49.1920114764648,
     lng: 9.22389686107636,
@@ -123,7 +241,67 @@ angular.module('starter.controllers', [])
     tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     minZoom: 15,
   };
-  $scope.markers = Detail.getMarker();
+
+  var markerIconMap = {
+    'club'       : 'record',
+    'first_aid'  : 'ios-medkit',
+    'stage'      : 'ios-musical-notes',
+    'kiosk'      : 'ios-pint',
+    'playground' : 'ios-football',
+    'toilets'    : 'waterdrop',
+  };
+  var markerColorMap = {
+// posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
+    'club'       : 'cadetblue',
+    'stage'      : 'darkpurple',
+    'first_aid'  : 'red',
+    'kiosk'      : 'purple',
+    'playground' : 'green',
+    'toilets'    : 'blue',
+  };
+  generateMarkers = function() {
+    var pois = Detail.getPois();
+    var markersHash = {};
+    var geodata = Detail.getGeodata();
+
+    for(var i=0; i<pois.length; i++) {
+      var poi = pois[i];
+      if(typeof poi.geoid === 'number') {
+        markersHash[poi.id] = {
+          lat: geodata[poi.geoid].lat,
+          lng: geodata[poi.geoid].lng,
+          name: poi.name,
+          title: poi.name,
+          alt: poi.name,
+          icon: {
+            type: 'awesomeMarker',
+            prefix: 'ion',
+            icon: markerIconMap[poi.type],
+            markerColor: markerColorMap[poi.type],
+          },
+        };
+      // poi.geoid contains multiple ids
+      } else {
+        for(var j=0; j<poi.geoid.length; j++) {
+          markersHash[poi.id + "_" + j] = {
+            lat: geodata[poi.geoid[j]].lat,
+            lng: geodata[poi.geoid[j]].lng,
+            name: poi.name,
+            title: poi.name,
+            alt: poi.name,
+            icon: {
+              type: 'awesomeMarker',
+              prefix: 'ion',
+              icon: markerIconMap[poi.type],
+              markerColor: markerColorMap[poi.type],
+            },
+          };
+        };
+      };
+    };
+    return markersHash;
+  };
+  $scope.markers = generateMarkers();
 
 })
 
@@ -141,11 +319,18 @@ angular.module('starter.controllers', [])
   $scope.requestedStage = "0";
 
   $scope.stageFilter = function(item,index) {
+    var stageMapping = {
+      1: 58,
+      2: 59,
+      3: 60,
+      4: 61,
+      5: 62
+    };
     $ionicScrollDelegate.scrollTop();
     if(parseInt($scope.requestedStage) === 0) {
       return true;
     };
-    return parseInt($scope.requestedStage) === item.id;
+    return parseInt(stageMapping[$scope.requestedStage]) === item.id;
   };
   $scope.dayFilter = function(item,index) {
     $ionicScrollDelegate.scrollTop();
