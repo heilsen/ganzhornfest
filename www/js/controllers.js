@@ -49,18 +49,19 @@ angular.module('starter.controllers', [])
   // only looking for one item
   $scope.item = Detail.getItemsByIds($stateParams.id).shift();
 
-  $scope.mapDefaults = {
-//    scrollWheelZoom: false,
-//    doubleClickZoom: false,
-    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    minZoom: 15,
-  };
-
   $scope.neckarsulm = {
     lat: 49.1920114764648,
     lng: 9.22389686107636,
     zoom: 17,
-    zoomControl: true,
+  };
+  $scope.mapDefaults = {
+    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    minZoom: 17,
+    tileLayerOptions: {
+      attribution:  "...",
+      maxZoom: 21,
+      maxNativeZoom: 19,
+    },
   };
 
   var markerIconMap = {
@@ -143,19 +144,21 @@ angular.module('starter.controllers', [])
   $scope.standItemIds = $scope.stand.items;
   $scope.itemArray = Detail.getItemsByIds($scope.standItemIds);
 
-  $scope.mapDefaults = {
-//    scrollWheelZoom: false,
-//    doubleClickZoom: false,
-    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    minZoom: 15,
-  };
-
   $scope.neckarsulm = {
     lat: 49.1920114764648,
     lng: 9.22389686107636,
     zoom: 17,
-    zoomControl: true,
   };
+  $scope.mapDefaults = {
+    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    minZoom: 17,
+    tileLayerOptions: {
+      attribution:  "...",
+      maxZoom: 21,
+      maxNativeZoom: 19,
+    },
+  };
+
 
   var markerIconMap = {
     'club'       : 'record',
@@ -233,13 +236,15 @@ angular.module('starter.controllers', [])
     lat: 49.1920114764648,
     lng: 9.22389686107636,
     zoom: 17,
-    zoomControl: true,
   };
   $scope.defaults = {
-//    scrollWheelZoom: false,
-//    doubleClickZoom: false,
     tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    minZoom: 15,
+    minZoom: 17,
+    tileLayerOptions: {
+      attribution:  "...",
+      maxZoom: 21,
+      maxNativeZoom: 19,
+    },
   };
 
   var markerIconMap = {
