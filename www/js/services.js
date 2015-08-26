@@ -527,5 +527,13 @@ angular.module('starter.services', [])
     getDirections: function() {
       return directions;
     },
+    getCenter: function() {
+      return {
+        lat: geodata[42].lat,
+        lng: geodata[42].lng,
+        zoom: 17,
+      };
+
+    },
   };
 });
