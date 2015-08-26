@@ -49,11 +49,7 @@ angular.module('starter.controllers', [])
   // only looking for one item
   $scope.item = Detail.getItemsByIds($stateParams.id).shift();
 
-  $scope.neckarsulm = {
-    lat: 49.1920114764648,
-    lng: 9.22389686107636,
-    zoom: 17,
-  };
+  $scope.center = Detail.getCenter();
   $scope.mapDefaults = {
     tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     minZoom: 17,
@@ -144,11 +140,7 @@ angular.module('starter.controllers', [])
   $scope.standItemIds = $scope.stand.items;
   $scope.itemArray = Detail.getItemsByIds($scope.standItemIds);
 
-  $scope.neckarsulm = {
-    lat: 49.1920114764648,
-    lng: 9.22389686107636,
-    zoom: 17,
-  };
+  $scope.center = Detail.getCenter();
   $scope.mapDefaults = {
     tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     minZoom: 17,
@@ -232,11 +224,7 @@ angular.module('starter.controllers', [])
 
   $scope.stands = Detail.getClubs(); 
 
-  $scope.neckarsulm = {
-    lat: 49.1920114764648,
-    lng: 9.22389686107636,
-    zoom: 17,
-  };
+  $scope.center = Detail.getCenter();
   $scope.defaults = {
     tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     minZoom: 17,
