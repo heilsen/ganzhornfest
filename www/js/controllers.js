@@ -64,7 +64,6 @@ angular.module('starter.controllers', [])
     'club'       : 'record',
     'first_aid'  : 'ios-medkit',
     'stage'      : 'ios-musical-notes',
-    'kiosk'      : 'ios-pint',
     'playground' : 'ios-football',
     'toilets'    : 'waterdrop',
   };
@@ -73,7 +72,6 @@ angular.module('starter.controllers', [])
     'club'       : 'cadetblue',
     'stage'      : 'darkpurple',
     'first_aid'  : 'red',
-    'kiosk'      : 'purple',
     'playground' : 'green',
     'toilets'    : 'blue',
   };
@@ -156,7 +154,6 @@ angular.module('starter.controllers', [])
     'club'       : 'record',
     'first_aid'  : 'ios-medkit',
     'stage'      : 'ios-musical-notes',
-    'kiosk'      : 'ios-pint',
     'playground' : 'ios-football',
     'toilets'    : 'waterdrop',
   };
@@ -165,7 +162,6 @@ angular.module('starter.controllers', [])
     'club'       : 'cadetblue',
     'stage'      : 'darkpurple',
     'first_aid'  : 'red',
-    'kiosk'      : 'purple',
     'playground' : 'green',
     'toilets'    : 'blue',
   };
@@ -239,7 +235,6 @@ angular.module('starter.controllers', [])
     'club'       : 'record',
     'first_aid'  : 'ios-medkit',
     'stage'      : 'ios-musical-notes',
-    'kiosk'      : 'ios-pint',
     'playground' : 'ios-football',
     'toilets'    : 'waterdrop',
   };
@@ -248,7 +243,6 @@ angular.module('starter.controllers', [])
     'club'       : 'cadetblue',
     'stage'      : 'darkpurple',
     'first_aid'  : 'red',
-    'kiosk'      : 'purple',
     'playground' : 'green',
     'toilets'    : 'blue',
   };
@@ -309,21 +303,11 @@ angular.module('starter.controllers', [])
   $scope.events = Detail.getEvents();
   $scope.stages = Detail.getStages();
   $scope.requestedDay = "6";
-  $scope.requestedStage = "0";
+  $scope.requestedStage = "58";
 
   $scope.stageFilter = function(item,index) {
-    var stageMapping = {
-      1: 58,
-      2: 59,
-      3: 60,
-      4: 61,
-      5: 62
-    };
     $ionicScrollDelegate.scrollTop();
-    if(parseInt($scope.requestedStage) === 0) {
-      return true;
-    };
-    return parseInt(stageMapping[$scope.requestedStage]) === item.id;
+    return parseInt($scope.requestedStage) === item.id;
   };
   $scope.dayFilter = function(item,index) {
     $ionicScrollDelegate.scrollTop();
