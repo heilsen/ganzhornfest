@@ -117,7 +117,7 @@ angular.module('starter.services', [])
     {id: 44, name: "Tauchclub Walhai",                            geoid: 44, items:   [78,106,117,115,110], url: "", description: "", type: "club"},
     {id: 45, name: "TC Neckarsulm",                               geoid: 45, items:   [47,109,117,114,110], url: "", description: "", type: "club"},
     {id: 46, name: "TC Sulmtal",                                  geoid: 46, items:   [5,4,115,117,109,114,110], url: "", description: "", type: "club"},
-    {id: 47, name: "Türkspor Neckarsulm",                         geoid: 47, items:   [79,6,80,15,81,82,83,84,85,101,102,142,143,144,128,103,106,117,104,145], url: "", description: "", type: "club"},
+    {id: 47, name: "Türkspor Neckarsulm",                         geoid: 47, items:   [79,6,80,15,81,82,83,84,85,86,101,102,142,143,144,128,103,106,117,104,145], url: "", description: "", type: "club"},
     {id: 48, name: "Türkspor Neckarsulm - Jugendabteilung",       geoid: 48, items:   [83,86,87,88,89,15,90,91,48,143,146], url: "", description: "", type: "club"},
     {id: 49, name: "Türkiyemspor Obereisesheim",                  geoid: 49, items:   [92,93,94,95,96,97,88,6,110,143], url: "", description: "", type: "club"},
     {id: 50, name: "UFC",                                         geoid: 50, items:   [115,117,116,101,103], url: "", description: "", type: "club"},
@@ -218,8 +218,8 @@ angular.module('starter.services', [])
     { id: 80 , type: "food",     name: "Pfannkuchen"},
     { id: 81 , type: "food",     name: "Köfte", remark:"verschiedene Sorten, deutsche Frikadelle"},
     { id: 82 , type: "food",     name: "türkische Fleisch-Grillspezialitäten"},
-    { id: 83 , type: "food",     name: "Börek", remark:"deutsche Blätterteigspezialitäten"},
-    { id: 84 , type: "food",     name: "türkische Süßspeisen aus Blätterteig"},
+    { id: 83 , type: "food",     name: "Börek"},
+    { id: 84 , type: "food",     name: "Türkische Süßspeisen aus Blätterteig"},
     { id: 85 , type: "food",     name: "Eis"},
     { id: 86 , type: "food",     name: "Gefüllter Blätterteig"},
     { id: 87 , type: "food",     name: "Su-Börek"},
@@ -271,8 +271,8 @@ angular.module('starter.services', [])
     { id: 144, type: "drink",    name: "Gazoz",remark:"Türkische Limonade" },
     { id: 145, type: "drink",    name: "Tee" },
     { id: 146, type: "drink",    name: "Tee (türkisch)" },
-    { id: 201, type: "other",    name: "ungarische Spezialitäten", remark:"In Gläsern und Tuben"  },
-    { id: 202, type: "other",    name: "ungarisches Paprikapulver", remark:"Süß oder Scharf"  },
+    { id: 201, type: "other",    name: "Ungarische Spezialitäten", remark:"In Gläsern und Tuben"  },
+    { id: 202, type: "other",    name: "Ungarisches Paprikapulver", remark:"Süß oder Scharf"  },
     { id: 203, type: "other",    name: "Schnappfalle"  },
     { id: 204, type: "other",    name: "Tombola"  },
     { id: 205, type: "other",    name: "Bastelangebote"  },
@@ -460,8 +460,9 @@ angular.module('starter.services', [])
     var clubs = _getPois("club");
     return clubs;
   };
+
   // params optional string itemType
-  // returns hash items
+  // returns array items
   _getItems = function(itemType) {
     if(typeof itemType === 'undefined') {
       return items;
@@ -469,16 +470,86 @@ angular.module('starter.services', [])
     var itemsOfGivenType = items.filter(function(item) { 
       return item.type === itemType; 
     });
+    itemsOfGivenType.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    })
     return itemsOfGivenType;
   };
 
+  // returns array foods
+  _getFoods = function() {
+    var foods = _getItems('food');
+    return foods;
+  };
+
+  // returns array drinks
+  _getDrinks = function() {
+    var drinks = _getItems('drink');
+    return drinks;
+  };
+
+  // returns array otherItems
+  _getOtherItems = function() {
+    var otherItems = _getItems('other');
+    return otherItems;
+  };
+
+  _generateMarkers = function(poisList,focus) {
+    var markersHash = {};
+    var geoinfo = geodata;
+
+    if(typeof poisList === 'undefined') {
+      var poisList = pois;
+    };
+
+    for(var i=0; i<poisList.length; i++) {
+      var poi = poisList[i];
+      if(typeof poi.geoid === 'number') {
+        markersHash[poi.id] = {
+          lat: geoinfo[poi.geoid].lat,
+          lng: geoinfo[poi.geoid].lng,
+          message: poi.name,
+          title: poi.name,
+          alt: poi.name,
+          icon: {
+            type: 'awesomeMarker',
+            prefix: 'ion',
+            icon: markerIconMap[poi.type],
+            markerColor: markerColorMap[poi.type],
+          },
+        };
+        if ( typeof focus !== 'undefined') {
+          markersHash[poi.id].focus = focus;
+        };
+      // poi.geoid contains multiple ids
+      } else {
+        for(var j=0; j<poi.geoid.length; j++) {
+          markersHash[poi.id + "_" + j] = {
+            lat: geoinfo[poi.geoid[j]].lat,
+            lng: geoinfo[poi.geoid[j]].lng,
+            message: poi.name,
+            title: poi.name,
+            alt: poi.name,
+            icon: {
+              type: 'awesomeMarker',
+              prefix: 'ion',
+              icon: markerIconMap[poi.type],
+              markerColor: markerColorMap[poi.type],
+            },
+          };
+        };
+        if ( typeof focus !== 'undefined') {
+          markersHash[poi.id].focus = focus;
+        };
+      };
+    };
+    return markersHash;
+  };
+ 
   return {
 
     // returns array pois
     getPois: _getPois,
-
-    // returns array clubs
-    getClubs: _getClubs,
 
     // params number clubId
     // returns object club
@@ -567,51 +638,16 @@ angular.module('starter.services', [])
       };
     },
 
-    generateMarkers: function(poisList) {
-      var markersHash = {};
-      var geoinfo = geodata;
-
-      if(typeof poisList === 'undefined') {
-        var poisList = pois;
-      };
-
-      for(var i=0; i<poisList.length; i++) {
-        var poi = poisList[i];
-        if(typeof poi.geoid === 'number') {
-          markersHash[poi.id] = {
-            lat: geoinfo[poi.geoid].lat,
-            lng: geoinfo[poi.geoid].lng,
-            name: poi.name,
-            title: poi.name,
-            alt: poi.name,
-            icon: {
-              type: 'awesomeMarker',
-              prefix: 'ion',
-              icon: markerIconMap[poi.type],
-              markerColor: markerColorMap[poi.type],
-            },
-          };
-        // poi.geoid contains multiple ids
-        } else {
-          for(var j=0; j<poi.geoid.length; j++) {
-            markersHash[poi.id + "_" + j] = {
-              lat: geoinfo[poi.geoid[j]].lat,
-              lng: geoinfo[poi.geoid[j]].lng,
-              name: poi.name,
-              title: poi.name,
-              alt: poi.name,
-              icon: {
-                type: 'awesomeMarker',
-                prefix: 'ion',
-                icon: markerIconMap[poi.type],
-                markerColor: markerColorMap[poi.type],
-              },
-            };
-          };
-        };
-      };
-      return markersHash;
+    getMarker: function(poi) {
+      return _generateMarkers([poi],true);
     },
- 
+    getMarkers: function(pois) {
+      return _generateMarkers(pois);
+    },
+    clubs: _getClubs(),
+    foods: _getFoods(),
+    drinks: _getDrinks(),
+    otherItems: _getOtherItems(),
+    markers: _generateMarkers(),
   };
 });
