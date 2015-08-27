@@ -67,9 +67,8 @@ angular.module('starter.services', [])
     63 : {lat: 49.191665,   lng: 9.225433},
     64 : {lat: 49.192083,   lng: 9.222574},
     65 : {lat: 49.191405,   lng: 9.222139},
-    66 : {lat: 49.192039,   lng: 9.223518},
-    67 : {lat: 49.192608,   lng: 9.223059},
-    68 : {lat: 49.192080,   lng: 9.222880},
+    66 : {lat: 49.192608,   lng: 9.223059},
+    67 : {lat: 49.193846,   lng: 9.227222},
   };
   var pois = [
     {id: 1,  name: "Arbeiter-Samariter-Bund (ASB)",               geoid: 1,  items:   [1,2,101,102,103,104], url: "", description: "", type: "club"},
@@ -131,11 +130,10 @@ angular.module('starter.services', [])
     {id: 57, name: "WC",                                          geoid: [57,58,59,60,61,62], type: "toilets"},
     {id: 58, name: "Hauptbühne Museumsplatz",                     geoid: 64, type: "stage"},
     {id: 59, name: "Bühne Marktplatz",                            geoid: 63, type: "stage"},
-    {id: 60, name: "Bühne Karlplatz",                             geoid: 65, type: "stage"},
-    {id: 61, name: "Quergasse",                                   geoid: 66, type: "stage"},
-    {id: 62, name: "Stand Metropolitan Jazz Community",           geoid: 25, type: "stage"},
-    {id: 63, name: "Erste-Hilfe (ASB)",                           geoid: 67, type: "first_aid"},
-    {id: 64, name: "Kiosk",                                       geoid: 68, type: "kiosk"},
+    {id: 60, name: "Bühne Karlsplatz",                            geoid: 65, type: "stage"},
+    {id: 61, name: "Stand Metropolitan Jazz Community",           geoid: 25, type: "stage"},
+    {id: 62, name: "Erste-Hilfe (ASB)",                           geoid: 66, type: "first_aid"},
+    {id: 63, name: "ZOB (Ballei)",                                geoid: 67, type: "busstop"},
   ];
   var items = [
     { id: 1  , type: "food",     name: "Linsen & Spätzle", remark: "Mit Saitenwürstle"   },
@@ -291,7 +289,7 @@ angular.module('starter.services', [])
     {id: 3,  poi: 58, start: "2015-09-05T18:40:00+0200", end: "2015-09-05T19:00:00+0200", type: 'dance', name: 'Tanzgruppe "Hotsteppers"', remark: "Neckarsulmer Sportunion"},
     {id: 4,  poi: 58, start: "2015-09-05T20:00:00+0200", end: "2015-09-05T23:00:00+0200", type: 'music', name: 'MGV Dahenfeld', remark: ""},
     {id: 5,  poi: 59, start: "2015-09-05T20:00:00+0200", end: "", type: 'music', name: 'Crazy Zoo', remark: ""},
-    {id: 6,  poi: 62, start: "2015-09-05T19:00:00+0200", end: "", type: 'music', name: 'MET-Swing Unit', remark: ""},
+    {id: 6,  poi: 61, start: "2015-09-05T19:00:00+0200", end: "", type: 'music', name: 'MET-Swing Unit', remark: ""},
     {id: 7,  poi: 58, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T11:00:00+0200", type: 'music', name: "Harmonikaclub", remark: ""},
     {id: 8,  poi: 58, start: "2015-09-06T13:15:00+0200", end: "2015-09-06T13:45:00+0200", type: 'dance', name: "Square Dance", remark: "Neckar-Valley-Dancers"},
     {id: 9,  poi: 58, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T14:30:00+0200", type: 'show', name: "Aikido-Vorführung", remark: "SC Amorbach"},
@@ -299,30 +297,35 @@ angular.module('starter.services', [])
     {id: 11, poi: 58, start: "2015-09-06T18:00:00+0200", end: "", type: 'music', name: "Biggi & Friends", remark: ""},
     {id: 12, poi: 59, start: "2015-09-06T18:00:00+0200", end: "", type: 'music', name: "The Shakermakers", remark: ""},
     {id: 13, poi: 60, start: "2015-09-06T10:15:00+0200", end: "", type: 'church', name: "Ökumenischer Gottesdienst zum Ganzhornfest", remark: "bei schlechtem Wetter in der Klosterkirche"},
-    {id: 14, poi: 62, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T14:00:00+0200", type: 'music', name: "Oldtime Jazz Collegium", remark: ""},
-    {id: 15, poi: 62, start: "2015-09-06T19:00:00+0200", end: "", type: 'music', name: "Jazzophonics Big Band", remark: ""},
+    {id: 14, poi: 61, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T14:00:00+0200", type: 'music', name: "Oldtime Jazz Collegium", remark: ""},
+    {id: 15, poi: 61, start: "2015-09-06T19:00:00+0200", end: "", type: 'music', name: "Jazzophonics Big Band", remark: ""},
     {id: 16, poi: 58, start: "2015-09-07T17:40:00+0200", end: "2015-09-07T18:00:00+0200", type: 'dance', name: 'Tanzgruppe "Hotsteppers"', remark: "Neckarsulmer Sportunion"},
     {id: 17, poi: 58, start: "2015-09-07T19:30:00+0200", end: "2015-09-07T22:00:00+0200", type: 'music', name: "Polizei Big Band Heilbronn", remark: ""},
     {id: 18, poi: 59, start: "2015-09-07T19:00:00+0200", end: "", type: 'music', name: "Janas Jungs", remark: ""},
-    {id: 19, poi: 62, start: "2015-09-07T19:00:00+0200", end: "", type: 'music', name: "Combination Big Band", remark: ""},
+    {id: 19, poi: 61, start: "2015-09-07T19:00:00+0200", end: "", type: 'music', name: "Combination Big Band", remark: ""},
     {id: 20, poi: 60, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T18:30:00+0200", type: 'youth', name: "Graffiti Battle", remark: ""},
     {id: 21, poi: 60, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T18:00:00+0200", type: 'youth', name: "Ponyreiten", remark: "Jugendfarmverein"},
     {id: 22, poi: 60, start: "2015-09-05T16:30:00+0200", end: "2015-09-05T18:30:00+0200", type: 'show', name: "Kreatief Open Stage", remark: "Kreatief"},
-    {id: 23, poi: 60, start: "2015-09-05T20:00:00+0200", end: "2015-09-05T23:30:00+0200", type: 'music', name: "Bunter Musikcocktail mit Bands aus der Region", remark: 'Highlight: "Fürschd Renjay + Nafdalin (Schwobeland)"'},
-    {id: 24, poi: 61, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T20:00:00+0200", type: 'market', name: "Kinder-Flohmarkt", remark: "Stadtverwaltung"},
+//    {id: 23, poi: 60, start: "2015-09-05T20:00:00+0200", end: "2015-09-05T23:30:00+0200", type: 'music', name: "Bunter Musikcocktail mit Bands aus der Region", remark: 'Highlight: "Fürschd Renjay + Nafdalin (Schwobeland)"'},
     {id: 25, poi: 60, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: "Ponyreiten", remark: "Jugendfarmverein"},
     {id: 26, poi: 60, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: 'BAMBOX', remark: 'Kreativaktion vom Kinder-Jugend-Kultur Zentrum "Gleis 3"'},
     {id: 27, poi: 60, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'youth', name: 'Kinderschminken', remark: "Mit dem Tigermobil"},
     {id: 28, poi: 60, start: "2015-09-06T14:00:00+0200", end: "2015-09-06T14:40:00+0200", type: 'youth', name: 'Kaspertheater', remark: ""},
     {id: 29, poi: 60, start: "2015-09-06T16:00:00+0200", end: "2015-09-06T16:40:00+0200", type: 'youth', name: 'Kaspertheater', remark: ""},
     {id: 30, poi: 60, start: "2015-09-06T16:00:00+0200", end: "2015-09-06T17:00:00+0200", type: 'youth', name: 'Kunterbunte Spiel- und Bastelaktionen', remark: "Freier Kindergarten und Waldkindergarten"},
-    {id: 31, poi: 60, start: "2015-09-06T19:00:00+0200", end: "2015-09-06T23:00:00+0200", type: 'youth', name: 'Bands aus der Region von Rock bis Metal', remark: "Highlights: Strangelet, The Prophecy 23"},
-    {id: 32, poi: 61, start: "2015-09-06T11:00:00+0200", end: "2015-09-06T18:00:00+0200", type: 'market', name: "Kinder-Flohmarkt", remark: "Stadtverwaltung"},
+//    {id: 31, poi: 60, start: "2015-09-06T19:00:00+0200", end: "2015-09-06T23:00:00+0200", type: 'music', name: 'Bands aus der Region von Rock bis Metal', remark: "Highlights: Strangelet, The Prophecy 23"},
     {id: 33, poi: 60, start: "2015-09-07T17:00:00+0200", end: "", type: 'show', name: "Kreatiefes Abendprogramm", remark: ""},
     {id: 34, poi: 60, start: "2015-09-07T18:30:00+0200", end: "2015-09-07T19:00:00+0200", type: 'music', name: "Smartins", remark: "A Cappella Chor"},
     {id: 35, poi: 60, start: "2015-09-07T19:00:00+0200", end: "2015-09-07T19:30:00+0200", type: 'music', name: "Annalena & Sofie", remark: "Acoustic Duo"},
     {id: 36, poi: 60, start: "2015-09-07T19:45:00+0200", end: "2015-09-07T20:30:00+0200", type: 'music', name: "Beauties and the Beats", remark: "A Cappella Chor"},
     {id: 37, poi: 60, start: "2015-09-07T20:30:00+0200", end: "2015-09-07T23:00:00+0200", type: 'music', name: "3,2,1...los! mit Special Guests", remark: "Party Cover Band"},
+    {id: 38, poi: 60, start: "2015-09-05T20:00:00+0200", end: "2015-09-05T20:45:00+0200", type: 'music', name: "We caught the Birds", remark: ''},
+    {id: 39, poi: 60, start: "2015-09-05T21:00:00+0200", end: "2015-09-05T21:20:00+0200", type: 'music', name: "Sanil", remark: ''},
+    {id: 40, poi: 60, start: "2015-09-05T21:30:00+0200", end: "2015-09-05T22:15:00+0200", type: 'music', name: 'LAX & Q.U.E.', remark: ''},
+    {id: 41, poi: 60, start: "2015-09-05T22:30:00+0200", end: "2015-09-05T23:30:00+0200", type: 'music', name: 'Fürschd Renjay & Nafdalin (Schwobeland)', remark: ''},
+    {id: 42, poi: 60, start: "2015-09-06T19:45:00+0200", end: "2015-09-06T20:30:00+0200", type: 'music', name: 'Chase the Sun', remark: ""},
+    {id: 43, poi: 60, start: "2015-09-06T20:45:00+0200", end: "2015-09-06T21:30:00+0200", type: 'music', name: 'Strangelet', remark: ""},
+    {id: 44, poi: 60, start: "2015-09-06T21:45:00+0200", end: "2015-09-06T22:30:00+0200", type: 'music', name: 'The Prophecy 23', remark: ""},
   ];
   var directions = [
     {id: 1, destination: "Amorbach (Linie 624/691/Sonderbus)"},
@@ -421,6 +424,25 @@ angular.module('starter.services', [])
     {id: 87, direction: 4, time: "2015-09-08T00:10:00+0200"},
   ];
 
+  var markerIconMap = {
+    'club'       : 'record',
+    'first_aid'  : 'ios-medkit',
+    'busstop'    : 'android-bus',
+    'stage'      : 'ios-musical-notes',
+    'playground' : 'ios-football',
+    'toilets'    : 'waterdrop',
+  };
+
+  // posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
+  var markerColorMap = {
+    'club'       : 'cadetblue',
+    'first_aid'  : 'red',
+    'busstop'    : 'orange',
+    'stage'      : 'darkpurple',
+    'playground' : 'green',
+    'toilets'    : 'blue',
+  };
+
   // params optional type
   // returns array all POIs or only those of given type
   _getPois = function(type) {
@@ -460,15 +482,15 @@ angular.module('starter.services', [])
 
     // params number clubId
     // returns object club
-    getClub: function(clubId) {
-      var clubs = _getClubs();
-      for(var i=0; i<clubs.length; i++) {
-        if (clubs[i].id === clubId) {
-          var club = clubs[i];
+    getPoi: function(poiId,poiType) {
+      var pois = _getPois(poiType);
+      for(var i=0; i<pois.length; i++) {
+        if (pois[i].id === poiId) {
+          var poi = pois[i];
           break;
         };
       };
-      return club;
+      return poi;
     },
 
     // params number itemId
@@ -533,7 +555,63 @@ angular.module('starter.services', [])
         lng: geodata[42].lng,
         zoom: 17,
       };
-
     },
+    getMapDefaults: function() {
+      return {
+        tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        minZoom: 17,
+        tileLayerOptions: {
+          maxZoom: 21,
+          maxNativeZoom: 19,
+        },
+      };
+    },
+
+    generateMarkers: function(poisList) {
+      var markersHash = {};
+      var geoinfo = geodata;
+
+      if(typeof poisList === 'undefined') {
+        var poisList = pois;
+      };
+
+      for(var i=0; i<poisList.length; i++) {
+        var poi = poisList[i];
+        if(typeof poi.geoid === 'number') {
+          markersHash[poi.id] = {
+            lat: geoinfo[poi.geoid].lat,
+            lng: geoinfo[poi.geoid].lng,
+            name: poi.name,
+            title: poi.name,
+            alt: poi.name,
+            icon: {
+              type: 'awesomeMarker',
+              prefix: 'ion',
+              icon: markerIconMap[poi.type],
+              markerColor: markerColorMap[poi.type],
+            },
+          };
+        // poi.geoid contains multiple ids
+        } else {
+          for(var j=0; j<poi.geoid.length; j++) {
+            markersHash[poi.id + "_" + j] = {
+              lat: geoinfo[poi.geoid[j]].lat,
+              lng: geoinfo[poi.geoid[j]].lng,
+              name: poi.name,
+              title: poi.name,
+              alt: poi.name,
+              icon: {
+                type: 'awesomeMarker',
+                prefix: 'ion',
+                icon: markerIconMap[poi.type],
+                markerColor: markerColorMap[poi.type],
+              },
+            };
+          };
+        };
+      };
+      return markersHash;
+    },
+ 
   };
 });
