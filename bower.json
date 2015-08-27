@@ -5,6 +5,7 @@
     "angular-leaflet": "~0.8.6",
     "ionic": "~1.1.0",
     "angular-touch": "1.4.3",
-    "Leaflet.awesome-markers": "~2.0.2"
+    "Leaflet.awesome-markers": "~2.0.2",
+    "angular-bindonce": "~0.3.3"
   }
 }
