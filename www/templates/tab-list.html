@@ -9,7 +9,7 @@
           <option value="food"><i class="icon ion-fork"></i>Essen</option>
           <option value="drink"><i class="icon ion-ios-pint"></i>Getränke</option>
           <option value="other"><i class="icon ion-pricetag"></i>Sonstiges</option>
-          <option value="stands">Vereine</option>
+          <option value="club">Vereine</option>
         </select>
       </label>
       <div class="item item-input">
@@ -20,13 +20,13 @@
     </ion-list>  
   </ion-pane>
   <ion-content style="top:203px" class="has-header has-subheader" ng-switch="category">
-    <ion-list ng-switch-when="stands" ng-click="">
-      <ion-item collection-repeat="listItem in list | filter:searchTerm | orderBy:'name'" ui-sref="tab.stand({ type: category, id: listItem.id })" collection-item-height="50">
+    <ion-list ng-switch-when="club" ng-click="">
+      <ion-item collection-repeat="listItem in list | filter:searchTerm" ui-sref="tab.stand({ type: category, id: listItem.id })" collection-item-height="50">
        {{listItem.name}}
       </ion-item>
     </ion-list>
     <ion-list ng-switch-default>
-      <ion-item collection-repeat="listItem in list | filter:searchTerm | orderBy:'name'" ui-sref="tab.detail({ type: category, id: listItem.id })" collection-item-height="50">
+      <ion-item collection-repeat="listItem in list | filter:searchTerm" ui-sref="tab.detail({ type: category, id: listItem.id })" collection-item-height="50">
        {{listItem.name}}
       </ion-item>
     </ion-list>

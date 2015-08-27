@@ -460,8 +460,9 @@ angular.module('starter.services', [])
     var clubs = _getPois("club");
     return clubs;
   };
+
   // params optional string itemType
-  // returns hash items
+  // returns array items
   _getItems = function(itemType) {
     if(typeof itemType === 'undefined') {
       return items;
@@ -469,16 +470,86 @@ angular.module('starter.services', [])
     var itemsOfGivenType = items.filter(function(item) { 
       return item.type === itemType; 
     });
+    itemsOfGivenType.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    })
     return itemsOfGivenType;
   };
 
+  // returns array foods
+  _getFoods = function() {
+    var foods = _getItems('food');
+    return foods;
+  };
+
+  // returns array drinks
+  _getDrinks = function() {
+    var drinks = _getItems('drink');
+    return drinks;
+  };
+
+  // returns array otherItems
+  _getOtherItems = function() {
+    var otherItems = _getItems('other');
+    return otherItems;
+  };
+
+  _generateMarkers = function(poisList,focus) {
+    var markersHash = {};
+    var geoinfo = geodata;
+
+    if(typeof poisList === 'undefined') {
+      var poisList = pois;
+    };
+
+    for(var i=0; i<poisList.length; i++) {
+      var poi = poisList[i];
+      if(typeof poi.geoid === 'number') {
+        markersHash[poi.id] = {
+          lat: geoinfo[poi.geoid].lat,
+          lng: geoinfo[poi.geoid].lng,
+          message: poi.name,
+          title: poi.name,
+          alt: poi.name,
+          icon: {
+            type: 'awesomeMarker',
+            prefix: 'ion',
+            icon: markerIconMap[poi.type],
+            markerColor: markerColorMap[poi.type],
+          },
+        };
+        if ( typeof focus !== 'undefined') {
+          markersHash[poi.id].focus = focus;
+        };
+      // poi.geoid contains multiple ids
+      } else {
+        for(var j=0; j<poi.geoid.length; j++) {
+          markersHash[poi.id + "_" + j] = {
+            lat: geoinfo[poi.geoid[j]].lat,
+            lng: geoinfo[poi.geoid[j]].lng,
+            message: poi.name,
+            title: poi.name,
+            alt: poi.name,
+            icon: {
+              type: 'awesomeMarker',
+              prefix: 'ion',
+              icon: markerIconMap[poi.type],
+              markerColor: markerColorMap[poi.type],
+            },
+          };
+        };
+        if ( typeof focus !== 'undefined') {
+          markersHash[poi.id].focus = focus;
+        };
+      };
+    };
+    return markersHash;
+  };
+ 
   return {
 
     // returns array pois
     getPois: _getPois,
-
-    // returns array clubs
-    getClubs: _getClubs,
 
     // params number clubId
     // returns object club
@@ -567,51 +638,16 @@ angular.module('starter.services', [])
       };
     },
 
-    generateMarkers: function(poisList) {
-      var markersHash = {};
-      var geoinfo = geodata;
-
-      if(typeof poisList === 'undefined') {
-        var poisList = pois;
-      };
-
-      for(var i=0; i<poisList.length; i++) {
-        var poi = poisList[i];
-        if(typeof poi.geoid === 'number') {
-          markersHash[poi.id] = {
-            lat: geoinfo[poi.geoid].lat,
-            lng: geoinfo[poi.geoid].lng,
-            name: poi.name,
-            title: poi.name,
-            alt: poi.name,
-            icon: {
-              type: 'awesomeMarker',
-              prefix: 'ion',
-              icon: markerIconMap[poi.type],
-              markerColor: markerColorMap[poi.type],
-            },
-          };
-        // poi.geoid contains multiple ids
-        } else {
-          for(var j=0; j<poi.geoid.length; j++) {
-            markersHash[poi.id + "_" + j] = {
-              lat: geoinfo[poi.geoid[j]].lat,
-              lng: geoinfo[poi.geoid[j]].lng,
-              name: poi.name,
-              title: poi.name,
-              alt: poi.name,
-              icon: {
-                type: 'awesomeMarker',
-                prefix: 'ion',
-                icon: markerIconMap[poi.type],
-                markerColor: markerColorMap[poi.type],
-              },
-            };
-          };
-        };
-      };
-      return markersHash;
+    getMarker: function(poi) {
+      return _generateMarkers([poi],true);
     },
- 
+    getMarkers: function(pois) {
+      return _generateMarkers(pois);
+    },
+    clubs: _getClubs(),
+    foods: _getFoods(),
+    drinks: _getDrinks(),
+    otherItems: _getOtherItems(),
+    markers: _generateMarkers(),
   };
 });

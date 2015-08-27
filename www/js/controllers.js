@@ -24,14 +24,24 @@ angular.module('starter.controllers', [])
 
   // category filter
   $scope.category = "food";
-  $scope.list = Detail.getItems("food");
+  $scope.list = Detail.foods;
+
   $scope.updateCategoryFilter = function() {
     $ionicScrollDelegate.scrollTop();
-    if($scope.category === 'stands') {
-      $scope.list = Detail.getClubs();
-    } else {
-      $scope.list = Detail.getItems($scope.category);
-    }
+    switch($scope.category) {
+      case 'club':
+        $scope.list = Detail.clubs;
+        break;
+      case 'food':
+        $scope.list = Detail.foods;
+        break;
+      case 'drink':
+        $scope.list = Detail.drinks;
+        break;
+      case 'other':
+        $scope.list = Detail.otherItems;
+        break;
+    };
   };
 
 })
@@ -52,7 +62,7 @@ angular.module('starter.controllers', [])
   $scope.center = Detail.getCenter();
   $scope.defaults = Detail.getMapDefaults();
 
-  $scope.markersHash = Detail.generateMarkers($scope.filteredStands);
+  $scope.markersHash = Detail.getMarkers($scope.filteredStands);
 
 })
 
@@ -75,25 +85,23 @@ angular.module('starter.controllers', [])
   $scope.center = Detail.getCenter();
   $scope.defaults = Detail.getMapDefaults();
 
-  $scope.markersHash = Detail.generateMarkers([$scope.stand]);
+  $scope.markersHash = Detail.getMarker($scope.stand);
 
 })
 
 .controller('MapCtrl', function($scope, Detail, $state) {
-
   $scope.swipeRight = function() {
     $state.go('tab.list');
   };
   $scope.swipeLeft = function() {
     $state.go('tab.program');
   };
-
-  $scope.stands = Detail.getClubs(); 
+  $scope.stands = Detail.clubs;
 
   $scope.center = Detail.getCenter();
   $scope.defaults = Detail.getMapDefaults();
 
-  $scope.markers = Detail.generateMarkers();
+  $scope.markers =  Detail.markers;
 
 })
 
@@ -137,7 +145,7 @@ angular.module('starter.controllers', [])
   $scope.center = Detail.getCenter();
   $scope.defaults = Detail.getMapDefaults();
 
-  $scope.markersHash = Detail.generateMarkers([$scope.poi]);
+  $scope.markersHash = Detail.getMarker($scope.poi);
 
 
 })
