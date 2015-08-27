@@ -28,7 +28,7 @@
    <div class="list list-inset">
      <div class="item item-divider" style="margin-bottom:10px;margin-top:10px;" ng-repeat="stage in stages | filter:stageFilter">
        {{ stage.name }}
-       <div ng-repeat="event in events | filter:{poi: stage.id} | filter:dayFilter">
+       <div ng-repeat="event in events | filter:{poi: stage.id} | filter:dayFilter" ui-sref="tab.stage({ id: stage.id })" ng-click="">
          <div class="item item-divider" ng-switch on="event.end">
            <span ng-switch-when="">
              {{ event.start | date : "HH:mm" }}

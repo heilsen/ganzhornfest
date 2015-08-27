@@ -21,12 +21,12 @@
   </ion-pane>
   <ion-content style="top:203px" class="has-header has-subheader" ng-switch="category">
     <ion-list ng-switch-when="stands" ng-click="">
-      <ion-item collection-repeat="listItem in list | filter:searchTerm | orderBy:'name'" ui-sref="tab.stand({ type: category, id: listItem.id })">
+      <ion-item collection-repeat="listItem in list | filter:searchTerm | orderBy:'name'" ui-sref="tab.stand({ type: category, id: listItem.id })" collection-item-height="50">
        {{listItem.name}}
       </ion-item>
     </ion-list>
     <ion-list ng-switch-default>
-      <ion-item collection-repeat="listItem in list | filter:searchTerm | orderBy:'name'" ui-sref="tab.detail({ type: category, id: listItem.id })">
+      <ion-item collection-repeat="listItem in list | filter:searchTerm | orderBy:'name'" ui-sref="tab.detail({ type: category, id: listItem.id })" collection-item-height="50">
        {{listItem.name}}
       </ion-item>
     </ion-list>

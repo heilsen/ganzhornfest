@@ -73,7 +73,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   .state('tab.program', {
-    url: '/program',
+    url: '/program?day?stage',
+    params: {
+      day: function() {
+        var possibleDays = [6,0,1];
+        var date = new Date();
+        var day = date.getDay();
+        if ( possibleDays.indexOf(day) !== -1 ) {
+          return day;
+        } else {
+          return 6;
+        }
+      },
+      stage: 58,
+    },
     views: {
       'tab-program': {
         templateUrl: 'templates/tab-program.html',
@@ -82,12 +95,45 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  .state('tab.stage', {
+    url: '/stage?id',
+    views: {
+      'tab-program': {
+        templateUrl: 'templates/tab-detail-poi.html',
+        controller: 'DetailStageCtrl'
+      }
+    }
+  })
+
+
   .state('tab.bus', {
-    url: '/bus',
+    url: '/bus?day',
+    params: {
+      day: function() {
+        var possibleDays = [6,0,1];
+        var date = new Date();
+        var day = date.getDay();
+        if ( possibleDays.indexOf(day) !== -1 ) {
+          return day;
+        } else {
+          return 6;
+        }
+      },
+    },
     views: {
       'tab-bus': {
         templateUrl: 'templates/tab-bus.html',
         controller: 'BusCtrl'
+      }
+    }
+  })
+
+  .state('tab.busstop', {
+    url: '/busstop',
+    views: {
+      'tab-bus': {
+        templateUrl: 'templates/tab-detail-poi.html',
+        controller: 'DetailBusstopCtrl'
       }
     }
   })

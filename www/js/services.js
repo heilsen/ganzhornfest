@@ -68,6 +68,7 @@ angular.module('starter.services', [])
     64 : {lat: 49.192083,   lng: 9.222574},
     65 : {lat: 49.191405,   lng: 9.222139},
     66 : {lat: 49.192608,   lng: 9.223059},
+    67 : {lat: 49.193846,   lng: 9.227222},
   };
   var pois = [
     {id: 1,  name: "Arbeiter-Samariter-Bund (ASB)",               geoid: 1,  items:   [1,2,101,102,103,104], url: "", description: "", type: "club"},
@@ -132,6 +133,7 @@ angular.module('starter.services', [])
     {id: 60, name: "Bühne Karlsplatz",                            geoid: 65, type: "stage"},
     {id: 61, name: "Stand Metropolitan Jazz Community",           geoid: 25, type: "stage"},
     {id: 62, name: "Erste-Hilfe (ASB)",                           geoid: 66, type: "first_aid"},
+    {id: 63, name: "ZOB (Ballei)",                                geoid: 67, type: "busstop"},
   ];
   var items = [
     { id: 1  , type: "food",     name: "Linsen & Spätzle", remark: "Mit Saitenwürstle"   },
@@ -422,6 +424,25 @@ angular.module('starter.services', [])
     {id: 87, direction: 4, time: "2015-09-08T00:10:00+0200"},
   ];
 
+  var markerIconMap = {
+    'club'       : 'record',
+    'first_aid'  : 'ios-medkit',
+    'busstop'    : 'android-bus',
+    'stage'      : 'ios-musical-notes',
+    'playground' : 'ios-football',
+    'toilets'    : 'waterdrop',
+  };
+
+  // posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
+  var markerColorMap = {
+    'club'       : 'cadetblue',
+    'first_aid'  : 'red',
+    'busstop'    : 'orange',
+    'stage'      : 'darkpurple',
+    'playground' : 'green',
+    'toilets'    : 'blue',
+  };
+
   // params optional type
   // returns array all POIs or only those of given type
   _getPois = function(type) {
@@ -461,15 +482,15 @@ angular.module('starter.services', [])
 
     // params number clubId
     // returns object club
-    getClub: function(clubId) {
-      var clubs = _getClubs();
-      for(var i=0; i<clubs.length; i++) {
-        if (clubs[i].id === clubId) {
-          var club = clubs[i];
+    getPoi: function(poiId,poiType) {
+      var pois = _getPois(poiType);
+      for(var i=0; i<pois.length; i++) {
+        if (pois[i].id === poiId) {
+          var poi = pois[i];
           break;
         };
       };
-      return club;
+      return poi;
     },
 
     // params number itemId
@@ -534,7 +555,63 @@ angular.module('starter.services', [])
         lng: geodata[42].lng,
         zoom: 17,
       };
-
     },
+    getMapDefaults: function() {
+      return {
+        tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        minZoom: 17,
+        tileLayerOptions: {
+          maxZoom: 21,
+          maxNativeZoom: 19,
+        },
+      };
+    },
+
+    generateMarkers: function(poisList) {
+      var markersHash = {};
+      var geoinfo = geodata;
+
+      if(typeof poisList === 'undefined') {
+        var poisList = pois;
+      };
+
+      for(var i=0; i<poisList.length; i++) {
+        var poi = poisList[i];
+        if(typeof poi.geoid === 'number') {
+          markersHash[poi.id] = {
+            lat: geoinfo[poi.geoid].lat,
+            lng: geoinfo[poi.geoid].lng,
+            name: poi.name,
+            title: poi.name,
+            alt: poi.name,
+            icon: {
+              type: 'awesomeMarker',
+              prefix: 'ion',
+              icon: markerIconMap[poi.type],
+              markerColor: markerColorMap[poi.type],
+            },
+          };
+        // poi.geoid contains multiple ids
+        } else {
+          for(var j=0; j<poi.geoid.length; j++) {
+            markersHash[poi.id + "_" + j] = {
+              lat: geoinfo[poi.geoid[j]].lat,
+              lng: geoinfo[poi.geoid[j]].lng,
+              name: poi.name,
+              title: poi.name,
+              alt: poi.name,
+              icon: {
+                type: 'awesomeMarker',
+                prefix: 'ion',
+                icon: markerIconMap[poi.type],
+                markerColor: markerColorMap[poi.type],
+              },
+            };
+          };
+        };
+      };
+      return markersHash;
+    },
+ 
   };
 });

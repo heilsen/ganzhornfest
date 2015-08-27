@@ -50,75 +50,9 @@ angular.module('starter.controllers', [])
   $scope.item = Detail.getItemsByIds($stateParams.id).shift();
 
   $scope.center = Detail.getCenter();
-  $scope.mapDefaults = {
-    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    minZoom: 17,
-    tileLayerOptions: {
-      attribution:  "...",
-      maxZoom: 21,
-      maxNativeZoom: 19,
-    },
-  };
+  $scope.defaults = Detail.getMapDefaults();
 
-  var markerIconMap = {
-    'club'       : 'record',
-    'first_aid'  : 'ios-medkit',
-    'stage'      : 'ios-musical-notes',
-    'playground' : 'ios-football',
-    'toilets'    : 'waterdrop',
-  };
-  var markerColorMap = {
-// posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
-    'club'       : 'cadetblue',
-    'stage'      : 'darkpurple',
-    'first_aid'  : 'red',
-    'playground' : 'green',
-    'toilets'    : 'blue',
-  };
-
-  generateMarkers = function(clubs) {
-    var markersHash = {};
-    var geodata = Detail.getGeodata();
-
-    for(var i=0; i<clubs.length; i++) {
-      var club = clubs[i];
-      if(typeof club.geoid === 'number') {
-        markersHash[club.id] = {
-          lat: geodata[club.geoid].lat,
-          lng: geodata[club.geoid].lng,
-          name: club.name,
-          title: club.name,
-          alt: club.name,
-          icon: {
-            type: 'awesomeMarker',
-            prefix: 'ion',
-            icon: markerIconMap[club.type],
-            markerColor: markerColorMap[club.type],
-          },
-        };
-      // club.geoid contains multiple ids
-      } else {
-        for(var j=0; j<club.geoid.length; j++) {
-          markersHash[club.id + "_" + j] = {
-            lat: geodata[club.geoid[j]].lat,
-            lng: geodata[club.geoid[j]].lng,
-            name: club.name,
-            title: club.name,
-            alt: club.name,
-            icon: {
-              type: 'awesomeMarker',
-              prefix: 'ion',
-              icon: markerIconMap[club.type],
-              markerColor: markerColorMap[club.type],
-            },
-          };
-        };
-      };
-    };
-    return markersHash;
-  };
- 
-  $scope.markersHash = generateMarkers($scope.filteredStands);
+  $scope.markersHash = Detail.generateMarkers($scope.filteredStands);
 
 })
 
@@ -131,7 +65,7 @@ angular.module('starter.controllers', [])
     $state.go('tab.map');
   };
 
-  $scope.stand = Detail.getClub(parseInt($stateParams.id));
+  $scope.stand = Detail.getPoi(parseInt($stateParams.id),'club');
   $scope.standName = $scope.stand.name;
   $scope.standURL = $scope.stand.url;
   $scope.standDescription = $scope.stand.description;
@@ -139,73 +73,9 @@ angular.module('starter.controllers', [])
   $scope.itemArray = Detail.getItemsByIds($scope.standItemIds);
 
   $scope.center = Detail.getCenter();
-  $scope.mapDefaults = {
-    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    minZoom: 17,
-    tileLayerOptions: {
-      attribution:  "...",
-      maxZoom: 21,
-      maxNativeZoom: 19,
-    },
-  };
+  $scope.defaults = Detail.getMapDefaults();
 
-
-  var markerIconMap = {
-    'club'       : 'record',
-    'first_aid'  : 'ios-medkit',
-    'stage'      : 'ios-musical-notes',
-    'playground' : 'ios-football',
-    'toilets'    : 'waterdrop',
-  };
-  var markerColorMap = {
-// posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
-    'club'       : 'cadetblue',
-    'stage'      : 'darkpurple',
-    'first_aid'  : 'red',
-    'playground' : 'green',
-    'toilets'    : 'blue',
-  };
-
-  generateMarkers = function(club) {
-    var markersHash = {};
-    var geodata = Detail.getGeodata();
-
-    if(typeof club.geoid === 'number') {
-      markersHash[club.id] = {
-        lat: geodata[club.geoid].lat,
-        lng: geodata[club.geoid].lng,
-        name: club.name,
-        title: club.name,
-        alt: club.name,
-        icon: {
-          type: 'awesomeMarker',
-          prefix: 'ion',
-          icon: markerIconMap[club.type],
-          markerColor: markerColorMap[club.type],
-        },
-      };
-    // club.geoid contains multiple ids
-    } else {
-      for(var j=0; j<club.geoid.length; j++) {
-        markersHash[club.id + "_" + j] = {
-          lat: geodata[club.geoid[j]].lat,
-          lng: geodata[club.geoid[j]].lng,
-          name: club.name,
-          title: club.name,
-          alt: club.name,
-          icon: {
-            type: 'awesomeMarker',
-            prefix: 'ion',
-            icon: markerIconMap[club.type],
-            markerColor: markerColorMap[club.type],
-          },
-        };
-      };
-    };
-    return markersHash;
-  };
- 
-  $scope.markersHash = generateMarkers($scope.stand);
+  $scope.markersHash = Detail.generateMarkers([$scope.stand]);
 
 })
 
@@ -221,78 +91,13 @@ angular.module('starter.controllers', [])
   $scope.stands = Detail.getClubs(); 
 
   $scope.center = Detail.getCenter();
-  $scope.defaults = {
-    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    minZoom: 17,
-    tileLayerOptions: {
-      attribution:  "...",
-      maxZoom: 21,
-      maxNativeZoom: 19,
-    },
-  };
+  $scope.defaults = Detail.getMapDefaults();
 
-  var markerIconMap = {
-    'club'       : 'record',
-    'first_aid'  : 'ios-medkit',
-    'stage'      : 'ios-musical-notes',
-    'playground' : 'ios-football',
-    'toilets'    : 'waterdrop',
-  };
-  var markerColorMap = {
-// posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
-    'club'       : 'cadetblue',
-    'stage'      : 'darkpurple',
-    'first_aid'  : 'red',
-    'playground' : 'green',
-    'toilets'    : 'blue',
-  };
-  generateMarkers = function() {
-    var pois = Detail.getPois();
-    var markersHash = {};
-    var geodata = Detail.getGeodata();
-
-    for(var i=0; i<pois.length; i++) {
-      var poi = pois[i];
-      if(typeof poi.geoid === 'number') {
-        markersHash[poi.id] = {
-          lat: geodata[poi.geoid].lat,
-          lng: geodata[poi.geoid].lng,
-          name: poi.name,
-          title: poi.name,
-          alt: poi.name,
-          icon: {
-            type: 'awesomeMarker',
-            prefix: 'ion',
-            icon: markerIconMap[poi.type],
-            markerColor: markerColorMap[poi.type],
-          },
-        };
-      // poi.geoid contains multiple ids
-      } else {
-        for(var j=0; j<poi.geoid.length; j++) {
-          markersHash[poi.id + "_" + j] = {
-            lat: geodata[poi.geoid[j]].lat,
-            lng: geodata[poi.geoid[j]].lng,
-            name: poi.name,
-            title: poi.name,
-            alt: poi.name,
-            icon: {
-              type: 'awesomeMarker',
-              prefix: 'ion',
-              icon: markerIconMap[poi.type],
-              markerColor: markerColorMap[poi.type],
-            },
-          };
-        };
-      };
-    };
-    return markersHash;
-  };
-  $scope.markers = generateMarkers();
+  $scope.markers = Detail.generateMarkers();
 
 })
 
-.controller('ProgramCtrl', function($scope, Detail, $state, $ionicScrollDelegate) {
+.controller('ProgramCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams) {
 
   $scope.swipeRight = function() {
     $state.go('tab.map');
@@ -302,8 +107,9 @@ angular.module('starter.controllers', [])
   };
   $scope.events = Detail.getEvents();
   $scope.stages = Detail.getStages();
-  $scope.requestedDay = "6";
-  $scope.requestedStage = "58";
+
+  $scope.requestedDay = $stateParams.day;
+  $scope.requestedStage = $stateParams.stage;
 
   $scope.stageFilter = function(item,index) {
     $ionicScrollDelegate.scrollTop();
@@ -317,14 +123,33 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('BusCtrl', function($scope, Detail, $state, $ionicScrollDelegate) {
+.controller('DetailStageCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams) {
+
+  $scope.swipeRight = function() {
+    $state.go('tab.map');
+  };
+  $scope.swipeLeft = function() {
+    $state.go('tab.bus');
+  };
+
+  $scope.poi = Detail.getPoi(parseInt($stateParams.id),'stage');
+
+  $scope.center = Detail.getCenter();
+  $scope.defaults = Detail.getMapDefaults();
+
+  $scope.markersHash = Detail.generateMarkers([$scope.poi]);
+
+
+})
+
+.controller('BusCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams) {
 
   $scope.swipeRight = function() {
     $state.go('tab.program');
   };
   $scope.busstops   = Detail.getBusstops();
   $scope.directions = Detail.getDirections();
-  $scope.requestedDay = "6";
+  $scope.requestedDay = $stateParams.day;
   $scope.requestedDestination = "1";
   $scope.directionFilter = function(item,index) {
     $ionicScrollDelegate.scrollTop();
@@ -337,7 +162,20 @@ angular.module('starter.controllers', [])
     date.setHours(date.getHours()-2);
     return parseInt($scope.requestedDay) === date.getDay();
   };
+})
 
+.controller('DetailBusstopCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams) {
 
+  $scope.swipeRight = function() {
+    $state.go('tab.program');
+  };
 
+  $scope.poi = Detail.getPoi(63,'busstop');
+
+  $scope.center = Detail.getCenter();
+  $scope.defaults = Detail.getMapDefaults();
+
+  $scope.markersHash = Detail.generateMarkers([$scope.poi]);
+  $scope.center.lat = $scope.markersHash[63].lat;
+  $scope.center.lng = $scope.markersHash[63].lng;
 });
