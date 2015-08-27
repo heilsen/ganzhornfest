@@ -59,8 +59,8 @@ angular.module('starter.controllers', [])
   // only looking for one item
   $scope.item = Detail.getItemsByIds($stateParams.id).shift();
 
-  $scope.center = Detail.getCenter();
-  $scope.defaults = Detail.getMapDefaults();
+  $scope.center = Detail.center;
+  $scope.defaults = Detail.mapDefaults;
 
   $scope.markersHash = Detail.getMarkers($scope.filteredStands);
 
@@ -82,8 +82,8 @@ angular.module('starter.controllers', [])
   $scope.standItemIds = $scope.stand.items;
   $scope.itemArray = Detail.getItemsByIds($scope.standItemIds);
 
-  $scope.center = Detail.getCenter();
-  $scope.defaults = Detail.getMapDefaults();
+  $scope.center = Detail.center;
+  $scope.defaults = Detail.mapDefaults;
 
   $scope.markersHash = Detail.getMarker($scope.stand);
 
@@ -96,10 +96,9 @@ angular.module('starter.controllers', [])
   $scope.swipeLeft = function() {
     $state.go('tab.program');
   };
-  $scope.stands = Detail.clubs;
 
-  $scope.center = Detail.getCenter();
-  $scope.defaults = Detail.getMapDefaults();
+  $scope.center = Detail.center;
+  $scope.defaults = Detail.mapDefaults;
 
   $scope.markers =  Detail.markers;
 
@@ -142,8 +141,8 @@ angular.module('starter.controllers', [])
 
   $scope.poi = Detail.getPoi(parseInt($stateParams.id),'stage');
 
-  $scope.center = Detail.getCenter();
-  $scope.defaults = Detail.getMapDefaults();
+  $scope.center = Detail.center;
+  $scope.defaults = Detail.mapDefaults;
 
   $scope.markersHash = Detail.getMarker($scope.poi);
 
@@ -180,8 +179,8 @@ angular.module('starter.controllers', [])
 
   $scope.poi = Detail.getPoi(63,'busstop');
 
-  $scope.center = Detail.getCenter();
-  $scope.defaults = Detail.getMapDefaults();
+  $scope.center = Detail.center;
+  $scope.defaults = Detail.mapDefaults;
 
   $scope.markersHash = Detail.generateMarkers([$scope.poi]);
   $scope.center.lat = $scope.markersHash[63].lat;

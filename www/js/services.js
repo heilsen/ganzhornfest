@@ -545,6 +545,25 @@ angular.module('starter.services', [])
     };
     return markersHash;
   };
+
+  _getCenter = function() {
+    return {
+      lat: geodata[42].lat,
+      lng: geodata[42].lng,
+      zoom: 17,
+    };
+  };
+  _getMapDefaults = function() {
+    return {
+      tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      minZoom: 17,
+      tileLayerOptions: {
+        maxZoom: 21,
+        maxNativeZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      },
+    };
+  };
  
   return {
 
@@ -620,24 +639,6 @@ angular.module('starter.services', [])
     getDirections: function() {
       return directions;
     },
-    getCenter: function() {
-      return {
-        lat: geodata[42].lat,
-        lng: geodata[42].lng,
-        zoom: 17,
-      };
-    },
-    getMapDefaults: function() {
-      return {
-        tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        minZoom: 17,
-        tileLayerOptions: {
-          maxZoom: 21,
-          maxNativeZoom: 19,
-        },
-      };
-    },
-
     getMarker: function(poi) {
       return _generateMarkers([poi],true);
     },
@@ -649,5 +650,10 @@ angular.module('starter.services', [])
     drinks: _getDrinks(),
     otherItems: _getOtherItems(),
     markers: _generateMarkers(),
+    center: _getCenter(),
+    mapDefaults: _getMapDefaults(),
   };
-});
+})
+.run(function(Detail){
+})
+;
