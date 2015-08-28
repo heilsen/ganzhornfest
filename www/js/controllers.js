@@ -182,7 +182,7 @@ angular.module('starter.controllers', [])
   $scope.center = Detail.center;
   $scope.defaults = Detail.mapDefaults;
 
-  $scope.markersHash = Detail.generateMarkers([$scope.poi]);
+  $scope.markersHash = Detail.getMarker($scope.poi);
   $scope.center.lat = $scope.markersHash[64].lat;
   $scope.center.lng = $scope.markersHash[64].lng;
 });
