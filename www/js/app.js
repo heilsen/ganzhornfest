@@ -85,7 +85,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           return 6;
         }
       },
-      stage: 58,
+      stage: 59,
     },
     views: {
       'tab-program': {
