@@ -2,7 +2,7 @@
 <widget id="de.heilsen.ganzhornfest" version="0.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Ganzhornfest</name>
   <description>
-    An App for "Ganzhornfest" in Neckarsulm, Germany. Useful extension to the existing brochure or maybe even an replacement.
+    This App provides information for visitors of the local city festival Ganzhornfest in Neckarsulm, Germany. 
     An Ionic Framework and Cordova project.
   </description>
   <author email="mail+ganzhornfest@sebastianheil.de" href="http://www.sebastianheil.de/ganzhornfest">
