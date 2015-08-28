@@ -1,9 +1,9 @@
 # Ganzhornfest
-An app for the "Ganzhornfest" in Neckarsulm, Germany. It extends and might even replace the annual brochures.
+An app for visitors of the Ganzhornfest in Neckarsulm, Germany. It provides information about all participating clubs and their provided food and drinks. Also the events on all stages and the bus departue times are listed. These data is also shown in the accompanying map.
 
 ## Description
 
-This project provides an app with information for visitors of the local city festival "Ganzhornfest" in Neckarsulm, Germany. Also known as "Herbstfest der Neckarsulmer Vereine zwischen Deutschordensschloss und Marktplatz".
+This project provides an app with information for visitors of the local city festival Ganzhornfest in Neckarsulm, Germany. Also known as "Herbstfest der Neckarsulmer Vereine zwischen Deutschordensschloss und Marktplatz".
 
 It features:
 - searchable list of >50 unique drinks and >100 unique meals
