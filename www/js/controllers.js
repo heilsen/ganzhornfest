@@ -177,12 +177,12 @@ angular.module('starter.controllers', [])
     $state.go('tab.program');
   };
 
-  $scope.poi = Detail.getPoi(63,'busstop');
+  $scope.poi = Detail.getPoi(64,'busstop');
 
   $scope.center = Detail.center;
   $scope.defaults = Detail.mapDefaults;
 
   $scope.markersHash = Detail.generateMarkers([$scope.poi]);
-  $scope.center.lat = $scope.markersHash[63].lat;
-  $scope.center.lng = $scope.markersHash[63].lng;
+  $scope.center.lat = $scope.markersHash[64].lat;
+  $scope.center.lng = $scope.markersHash[64].lng;
 });
