@@ -503,7 +503,7 @@ angular.module('starter.services', [])
     return otherItems;
   };
 
-  _generateMarkers = function(poisList,focus) {
+  _generateMarkers = function(poisList) {
     var markersHash = {};
     var geoinfo = geodata;
 
@@ -527,10 +527,7 @@ angular.module('starter.services', [])
             markerColor: markerColorMap[poi.type],
           },
         };
-        if ( typeof focus !== 'undefined') {
-          markersHash[poi.id].focus = focus;
-        };
-      // poi.geoid contains multiple ids
+     // poi.geoid contains multiple ids
       } else {
         for(var j=0; j<poi.geoid.length; j++) {
           markersHash[poi.id + "_" + j] = {
@@ -548,6 +545,10 @@ angular.module('starter.services', [])
           };
         };
       };
+    };
+    var keys = Object.keys(markersHash);
+    if(keys.length === 1) {
+      markersHash[keys[0]].focus = true;
     };
     return markersHash;
   };
@@ -646,7 +647,7 @@ angular.module('starter.services', [])
       return directions;
     },
     getMarker: function(poi) {
-      return _generateMarkers([poi],true);
+      return _generateMarkers([poi]);
     },
     getMarkers: function(pois) {
       return _generateMarkers(pois);
