@@ -607,9 +607,16 @@ angular.module('starter.services', [])
     // returns array items which match given Ids
     getItemsByIds: function(itemIds) {
       var items = _getItems();
-      var filteredItemsArray = items.filter(function(item) {
-        return itemIds.indexOf(item.id) !== -1;
-      });
+      var filteredItemsArray = [];
+      if ( typeof itemIds === 'string') {
+        filteredItemsArray = items.filter(function(item) {
+          return item.id === parseInt(itemIds);
+        });
+      } else {
+        filteredItemsArray = items.filter(function(item) {
+          return itemIds.indexOf(item.id) !== -1;
+        });
+      }
       return filteredItemsArray;
     },
 
