@@ -37,7 +37,7 @@
              {{ event.start | date : "HH:mm" }} - {{ event.end | date : "HH:mm"}}
            </span>
          </div>
-         <div class="item item-text-wrapper">
+         <div class="item item-text-wrapper" ng-click="">
            {{ event.name }}
            <span class="item-note item-text-wrap" ng-bind-html="event.remark">
            </span>
