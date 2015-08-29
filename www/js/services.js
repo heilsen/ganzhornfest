@@ -555,8 +555,8 @@ angular.module('starter.services', [])
 
   _getCenter = function() {
     return {
-      lat: geodata[42].lat,
-      lng: geodata[42].lng,
+      lat: geodata[46].lat,
+      lng: geodata[46].lng,
       zoom: 17,
     };
   };
