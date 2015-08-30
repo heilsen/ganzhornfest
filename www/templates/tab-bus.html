@@ -1,4 +1,7 @@
 <ion-view view-title="Busfahrplan" ng-swipe-right="swipeRight()" ng-swipe-left="swipeLeft()">
+  <ion-nav-buttons side="right">
+    <button ng-click="openPopover($event)" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
   <ion-pane style="top:93px; height:180px">
     <ion-list>  
       <label class="item item-input item-select">
