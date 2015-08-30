@@ -1,13 +1,48 @@
 angular.module('starter.controllers', [])
 
-.controller('InfoCtrl', function($scope, $state) {
+.controller('InfoCtrl', function($scope, $state, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
   $scope.swipeLeft = function() {
     $state.go('tab.list');
   };
 
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", null, null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
+
+
 })
 
-.controller('ListCtrl', function($scope, Detail, $state, $ionicScrollDelegate) {
+.controller('ListCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
 
   $scope.swipeRight = function() {
     $state.go('tab.info');
@@ -44,9 +79,43 @@ angular.module('starter.controllers', [])
     };
   };
 
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", "Ganzhornfest App", null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
+
 })
 
-.controller('DetailCtrl', function($scope, $stateParams, Detail, $state) {
+.controller('DetailCtrl', function($scope, $stateParams, Detail, $state, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
 
   $scope.swipeRight = function() {
     $state.go('tab.info');
@@ -64,9 +133,44 @@ angular.module('starter.controllers', [])
 
   $scope.markersHash = Detail.getMarkers($scope.filteredStands);
 
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", "Ganzhornfest App", null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
+
+
 })
 
-.controller('DetailStandCtrl', function($scope, $stateParams, Detail, $state) {
+.controller('DetailStandCtrl', function($scope, $stateParams, Detail, $state, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
 
   $scope.swipeRight = function() {
     $state.go('tab.info');
@@ -87,9 +191,43 @@ angular.module('starter.controllers', [])
 
   $scope.markersHash = Detail.getMarker($scope.stand);
 
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", "Ganzhornfest App", null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
+
 })
 
-.controller('MapCtrl', function($scope, Detail, $state) {
+.controller('MapCtrl', function($scope, Detail, $state, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
   $scope.swipeRight = function() {
     $state.go('tab.list');
   };
@@ -102,9 +240,43 @@ angular.module('starter.controllers', [])
 
   $scope.markers =  Detail.markers;
 
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", "Ganzhornfest App", null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
+
 })
 
-.controller('ProgramCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams) {
+.controller('ProgramCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
 
   $scope.swipeRight = function() {
     $state.go('tab.map');
@@ -128,9 +300,43 @@ angular.module('starter.controllers', [])
     return parseInt($scope.requestedDay) === date.getDay();
   };
 
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", "Ganzhornfest App", null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
+
 })
 
-.controller('DetailStageCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams) {
+.controller('DetailStageCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
 
   $scope.swipeRight = function() {
     $state.go('tab.map');
@@ -146,10 +352,43 @@ angular.module('starter.controllers', [])
 
   $scope.markersHash = Detail.getMarker($scope.poi);
 
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", "Ganzhornfest App", null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
 
 })
 
-.controller('BusCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams) {
+.controller('BusCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
 
   $scope.swipeRight = function() {
     $state.go('tab.program');
@@ -169,9 +408,45 @@ angular.module('starter.controllers', [])
     date.setHours(date.getHours()-2);
     return parseInt($scope.requestedDay) === date.getDay();
   };
+
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", "Ganzhornfest App", null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
+
+
 })
 
-.controller('DetailBusstopCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams) {
+.controller('DetailBusstopCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
 
   $scope.swipeRight = function() {
     $state.go('tab.program');
@@ -185,4 +460,40 @@ angular.module('starter.controllers', [])
   $scope.markersHash = Detail.getMarker($scope.poi);
   $scope.center.lat = $scope.markersHash[64].lat;
   $scope.center.lng = $scope.markersHash[64].lng;
-});
+
+  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+    scope: $scope
+  }).then(function(popover){
+    $scope.popover = popover;
+  });
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+  $scope.shareAnywhere = function() {
+    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", "Ganzhornfest App", null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
+    .then(function(result) {
+    }, function(err) {
+      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+    });
+  };
+  $scope.showAlert = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Fehler",
+     template: message
+   });
+  };
+  $scope.showAboutPopup = function(message) {
+   var alertPopup = $ionicPopup.alert({
+     title: "Über die App",
+     cssClass: "about-popup",
+     templateUrl: 'templates/popup-about.html'
+   });
+  };
+
+})
+;
