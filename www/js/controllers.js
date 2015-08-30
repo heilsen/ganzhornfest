@@ -180,11 +180,7 @@ angular.module('starter.controllers', [])
   };
 
   $scope.stand = Detail.getPoi(parseInt($stateParams.id),'club');
-  $scope.standName = $scope.stand.name;
-  $scope.standURL = $scope.stand.url;
-  $scope.standDescription = $scope.stand.description;
-  $scope.standItemIds = $scope.stand.items;
-  $scope.itemArray = Detail.getItemsByIds($scope.standItemIds);
+  $scope.itemArray = Detail.getItemsByIds($scope.stand.items);
 
   $scope.center = Detail.center;
   $scope.defaults = Detail.mapDefaults;
@@ -393,8 +389,8 @@ angular.module('starter.controllers', [])
   $scope.swipeRight = function() {
     $state.go('tab.program');
   };
-  $scope.busstops   = Detail.getBusstops();
-  $scope.directions = Detail.getDirections();
+  $scope.busstops   = Detail.busstops;
+  $scope.directions = Detail.directions;
   $scope.requestedDay = $stateParams.day;
   $scope.requestedDestination = "1";
   $scope.directionFilter = function(item,index) {
@@ -452,7 +448,7 @@ angular.module('starter.controllers', [])
     $state.go('tab.program');
   };
 
-  $scope.poi = Detail.getPoi(64,'busstop');
+  $scope.poi = Detail.busstop;
 
   $scope.center = Detail.center;
   $scope.defaults = Detail.mapDefaults;

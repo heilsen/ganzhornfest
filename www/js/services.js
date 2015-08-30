@@ -460,14 +460,37 @@ angular.module('starter.services', [])
     var poisOfGivenType = pois.filter(function(poi) {
       return poi.type === type;
     });
-    return poisOfGivenType;
+    poisOfGivenType.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    })
+     return poisOfGivenType;
   };
+  _stages = _getPois('stage');
+  _getStage = function(poiId) {
+    var stages = _stages;
+    stages.filter(function(stage){
+      return stage.id === poiId;
+    });
+    var stage = stages.shift();
+    return stage;
+  };
+  _busstops = _getPois('busstop');
+  _getBusstop = function(poiId) {
+    var busstops = _busstops;
+    busstops.filter(function(busstop){
+      return busstop.id === poiId;
+    });
+    var busstop = busstops.shift();
+    return busstop;
+  };
+  _busstop = _getBusstop(64);
 
   // returns array clubs
   _getClubs = function() {
     var clubs = _getPois("club");
     return clubs;
   };
+  _clubs = _getClubs();
 
   // params optional string itemType
   // returns array items
@@ -483,24 +506,36 @@ angular.module('starter.services', [])
     })
     return itemsOfGivenType;
   };
+  _allItems = _getItems();
+  _itemsHash = function() {
+    var itemsArray = _getItems();
+    var itemsHash = {};
+    for (var i=0; i<itemsArray.length; i++) {
+      itemsHash[itemsArray[i].id] = itemsArray[i];
+    };
+    return itemsHash;
+  };
 
   // returns array foods
   _getFoods = function() {
     var foods = _getItems('food');
     return foods;
   };
+  _foods = _getFoods();
 
   // returns array drinks
   _getDrinks = function() {
     var drinks = _getItems('drink');
     return drinks;
   };
+  _drinks = _getDrinks();
 
   // returns array otherItems
   _getOtherItems = function() {
     var otherItems = _getItems('other');
     return otherItems;
   };
+  _otherItems = _getOtherItems();
 
   _generateMarkers = function(poisList) {
     var markersHash = {};
@@ -551,6 +586,8 @@ angular.module('starter.services', [])
     };
     return markersHash;
   };
+  _allMarkers = _generateMarkers();
+  _busstopMarker = _generateMarkers(_getBusstop(64));
 
   _getCenter = function() {
     return {
@@ -559,6 +596,8 @@ angular.module('starter.services', [])
       zoom: 17,
     };
   };
+  _center = _getCenter();
+
   _getMapDefaults = function() {
     return {
       tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -570,63 +609,43 @@ angular.module('starter.services', [])
       },
     };
   };
+  _mapDefaults = _getMapDefaults();
  
   return {
-
-    // returns array pois
-    getPois: _getPois,
 
     // params number clubId
     // returns object club
     getPoi: function(poiId,poiType) {
       var pois = _getPois(poiType);
-      for(var i=0; i<pois.length; i++) {
-        if (pois[i].id === poiId) {
-          var poi = pois[i];
-          break;
-        };
-      };
+      pois = pois.filter(function(poi){
+        return poi.id === parseInt(poiId);
+      });
+      var poi = pois.shift();
       return poi;
     },
-
     // params number itemId
     // returns array clubs which provide itemId
     filterClubsByItem: function(itemId) {
-      var clubs = _getClubs();
+      var clubs = _clubs;
       var clubsWithCertainItem = clubs.filter(function(club) {
         return club.items.indexOf(itemId) !== -1;
       });
       return clubsWithCertainItem;
     },
 
-    // returns hash items
-    getItems: _getItems,
-
     // params array itemIds
     // returns array items which match given Ids
     getItemsByIds: function(itemIds) {
-      var items = _getItems();
+      var items = _allItems;
       var filteredItemsArray = [];
       if ( typeof itemIds === 'string') {
-        filteredItemsArray = items.filter(function(item) {
-          return item.id === parseInt(itemIds);
-        });
+        filteredItemsArray.push = _itemsHash[itemIds];
       } else {
         filteredItemsArray = items.filter(function(item) {
           return itemIds.indexOf(item.id) !== -1;
         });
       }
       return filteredItemsArray;
-    },
-
-    // params string category
-    // returns array all clubs or all items of given category
-    getListByCategory: function(category) {
-      if(category === 'stands') {
-        return _getClubs();
-      } else {
-        return _getItems(category);
-      };
     },
 
     // returns array events
@@ -636,35 +655,27 @@ angular.module('starter.services', [])
 
     // returns hash stages
     getStages: function() {
-      return _getPois("stage");
+      return _stages;
     },
 
-    // return array busstops
-    getBusstops: function() {
-      return busstops;
-    },
-
-    // returns hash geodata
-    getGeodata: function() {
-      return  geodata;
-    },
-
-    getDirections: function() {
-      return directions;
-    },
     getMarker: function(poi) {
       return _generateMarkers([poi]);
     },
     getMarkers: function(pois) {
       return _generateMarkers(pois);
     },
-    clubs: _getClubs(),
-    foods: _getFoods(),
-    drinks: _getDrinks(),
-    otherItems: _getOtherItems(),
-    markers: _generateMarkers(),
-    center: _getCenter(),
-    mapDefaults: _getMapDefaults(),
+    clubs: _clubs,
+    foods: _foods,
+    drinks: _drinks,
+    otherItems: _otherItems,
+    markers: _allMarkers,
+    center: _center,
+    mapDefaults: _mapDefaults,
+    directions: directions,
+    busstops: busstops,
+    busstopMarker: _busstopMarker,
+    getStage: _getStage,
+    busstop: _busstop,
   };
 })
 .run(function(Detail){
