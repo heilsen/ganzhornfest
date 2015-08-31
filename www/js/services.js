@@ -1,6 +1,33 @@
 angular.module('starter.services', [])
 
 .factory('Detail', function() {
+
+  var convertToArray = function(obj) {
+    var arr = [];
+    for (var key in obj) {
+      obj[key].id = key;
+      arr.push(obj[key]);
+    }
+    return arr;
+  };
+  var convertToObject = function(arr) {
+    var obj = {};
+    for (var i=0; i<arr.length; i++) {
+      obj[arr[i].id] = arr[i];
+    }
+    return obj;
+  };
+  var filterArrayByType = function(arr,type) {
+    var filteredArray = arr.filter(function(item){
+      return item.type === type;
+    }); 
+    // also sort
+    filteredArray.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    })
+    return filteredArray;
+  };
+
   var geodata = {
     1  : {lat: 49.192290,   lng: 9.223065},
     2  : {lat: 49.191768,   lng: 9.224544},
@@ -78,72 +105,85 @@ angular.module('starter.services', [])
     74 : {lat: 49.1916077,  lng: 9.2226579},
     75 : {lat: 49.191110,   lng: 9.222048},
   };
-  var pois = [
-    {id: 1,  name: "Arbeiter-Samariter-Bund (ASB)",               geoid: 1,  items:   [1,2,101,102,103,104], url: "", description: "", type: "club"},
-    {id: 2,  name: "Bowlingsportverein (BSV)",                    geoid: 2,  items:   [3,4,5,6,110], url: "", description: "", type: "club"},
-    {id: 3,  name: "Budakesser Gemeinschaft",                     geoid: 3,  items:   [7,8,107,128,201,202], url: "", description: "", type: "club"},
-    {id: 4,  name: "Circolo Italiano",                            geoid: 4,  items:   [9,10,11,12,13,14,109,110,111,112,113], url: "", description: "", type: "club"},
-    {id: 5,  name: "DLRG",                                        geoid: [5,74],  items:   [114,115,116,203], url: "", description: "", type: "club"},
-    {id: 6,  name: "Downtownboys",                                geoid: 6,  items:   [5,117,101,102,115,106,15,104], url: "", description: "", type: "club"},
-    {id: 7,  name: "DRK Ortsverein",                              geoid: 7,  items:   [16], url: "", description: "", type: "club"},
-    {id: 8,  name: "Fischerei- und Sportangler-Verein (FSV)",     geoid: 8,  items:   [17,18,19,20,114,109,121,103,122], url: "", description: "", type: "club"},
-    {id: 9,  name: "Freier Kindergarten Neckarsulm",              geoid: 9,  items:   [16,104,103,123,124,204,205], url: "", description: "", type: "club"},
-    {id: 10, name: "Freizeitbad AQUAtoll",                        geoid: 10, items:   [206], url: "", description: "", type: "club"},
-    {id: 11, name: "Georgspfadfinder",                            geoid: 11, items:   [9,21,123,117,110,104], url: "", description: "", type: "club"},
-    {id: 12, name: "Gesangsverein Concordia",                     geoid: 12, items:   [22,23,24,25,117,106,109,114,103,101,102,124,125,26,27], url: "", description: "", type: "club"},
-    {id: 13, name: "Gesangsverein Lassallia",                     geoid: 13, items:   [3,28,29,30,126,109,117,110], url: "", description: "", type: "club"},
-    {id: 14, name: "Griechischer Fußballverein Odysseas",         geoid: 14, items:   [31,127,113,128,117,129,115,110], url: "", description: "", type: "club"},
-    {id: 15, name: "Griechische Gemeinde",                        geoid: 15, items:   [32,127,128,128,110], url: "", description: "", type: "club"},
-    {id: 16, name: "Harmonika-Club",                              geoid: 16, items:   [33,34,35,36,29,117,133,109,128,124,110], url: "", description: "", type: "club"},
-    {id: 17, name: "Jugendfarm",                                  geoid: [17,75], items:   [37,128,207], url: "", description: "", type: "club"},
-    {id: 18, name: "Junge Union Stadtverband",                    geoid: 18, items:   [116,128,134,115,110], url: "", description: "", type: "club"},
-    {id: 19, name: "Jusos",                                       geoid: 19, items:   [106,128,110], url: "", description: "", type: "club"},
-    {id: 20, name: "Katholischer Kirchenchor St. Dionysius",      geoid: 20, items:   [16], url: "", description: "", type: "club"},
-    {id: 21, name: "KIWANIS",                                     geoid: 21, items:   [38,135,109,114,103], url: "", description: "", type: "club"},
-    {id: 22, name: "Kolping Blasorchester",                       geoid: 22, items:   [39,109,114,117,110,208], url: "", description: "", type: "club"},
-    {id: 23, name: "Kolpingsfamilie",                             geoid: 23, items:   [40,41,42,43,44,45,46,47,15,50,109,114,125,110], url: "", description: "", type: "club"},
-    {id: 24, name: "Kolping Jugend",                              geoid: 24, items:   [48,49], url: "", description: "", type: "club"},
-    {id: 25, name: "Kreatief - Kultur im Unterland",              geoid: 25, items:   [110,113,136,117], url: "", description: "", type: "club"},
-    {id: 26, name: "Metropolitan Jazz Community",                 geoid: 26, items:   [51,52,25,53,47,54,55,109,117,110,128], url: "", description: "", type: "club"},
-    {id: 27, name: "Neckar Valley Dancer",                        geoid: 27, items:   [56,57,48,104,101,103,124], url: "", description: "", type: "club"},
-    {id: 28, name: "NSU - Fußball Aktive",                        geoid: 28, items:   [106,117,101], url: "", description: "", type: "club"},
-    {id: 29, name: "NSU - Jugend-Fußball",                        geoid: 29, items:   [58,59,104,209], url: "", description: "", type: "club"},
-    {id: 30, name: "NSU - Handball",                              geoid: [30,31,32], items:   [4,5,60,6,110,117,115], url: "", description: "", type: "club"},
-    {id: 31, name: "NSU - Kanu",                                  geoid: 33, items:   [61,109,110], url: "", description: "", type: "club"},
-    {id: 32, name: "NSU - Karate",                                geoid: 34, items:   [115,116], url: "", description: "", type: "club"},
-    {id: 33, name: "NSU - Leichtathletik",                        geoid: 35, items:   [117,115], url: "", description: "", type: "club"},
-    {id: 34, name: "NSU - Rugby",                                 geoid: 36, items:   [137,110], url: "", description: "", type: "club"},
-    {id: 35, name: "NSU - Tischtennis 1",                         geoid: 37, items:   [117,106,103,101,102,124], url: "", description: "", type: "club"},
-    {id: 36, name: "NSU - Tischtennis 2",                         geoid: 38, items:   [62,63,64,65,66,210], url: "", description: "", type: "club"},
-    {id: 37, name: "Tierschutzverein Pfötchenhilfe Neckarsulm",   geoid: 39, items:   [67,68,69,117,114,109,128,110], url: "", description: "", type: "club"},
-    {id: 38, name: "Sängerbund",                                  geoid: 40, items:   [5,70,109,117,104,15], url: "", description: "", type: "club"},
-    {id: 39, name: "SC Amorbach",                                 geoid: 41, items:   [70,5,6,101,102,103,106,117,128], url: "", description: "", type: "club"},
-    {id: 40, name: "Schützengilde",                               geoid: [42,43], items:   [71,72,4,5,3,6,139,106,133,140,110,211], url: "", description: "", type: "club"},
-    {id: 41, name: "SPD Ortsverein",                              geoid: 44, items:   [73,109,114,128], url: "", description: "", type: "club"},
-    {id: 42, name: "Stone Heads",                                 geoid: 45, items:   [106,109,128,114,134,124,103], url: "", description: "", type: "club"},
-    {id: 43, name: "St. Paulus Club",                             geoid: 46, items:   [74,75,76,141,109,110,104,15], url: "www.st-paulus-club.de", description: "Der Sankt Paulus Club verfolgt ausschließlich und unmittelbar gemeinnützige, mildtätige und kirchliche Zwecke. Als Ergänzung zur organisierten Jugend- und Gemeindearbeit bietet er auch ein Treffpunkt für aufgeschlossene Personen, die ihre Freizeit gemeinsam gestalten wollen.", type: "club"},
-    {id: 44, name: "Sulmanafetza",                                geoid: 47, items:   [51,117,135,106,110], url: "", description: "", type: "club"},
-    {id: 45, name: "Tauchclub Walhai",                            geoid: 48, items:   [78,106,117,115,110], url: "", description: "", type: "club"},
-    {id: 46, name: "TC Neckarsulm",                               geoid: 49, items:   [47,109,117,114,110], url: "", description: "", type: "club"},
-    {id: 47, name: "TC Sulmtal",                                  geoid: [50,51], items:   [5,4,115,117,109,114,110], url: "", description: "", type: "club"},
-    {id: 48, name: "Türkspor Neckarsulm",                         geoid: 52, items:   [79,6,80,15,81,82,83,84,85,86,101,102,142,143,144,128,103,106,117,104,145], url: "", description: "", type: "club"},
-    {id: 49, name: "Türkspor Neckarsulm - Jugendabteilung",       geoid: 53, items:   [83,86,87,88,89,15,90,91,48,143,146], url: "", description: "", type: "club"},
-    {id: 50, name: "Türkiyemspor Obereisesheim",                  geoid: 54, items:   [92,93,94,95,96,97,88,6,110,143], url: "", description: "", type: "club"},
-    {id: 51, name: "UFC",                                         geoid: 55, items:   [115,117,116,101,103], url: "", description: "", type: "club"},
-    {id: 52, name: 'Waldkindergarten "Waldzauber"',               geoid: [56,61], items:   [208], url: "", description: "", type: "club"},
-    {id: 53, name: "Weinbauverein",                               geoid: 57, items:   [109,114,125,103], url: "", description: "", type: "club"},
-    {id: 54, name: "Karussell",                                   geoid: 58, type: "playground"},
-    {id: 55, name: "Eisenbähnle",                                 geoid: 59, type: "playground"},
-    {id: 56, name: "Kinder-Flohmarkt",                            geoid: 60, type: "playground"},
-    {id: 57, name: "Waldkindergarten",                            geoid: 61, type: "playground"},
-    {id: 58, name: "WC",                                          geoid: [62,63,64,65,66,67], type: "toilets"},
-    {id: 59, name: "Hauptbühne Museumsplatz",                     geoid: 69, type: "stage"},
-    {id: 60, name: "Bühne Marktplatz",                            geoid: 68, type: "stage"},
-    {id: 61, name: "Bühne Karlsplatz",                            geoid: 70, type: "stage"},
-    {id: 62, name: "Stand Metropolitan Jazz Community",           geoid: 71, type: "stage"},
-    {id: 63, name: "Erste-Hilfe (ASB)",                           geoid: 72, type: "first_aid"},
-    {id: 64, name: "ZOB (Ballei)",                                geoid: 73, type: "busstop"},
-  ];
+
+  var poi = {
+    1 : {name: "Arbeiter-Samariter-Bund (ASB)",               geoid: 1,  items:   [1,2,101,102,103,104], url: "", description: "", type: "club"},
+    2 : {name: "Bowlingsportverein (BSV)",                    geoid: 2,  items:   [3,4,5,6,110], url: "", description: "", type: "club"},
+    3 : {name: "Budakesser Gemeinschaft",                     geoid: 3,  items:   [7,8,107,128,201,202], url: "", description: "", type: "club"},
+    4 : {name: "Circolo Italiano",                            geoid: 4,  items:   [9,10,11,12,13,14,109,110,111,112,113], url: "", description: "", type: "club"},
+    5 : {name: "DLRG",                                        geoid: [5,74],  items:   [114,115,116,203], url: "", description: "", type: "club"},
+    6 : {name: "Downtownboys",                                geoid: 6,  items:   [5,117,101,102,115,106,15,104], url: "", description: "", type: "club"},
+    7 : {name: "DRK Ortsverein",                              geoid: 7,  items:   [16], url: "", description: "", type: "club"},
+    8 : {name: "Fischerei- und Sportangler-Verein (FSV)",     geoid: 8,  items:   [17,18,19,20,114,109,121,103,122], url: "", description: "", type: "club"},
+    9 : {name: "Freier Kindergarten Neckarsulm",              geoid: 9,  items:   [16,104,103,123,124,204,205], url: "", description: "", type: "club"},
+    10: {name: "Freizeitbad AQUAtoll",                        geoid: 10, items:   [206], url: "", description: "", type: "club"},
+    11: {name: "Georgspfadfinder",                            geoid: 11, items:   [9,21,123,117,110,104], url: "", description: "", type: "club"},
+    12: {name: "Gesangsverein Concordia",                     geoid: 12, items:   [22,23,24,25,117,106,109,114,103,101,102,124,125,26,27], url: "", description: "", type: "club"},
+    13: {name: "Gesangsverein Lassallia",                     geoid: 13, items:   [3,28,29,30,126,109,117,110], url: "", description: "", type: "club"},
+    14: {name: "Griechischer Fußballverein Odysseas",         geoid: 14, items:   [31,127,113,128,117,129,115,110], url: "", description: "", type: "club"},
+    15: {name: "Griechische Gemeinde",                        geoid: 15, items:   [32,127,128,128,110], url: "", description: "", type: "club"},
+    16: {name: "Harmonika-Club",                              geoid: 16, items:   [33,34,35,36,29,117,133,109,128,124,110], url: "", description: "", type: "club"},
+    17: {name: "Jugendfarm",                                  geoid: [17,75], items:   [37,128,207], url: "", description: "", type: "club"},
+    18: {name: "Junge Union Stadtverband",                    geoid: 18, items:   [116,128,134,115,110], url: "", description: "", type: "club"},
+    19: {name: "Jusos",                                       geoid: 19, items:   [106,128,110], url: "", description: "", type: "club"},
+    20: {name: "Katholischer Kirchenchor St. Dionysius",      geoid: 20, items:   [16], url: "", description: "", type: "club"},
+    21: {name: "KIWANIS",                                     geoid: 21, items:   [38,135,109,114,103], url: "", description: "", type: "club"},
+    22: {name: "Kolping Blasorchester",                       geoid: 22, items:   [39,109,114,117,110,208], url: "", description: "", type: "club"},
+    23: {name: "Kolpingsfamilie",                             geoid: 23, items:   [40,41,42,43,44,45,46,47,15,50,109,114,125,110], url: "", description: "", type: "club"},
+    24: {name: "Kolping Jugend",                              geoid: 24, items:   [48,49], url: "", description: "", type: "club"},
+    25: {name: "Kreatief - Kultur im Unterland",              geoid: 25, items:   [110,113,136,117], url: "", description: "", type: "club"},
+    26: {name: "Metropolitan Jazz Community",                 geoid: 26, items:   [51,52,25,53,47,54,55,109,117,110,128], url: "", description: "", type: "club"},
+    27: {name: "Neckar Valley Dancer",                        geoid: 27, items:   [56,57,48,104,101,103,124], url: "", description: "", type: "club"},
+    28: {name: "NSU - Fußball Aktive",                        geoid: 28, items:   [106,117,101], url: "", description: "", type: "club"},
+    29: {name: "NSU - Jugend-Fußball",                        geoid: 29, items:   [58,59,104,209], url: "", description: "", type: "club"},
+    30: {name: "NSU - Handball",                              geoid: [30,31,32], items:   [4,5,60,6,110,117,115], url: "", description: "", type: "club"},
+    31: {name: "NSU - Kanu",                                  geoid: 33, items:   [61,109,110], url: "", description: "", type: "club"},
+    32: {name: "NSU - Karate",                                geoid: 34, items:   [115,116], url: "", description: "", type: "club"},
+    33: {name: "NSU - Leichtathletik",                        geoid: 35, items:   [117,115], url: "", description: "", type: "club"},
+    34: {name: "NSU - Rugby",                                 geoid: 36, items:   [137,110], url: "", description: "", type: "club"},
+    35: {name: "NSU - Tischtennis 1",                         geoid: 37, items:   [117,106,103,101,102,124], url: "", description: "", type: "club"},
+    36: {name: "NSU - Tischtennis 2",                         geoid: 38, items:   [62,63,64,65,66,210], url: "", description: "", type: "club"},
+    37: {name: "Tierschutzverein Pfötchenhilfe Neckarsulm",   geoid: 39, items:   [67,68,69,117,114,109,128,110], url: "", description: "", type: "club"},
+    38: {name: "Sängerbund",                                  geoid: 40, items:   [5,70,109,117,104,15], url: "", description: "", type: "club"},
+    39: {name: "SC Amorbach",                                 geoid: 41, items:   [70,5,6,101,102,103,106,117,128], url: "", description: "", type: "club"},
+    40: {name: "Schützengilde",                               geoid: [42,43], items:   [71,72,4,5,3,6,139,106,133,140,110,211], url: "", description: "", type: "club"},
+    41: {name: "SPD Ortsverein",                              geoid: 44, items:   [73,109,114,128], url: "", description: "", type: "club"},
+    42: {name: "Stone Heads",                                 geoid: 45, items:   [106,109,128,114,134,124,103], url: "", description: "", type: "club"},
+    43: {name: "St. Paulus Club",                             geoid: 46, items:   [74,75,76,141,109,110,104,15], url: "www.st-paulus-club.de", description: "Der Sankt Paulus Club verfolgt ausschließlich und unmittelbar gemeinnützige, mildtätige und kirchliche Zwecke. Als Ergänzung zur organisierten Jugend- und Gemeindearbeit bietet er auch ein Treffpunkt für aufgeschlossene Personen, die ihre Freizeit gemeinsam gestalten wollen.", type: "club"},
+    44: {name: "Sulmanafetza",                                geoid: 47, items:   [51,117,135,106,110], url: "", description: "", type: "club"},
+    45: {name: "Tauchclub Walhai",                            geoid: 48, items:   [78,106,117,115,110], url: "", description: "", type: "club"},
+    46: {name: "TC Neckarsulm",                               geoid: 49, items:   [47,109,117,114,110], url: "", description: "", type: "club"},
+    47: {name: "TC Sulmtal",                                  geoid: [50,51], items:   [5,4,115,117,109,114,110], url: "", description: "", type: "club"},
+    48: {name: "Türkspor Neckarsulm",                         geoid: 52, items:   [79,6,80,15,81,82,83,84,85,86,101,102,142,143,144,128,103,106,117,104,145], url: "", description: "", type: "club"},
+    49: {name: "Türkspor Neckarsulm - Jugendabteilung",       geoid: 53, items:   [83,86,87,88,89,15,90,91,48,143,146], url: "", description: "", type: "club"},
+    50: {name: "Türkiyemspor Obereisesheim",                  geoid: 54, items:   [92,93,94,95,96,97,88,6,110,143], url: "", description: "", type: "club"},
+    51: {name: "UFC",                                         geoid: 55, items:   [115,117,116,101,103], url: "", description: "", type: "club"},
+    52: {name: 'Waldkindergarten "Waldzauber"',               geoid: [56,61], items:   [208], url: "", description: "", type: "club"},
+    53: {name: "Weinbauverein",                               geoid: 57, items:   [109,114,125,103], url: "", description: "", type: "club"},
+    54: {name: "Karussell",                                   geoid: 58, type: "playground"},
+    55: {name: "Eisenbähnle",                                 geoid: 59, type: "playground"},
+    56: {name: "Kinder-Flohmarkt",                            geoid: 60, type: "playground"},
+    57: {name: "Waldkindergarten",                            geoid: 61, type: "playground"},
+    58: {name: "WC",                                          geoid: [62,63,64,65,66,67], type: "toilets"},
+    59: {name: "Hauptbühne Museumsplatz",                     geoid: 69, type: "stage"},
+    60: {name: "Bühne Marktplatz",                            geoid: 68, type: "stage"},
+    61: {name: "Bühne Karlsplatz",                            geoid: 70, type: "stage"},
+    62: {name: "Stand Metropolitan Jazz Community",           geoid: 71, type: "stage"},
+    63: {name: "Erste-Hilfe (ASB)",                           geoid: 72, type: "first_aid"},
+    64: {name: "ZOB (Ballei)",                                geoid: 73, type: "busstop"},
+  };
+  var pois = convertToArray(poi);
+
+  var clubs = filterArrayByType(pois,'club');
+  var stages = filterArrayByType(pois,'stage');
+  var busstops = filterArrayByType(pois,'busstop');
+  var first_aids = filterArrayByType(pois,'first_aid');
+
+  var club = convertToObject(clubs);
+  var stage = convertToObject(stages);
+  var busstop = convertToObject(busstops);
+  var first_aid = convertToObject(first_aids);
+
   var items = [
     { id: 1  , type: "food",     name: "Linsen & Spätzle", remark: "Mit Saitenwürstle"   },
     { id: 2  , type: "food",     name: "Apfelküchle"     , remark: "Mit Zimt/Zucker und Vanillesoße"  },
@@ -291,6 +331,19 @@ angular.module('starter.services', [])
     { id: 210, type: "other",    name: "Wurfwand"  },
     { id: 211, type: "other",    name: "Schießbudenstand"  },
   ];
+  var item = convertToObject(items);
+  var foods = filterArrayByType(items,'food');
+  var drinks = filterArrayByType(items,'drink');
+  var otherItems = filterArrayByType(items,'other');
+
+  var getItemsByIds = function(ids) {
+    var items = [];
+    for(var i=0; i<ids.length; i++) {
+      var id = ids[i];
+      items.push(item[id]);
+    };
+    return items;
+  };
   var events = [
     {id: 1,  poi: 59, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T16:00:00+0200", type: 'speech', type: 'music', name: "Eröffnung", remark: "Oberbürgermeister Joachim Scholz<br>Württ. Weinprinziessin Annekatrin Gauger"},
     {id: 2,  poi: 59, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T17:30:00+0200", type: 'music', name: "MV Obereisesheim", remark: ""},
@@ -341,7 +394,7 @@ angular.module('starter.services', [])
     {id: 3, destination: "Neuberg (Linie 92/Sonderbus)"},
     {id: 4, destination: "Obereisesheim (Linie 694/695/94/Sonderbus)"},
   ];
-  var busstops = [
+  var bustimes = [
     {id: 1,  direction: 1, time: "2015-09-05T19:33:00+0200"},
     {id: 2,  direction: 1, time: "2015-09-05T20:18:00+0200"},
     {id: 3,  direction: 1, time: "2015-09-05T21:18:00+0200"},
@@ -432,6 +485,23 @@ angular.module('starter.services', [])
     {id: 87, direction: 4, time: "2015-09-08T00:10:00+0200"},
   ];
 
+  var mapCenter = {
+    // TODO: get geodata by name (paulus club)
+    lat: geodata[46].lat,
+    lng: geodata[46].lng,
+    zoom: 17,
+  };
+
+  var mapDefaults = {
+    tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    minZoom: 17,
+    tileLayerOptions: {
+      maxZoom: 21,
+      maxNativeZoom: 19,
+      attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    },
+  };
+ 
   var markerIconMap = {
     'club'       : 'record',
     'first_aid'  : 'ios-medkit',
@@ -451,114 +521,14 @@ angular.module('starter.services', [])
     'toilets'    : 'blue',
   };
 
-  // params optional type
-  // returns array all POIs or only those of given type
-  _getPois = function(type) {
-    if(typeof type === 'undefined') {
-      return pois;
-    };
-    var poisOfGivenType = pois.filter(function(poi) {
-      return poi.type === type;
-    });
-    poisOfGivenType.sort(function(a, b) {
-      return a.name.localeCompare(b.name);
-    })
-     return poisOfGivenType;
-  };
-  _stages = _getPois('stage');
-  _getStage = function(poiId) {
-    var stages = _stages;
-    stages.filter(function(stage){
-      return stage.id === poiId;
-    });
-    var stage = stages.shift();
-    return stage;
-  };
-  _busstops = _getPois('busstop');
-  _getBusstop = function(poiId) {
-    var busstops = _busstops;
-    busstops.filter(function(busstop){
-      return busstop.id === poiId;
-    });
-    var busstop = busstops.shift();
-    return busstop;
-  };
-  _busstop = _getBusstop(64);
-
-  // returns array clubs
-  _getClubs = function() {
-    var clubs = _getPois("club");
-    return clubs;
-  };
-  _clubs = _getClubs();
-
-  // params optional string itemType
-  // returns array items
-  _getItems = function(itemType) {
-    if(typeof itemType === 'undefined') {
-      return items;
-    };
-    var itemsOfGivenType = items.filter(function(item) { 
-      return item.type === itemType; 
-    });
-    itemsOfGivenType.sort(function(a, b) {
-      return a.name.localeCompare(b.name);
-    })
-    return itemsOfGivenType;
-  };
-  _allItems = items;
-  _itemsHash = function() {
-    var itemsArray = items;
-    var itemsHash = {};
-    for (var i=0; i<itemsArray.length; i++) {
-      itemsHash[itemsArray[i].id] = itemsArray[i];
-    };
-    return itemsHash;
-  };
-  _poisHash = function() {
-    var poisArray = pois;
-    var poisHash = {};
-    for (var i=0; i<poisArray.length; i++) {
-      poisHash[poisArray[i].id] = poisArray[i];
-    };
-    return poisHash;
-  }();
-
-  // returns array foods
-  _getFoods = function() {
-    var foods = _getItems('food');
-    return foods;
-  };
-  _foods = _getFoods();
-
-  // returns array drinks
-  _getDrinks = function() {
-    var drinks = _getItems('drink');
-    return drinks;
-  };
-  _drinks = _getDrinks();
-
-  // returns array otherItems
-  _getOtherItems = function() {
-    var otherItems = _getItems('other');
-    return otherItems;
-  };
-  _otherItems = _getOtherItems();
-
-  _generateMarkers = function(poisList) {
-    var markersHash = {};
-    var geoinfo = geodata;
-
-    if(typeof poisList === 'undefined') {
-      var poisList = pois;
-    };
-
-    for(var i=0; i<poisList.length; i++) {
-      var poi = poisList[i];
+  var getMarker = function() {
+    var marker = {};
+    for(var i=0; i<pois.length; i++) {
+      var poi = pois[i];
       if(typeof poi.geoid === 'number') {
-        markersHash[poi.id] = {
-          lat: geoinfo[poi.geoid].lat,
-          lng: geoinfo[poi.geoid].lng,
+        marker[poi.id] = {
+          lat: geodata[poi.geoid].lat,
+          lng: geodata[poi.geoid].lng,
           message: poi.name,
           title: poi.name,
           alt: poi.name,
@@ -569,12 +539,11 @@ angular.module('starter.services', [])
             markerColor: markerColorMap[poi.type],
           },
         };
-     // poi.geoid contains multiple ids
       } else {
         for(var j=0; j<poi.geoid.length; j++) {
-          markersHash[poi.id + "_" + j] = {
-            lat: geoinfo[poi.geoid[j]].lat,
-            lng: geoinfo[poi.geoid[j]].lng,
+          marker[poi.id + "_" + j] = {
+            lat: geodata[poi.geoid[j]].lat,
+            lng: geodata[poi.geoid[j]].lng,
             message: poi.name,
             title: poi.name,
             alt: poi.name,
@@ -588,128 +557,99 @@ angular.module('starter.services', [])
         };
       };
     };
-    var keys = Object.keys(markersHash);
-    if(keys.length === 1) {
-      markersHash[keys[0]].focus = true;
-    };
-    return markersHash;
+    return marker;
   };
-  _allMarkers = _generateMarkers();
-  _getMarkersFast = function(poisList) {
-    var allMarkersHash = _allMarkers;
-    var markersHash = {};
-
-    if(typeof poisList === 'undefined') {
-      var poisList = pois;
-    };
-
-    for(var i=0; i<poisList.length; i++) {
-      var poi = poisList[i];
-      if(poi.id in allMarkersHash) {
-        markersHash[poi.id] = allMarkersHash[poi.id];
+  var getPoiMarkerMap = function() {
+    var poiMarkerMap = {};
+    for(var i=0; i<pois.length; i++) {
+      var poi = pois[i];
+      if(typeof poi.geoid === 'number') {
+        poiMarkerMap[poi.id] = poi.id;
       } else {
-        var numberOfGeoIds = _poisHash[poi.id].geoid.length;
-        for (var j=0; j<numberOfGeoIds; j++) {
-          markersHash[poi.id+"_"+j] = allMarkersHash[poi.id+"_"+j];
+        poiMarkerMap[poi.id] = [];
+        for(var j=0; j<poi.geoid.length; j++) {
+          var concatedPoiId = poi.id + "_" + j;
+          poiMarkerMap[poi.id].push(concatedPoiId);
         };
       };
     };
-    var keys = Object.keys(markersHash);
-    if(keys.length === 1) {
-      markersHash[keys[0]].focus = true;
+    return poiMarkerMap;
+  };
+  var marker = getMarker();
+  var poiMarkerMap = getPoiMarkerMap();
+
+  var getMarkerByPoiIds = function(ids) {
+    var markerByPoiIds = {};
+    if(typeof ids !== 'object') {
+      var poiId = ids;
+      var markerIds = poiMarkerMap[poiId];
+      if(typeof markerIds !== 'object') {
+        var markerId = markerIds;
+        markerByPoiIds[markerId] = marker[markerId];
+      } else {
+        for(var j=0; j<=markerIds.length; j++) {
+          var markerId = markerIds[j];
+          markerByPoiIds[markerId] = marker[markerId];
+        };
+      };
     } else {
-      for(var i=0; i<keys.length; i++) {
-        markersHash[keys[i]].focus = false;
+      for(var i=0;i<ids.length;i++) {
+        var poiId = ids[i];
+        var markerIds = poiMarkerMap[poiId];
+        if(typeof markerIds !== 'object') {
+          var markerId = markerIds;
+          markerByPoiIds[markerId] = marker[markerId];
+        } else {
+          for(var j=0; j<=markerIds.length; j++) {
+            var markerId = markerIds[j];
+            markerByPoiIds[markerId] = marker[markerId];
+          };
+        };
       };
     };
-    return markersHash;
+    return markerByPoiIds;
   };
-  _busstopMarker = _generateMarkers(_getBusstop(64));
-
-  _getCenter = function() {
-    return {
-      lat: geodata[46].lat,
-      lng: geodata[46].lng,
-      zoom: 17,
+  var focusMarker = function(marker) {
+    var keys = Object.keys(marker);
+    if(keys.length === 1) {
+      marker[keys[0]].focus = true;
     };
+    return marker;
   };
-  _center = _getCenter();
-
-  _getMapDefaults = function() {
-    return {
-      tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      minZoom: 17,
-      tileLayerOptions: {
-        maxZoom: 21,
-        maxNativeZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      },
-    };
-  };
-  _mapDefaults = _getMapDefaults();
  
   return {
+    poi: poi,
+    pois: pois,
 
-    // params number poiId
-    // returns object poi
-    getPoi: function(poiId) {
-      var poi = _poisHash[poiId]
-      return poi;
-    },
-    // params number itemId
-    // returns array clubs which provide itemId
-    filterClubsByItem: function(itemId) {
-      var clubs = _clubs;
-      var clubsWithCertainItem = clubs.filter(function(club) {
-        return club.items.indexOf(itemId) !== -1;
-      });
-      return clubsWithCertainItem;
-    },
-
-    // params array itemIds
-    // returns array items which match given Ids
-    getItemsByIds: function(itemIds) {
-      var items = _allItems;
-      var filteredItemsArray = [];
-      if ( typeof itemIds === 'string') {
-        filteredItemsArray.push = _itemsHash[itemIds];
-      } else {
-        filteredItemsArray = items.filter(function(item) {
-          return itemIds.indexOf(item.id) !== -1;
-        });
-      }
-      return filteredItemsArray;
-    },
-
-    // returns array events
-    getEvents: function() {
-      return events;
-    },
-
-    // returns hash stages
-    getStages: function() {
-      return _stages;
-    },
-
-    getMarker: function(poi) {
-      return _getMarkersFast([poi]);
-    },
-    getMarkers: function(pois) {
-      return _getMarkersFast(pois);
-    },
-    clubs: _clubs,
-    foods: _foods,
-    drinks: _drinks,
-    otherItems: _otherItems,
-    markers: _getMarkersFast(),
-    center: _center,
-    mapDefaults: _mapDefaults,
-    directions: directions,
+    clubs: clubs,
+    stages: stages,
     busstops: busstops,
-    busstopMarker: _busstopMarker,
-    getStage: _getStage,
-    busstop: _busstop,
-    itemsHash: _itemsHash(),
+    first_aids: first_aids,
+
+    club: club,
+    stage: stage,
+    busstop: busstop,
+    first_aid: first_aid,
+
+    items: items,
+    item: item,
+    getItemsByIds: getItemsByIds,
+
+    foods: foods,
+    drinks: drinks,
+    otherItems: otherItems,
+
+    events: events,
+    directions: directions,
+    bustimes: bustimes,
+
+    mapCenter: mapCenter,
+    mapDefaults: mapDefaults,
+
+    marker: marker,
+    poiMarkerMap: poiMarkerMap,
+    getMarkerByPoiIds: getMarkerByPoiIds,
+    focusMarker: focusMarker,
   };
 })
 .run(function(Detail){

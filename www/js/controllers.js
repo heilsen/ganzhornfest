@@ -1,3 +1,4 @@
+// TODO: map marker are not consistent over tabs (moving markers when switching back to map view, ...)
 angular.module('starter.controllers', [])
 
 .controller('InfoCtrl', function($scope, $state, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
@@ -124,14 +125,34 @@ angular.module('starter.controllers', [])
     $state.go('tab.map');
   };
 
-  $scope.filteredStands = Detail.filterClubsByItem(parseInt($stateParams.id));
-  // only looking for one item
-  $scope.item = Detail.itemsHash[$stateParams.id];
+  itemId = parseInt($stateParams.id);
+  // TODO: is this faster than a item <-> poi mapping?
+  clubs = Detail.clubs;
+  var getClubsByItemId = function(itemId) {
+    var filteredClubs = clubs.filter(function(club) {
+      return club.items.indexOf(itemId) !== -1;
+    })
+    return filteredClubs;
+  };
+  var getClubIdsByItemId = function(filteredStands) {
+    var filteredClubIds = filteredStands.map(function(club){
+      return parseInt(club.id);
+    }); 
+    return filteredClubIds;
+  };
+  $scope.filteredStands = getClubsByItemId(itemId);
+  $scope.filteredStandsIds = getClubIdsByItemId($scope.filteredStands);
 
-  $scope.center = Detail.center;
+  $scope.item = Detail.item[itemId];
+
+  $scope.center = Detail.mapCenter;
   $scope.defaults = Detail.mapDefaults;
+  $scope.marker = Detail.marker;
+  $scope.center.lat = $scope.marker[46].lat;
+  $scope.center.lng = $scope.marker[46].lng;
 
-  $scope.markersHash = Detail.getMarkers($scope.filteredStands);
+  $scope.markersHash = Detail.getMarkerByPoiIds($scope.filteredStandsIds);
+  $scope.markersHash = Detail.focusMarker($scope.markersHash);
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
     scope: $scope
@@ -179,13 +200,19 @@ angular.module('starter.controllers', [])
     $state.go('tab.map');
   };
 
-  $scope.stand = Detail.getPoi(parseInt($stateParams.id));
+  standId = parseInt($stateParams.id);
+  $scope.stand = Detail.poi[standId];
+
   $scope.itemArray = Detail.getItemsByIds($scope.stand.items);
 
-  $scope.center = Detail.center;
+  $scope.center = Detail.mapCenter;
   $scope.defaults = Detail.mapDefaults;
+  $scope.marker = Detail.marker;
+  $scope.center.lat = $scope.marker[46].lat;
+  $scope.center.lng = $scope.marker[46].lng;
 
-  $scope.markersHash = Detail.getMarker($scope.stand);
+  $scope.markersHash = Detail.getMarkerByPoiIds($scope.stand.id);
+  $scope.markersHash = Detail.focusMarker($scope.markersHash);
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
     scope: $scope
@@ -231,10 +258,13 @@ angular.module('starter.controllers', [])
     $state.go('tab.program');
   };
 
-  $scope.center = Detail.center;
+  $scope.center = Detail.mapCenter;
   $scope.defaults = Detail.mapDefaults;
+  $scope.marker = Detail.marker;
+  $scope.center.lat = $scope.marker[46].lat;
+  $scope.center.lng = $scope.marker[46].lng;
 
-  $scope.markers =  Detail.markers;
+  $scope.markers =  Detail.marker;
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
     scope: $scope
@@ -280,15 +310,16 @@ angular.module('starter.controllers', [])
   $scope.swipeLeft = function() {
     $state.go('tab.bus');
   };
-  $scope.events = Detail.getEvents();
-  $scope.stages = Detail.getStages();
+  $scope.events = Detail.events;
+  $scope.stages = Detail.stages;
 
   $scope.requestedDay = $stateParams.day;
   $scope.requestedStage = $stateParams.stage;
 
+  // TODO: include scrollTop
+  // $ionicScrollDelegate.scrollTop();
   $scope.stageFilter = function(item,index) {
-    $ionicScrollDelegate.scrollTop();
-    return parseInt($scope.requestedStage) === item.id;
+    return $scope.requestedStage === item.id;
   };
   $scope.dayFilter = function(item,index) {
     $ionicScrollDelegate.scrollTop();
@@ -341,12 +372,17 @@ angular.module('starter.controllers', [])
     $state.go('tab.bus');
   };
 
-  $scope.poi = Detail.getPoi(parseInt($stateParams.id));
+  stageId = parseInt($stateParams.id);
+  $scope.poi = Detail.poi[stageId];
 
-  $scope.center = Detail.center;
+  $scope.center = Detail.mapCenter;
   $scope.defaults = Detail.mapDefaults;
+  $scope.marker = Detail.marker;
+  $scope.center.lat = $scope.marker[46].lat;
+  $scope.center.lng = $scope.marker[46].lng;
 
-  $scope.markersHash = Detail.getMarker($scope.poi);
+  $scope.markersHash = Detail.getMarkerByPoiIds($scope.poi.id);
+  $scope.markersHash = Detail.focusMarker($scope.markersHash);
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
     scope: $scope
@@ -389,7 +425,7 @@ angular.module('starter.controllers', [])
   $scope.swipeRight = function() {
     $state.go('tab.program');
   };
-  $scope.busstops   = Detail.busstops;
+  $scope.bustimes = Detail.bustimes;
   $scope.directions = Detail.directions;
   $scope.requestedDay = $stateParams.day;
   $scope.requestedDestination = "1";
@@ -448,14 +484,17 @@ angular.module('starter.controllers', [])
     $state.go('tab.program');
   };
 
-  $scope.poi = Detail.busstop;
+  $scope.poi = Detail.busstops.shift();
 
-  $scope.center = Detail.center;
+  $scope.center = Detail.mapCenter;
   $scope.defaults = Detail.mapDefaults;
 
-  $scope.markersHash = Detail.getMarker($scope.poi);
-  $scope.center.lat = $scope.markersHash[64].lat;
-  $scope.center.lng = $scope.markersHash[64].lng;
+  $scope.markersHash = Detail.getMarkerByPoiIds($scope.poi.id);
+  $scope.markersHash = Detail.focusMarker($scope.markersHash);
+
+  $scope.marker = Detail.marker;
+  $scope.center.lat = $scope.marker[64].lat;
+  $scope.center.lng = $scope.marker[64].lng;
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
     scope: $scope
