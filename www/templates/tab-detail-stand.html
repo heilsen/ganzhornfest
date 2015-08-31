@@ -12,7 +12,7 @@
         <p><a ng-if="stand.url" href="http://{{stand.url}}">{{stand.url}}</a></p>
         <p class="item-text-wrap" ng-if="stand.description">{{stand.description}}</p>
         <div style="margin-top:10px;">
-          <div ng-repeat="item in itemArray" class="item item-text-wrapper" ui-sref="tab.detail({ type: item.type, id: item.id})" ng-click="">
+          <div ng-repeat="item in itemArray | orderBy: 'name'" class="item item-text-wrapper" ui-sref="tab.detail({ type: item.type, id: item.id})" ng-click="">
             {{item.name}}
           </div>
         </div>

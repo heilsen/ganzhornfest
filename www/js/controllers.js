@@ -126,7 +126,7 @@ angular.module('starter.controllers', [])
 
   $scope.filteredStands = Detail.filterClubsByItem(parseInt($stateParams.id));
   // only looking for one item
-  $scope.item = Detail.getItemsByIds($stateParams.id).shift();
+  $scope.item = Detail.itemsHash[$stateParams.id];
 
   $scope.center = Detail.center;
   $scope.defaults = Detail.mapDefaults;
@@ -179,7 +179,7 @@ angular.module('starter.controllers', [])
     $state.go('tab.map');
   };
 
-  $scope.stand = Detail.getPoi(parseInt($stateParams.id),'club');
+  $scope.stand = Detail.getPoi(parseInt($stateParams.id));
   $scope.itemArray = Detail.getItemsByIds($scope.stand.items);
 
   $scope.center = Detail.center;
@@ -341,7 +341,7 @@ angular.module('starter.controllers', [])
     $state.go('tab.bus');
   };
 
-  $scope.poi = Detail.getPoi(parseInt($stateParams.id),'stage');
+  $scope.poi = Detail.getPoi(parseInt($stateParams.id));
 
   $scope.center = Detail.center;
   $scope.defaults = Detail.mapDefaults;
