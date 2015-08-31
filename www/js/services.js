@@ -506,15 +506,23 @@ angular.module('starter.services', [])
     })
     return itemsOfGivenType;
   };
-  _allItems = _getItems();
+  _allItems = items;
   _itemsHash = function() {
-    var itemsArray = _getItems();
+    var itemsArray = items;
     var itemsHash = {};
     for (var i=0; i<itemsArray.length; i++) {
       itemsHash[itemsArray[i].id] = itemsArray[i];
     };
     return itemsHash;
   };
+  _poisHash = function() {
+    var poisArray = pois;
+    var poisHash = {};
+    for (var i=0; i<poisArray.length; i++) {
+      poisHash[poisArray[i].id] = poisArray[i];
+    };
+    return poisHash;
+  }();
 
   // returns array foods
   _getFoods = function() {
@@ -587,6 +595,35 @@ angular.module('starter.services', [])
     return markersHash;
   };
   _allMarkers = _generateMarkers();
+  _getMarkersFast = function(poisList) {
+    var allMarkersHash = _allMarkers;
+    var markersHash = {};
+
+    if(typeof poisList === 'undefined') {
+      var poisList = pois;
+    };
+
+    for(var i=0; i<poisList.length; i++) {
+      var poi = poisList[i];
+      if(poi.id in allMarkersHash) {
+        markersHash[poi.id] = allMarkersHash[poi.id];
+      } else {
+        var numberOfGeoIds = _poisHash[poi.id].geoid.length;
+        for (var j=0; j<numberOfGeoIds; j++) {
+          markersHash[poi.id+"_"+j] = allMarkersHash[poi.id+"_"+j];
+        };
+      };
+    };
+    var keys = Object.keys(markersHash);
+    if(keys.length === 1) {
+      markersHash[keys[0]].focus = true;
+    } else {
+      for(var i=0; i<keys.length; i++) {
+        markersHash[keys[i]].focus = false;
+      };
+    };
+    return markersHash;
+  };
   _busstopMarker = _generateMarkers(_getBusstop(64));
 
   _getCenter = function() {
@@ -613,14 +650,10 @@ angular.module('starter.services', [])
  
   return {
 
-    // params number clubId
-    // returns object club
-    getPoi: function(poiId,poiType) {
-      var pois = _getPois(poiType);
-      pois = pois.filter(function(poi){
-        return poi.id === parseInt(poiId);
-      });
-      var poi = pois.shift();
+    // params number poiId
+    // returns object poi
+    getPoi: function(poiId) {
+      var poi = _poisHash[poiId]
       return poi;
     },
     // params number itemId
@@ -659,16 +692,16 @@ angular.module('starter.services', [])
     },
 
     getMarker: function(poi) {
-      return _generateMarkers([poi]);
+      return _getMarkersFast([poi]);
     },
     getMarkers: function(pois) {
-      return _generateMarkers(pois);
+      return _getMarkersFast(pois);
     },
     clubs: _clubs,
     foods: _foods,
     drinks: _drinks,
     otherItems: _otherItems,
-    markers: _allMarkers,
+    markers: _getMarkersFast(),
     center: _center,
     mapDefaults: _mapDefaults,
     directions: directions,
@@ -676,6 +709,7 @@ angular.module('starter.services', [])
     busstopMarker: _busstopMarker,
     getStage: _getStage,
     busstop: _busstop,
+    itemsHash: _itemsHash(),
   };
 })
 .run(function(Detail){
