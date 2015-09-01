@@ -23,7 +23,7 @@
     </ion-list>  
   </ion-pane>
   <ion-content style="top:203px" class="has-header has-subheader" ng-switch="category">
-    <ion-list ng-switch-when="club" ng-click="">
+    <ion-list ng-switch-when="club">
       <ion-item bindonce ng-repeat="listItem in list | filter:searchTerm" href="#/tab/stand?type={{category}}&id={{listItem.id}}">
        {{listItem.name}}
       </ion-item>
