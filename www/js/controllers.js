@@ -1,4 +1,3 @@
-// TODO: map marker are not consistent over tabs (moving markers when switching back to map view, ...)
 angular.module('starter.controllers', [])
 
 .controller('InfoCtrl', function($scope, $state, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
@@ -126,7 +125,7 @@ angular.module('starter.controllers', [])
   };
 
   itemId = parseInt($stateParams.id);
-  // TODO: is this faster than a item <-> poi mapping?
+  // TODO: better use a item <-> poi mapping since this is probably is faster
   clubs = Detail.clubs;
   var getClubsByItemId = function(itemId) {
     var filteredClubs = clubs.filter(function(club) {
@@ -145,13 +144,10 @@ angular.module('starter.controllers', [])
 
   $scope.item = Detail.item[itemId];
 
-  $scope.center = Detail.mapCenter;
-  $scope.defaults = Detail.mapDefaults;
-  $scope.marker = Detail.marker;
-  $scope.center.lat = $scope.marker[46].lat;
-  $scope.center.lng = $scope.marker[46].lng;
+  $scope.defaults = angular.copy(Detail.mapDefaults);
+  $scope.center = angular.copy(Detail.mapCenter);
 
-  $scope.markersHash = Detail.getMarkerByPoiIds($scope.filteredStandsIds);
+  $scope.markersHash = angular.copy(Detail.getMarkerByPoiIds($scope.filteredStandsIds));
   $scope.markersHash = Detail.focusMarker($scope.markersHash);
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
@@ -205,13 +201,10 @@ angular.module('starter.controllers', [])
 
   $scope.itemArray = Detail.clubItemMap[$scope.stand.id];
 
-  $scope.center = Detail.mapCenter;
-  $scope.defaults = Detail.mapDefaults;
-  $scope.marker = Detail.marker;
-  $scope.center.lat = $scope.marker[46].lat;
-  $scope.center.lng = $scope.marker[46].lng;
+  $scope.defaults = angular.copy(Detail.mapDefaults);
+  $scope.center = angular.copy(Detail.mapCenter);
 
-  $scope.markersHash = Detail.getMarkerByPoiIds($scope.stand.id);
+  $scope.markersHash = angular.copy(Detail.getMarkerByPoiIds($scope.stand.id));
   $scope.markersHash = Detail.focusMarker($scope.markersHash);
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
@@ -258,13 +251,9 @@ angular.module('starter.controllers', [])
     $state.go('tab.program');
   };
 
-  $scope.center = Detail.mapCenter;
-  $scope.defaults = Detail.mapDefaults;
-  $scope.marker = Detail.marker;
-  $scope.center.lat = $scope.marker[46].lat;
-  $scope.center.lng = $scope.marker[46].lng;
-
-  $scope.markers =  Detail.marker;
+  $scope.defaults = angular.copy(Detail.mapDefaults);
+  $scope.center = angular.copy(Detail.mapCenter);
+  $scope.markers = angular.copy(Detail.marker);
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
     scope: $scope
@@ -375,13 +364,10 @@ angular.module('starter.controllers', [])
   stageId = parseInt($stateParams.id);
   $scope.poi = Detail.poi[stageId];
 
-  $scope.center = Detail.mapCenter;
-  $scope.defaults = Detail.mapDefaults;
-  $scope.marker = Detail.marker;
-  $scope.center.lat = $scope.marker[46].lat;
-  $scope.center.lng = $scope.marker[46].lng;
+  $scope.defaults = angular.copy(Detail.mapDefaults);
+  $scope.center = angular.copy(Detail.mapCenter);
 
-  $scope.markersHash = Detail.getMarkerByPoiIds($scope.poi.id);
+  $scope.markersHash = angular.copy(Detail.getMarkerByPoiIds($scope.poi.id));
   $scope.markersHash = Detail.focusMarker($scope.markersHash);
 
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
@@ -484,15 +470,13 @@ angular.module('starter.controllers', [])
     $state.go('tab.program');
   };
 
-  $scope.poi = Detail.busstops.shift();
+  $scope.poi = angular.copy(Detail.busstops).shift();
 
-  $scope.center = Detail.mapCenter;
-  $scope.defaults = Detail.mapDefaults;
-
-  $scope.markersHash = Detail.getMarkerByPoiIds($scope.poi.id);
+  $scope.markersHash = angular.copy(Detail.getMarkerByPoiIds($scope.poi.id));
   $scope.markersHash = Detail.focusMarker($scope.markersHash);
-
-  $scope.marker = Detail.marker;
+  $scope.defaults = angular.copy(Detail.mapDefaults);
+  $scope.center = angular.copy(Detail.mapCenter);
+  $scope.marker = angular.copy(Detail.marker);
   $scope.center.lat = $scope.marker[64].lat;
   $scope.center.lng = $scope.marker[64].lng;
 
