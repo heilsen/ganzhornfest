@@ -203,7 +203,7 @@ angular.module('starter.controllers', [])
   standId = parseInt($stateParams.id);
   $scope.stand = Detail.poi[standId];
 
-  $scope.itemArray = Detail.getItemsByIds($scope.stand.items);
+  $scope.itemArray = Detail.clubItemMap[$scope.stand.id];
 
   $scope.center = Detail.mapCenter;
   $scope.defaults = Detail.mapDefaults;

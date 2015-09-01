@@ -336,14 +336,20 @@ angular.module('starter.services', [])
   var drinks = filterArrayByType(items,'drink');
   var otherItems = filterArrayByType(items,'other');
 
-  var getItemsByIds = function(ids) {
-    var items = [];
-    for(var i=0; i<ids.length; i++) {
-      var id = ids[i];
-      items.push(item[id]);
-    };
-    return items;
+  var getClubItemMap = function() {
+    var clubItemMap = {};
+    for(var key in club) {
+      var ids = club[key].items;
+      clubItemMap[key] = [];
+      for(var i=0; i<ids.length; i++) {
+        var id = ids[i];
+        clubItemMap[key].push(item[id]);
+      };
+    }
+    return clubItemMap;
   };
+  var clubItemMap = getClubItemMap();
+
   var events = [
     {id: 1,  poi: 59, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T16:00:00+0200", type: 'speech', type: 'music', name: "Eröffnung", remark: "Oberbürgermeister Joachim Scholz<br>Württ. Weinprinziessin Annekatrin Gauger"},
     {id: 2,  poi: 59, start: "2015-09-05T16:00:00+0200", end: "2015-09-05T17:30:00+0200", type: 'music', name: "MV Obereisesheim", remark: ""},
@@ -633,7 +639,7 @@ angular.module('starter.services', [])
 
     items: items,
     item: item,
-    getItemsByIds: getItemsByIds,
+    clubItemMap: clubItemMap,
 
     foods: foods,
     drinks: drinks,
