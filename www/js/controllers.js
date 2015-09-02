@@ -1,4 +1,7 @@
 angular.module('starter.controllers', [])
+.controller('AboutCtrl', function($scope, Application) {
+  $scope.version = Application.version;
+})
 
 .controller('InfoCtrl', function($scope, $state, $cordovaSocialSharing, $ionicPopover, $ionicPopup) {
   $scope.swipeLeft = function() {

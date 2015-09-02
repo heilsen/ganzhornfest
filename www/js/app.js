@@ -7,12 +7,20 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'leaflet-directive', 'ngTouch', 'ngCordova'])
 
-.run(function($ionicPlatform) {
+.value('Application', {
+  version: "0.0.0",
+  name: "Ganzhornfest",
+})
+
+.run(function($ionicPlatform, Application) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.getAppVersion.getVersionNumber(function(version) {
+        Application.version = version;
+      });
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
