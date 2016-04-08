@@ -8,7 +8,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'leaflet-directive', 'ngTouch', 'ngCordova'])
 
 .value('Application', {
-  version: "0.0.0",
+  version: "0.1.4",
   name: "Ganzhornfest",
 })
 
