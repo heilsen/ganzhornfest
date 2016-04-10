@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'leaflet-directive', 'ngTouch', 'ngCordova'])
+angular.module('ngGanzhornfest', ['ionic', 'ngGanzhornfest.controllers', 'ngGanzhornfest.services', 'leaflet-directive', 'ngTouch', 'ngCordova'])
 
 .value('Application', {
   version: "0.1.4",

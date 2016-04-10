@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('ngGanzhornfest.services', [])
 
 .factory('Detail', function() {
 

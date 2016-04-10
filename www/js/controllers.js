@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('ngGanzhornfest.controllers', [])
 .controller('PopoverCtrl', function($scope, $ionicPopover, $ionicPopup) {
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
     scope: $scope
