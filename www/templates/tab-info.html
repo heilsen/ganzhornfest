@@ -17,14 +17,14 @@
           <dt>Montag</dt> <dd style="color: #666">11:00 Uhr - 24:00 Uhr</dd>
         </dl>
       </div>
-      <a href="#/tab/map" style="color: #666; text-decoration:none">
+      <a ui-sref="tab.map" style="color: #666; text-decoration:none">
         <div class="item item-icon-left item-text-wrap">
           <i class="icon ion-map"></i>
           <b>Neckarsulm</b>
           <p>zwischen Deutschordensschloss und Marktplatz</p>
         </div>
       </a>
-      <a href="#/tab/list" style="color: #666; text-decoration:none">
+      <a ui-sref="tab.list" style="color: #666; text-decoration:none">
         <div class="item item-icon-left item-text-wrap">
           <i class="icon ion-ios-list-outline"></i>
           <p style="margin-top: 10px">52 Vereine bieten:</p>
@@ -34,6 +34,7 @@
           </ul>
         </div>
       </a>
+      <!-- FIXME: ui-sref doesn't respect default param values -->
       <a href="#/tab/program" style="color: #666; text-decoration:none">
         <div class="item item-icon-left item-text-wrap">
           <i class="icon ion-ios-musical-notes"></i>
@@ -44,6 +45,7 @@
           </ul>
         </div>
       </a>
+      <!-- FIXME: ui-sref doesn't respect default param values -->
       <a href="#/tab/bus" style="color: #666;text-decoration:none">
         <div class="item item-icon-left item-text-wrap">
           <i class="icon ion-android-bus"></i>
@@ -51,7 +53,7 @@
             An den drei Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für Rufauto-Fahrten). Dieser Service wird Dir ermöglicht durch die Stadt Neckarsulm, den HNV und die Busunternehmen OVR, RBS und Zartmann. Die Fahrpläne findest Du auf den Aushängen an den Haltestellen und unter <a href="http://www.neckarsulmer-stadtbus.de/">www.neckarsulmer-stadtbus.de</a>.
           </p>
           <p>
-            Eine Übersicht über die Rückfahrt vom Ganzhornfest mit dem Bus findest Du auch hier in der App unter: <a href="#/tab/bus">Busfahrplan</a>
+            Eine Übersicht über die Rückfahrt vom Ganzhornfest mit dem Bus findest Du auch hier in der App unter: <a ui-sref="tab.bus">Busfahrplan</a>
           </p>
         </div>
       </a>

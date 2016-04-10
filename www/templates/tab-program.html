@@ -37,7 +37,7 @@
               {{ event.start | date : "HH:mm" }} - {{ event.end | date : "HH:mm"}}
             </span>
           </div>
-          <a href="#/tab/stage?id={{stage.id}}" style="color: #666; text-decoration:none">
+          <a ui-sref="tab.stage({id:{{stage.id}}})" style="color: #666; text-decoration:none">
             <div class="item item-text-wrapper">
               {{ event.name }}
               <span class="item-note item-text-wrap" ng-bind-html="event.remark"></span>
