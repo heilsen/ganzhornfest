@@ -2,11 +2,14 @@
   "name": "Ganzhornfest",
   "private": "true",
   "dependencies": {
-    "angular-bindonce": "~0.3.3",
-    "angular-leaflet": "~0.8.6",
-    "angular-touch": "1.4.3",
-    "ionic": "~1.1.0",
-    "Leaflet.awesome-markers": "~2.0.2",
-    "ngCordova": "~0.1.20-alpha"
+    "angular": "latest",
+    "angular-bindonce": "latest",
+    "angular-leaflet": "latest",
+    "angular-touch": "latest",
+    "font-awesome": "latest",
+    "ionic": "latest",
+    "leaflet": "latest",
+    "Leaflet.awesome-markers": "latest",
+    "ngCordova": "latest"
   }
 }
