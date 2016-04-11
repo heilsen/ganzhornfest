@@ -37,10 +37,10 @@
   <ion-content style="top:243px" class="has-header has-subheader">
    <div class="list list-inset">
      <div class="item item-divider" style="margin-bottom:10px;margin-top:10px;" ng-repeat="direction in directions | filter:directionFilter">
-       {{ direction.destination }}
+       {{ ::direction.destination }}
        <div ng-repeat="bustime in bustimes | filter:{direction: direction.id} | filter:dayFilter">
          <div class="item item-text-wrapper" style="background-color:#f5f5f5;">
-           {{ bustime.time | date: "HH:mm" }}
+           {{ ::bustime.time | date: "HH:mm" }}
          </div>
        </div>
      </div>

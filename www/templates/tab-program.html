@@ -27,20 +27,20 @@
   <ion-content style="top:163px" class="has-header has-subheader">
     <div class="list list-inset">
       <div class="item item-divider" style="margin-bottom:10px;margin-top:10px;" ng-repeat="stage in stages | filter:stageFilter">
-        {{ stage.name }}
+        {{ ::stage.name }}
         <div ng-repeat="event in events | filter:{poi: stage.id} | filter:dayFilter">
-          <div class="item item-divider" ng-switch on="event.end">
+          <div class="item item-divider" ng-switch on="::event.end">
             <span ng-switch-when="">
-              {{ event.start | date : "HH:mm" }}
+              {{ ::event.start | date : "HH:mm" }}
             </span>
             <span ng-switch-default>
-              {{ event.start | date : "HH:mm" }} - {{ event.end | date : "HH:mm"}}
+              {{ ::event.start | date : "HH:mm" }} - {{ ::event.end | date : "HH:mm"}}
             </span>
           </div>
           <a ui-sref="tab.stage({id:{{stage.id}}})" style="color: #666; text-decoration:none">
             <div class="item item-text-wrapper">
-              {{ event.name }}
-              <span class="item-note item-text-wrap" ng-bind-html="event.remark"></span>
+              {{ ::event.name }}
+              <span class="item-note item-text-wrap" ng-bind-html="::event.remark"></span>
             </div>
           </a>
         </div>

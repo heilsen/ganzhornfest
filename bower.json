@@ -3,7 +3,6 @@
   "private": "true",
   "dependencies": {
     "angular": "latest",
-    "angular-bindonce": "latest",
     "angular-leaflet": "latest",
     "angular-touch": "latest",
     "font-awesome": "latest",
