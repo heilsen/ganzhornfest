@@ -12,7 +12,7 @@ angular.module('ngGanzhornfest', ['ionic', 'ngGanzhornfest.controllers', 'ngGanz
   name: "Ganzhornfest",
 })
 
-.run(function($ionicPlatform, Application) {
+.run(function($ionicPlatform, Application, $templateCache, $http) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -27,6 +27,15 @@ angular.module('ngGanzhornfest', ['ionic', 'ngGanzhornfest.controllers', 'ngGanz
       StatusBar.styleLightContent();
     }
   });
+  $http.get("templates/tabs.html", { cache: $templateCache });
+  $http.get("templates/tab-list.html", { cache: $templateCache });
+  $http.get("templates/tab-detail.html", { cache: $templateCache });
+  $http.get("templates/tab-detail-stand.html", { cache: $templateCache });
+  $http.get("templates/tab-detail-poi.html", { cache: $templateCache });
+  $http.get("templates/tab-program.html", { cache: $templateCache });
+  $http.get("templates/tab-bus.html", { cache: $templateCache });
+  $http.get("templates/tab-info.html", { cache: $templateCache });
+  $http.get("templates/tab-map.html", { cache: $templateCache });
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
