@@ -156,6 +156,12 @@ angular.module('ngGanzhornfest.controllers', [])
   $scope.defaults = angular.copy(Detail.mapDefaults);
   $scope.center = angular.copy(Detail.mapCenter);
   $scope.markers = angular.copy(Detail.marker);
+  $scope.tiles = {
+    url: "/appdata/map-tiles/{z}/{x}/{y}.png",
+    options: {
+      attribution: 'Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }
+	};
 
 })
 
