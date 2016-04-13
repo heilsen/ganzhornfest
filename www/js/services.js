@@ -1,6 +1,12 @@
 angular.module('ngGanzhornfest.services', [])
-
-.factory('Detail', function() {
+.factory('Store', function($http) {
+  return {
+    geodata : function() {
+      return $http.get('appdata/geodata.json').then(function(result) { return result.data.geodata; })
+    }
+  }
+})
+.factory('Detail', function(Store) {
 
   var convertToArray = function(obj) {
     var arr = [];
