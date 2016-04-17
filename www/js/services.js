@@ -664,6 +664,22 @@ angular.module('ngGanzhornfest.services', [])
     focusMarker: focusMarker,
   };
 })
+.factory('Swipe', function($ionicTabsDelegate) {
+  return {
+    swipeRight: function () {
+      var selected = $ionicTabsDelegate.selectedIndex();
+      if (selected != -1 && selected != 0) {
+        $ionicTabsDelegate.select(selected - 1);
+      }
+    },
+    swipeLeft: function () {
+      var selected = $ionicTabsDelegate.selectedIndex();
+      if (selected != -1) {
+        $ionicTabsDelegate.select(selected + 1);
+      }
+    }
+  }
+})
 .run(function(Detail){
 })
 ;

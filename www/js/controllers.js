@@ -40,21 +40,14 @@ angular.module('ngGanzhornfest.controllers', [])
   $scope.version = Application.version;
 })
 
-.controller('InfoCtrl', function($scope, $state, $cordovaSocialSharing) {
-  $scope.swipeLeft = function() {
-    $state.go('tab.list');
-  };
-
+.controller('InfoCtrl', function($scope, Swipe) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 })
 
-.controller('ListCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $cordovaSocialSharing) {
-
-  $scope.swipeRight = function() {
-    $state.go('tab.info');
-  };
-  $scope.swipeLeft = function() {
-    $state.go('tab.map');
-  };
+.controller('ListCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 
   // search form
   $scope.searchTerm = "";
@@ -86,14 +79,9 @@ angular.module('ngGanzhornfest.controllers', [])
 
 })
 
-.controller('DetailCtrl', function($scope, $stateParams, Detail, $state, $cordovaSocialSharing) {
-
-  $scope.swipeRight = function() {
-    $state.go('tab.info');
-  };
-  $scope.swipeLeft = function() {
-    $state.go('tab.map');
-  };
+.controller('DetailCtrl', function($scope, $stateParams, Detail, Swipe) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 
   itemId = parseInt($stateParams.id);
   // TODO: better use a item <-> poi mapping since this is probably is faster
@@ -123,14 +111,9 @@ angular.module('ngGanzhornfest.controllers', [])
 
 })
 
-.controller('DetailStandCtrl', function($scope, $stateParams, Detail, $state, $cordovaSocialSharing) {
-
-  $scope.swipeRight = function() {
-    $state.go('tab.info');
-  };
-  $scope.swipeLeft = function() {
-    $state.go('tab.map');
-  };
+.controller('DetailStandCtrl', function($scope, $stateParams, Detail, Swipe) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 
   standId = parseInt($stateParams.id);
   $scope.stand = Detail.poi[standId];
@@ -145,13 +128,9 @@ angular.module('ngGanzhornfest.controllers', [])
 
 })
 
-.controller('MapCtrl', function($scope, Detail, $state, $cordovaSocialSharing) {
-  $scope.swipeRight = function() {
-    $state.go('tab.list');
-  };
-  $scope.swipeLeft = function() {
-    $state.go('tab.program');
-  };
+.controller('MapCtrl', function($scope, Detail, Swipe) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 
   $scope.defaults = angular.copy(Detail.mapDefaults);
   $scope.center = angular.copy(Detail.mapCenter);
@@ -161,18 +140,14 @@ angular.module('ngGanzhornfest.controllers', [])
     options: {
       attribution: 'Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }
-	};
+  };
 
 })
 
-.controller('ProgramCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams, $cordovaSocialSharing) {
+.controller('ProgramCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate, $stateParams) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 
-  $scope.swipeRight = function() {
-    $state.go('tab.map');
-  };
-  $scope.swipeLeft = function() {
-    $state.go('tab.bus');
-  };
   $scope.events = Detail.events;
   $scope.stages = Detail.stages;
 
@@ -192,14 +167,9 @@ angular.module('ngGanzhornfest.controllers', [])
 
 })
 
-.controller('DetailStageCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams, $cordovaSocialSharing) {
-
-  $scope.swipeRight = function() {
-    $state.go('tab.map');
-  };
-  $scope.swipeLeft = function() {
-    $state.go('tab.bus');
-  };
+.controller('DetailStageCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate, $stateParams) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 
   stageId = parseInt($stateParams.id);
   $scope.poi = Detail.poi[stageId];
@@ -212,11 +182,10 @@ angular.module('ngGanzhornfest.controllers', [])
 
 })
 
-.controller('BusCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams, $cordovaSocialSharing) {
+.controller('BusCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate, $stateParams) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 
-  $scope.swipeRight = function() {
-    $state.go('tab.program');
-  };
   $scope.bustimes = Detail.bustimes;
   $scope.directions = Detail.directions;
   $scope.requestedDay = $stateParams.day;
@@ -235,11 +204,9 @@ angular.module('ngGanzhornfest.controllers', [])
 
 })
 
-.controller('DetailBusstopCtrl', function($scope, Detail, $state, $ionicScrollDelegate, $stateParams, $cordovaSocialSharing) {
-
-  $scope.swipeRight = function() {
-    $state.go('tab.program');
-  };
+.controller('DetailBusstopCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate, $stateParams) {
+  $scope.swipeRight = Swipe.swipeRight;
+  $scope.swipeLeft = Swipe.swipeLeft;
 
   $scope.poi = angular.copy(Detail.busstops).shift();
 
@@ -250,6 +217,5 @@ angular.module('ngGanzhornfest.controllers', [])
   $scope.marker = angular.copy(Detail.marker);
   $scope.center.lat = $scope.marker[64].lat;
   $scope.center.lng = $scope.marker[64].lng;
-
 })
 ;
