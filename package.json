@@ -7,8 +7,7 @@
     "url": "git://github.com/sebokopter/ganzhornfest.git"
   },
   "license": "MIT",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "gulp": "latest",
     "gulp-sass": "latest",
@@ -23,15 +22,16 @@
     "cordova-plugin-console",
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
-    "com.ionic.keyboard",
+    "ionic-plugin-keyboard",
     {
       "locator": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
       "id": "nl.x-services.plugins.socialsharing"
     },
     {
       "locator": "https://github.com/whiteoctober/cordova-plugin-app-version.git",
-      "id": "uk.co.whiteoctober.cordova.appversion"
-    }
+      "id": "cordova-plugin-app-version"
+    },
+    "cordova-sqlite-ext"
   ],
   "cordovaPlatforms": [
     "android"

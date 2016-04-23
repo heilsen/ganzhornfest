@@ -12,7 +12,7 @@ angular.module('ngGanzhornfest', ['ionic', 'ngGanzhornfest.controllers', 'ngGanz
   name: "Ganzhornfest",
 })
 
-.run(function($ionicPlatform, Application, $templateCache, $http) {
+.run(function($ionicPlatform, Application, $templateCache, $http, $cordovaSQLite) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,12 +21,30 @@ angular.module('ngGanzhornfest', ['ionic', 'ngGanzhornfest.controllers', 'ngGanz
       cordova.getAppVersion.getVersionNumber(function(version) {
         Application.version = version;
       });
+
+			var pois = [];
+			document.addEventListener("deviceready", function () {
+ 				var db = window.sqlitePlugin.openDatabase( {name: 'db.backup', location: 'default', createFromLocation: 1} );
+        var query = "SELECT * from poi";
+				$cordovaSQLite.execute(db, query, []).
+					then(
+						function(res) {
+							for(var i = 0; i < res.rows.length; i++) {
+								pois.push(res.rows.item(i));
+							}
+							console.log("pois: " + JSON.stringify(pois));
+						}, function(err) {
+							console.error(JSON.stringify(err)); 
+						}
+					);
+				}, false);
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
   });
+
   $http.get("templates/tabs.html", { cache: $templateCache });
   $http.get("templates/tab-list.html", { cache: $templateCache });
   $http.get("templates/tab-detail.html", { cache: $templateCache });
