@@ -43,6 +43,24 @@ angular.module('ngGanzhornfest', ['ionic', 'ngGanzhornfest.controllers', 'ngGanz
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+
+    document.addEventListener("deviceready", function () {
+      var db = window.sqlitePlugin.openDatabase( {name: 'db.backup', location: 'default', createFromLocation: 1} );
+      var query = "SELECT * from poi";
+      $cordovaSQLite.execute(db, query, []).
+        then(
+          function(res) {
+            var pois = [];
+            for(var i = 0; i < res.rows.length; i++) {
+              pois.push(res.rows.item(i));
+            }
+            console.log("pois: " + JSON.stringify(pois));
+          }, function(err) {
+            console.error(JSON.stringify(err)); 
+          }
+        );
+      }, false);
+
   });
 
   $http.get("templates/tabs.html", { cache: $templateCache });

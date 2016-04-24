@@ -664,6 +664,49 @@ angular.module('ngGanzhornfest.services', [])
     focusMarker: focusMarker,
   };
 })
+.factory('Data', function($cordovaSQLite) {
+  var db = window.sqlitePlugin.openDatabase( {name: 'db.backup', location: 'default', createFromLocation: 1} );
+  return {
+    getPoiById: function(poiId) {
+      var query = "select * from poi where id=?";
+      return $cordovaSQLite.execute(db, query, [poiId]).
+        then(
+          function(res) {
+            return res.rows.item(0);
+          }, function(err) {
+            return null;
+          }
+        );
+    },
+    getItemsByPoiid: function(poiId) {
+      var query = "select i.* from items i, poi p, poiid_itemid pi where p.id = pi.poiid and pi.itemid=i.id and p.id=? order by pi.poiid";
+      return $cordovaSQLite.execute(db, query, [poiId]).
+        then(
+          function(res) {
+         for(var i=0; i<res.rows.length; i++) {
+              return res.rows.item(i);
+            }
+          }, function(err) {
+            return null;
+          }
+        );
+    },
+    getGeodataByPoiid: function(poiId) {
+      var query = "select g.* from geodata g, poiid_geoid pg where g.id=pg.geoid and pg.poiid=?;";
+      return $cordovaSQLite.execute(db, query, [poiId]).
+        then(
+          function(res) {
+            for(var i=0; i<res.rows.length; i++) {
+              return res.rows.item(i);
+            }
+          }, function(err) {
+            return null;
+          }
+        );
+    },
+
+  };
+})
 .factory('Swipe', function($ionicTabsDelegate) {
   return {
     swipeRight: function () {
