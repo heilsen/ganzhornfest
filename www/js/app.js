@@ -7,38 +7,14 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('ngGanzhornfest', ['ionic', 'ngGanzhornfest.controllers', 'ngGanzhornfest.services', 'leaflet-directive', 'ngTouch', 'ngCordova'])
 
-.value('Application', {
-  version: "0.1.4",
-  name: "Ganzhornfest",
-})
-
-.run(function($ionicPlatform, Application, $templateCache, $http, $cordovaSQLite) {
+.run(function($ionicPlatform, $templateCache, $http, $cordovaSQLite) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.getAppVersion.getVersionNumber(function(version) {
-        Application.version = version;
-      });
-
-			var pois = [];
-			document.addEventListener("deviceready", function () {
- 				var db = window.sqlitePlugin.openDatabase( {name: 'db.backup', location: 'default', createFromLocation: 1} );
-        var query = "SELECT * from poi";
-				$cordovaSQLite.execute(db, query, []).
-					then(
-						function(res) {
-							for(var i = 0; i < res.rows.length; i++) {
-								pois.push(res.rows.item(i));
-							}
-							console.log("pois: " + JSON.stringify(pois));
-						}, function(err) {
-							console.error(JSON.stringify(err)); 
-						}
-					);
-				}, false);
     }
+
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();

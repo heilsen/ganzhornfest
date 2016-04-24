@@ -1,5 +1,5 @@
 angular.module('ngGanzhornfest.controllers', [])
-.controller('PopoverCtrl', function($scope, $ionicPopover, $ionicPopup) {
+.controller('PopoverCtrl', function($scope, $ionicPopover, $ionicPopup, $ionicPlatform) {
   $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
     scope: $scope
   }).then(function(popover){
@@ -28,16 +28,18 @@ angular.module('ngGanzhornfest.controllers', [])
   };
   $scope.showAboutPopup = function(message) {
    var alertPopup = $ionicPopup.alert({
+     scope: $scope,
      title: "Über die App",
      cssClass: "about-popup",
      templateUrl: 'templates/popup-about.html'
    });
   };
 
-})
-
-.controller('AboutCtrl', function($scope, Application) {
-  $scope.version = Application.version;
+  $ionicPlatform.ready(function() {
+    cordova.getAppVersion.getVersionNumber().then(function(version) {
+      $scope.version = version;
+    });
+  });
 })
 
 .controller('InfoCtrl', function($scope, Swipe) {
