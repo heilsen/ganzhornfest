@@ -11,5 +11,11 @@
     "Leaflet.awesome-markers": "latest",
     "ngCordova": "latest",
     "localforage": "^1.4.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.5.5"
+  },
+  "resolutions": {
+    "angular": "1.5.5"
   }
 }

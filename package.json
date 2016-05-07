@@ -9,13 +9,19 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "gulp": "latest",
-    "gulp-sass": "latest",
-    "gulp-clean-css": "latest",
     "bower": "latest",
+    "gulp": "latest",
+    "gulp-clean-css": "latest",
+    "gulp-sass": "latest",
     "gulp-util": "latest",
-    "shelljs": "latest",
-    "node-gyp": "latest"
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.5",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "node-gyp": "latest",
+    "shelljs": "latest"
   },
   "cordovaPlugins": [
     "cordova-plugin-device",
