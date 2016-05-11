@@ -12,6 +12,8 @@
     "bower": "latest",
     "gulp": "latest",
     "gulp-clean-css": "latest",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "latest",
     "gulp-util": "latest",
     "jasmine-core": "^2.4.1",
