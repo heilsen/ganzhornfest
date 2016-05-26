@@ -1,11 +1,17 @@
 describe("App", function() {
-  beforeEach(module("ngGanzhornfest"));
-  var $controller;
-  beforeEach(inject(function(_$controller_){
-    // The injector unwraps the underscores (_) from around the parameter names when matching
-    $controller = _$controller_;
-  }));
-  it("is true", function() {
-    expect(true).toBe(true);
+  var app;
+  beforeEach(
+    app = module("ngGanzhornfest")
+  );
+
+  it("is defined", function() { 
+    expect(app).not.toBe(null);
+  });
+
+  it("has controllers", function() {
+    expect(app.controller).not.toBe(null);
+  });
+  it("has servies", function() {
+    expect(app.services).not.toBe(null);
   });
 });
