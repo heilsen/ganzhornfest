@@ -49,16 +49,32 @@ angular.module('ngGanzhornfest.controllers', [])
             $scope.swipeRight = Swipe.swipeRight;
             $scope.swipeLeft = Swipe.swipeLeft;
 
+            var placeholder = "..";
+            $scope.clubsCounter = placeholder;
+            $scope.roundedFoodsCounter = placeholder;
+            $scope.roundedDrinksCounter = placeholder;
+            $scope.roundedOthersCounter = placeholder;
+            $scope.roundedEventsCounter = placeholder;
+
+            function roundToLast10(list) {
+                return Math.floor(list / 10) * 10;
+            }
+
             DataService.getClubs.then(function (result) {
                 $scope.clubsCounter = result.length;
             });
             DataService.getFoods.then(function (result) {
-                $scope.roundedFoodsCounter = Math.floor(result.length / 10) * 10;
+                $scope.roundedFoodsCounter = roundToLast10(result.length);
             });
             DataService.getDrinks.then(function (result) {
-                $scope.roundedDrinksCounter = Math.floor(result.length / 10) * 10;
+                $scope.roundedDrinksCounter = roundToLast10(result.length);
             });
-
+            DataService.getOther.then(function (result) {
+                $scope.roundedOthersCounter = roundToLast10(result.length);
+            });
+            DataService.getEvents.then(function (result) {
+                $scope.roundedEventsCounter = roundToLast10(result.length);
+            });
         }])
 
     .controller('ListCtrl', ['$scope', 'DataService', 'Swipe', '$ionicScrollDelegate',
@@ -73,7 +89,7 @@ angular.module('ngGanzhornfest.controllers', [])
             };
             $scope.category = 'club';
 
-            $scope.scrollTop = function() {
+            $scope.scrollTop = function () {
                 $ionicScrollDelegate.scrollTop();
                 $scope.searchTerm = "";
             };
@@ -131,7 +147,7 @@ angular.module('ngGanzhornfest.controllers', [])
                 $scope.selectedStage = $stateParams.stage;
             });
 
-            $scope.scrollTop = function() {
+            $scope.scrollTop = function () {
                 $ionicScrollDelegate.scrollTop();
             };
             $scope.stageFilter = function (poi) {
@@ -139,7 +155,7 @@ angular.module('ngGanzhornfest.controllers', [])
             };
             $scope.eventFilter = function (event) {
                 //noinspection JSUnresolvedVariable
-                return (new Date(event.startdate)).getDay() === $scope.selectedDay &&  event.poiid === parseInt($scope.selectedStage);
+                return (new Date(event.startdate)).getDay() === $scope.selectedDay && event.poiid === parseInt($scope.selectedStage);
             };
             $scope.days = [
                 {id: 6, name: 'Samstag'},
@@ -147,10 +163,16 @@ angular.module('ngGanzhornfest.controllers', [])
                 {id: 1, name: 'Montag'}
             ];
             switch ((new Date()).getDay()) {
-                case 0: $scope.selectedDay = 0; break;
-                case 1: $scope.selectedDay = 1; break;
+                case 0:
+                    $scope.selectedDay = 0;
+                    break;
+                case 1:
+                    $scope.selectedDay = 1;
+                    break;
                 case 6:
-                default: $scope.selectedDay = 6; break;
+                default:
+                    $scope.selectedDay = 6;
+                    break;
             }
 
         }])
@@ -160,13 +182,13 @@ angular.module('ngGanzhornfest.controllers', [])
             $scope.swipeRight = Swipe.swipeRight;
             $scope.swipeLeft = Swipe.swipeLeft;
 
-            DataService.getBusdepartures.then(function(result) {
+            DataService.getBusdepartures.then(function (result) {
                 result.map(function (item) {
                     item.departuretime = $filter('date')(item.date, "HH:mm");
                 });
                 $scope.busdepartures = result;
             });
-            DataService.getBuslines.then(function(result) {
+            DataService.getBuslines.then(function (result) {
                 $scope.buslines = result;
                 $scope.selectedDestination = 1;
             });
@@ -181,7 +203,7 @@ angular.module('ngGanzhornfest.controllers', [])
                 //noinspection JSUnresolvedVariable
                 return $scope.selectedDay === date.getDay() && $scope.selectedDestination === item.busline;
             };
-            $scope.scrollTop = function() {
+            $scope.scrollTop = function () {
                 $ionicScrollDelegate.scrollTop();
             };
 
@@ -191,15 +213,21 @@ angular.module('ngGanzhornfest.controllers', [])
                 {id: 1, name: 'Montag'}
             ];
             switch ((new Date()).getDay()) {
-                case 0: $scope.selectedDay = 0; break;
-                case 1: $scope.selectedDay = 1; break;
+                case 0:
+                    $scope.selectedDay = 0;
+                    break;
+                case 1:
+                    $scope.selectedDay = 1;
+                    break;
                 case 6:
-                default: $scope.selectedDay = 6; break;
+                default:
+                    $scope.selectedDay = 6;
+                    break;
             }
         }])
 
-    .controller('PoiDetailController', ['$scope','DataService','Swipe','$stateParams',
-        function($scope, DataService, Swipe, $stateParams) {
+    .controller('PoiDetailController', ['$scope', 'DataService', 'Swipe', '$stateParams',
+        function ($scope, DataService, Swipe, $stateParams) {
             $scope.swipeRight = Swipe.swipeRight;
             $scope.swipeLeft = Swipe.swipeLeft;
 
@@ -215,7 +243,7 @@ angular.module('ngGanzhornfest.controllers', [])
             }
 
             var poiId = parseInt($stateParams.id);
-            DataService.getPoi(poiId).then(function(result) {
+            DataService.getPoi(poiId).then(function (result) {
                 $scope.poi = result.details;
                 $scope.items = result.items;
             });
@@ -225,8 +253,8 @@ angular.module('ngGanzhornfest.controllers', [])
             });
         }])
 
-    .controller('ItemDetailController', ['$scope','DataService','Swipe','$stateParams',
-        function($scope, DataService, Swipe, $stateParams) {
+    .controller('ItemDetailController', ['$scope', 'DataService', 'Swipe', '$stateParams',
+        function ($scope, DataService, Swipe, $stateParams) {
             $scope.swipeRight = Swipe.swipeRight;
             $scope.swipeLeft = Swipe.swipeLeft;
 
@@ -234,10 +262,10 @@ angular.module('ngGanzhornfest.controllers', [])
             $scope.center = DataService.getMapCenter();
 
             var itemId = parseInt($stateParams.id);
-            DataService.getItem(itemId).then(function(result) {
+            DataService.getItem(itemId).then(function (result) {
                 $scope.item = result;
             });
-            DataService.getClubsByItemId(itemId).then(function(result) {
+            DataService.getClubsByItemId(itemId).then(function (result) {
                 $scope.clubs = result;
             });
             DataService.getMarkersByItemId(itemId).then(function (markers) {
