@@ -1,223 +1,267 @@
 angular.module('ngGanzhornfest.controllers', [])
-.controller('PopoverCtrl', function($scope, $ionicPopover, $ionicPopup, $ionicPlatform) {
-  $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
-    scope: $scope
-  }).then(function(popover){
-    $scope.popover = popover;
-  });
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
-  };
-  //Cleanup the popover when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.popover.remove();
-  });
+    .controller('PopoverCtrl', ['$scope', '$ionicPopover', '$ionicPopup', '$ionicPlatform', '$cordovaSocialSharing',
+        function ($scope, $ionicPopover, $ionicPopup, $ionicPlatform, $cordovaSocialSharing) {
+            $ionicPopover.fromTemplateUrl('templates/popover-menu.html', {
+                scope: $scope
+            }).then(function (popover) {
+                $scope.popover = popover;
+            });
+            $scope.openPopover = function ($event) {
+                $scope.popover.show($event);
+            };
+            //Cleanup the popover when we're done with it!
+            $scope.$on('$destroy', function () {
+                $scope.popover.remove();
+            });
 
-  $scope.shareAnywhere = function() {
-    $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", null, null, "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
-    .then(function(result) {
-    }, function(err) {
-      $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
-    });
-  };
-  $scope.showAlert = function(message) {
-   var alertPopup = $ionicPopup.alert({
-     title: "Fehler",
-     template: message
-   });
-  };
-  $scope.showAboutPopup = function(message) {
-   var alertPopup = $ionicPopup.alert({
-     scope: $scope,
-     title: "Über die App",
-     cssClass: "about-popup",
-     templateUrl: 'templates/popup-about.html'
-   });
-  };
+            $scope.shareAnywhere = function () {
+                $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", null, null,
+                    "https://play.google.com/store/apps/DataServices?id=de.heilsen.ganzhornfest")
+                    .then(function (result) {
+                    }, function () {
+                        $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
+                    });
+            };
+            $scope.showAlert = function (message) {
+                $ionicPopup.alert({
+                    title: "Fehler",
+                    template: message
+                });
+            };
+            $scope.showAboutPopup = function () {
+                $ionicPopup.alert({
+                    scope: $scope,
+                    title: "Über die App",
+                    cssClass: "about-popup",
+                    templateUrl: 'templates/popup-about.html'
+                });
+            };
 
-  $ionicPlatform.ready(function() {
-    cordova.getAppVersion.getVersionNumber().then(function(version) {
-      $scope.version = version;
-    });
-  });
-})
+            $ionicPlatform.ready(function () {
+                cordova.getAppVersion.getVersionNumber().then(function (version) {
+                    $scope.version = version;
+                });
+            });
+        }])
 
-.controller('InfoCtrl', function($scope, Swipe) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
-})
+    .controller('InfoCtrl', ['$scope', 'Swipe', 'DataService',
+        function ($scope, Swipe, DataService) {
+            $scope.swipeRight = Swipe.swipeRight;
+            $scope.swipeLeft = Swipe.swipeLeft;
 
-.controller('ListCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
+            DataService.getClubs.then(function (result) {
+                $scope.clubsCounter = result.length;
+            });
+            DataService.getFoods.then(function (result) {
+                $scope.roundedFoodsCounter = Math.floor(result.length / 10) * 10;
+            });
+            DataService.getDrinks.then(function (result) {
+                $scope.roundedDrinksCounter = Math.floor(result.length / 10) * 10;
+            });
 
-  // search form
-  $scope.searchTerm = "";
-  $scope.clearSearch = function() {
-    $scope.searchTerm = "";
-  };
+        }])
 
-  // category filter
-  $scope.category = "food";
-  $scope.list = Detail.foods;
+    .controller('ListCtrl', ['$scope', 'DataService', 'Swipe', '$ionicScrollDelegate',
+        function ($scope, DataService, Swipe, $ionicScrollDelegate) {
+            $scope.swipeRight = Swipe.swipeRight;
+            $scope.swipeLeft = Swipe.swipeLeft;
 
-  $scope.updateCategoryFilter = function() {
-    $ionicScrollDelegate.scrollTop();
-    switch($scope.category) {
-      case 'club':
-        $scope.list = Detail.clubs;
-        break;
-      case 'food':
-        $scope.list = Detail.foods;
-        break;
-      case 'drink':
-        $scope.list = Detail.drinks;
-        break;
-      case 'other':
-        $scope.list = Detail.otherItems;
-        break;
-    };
-  };
+            // search form
+            $scope.searchTerm = "";
+            $scope.clearSearch = function () {
+                $scope.searchTerm = "";
+            };
+            $scope.category = 'club';
 
-})
+            $scope.scrollTop = function() {
+                $ionicScrollDelegate.scrollTop();
+                $scope.searchTerm = "";
+            };
 
-.controller('DetailCtrl', function($scope, $stateParams, Detail, Swipe) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
+            DataService.getClubs.then(function (result) {
+                $scope.clubs = result;
+            });
+            DataService.getFoods.then(function (result) {
+                $scope.foods = result;
+            });
+            DataService.getDrinks.then(function (result) {
+                $scope.drinks = result;
+            });
+            DataService.getOther.then(function (result) {
+                $scope.other = result;
+            });
+        }])
 
-  itemId = parseInt($stateParams.id);
-  // TODO: better use a item <-> poi mapping since this is probably is faster
-  clubs = Detail.clubs;
-  var getClubsByItemId = function(itemId) {
-    var filteredClubs = clubs.filter(function(club) {
-      return club.items.indexOf(itemId) !== -1;
-    })
-    return filteredClubs;
-  };
-  var getClubIdsByItemId = function(filteredStands) {
-    var filteredClubIds = filteredStands.map(function(club){
-      return parseInt(club.id);
-    }); 
-    return filteredClubIds;
-  };
-  $scope.filteredStands = getClubsByItemId(itemId);
-  $scope.filteredStandsIds = getClubIdsByItemId($scope.filteredStands);
+    .controller('MapController', ['$scope', '$stateParams', 'DataService', 'Swipe',
+        function ($scope, $stateParams, DataService, Swipe) {
+            $scope.swipeRight = Swipe.swipeRight;
+            $scope.swipeLeft = Swipe.swipeLeft;
 
-  $scope.item = Detail.item[itemId];
+            // TODO: parseArray and use ids as array
+            var ids = parseInt($stateParams.ids);
+            var type = $stateParams.type;
 
-  $scope.defaults = angular.copy(Detail.mapDefaults);
-  $scope.center = angular.copy(Detail.mapCenter);
+            $scope.defaults = DataService.mapDefaults;
+            $scope.center = DataService.mapCenter;
 
-  $scope.markersHash = angular.copy(Detail.getMarkerByPoiIds($scope.filteredStandsIds));
-  $scope.markersHash = Detail.focusMarker($scope.markersHash);
+            //TODO: busstop and stage switch
+            switch (type) {
+                case "food":
+                case "drink":
+                case "other":
+                    DataService.getMarkersByItemId(id).then(function (markers) {
+                        console.dir(markers);
+                        $scope.markers = markers;
+                    });
+                    break;
+                case "busstop":
+                    $scope.center = DataService.mapCenterBusstop;
+                case "club":
+                case "stage":
+                    DataService.getPoi(ids).then(function (result) {
+                        $scope.itemArray = result["items"];
+                        $scope.stand = result["details"];
+                        $scope.name = result["details"].name;
+                    });
+                    DataService.getMarkersByPois(ids).then(function (markers) {
+                        $scope.markers = markers;
+                    });
+                    break;
+                default:
+                    DataService.getAllMarkers().then(function (markers) {
+                        $scope.markers = markers;
+                    });
+            }
+        }])
 
-})
 
-.controller('DetailStandCtrl', function($scope, $stateParams, Detail, Swipe) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
+    .controller('ProgramCtrl', ['$scope', 'DataService', 'Swipe', '$ionicScrollDelegate', '$stateParams', '$filter',
+        function ($scope, DataService, Swipe, $ionicScrollDelegate, $stateParams, $filter) {
+            $scope.swipeRight = Swipe.swipeRight;
+            $scope.swipeLeft = Swipe.swipeLeft;
 
-  standId = parseInt($stateParams.id);
-  $scope.stand = Detail.poi[standId];
+            DataService.getEvents.then(function (result) {
+                result.map(function (item) {
+                    item.eventtime = $filter('date')(item.startdate, "HH:mm");
+                    //string means data/date, object means no data/date
+                    if (typeof item.enddate === "string") {
+                        item.eventtime += " - " + $filter('date')(item.enddate, "HH:mm");
+                    }
+                });
+                $scope.events = result;
+            });
+            DataService.getStages.then(function (result) {
+                $scope.stages = result;
+                $scope.selectedStage = $stateParams.stage;
+            });
 
-  $scope.itemArray = Detail.clubItemMap[$scope.stand.id];
+            $scope.scrollTop = function() {
+                $ionicScrollDelegate.scrollTop();
+            };
+            $scope.stageFilter = function (poi) {
+                return parseInt($scope.selectedStage) === poi.id;
+            };
+            $scope.eventFilter = function (event) {
+                return (new Date(event.startdate)).getDay() === $scope.selectedDay &&  event.poiid === parseInt($scope.selectedStage);
+            };
+            $scope.days = [
+                {id: 6, name: 'Samstag'},
+                {id: 0, name: 'Sonntag'},
+                {id: 1, name: 'Montag'}
+            ];
+            switch ((new Date()).getDay()) {
+                case 0: $scope.selectedDay = 0; break;
+                case 1: $scope.selectedDay = 1; break;
+                case 6:
+                default: $scope.selectedDay = 6; break;
+            }
 
-  $scope.defaults = angular.copy(Detail.mapDefaults);
-  $scope.center = angular.copy(Detail.mapCenter);
+        }])
 
-  $scope.markersHash = angular.copy(Detail.getMarkerByPoiIds($scope.stand.id));
-  $scope.markersHash = Detail.focusMarker($scope.markersHash);
+    .controller('BusCtrl', ['$scope', 'DataService', 'Swipe', '$ionicScrollDelegate', '$stateParams', '$filter',
+        function ($scope, DataService, Swipe, $ionicScrollDelegate, $stateParams, $filter) {
+            $scope.swipeRight = Swipe.swipeRight;
+            $scope.swipeLeft = Swipe.swipeLeft;
 
-})
+            DataService.getBusdepartures.then(function(result) {
+                result.map(function (item) {
+                    item.departuretime = $filter('date')(item.date, "HH:mm");
+                });
+                $scope.busdepartures = result;
+            });
+            DataService.getBuslines.then(function(result) {
+                $scope.buslines = result;
+                $scope.selectedDestination = 1;
+            });
 
-.controller('MapCtrl', function($scope, Detail, Swipe) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
+            $scope.buslineFilter = function (item) {
+                return item.id === $scope.selectedDestination;
+            };
+            $scope.depatureFilter = function (item) {
+                // little hack to get all departures until 1 hour (3 -"+0200" for german MESZ = 1) after midnight
+                var date = new Date(item.date);
+                date.setHours(date.getHours() - 3);
+                return $scope.selectedDay === date.getDay() && $scope.selectedDestination === item.busline;
+            };
+            $scope.scrollTop = function() {
+                $ionicScrollDelegate.scrollTop();
+            };
 
-  $scope.defaults = angular.copy(Detail.mapDefaults);
-  $scope.center = angular.copy(Detail.mapCenter);
-  $scope.markers = angular.copy(Detail.marker);
-  $scope.tiles = {
-    url: "/appdata/map-tiles/{z}/{x}/{y}.png",
-    options: {
-      attribution: 'Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }
-  };
+            $scope.days = [
+                {id: 6, name: 'Samstag'},
+                {id: 0, name: 'Sonntag'},
+                {id: 1, name: 'Montag'}
+            ];
+            switch ((new Date()).getDay()) {
+                case 0: $scope.selectedDay = 0; break;
+                case 1: $scope.selectedDay = 1; break;
+                case 6:
+                default: $scope.selectedDay = 6; break;
+            }
+        }])
 
-})
+    .controller('PoiDetailController', ['$scope','DataService','Swipe','$stateParams',
+        function($scope, DataService, Swipe, $stateParams) {
+            $scope.swipeRight = Swipe.swipeRight;
+            $scope.swipeLeft = Swipe.swipeLeft;
 
-.controller('ProgramCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate, $stateParams) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
+            $scope.type = $stateParams.type;
 
-  $scope.events = Detail.events;
-  $scope.stages = Detail.stages;
+            $scope.defaults = DataService.mapDefaults;
+            $scope.center = DataService.mapCenter;
+            DataService.getPoi(parseInt($stateParams.id)).then(function(result) {
+                $scope.poi = result.details;
+                $scope.items = result.items;
+            });
+            if ($stateParams.type === "busstop") {
+                $scope.center.lat = 49.193846;
+                $scope.center.lng = 9.227222;
+            }
+            if ($stateParams.type === "stage") {
+                $scope.center.lat = 49.191992;
+                $scope.center.lng = 9.223657;
+            }
+            DataService.getMarkersByPois(parseInt($stateParams.id)).then(function (markers) {
+                $scope.markers = markers;
+            });
+        }])
+    .controller('ItemDetailController', ['$scope','DataService','Swipe','$stateParams',
+        function($scope, DataService, Swipe, $stateParams) {
+            $scope.swipeRight = Swipe.swipeRight;
+            $scope.swipeLeft = Swipe.swipeLeft;
 
-  $scope.requestedDay = $stateParams.day;
-  $scope.requestedStage = $stateParams.stage;
+            $scope.defaults = DataService.mapDefaults;
+            $scope.center = DataService.mapCenter;
 
-  // TODO: include scrollTop
-  // $ionicScrollDelegate.scrollTop();
-  $scope.stageFilter = function(item,index) {
-    return $scope.requestedStage === item.id;
-  };
-  $scope.dayFilter = function(item,index) {
-    $ionicScrollDelegate.scrollTop();
-    var date = new Date(item.start);
-    return parseInt($scope.requestedDay) === date.getDay();
-  };
+            DataService.getItem(parseInt($stateParams.id)).then(function(result) {
+                $scope.item = result;
+            });
+            DataService.getClubsByItemId(parseInt($stateParams.id)).then(function(result) {
+                $scope.clubs = result;
+            });
+            DataService.getMarkersByItemId(parseInt($stateParams.id)).then(function (markers) {
+                $scope.markers = markers;
+            });
+        }])
 
-})
-
-.controller('DetailStageCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate, $stateParams) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
-
-  stageId = parseInt($stateParams.id);
-  $scope.poi = Detail.poi[stageId];
-
-  $scope.defaults = angular.copy(Detail.mapDefaults);
-  $scope.center = angular.copy(Detail.mapCenter);
-
-  $scope.markersHash = angular.copy(Detail.getMarkerByPoiIds($scope.poi.id));
-  $scope.markersHash = Detail.focusMarker($scope.markersHash);
-
-})
-
-.controller('BusCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate, $stateParams) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
-
-  $scope.bustimes = Detail.bustimes;
-  $scope.directions = Detail.directions;
-  $scope.requestedDay = $stateParams.day;
-  $scope.requestedDestination = "1";
-  $scope.directionFilter = function(item,index) {
-    $ionicScrollDelegate.scrollTop();
-    return item.id === parseInt($scope.requestedDestination);
-  };
-  $scope.dayFilter = function(item,index) {
-    $ionicScrollDelegate.scrollTop();
-    var date = new Date(item.time);
-    // let's also account for the two hour after midnight in this filter
-    date.setHours(date.getHours()-2);
-    return parseInt($scope.requestedDay) === date.getDay();
-  };
-
-})
-
-.controller('DetailBusstopCtrl', function($scope, Detail, Swipe, $ionicScrollDelegate, $stateParams) {
-  $scope.swipeRight = Swipe.swipeRight;
-  $scope.swipeLeft = Swipe.swipeLeft;
-
-  $scope.poi = angular.copy(Detail.busstops).shift();
-
-  $scope.markersHash = angular.copy(Detail.getMarkerByPoiIds($scope.poi.id));
-  $scope.markersHash = Detail.focusMarker($scope.markersHash);
-  $scope.defaults = angular.copy(Detail.mapDefaults);
-  $scope.center = angular.copy(Detail.mapCenter);
-  $scope.marker = angular.copy(Detail.marker);
-  $scope.center.lat = $scope.marker[64].lat;
-  $scope.center.lng = $scope.marker[64].lng;
-})
 ;

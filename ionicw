@@ -1,0 +1,4 @@
+#!/bin/bash
+# wrapper needed for problems with PATH environment variable problems in WebStorm
+PATH=$PATH:/home/sebo/.nvm/versions/node/v4.1.1/bin:/home/sebo/projekte/android-sdk-linux/tools/:/home/sebo/projekte/android-sdk-linux/platform-tools/
+/home/sebo/.nvm/versions/node/v4.1.1/bin/ionic $@

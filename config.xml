@@ -8,9 +8,6 @@
   <author email="mail+ganzhornfest@sebastianheil.de" href="http://www.sebastianheil.de/ganzhornfest">
     Sebastian Heil
   </author>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-    Ionic Framework Team
-  </author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-intent href="http://*/*"/>

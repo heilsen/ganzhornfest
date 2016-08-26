@@ -1,67 +1,74 @@
 <ion-view view-title="Informationen" ng-swipe-right="swipeRight()" ng-swipe-left="swipeLeft()">
-  <ion-content>
-    <div class="list">
-      <div class="item item-text-wrap" style="background-color:#f5f5f5;">
-        <h1 style="text-align: center;">Ganzhornfest</h1>
-        <p style="text-align: left;">36. Herbstfest der Neckarsulmer Vereine zwischen Deutschordensschloss und Marktplatz</p>
-      </div>
-      <div class="item item-icon-left" style="background-color:#f5f5f5;">
-        <i class="icon ion-ios-calendar-outline"></i>
-        <b>5. bis 7.September 2015</b>
-      </div>
-      <div class="item item-icon-left" style="background-color:#f5f5f5;">
-        <i class="icon ion-ios-clock-outline"></i>
-        <dl style="margin-bottom:0px;">
-          <dt>Samstag</dt><dd style="color: #666">16:00 Uhr - 01:00 Uhr</dd>
-          <dt>Sonntag</dt><dd style="color: #666">11:00 Uhr - 24:00 Uhr</dd>
-          <dt>Montag</dt> <dd style="color: #666">11:00 Uhr - 24:00 Uhr</dd>
-        </dl>
-      </div>
-      <a ui-sref="tab.map" style="color: #666; text-decoration:none">
-        <div class="item item-icon-left item-text-wrap">
-          <i class="icon ion-map"></i>
-          <b>Neckarsulm</b>
-          <p>zwischen Deutschordensschloss und Marktplatz</p>
+    <ion-content>
+        <div class="list">
+            <div class="item item-text-wrap" style="background-color:#f5f5f5;">
+                <h1 style="text-align: center;">Ganzhornfest 2016</h1>
+                <p style="text-align: left;">37. Herbstfest der Neckarsulmer Vereine zwischen Deutschordensschloss und Marktplatz</p>
+            </div>
+            <div class="item item-icon-left" style="background-color:#f5f5f5;">
+                <i class="icon ion-ios-calendar-outline"></i>
+                <b>3. bis 5.September 2016</b>
+            </div>
+            <div class="item item-icon-left" style="background-color:#f5f5f5;">
+                <i class="icon ion-ios-clock-outline"></i>
+                <dl style="margin-bottom:0px;">
+                    <dt>Samstag</dt>
+                    <dd style="color: #666">16:00 Uhr - 01:00 Uhr</dd>
+                    <dt>Sonntag</dt>
+                    <dd style="color: #666">11:00 Uhr - 24:00 Uhr</dd>
+                    <dt>Montag</dt>
+                    <dd style="color: #666">11:00 Uhr - 24:00 Uhr</dd>
+                </dl>
+            </div>
+            <a ui-sref="tab.map" style="color: #666; text-decoration:none">
+                <div class="item item-icon-left item-text-wrap">
+                    <i class="icon ion-map"></i>
+                    <b>Neckarsulm</b>
+                    <p>zwischen Deutschordensschloss und Marktplatz</p>
+                </div>
+            </a>
+            <a ui-sref="tab.list" style="color: #666; text-decoration:none">
+                <div class="item item-icon-left item-text-wrap">
+                    <i class="icon ion-ios-list-outline"></i>
+                    <p style="margin-top: 10px">{{clubsCounter}} Vereine bieten:</p>
+                    <ul style="font-size:14px; color:#666; margin-left: 10px">
+                        <li>über {{roundedFoodsCounter}} unterschiedliche Speisen</li>
+                        <li>über {{roundedDrinksCounter}} unterschiedliche Getränke</li>
+                    </ul>
+                </div>
+            </a>
+            <!-- FIXME: ui-sref doesn't respect default param values -->
+            <a href="#/tab/program" style="color: #666; text-decoration:none">
+                <div class="item item-icon-left item-text-wrap">
+                    <i class="icon ion-ios-musical-notes"></i>
+                    <p style="margin-top: 10px">Kunst- und Kulturprogramm:</p>
+                    <ul style="font-size:14px; color:#666; margin-left: 10px">
+                        <li>über 20 künstlerische Programmpunkte</li>
+                        <li>über 10 Programmpunkte für Kinder/Jugendliche</li>
+                    </ul>
+                </div>
+            </a>
+            <!-- FIXME: ui-sref doesn't respect default param values -->
+            <a href="#/tab/bus" style="color: #666;text-decoration:none">
+                <div class="item item-icon-left item-text-wrap">
+                    <i class="icon ion-android-bus"></i>
+                    <p>
+                        An den drei Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für
+                        Rufauto-Fahrten). Dieser Service wird Dir ermöglicht durch die Stadt Neckarsulm, den HNV und die
+                        Busunternehmen OVR, RBS und Zartmann. Die Fahrpläne findest Du auf den Aushängen an den
+                        Haltestellen und unter <a href="http://www.neckarsulmer-stadtbus.de/">www.neckarsulmer-stadtbus.de</a>.
+                    </p>
+                    <p>
+                        Eine Übersicht über die Rückfahrt vom Ganzhornfest mit dem Bus findest Du auch hier in der App
+                        unter: <a ui-sref="tab.bus">Busfahrplan</a>
+                    </p>
+                </div>
+            </a>
+            <div class="item item-text-wrap" style="background-color:#f5f5f5;">
+                <p>
+                    Alle Angaben ohne Gewähr.
+                </p>
+            </div>
         </div>
-      </a>
-      <a ui-sref="tab.list" style="color: #666; text-decoration:none">
-        <div class="item item-icon-left item-text-wrap">
-          <i class="icon ion-ios-list-outline"></i>
-          <p style="margin-top: 10px">52 Vereine bieten:</p>
-          <ul style="font-size:14px; color:#666; margin-left: 10px">
-            <li>über 100 unterschiedliche Speisen</li>
-            <li>über 50 unterschiedliche Getränke</li>
-          </ul>
-        </div>
-      </a>
-      <!-- FIXME: ui-sref doesn't respect default param values -->
-      <a href="#/tab/program" style="color: #666; text-decoration:none">
-        <div class="item item-icon-left item-text-wrap">
-          <i class="icon ion-ios-musical-notes"></i>
-          <p style="margin-top: 10px">Kunst- und Kulturprogramm:</p>
-          <ul style="font-size:14px; color:#666; margin-left: 10px">
-            <li>über 20 künstlerische Programmpunkte</li>
-            <li>über 10 Programmpunkte für Kinder/Jugendliche</li>
-          </ul>
-        </div>
-      </a>
-      <!-- FIXME: ui-sref doesn't respect default param values -->
-      <a href="#/tab/bus" style="color: #666;text-decoration:none">
-        <div class="item item-icon-left item-text-wrap">
-          <i class="icon ion-android-bus"></i>
-          <p>
-            An den drei Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für Rufauto-Fahrten). Dieser Service wird Dir ermöglicht durch die Stadt Neckarsulm, den HNV und die Busunternehmen OVR, RBS und Zartmann. Die Fahrpläne findest Du auf den Aushängen an den Haltestellen und unter <a href="http://www.neckarsulmer-stadtbus.de/">www.neckarsulmer-stadtbus.de</a>.
-          </p>
-          <p>
-            Eine Übersicht über die Rückfahrt vom Ganzhornfest mit dem Bus findest Du auch hier in der App unter: <a ui-sref="tab.bus">Busfahrplan</a>
-          </p>
-        </div>
-      </a>
-      <div class="item item-text-wrap" style="background-color:#f5f5f5;">
-        <p>
-          Alle Angaben ohne Gewähr.
-        </p>
-      </div>
-    </div>
-  </ion-content>
+    </ion-content>
 </ion-view>

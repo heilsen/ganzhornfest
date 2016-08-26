@@ -1,34 +1,48 @@
 <ion-view view-title="Die Vereine und ihr Angebot" ng-swipe-right="swipeRight()" ng-swipe-left="swipeLeft()">
-  <ion-pane style="height:110px; top:93px; "> 
-    <ion-list>
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Filter 
-        </div>
-        <select ng-model="category" ng-change="updateCategoryFilter()">
-          <option value="food"><i class="icon ion-fork"></i>Essen</option>
-          <option value="drink"><i class="icon ion-ios-pint"></i>Getränke</option>
-          <option value="other"><i class="icon ion-pricetag"></i>Sonstiges</option>
-          <option value="club">Vereine</option>
-        </select>
-      </label>
-      <div class="item item-input">
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="Suchbegriff" ng-model="searchTerm">
-        <button class="button input-button button-icon ion-close" ng-click="clearSearch()"></button>
-      </div>
-    </ion-list>  
-  </ion-pane>
-  <ion-content style="top:203px" class="has-header has-subheader" ng-switch="category">
-    <ion-list ng-switch-when="club">
-      <ion-item ng-repeat="listItem in list | filter:searchTerm" ui-sref="tab.stand({type:{{::category}},id:{{::listItem.id}}})">
-       {{::listItem.name}}
-      </ion-item>
-    </ion-list>
-    <ion-list ng-switch-default>
-      <ion-item ng-repeat="listItem in list | filter:searchTerm" ui-sref="tab.detail({type:{{::category}},id:{{::listItem.id}}})">
-       {{::listItem.name}}
-      </ion-item>
-    </ion-list>
-  </ion-content>
+    <ion-pane style="height:110px; top:93px; ">
+        <ion-list>
+            <div class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Suchbegriff" ng-model="searchTerm">
+                <button class="button input-button button-icon ion-close" ng-click="clearSearch()"></button>
+            </div>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Kategorie
+                </div>
+                <select ng-model="category" ng-change="scrollTop()">
+                    <option value="food"><i class="icon ion-fork"></i>Essen</option>
+                    <option value="drink"><i class="icon ion-ios-pint"></i>Getränke</option>
+                    <option value="other"><i class="icon ion-pricetag"></i>Sonstiges</option>
+                    <option value="club">Vereine</option>
+                </select>
+            </label>
+        </ion-list>
+    </ion-pane>
+    <ion-content style="top:203px" class="has-header has-subheader" ng-switch="category">
+        <ion-list ng-switch-when="club">
+            <ion-item ng-repeat="listItem in clubs | filter:searchTerm"
+                      ui-sref="tab.club({type:{{category}},id:{{listItem.id}}})">
+                {{::listItem.name}}
+            </ion-item>
+        </ion-list>
+        <ion-list ng-switch-when="food">
+            <ion-item ng-repeat="listItem in foods | filter:searchTerm"
+                      ui-sref="tab.detail({type:{{category}},ids:{{listItem.id}}})">
+                {{::listItem.name}}
+            </ion-item>
+        </ion-list>
+        <ion-list ng-switch-when="drink">
+            <ion-item ng-repeat="listItem in drinks | filter:searchTerm"
+                      ui-sref="tab.detail({type:{{category}},ids:{{listItem.id}}})">
+                {{::listItem.name}}
+            </ion-item>
+        </ion-list>
+        <ion-list ng-switch-when="other">
+            <ion-item ng-repeat="listItem in other | filter:searchTerm"
+                      ui-sref="tab.detail({type:{{category}},ids:{{listItem.id}}})">
+                {{::listItem.name}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
 </ion-view>

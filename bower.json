@@ -9,8 +9,7 @@
     "ionic": "latest",
     "leaflet": "latest",
     "Leaflet.awesome-markers": "latest",
-    "ngCordova": "latest",
-    "localforage": "^1.4.0"
+    "ngCordova": "latest"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.5"

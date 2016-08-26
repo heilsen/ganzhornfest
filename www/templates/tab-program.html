@@ -1,50 +1,36 @@
 <ion-view view-title="Veranstaltungsprogramm" ng-swipe-right="swipeRight()" ng-swipe-left="swipeLeft()">
-  <ion-pane style="top:93px; height:100px">
-    <ion-list>  
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Platz 
-        </div>
-        <select ng-model="requestedStage">
-          <option value="59">Museumsplatz</option>
-          <option value="60">Marktplatz</option>
-          <option value="61">Karlsplatz</option>
-          <option value="62">MET-Jazz</option>
-        </select>
-      </label>
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Tag
-        </div>
-        <select ng-model="requestedDay">
-          <option value="6">Samstag</option>
-          <option value="0">Sonntag</option>
-          <option value="1">Montag</option>
-        </select>
-      </label>
-    </ion-list>  
-  </ion-pane>
-  <ion-content style="top:163px" class="has-header has-subheader">
-    <div class="list list-inset">
-      <div class="item item-divider" style="margin-bottom:10px;margin-top:10px;" ng-repeat="stage in stages | filter:stageFilter">
-        {{ ::stage.name }}
-        <div ng-repeat="event in events | filter:{poi: stage.id} | filter:dayFilter">
-          <div class="item item-divider" ng-switch on="::event.end">
-            <span ng-switch-when="">
-              {{ ::event.start | date : "HH:mm" }}
-            </span>
-            <span ng-switch-default>
-              {{ ::event.start | date : "HH:mm" }} - {{ ::event.end | date : "HH:mm"}}
-            </span>
-          </div>
-          <a ui-sref="tab.stage({id:{{stage.id}}})" style="color: #666; text-decoration:none">
-            <div class="item item-text-wrapper">
-              {{ ::event.name }}
-              <span class="item-note item-text-wrap" ng-bind-html="::event.remark"></span>
+    <ion-pane style="top:93px; height:100px">
+        <ion-list>
+            <label class="item item-input item-select">
+                <div class="input-label">Bühne</div>
+                <select ng-model="selectedStage" ng-change="scrollTop()">
+                    <option ng-repeat="stage in stages" value="{{stage.id}}">{{stage.name}}</option>
+                </select>
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">Tag</div>
+                <select ng-model="selectedDay" ng-change="scrollTop()" ng-options="day.id as day.name for day in days">
+                </select>
+            </label>
+        </ion-list>
+    </ion-pane>
+    <ion-content style="top:163px" class="has-header has-subheader">
+        <div class="list list-inset">
+            <div class="item item-divider" style="margin-bottom:10px;margin-top:10px;"
+                 ng-repeat="stage in stages | filter:stageFilter">
+                {{ stage.name }}
+                <div ng-repeat="event in events | filter:eventFilter">
+                    <div class="item item-divider">
+                        {{ event.eventtime }}
+                    </div>
+                    <a ui-sref="tab.stage({id:{{stage.id}}, type:'stage'})" style="color: #666; text-decoration:none">
+                        <div class="item item-text-wrapper">
+                            {{ event.name }}
+                            <span class="item-note item-text-wrap" ng-bind-html="event.remark"></span>
+                        </div>
+                    </a>
+                </div>
             </div>
-          </a>
         </div>
-      </div>
-    </div>
-  </ion-content>
+    </ion-content>
 </ion-view>
