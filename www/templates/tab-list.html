@@ -28,19 +28,19 @@
         </ion-list>
         <ion-list ng-switch-when="food">
             <ion-item ng-repeat="listItem in foods | filter:searchTerm"
-                      ui-sref="tab.detail({type:{{category}},ids:{{listItem.id}}})">
+                      ui-sref="tab.detail({id:{{listItem.id}}})">
                 {{::listItem.name}}
             </ion-item>
         </ion-list>
         <ion-list ng-switch-when="drink">
             <ion-item ng-repeat="listItem in drinks | filter:searchTerm"
-                      ui-sref="tab.detail({type:{{category}},ids:{{listItem.id}}})">
+                      ui-sref="tab.detail({id:{{listItem.id}}})">
                 {{::listItem.name}}
             </ion-item>
         </ion-list>
         <ion-list ng-switch-when="other">
             <ion-item ng-repeat="listItem in other | filter:searchTerm"
-                      ui-sref="tab.detail({type:{{category}},ids:{{listItem.id}}})">
+                      ui-sref="tab.detail({id:{{listItem.id}}})">
                 {{::listItem.name}}
             </ion-item>
         </ion-list>

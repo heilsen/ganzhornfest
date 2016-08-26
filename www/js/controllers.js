@@ -220,6 +220,7 @@ angular.module('ngGanzhornfest.controllers', [])
                 $scope.markers = markers;
             });
         }])
+
     .controller('ItemDetailController', ['$scope','DataService','Swipe','$stateParams',
         function($scope, DataService, Swipe, $stateParams) {
             $scope.swipeRight = Swipe.swipeRight;
