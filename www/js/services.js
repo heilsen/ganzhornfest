@@ -2,8 +2,43 @@ angular.module('ngGanzhornfest.services', [])
     .factory('DataService', ['$q', '$ionicPlatform', '$cordovaSQLite', function ($q, $ionicPlatform, $cordovaSQLite) {
         var db;
         var data = {};
-        var poi = {};
+        var pois = [];
         var geodata = [];
+        var gidMarkers = [];
+        var poiMarkers = [];
+        var itemMarkers = [];
+        var items = [];
+        var clubsByItemId = [];
+
+        var mapDefaults = {
+            // tileLayer: "/appdata/map-tiles/{z}/{x}/{y}.png",
+            tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            minZoom: 17,
+            tileLayerOptions: {
+                maxZoom: 21,
+                maxNativeZoom: 19,
+                attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }
+        };
+
+        var markerIconMap = {
+            'club': 'record',
+            'first_aid': 'ios-medkit',
+            'busstop': 'android-bus',
+            'stage': 'ios-musical-notes',
+            'playground': 'ios-football',
+            'toilets': 'waterdrop'
+        };
+
+        // posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
+        var markerColorMap = {
+            'club': 'cadetblue',
+            'first_aid': 'red',
+            'busstop': 'orange',
+            'stage': 'darkpurple',
+            'playground': 'green',
+            'toilets': 'blue'
+        };
 
         function openDb() {
             return $q(function (resolve, reject) {
@@ -92,171 +127,165 @@ angular.module('ngGanzhornfest.services', [])
 
         function getPoi(poiId) {
             return $q(function (resolve) {
-                if (typeof poi === "undefined" || poi.length !== 2) {
+                if (typeof pois[poiId] === "undefined") {
                     $q.all([
                         queryDb("SELECT i.id, i.name FROM poi as p, poiid_itemid as pi, items as i where p.id=pi.poiid and pi.itemid=i.id and p.id=" + poiId + ";"),
                         queryDb("SELECT name, description, url FROM poi as p where p.id=" + poiId + ";")
                     ]).then(function (result) {
-                        poi["items"] = result[0];
-                        poi["details"] = result[1][0];
-                        resolve(poi);
+                        pois[poiId] = {};
+                        pois[poiId]["items"] = result[0];
+                        pois[poiId]["details"] = result[1][0];
+                        resolve(pois[poiId]);
                     })
                 } else {
-                    resolve(poi)
+                    resolve(pois[poiId]);
                 }
             })
         }
 
-        var markerIconMap = {
-            'club': 'record',
-            'first_aid': 'ios-medkit',
-            'busstop': 'android-bus',
-            'stage': 'ios-musical-notes',
-            'playground': 'ios-football',
-            'toilets': 'waterdrop',
-        };
-
-        // posible colors: 'red', 'darkred', 'orange', 'green', 'darkgreen', 'blue', 'purple', 'darkpuple', 'cadetblue'
-        var markerColorMap = {
-            'club': 'cadetblue',
-            'first_aid': 'red',
-            'busstop': 'orange',
-            'stage': 'darkpurple',
-            'playground': 'green',
-            'toilets': 'blue',
-        };
-
         function getAllMarkers() {
             return $q(function (resolve) {
-                queryDb("SELECT g.id as id,p.name,p.type,g.lat,g.lng FROM geodata as g, poiid_geoid as pg, poi as p where pg.poiid=p.id and pg.geoid=g.id")
-                    .then(function (result) {
-                        var marker = {};
-                        var item;
-                        result.forEach(function(item) {
-                            marker[item.id] = {
-                                lat: item.lat,
-                                lng: item.lng,
-                                message: item.name,
-                                title: item.name,
-                                alt: item.name,
-                                icon: {
-                                    type: 'awesomeMarker',
-                                    prefix: 'ion',
-                                    icon: markerIconMap[item.type],
-                                    markerColor: markerColorMap[item.type]
-                                }
-                            };
-                        });
-                        resolve(marker);
-                    })
+                if (gidMarkers.length === 0) {
+                    queryDb("SELECT g.id as gid,p.name,p.type,g.lat,g.lng FROM geodata as g, poiid_geoid as pg, poi as p " +
+                        "WHERE pg.poiid=p.id and pg.geoid=g.id")
+                        .then(function (result) {
+                            result.forEach(function (item) {
+                                //noinspection JSUnresolvedVariable
+                                gidMarkers[item.gid] = {
+                                    lat: item.lat,
+                                    lng: item.lng,
+                                    message: item.name,
+                                    title: item.name,
+                                    alt: item.name,
+                                    icon: {
+                                        type: 'awesomeMarker',
+                                        prefix: 'ion',
+                                        icon: markerIconMap[item.type],
+                                        markerColor: markerColorMap[item.type]
+                                    }
+                                };
+                            });
+                            resolve(gidMarkers);
+                        })
+                } else {
+                    resolve(gidMarkers);
+                }
             })
         }
 
         function getMarkersByItemId(itemId) {
-            // TODO: make focusPid configureable
-            var focusPid = 64;
-            return $q(function(resolve) {
-                queryDb("SELECT g.id as gid, i.id as iid, i.name, i.type, g.lat,g.lng, p.name as poiName FROM geodata as g, poiid_geoid as pg, poi as p, items as i, poiid_itemid as pi WHERE pg.geoid = g.id and pg.poiid = pi.poiid and pg.poiid = p.id and pi.itemid = i.id and i.id = " + itemId + ";")
-                    .then(function(result) {
-                        var marker = {};
-                        result.forEach(function(item) {
-                            marker[item.gid] = {
-                                lat: item.lat,
-                                lng: item.lng,
-                                message: item.poiName,
-                                title: item.poiName,
-                                alt: item.poiName,
-                                icon: {
-                                    type: 'awesomeMarker',
-                                    prefix: 'ion',
-                                    icon: markerIconMap["club"],
-                                    markerColor: markerColorMap["club"]
+            return $q(function (resolve) {
+                if (itemMarkers.length === 0) {
+                    queryDb("SELECT g.id as gid, i.id as iid, i.name, i.type, g.lat,g.lng, p.name as poiName " +
+                        "FROM geodata as g, poiid_geoid as pg, poi as p, items as i, poiid_itemid as pi " +
+                        "WHERE pg.geoid = g.id and pg.poiid = pi.poiid and pg.poiid = p.id and pi.itemid = i.id and i.id = " + itemId + ";")
+                        .then(function (result) {
+                            result.forEach(function (item) {
+                                //noinspection JSUnresolvedVariable
+                                itemMarkers[itemId].push({
+                                    lat: item.lat,
+                                    lng: item.lng,
+                                    message: item.poiName,
+                                    title: item.poiName,
+                                    alt: item.poiName,
+                                    icon: {
+                                        type: 'awesomeMarker',
+                                        prefix: 'ion',
+                                        icon: markerIconMap["club"],
+                                        markerColor: markerColorMap["club"]
+                                    }
+                                });
+                                if (itemMarkers[itemId].length === 1) {
+                                    itemMarkers[itemId][0].focus = true;
                                 }
-                            };
-                            if (item.pid === focusPid) {
-                                marker[item.gid].focus = true;
-                            }
-                        });
-                        resolve(marker);
-                    })
+                            });
+                            resolve(itemMarkers[itemId]);
+                        })
+                } else {
+                    resolve(itemMarkers[itemId]);
+                }
             })
         }
 
-        function getMarkersByPois(poiIds) {
-            // TODO: make focusPid configureable
-            var focusPid = 64;
+        function getMarkersByPoiId(poiId) {
             return $q(function (resolve) {
-                if ( typeof poiIds !== "number") {
-                    poiIds = poiIds.join(',');
-                }
-                poiIdsList = "(" + poiIds + ")";
-                queryDb("SELECT g.id as gid, p.id as pid, p.name,p.type,g.lat,g.lng FROM geodata as g, poiid_geoid as pg, poi as p WHERE pg.poiid=p.id and pg.geoid=g.id and p.id in " + poiIdsList + ";")
-                    .then(function (result) {
-                        var marker = {};
-                        result.forEach(function(item) {
-                            marker[item.gid] = {
-                                lat: item.lat,
-                                lng: item.lng,
-                                message: item.name,
-                                title: item.name,
-                                alt: item.name,
-                                icon: {
-                                    type: 'awesomeMarker',
-                                    prefix: 'ion',
-                                    icon: markerIconMap[item.type],
-                                    markerColor: markerColorMap[item.type]
-                                }
-                            };
-                            if (item.pid === focusPid) {
-                                marker[item.gid].focus = true;
+                if (typeof poiMarkers[poiId] === "undefined") {
+                    queryDb("SELECT g.id as gid, p.id as pid, p.name,p.type,g.lat,g.lng " +
+                        "FROM geodata as g, poiid_geoid as pg, poi as p " +
+                        "WHERE pg.poiid=p.id and pg.geoid=g.id and p.id = " + poiId + ";")
+                        .then(function (result) {
+                            result.forEach(function (item) {
+                                poiMarkers[poiId].push({
+                                    lat: item.lat,
+                                    lng: item.lng,
+                                    message: item.name,
+                                    title: item.name,
+                                    alt: item.name,
+                                    icon: {
+                                        type: 'awesomeMarker',
+                                        prefix: 'ion',
+                                        icon: markerIconMap[item.type],
+                                        markerColor: markerColorMap[item.type]
+                                    }
+                                });
+                            });
+                            if (poiMarkers[poiId].length === 1) {
+                                poiMarkers[poiId][0].focus = true;
                             }
-                        });
-                        resolve(marker);
-                    })
+                            resolve(poiMarkers[poiId]);
+                        })
+                } else {
+                    resolve(poiMarkers[poiId]);
+                }
             })
         }
 
         function getItem(itemId) {
-            return $q(function(resolve) {
-                queryDb("SELECT * from items WHERE id=" + itemId)
-                    .then(function(result) {
-                        resolve(result[0]);
-                    })
+            return $q(function (resolve) {
+                if (typeof items[itemId] === "undefined") {
+                    queryDb("SELECT * from items WHERE id=" + itemId)
+                        .then(function (result) {
+                            items[itemId] = result[0];
+                            resolve(items[itemId]);
+                        });
+                } else {
+                    resolve(items[itemId]);
+                }
             })
         }
 
         function getClubsByItemId(itemId) {
-            return $q(function(resolve) {
-                queryDb("SELECT p.id as id, p.name as name FROM items as i, poi as p, poiid_itemid as pi WHERE i.id=" + itemId + " AND i.id=pi.itemid AND pi.poiid=p.id;")
-                    .then(function(result) {
-                        resolve(result);
-                    })
+            return $q(function (resolve) {
+                if (typeof clubsByItemId[itemId] === "undefined") {
+                    queryDb("SELECT p.id as id, p.name as name FROM items as i, poi as p, poiid_itemid as pi " +
+                        "WHERE i.id=" + itemId + " AND i.id=pi.itemid AND pi.poiid=p.id;")
+                        .then(function (result) {
+                            clubsByItemId[itemId] = result;
+                            resolve(clubsByItemId[itemId]);
+                        })
+                } else {
+                    resolve(clubsByItemId[itemId]);
+                }
             })
         }
 
-        var mapDefaults = {
-            // tileLayer: "/appdata/map-tiles/{z}/{x}/{y}.png",
-            tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            minZoom: 17,
-            tileLayerOptions: {
-                maxZoom: 21,
-                maxNativeZoom: 19,
-                attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            },
-        };
-
-        var mapCenter = {
-            // TODO: get geodata by name (paulus club)
-            lat: 49.191992,
-            lng: 9.223657,
-            zoom: 17,
-        };
-        var mapCenterBusstop = {
-            // TODO: get geodata by name (ZOB Ballei)
-            lat: 49.193846,
-            lng: 9.227222,
-            zoom: 17,
-        };
+        function getMapCenter(poi) {
+            var mapCenter = {
+                lat: 49.191992,
+                lng: 9.223657,
+                zoom: 17
+            };
+            if (typeof poi !== "undefined") {
+                if (poi === "busstop") {
+                    mapCenter = {
+                        lat: 49.193846,
+                        lng: 9.227222,
+                        zoom: 17
+                    };
+                }
+            }
+            return mapCenter;
+        }
 
         return {
             getClubs: getData("clubs"),
@@ -270,14 +299,12 @@ angular.module('ngGanzhornfest.services', [])
             getBusstops: getData("busstops"),
             getPoi: getPoi,
             mapDefaults: mapDefaults,
-            mapCenter: mapCenter,
-            mapCenterBusstop: mapCenterBusstop,
-            getMarkersByPois: getMarkersByPois,
-            //TODO: implement getMarkersByItems
+            getMapCenter: getMapCenter,
+            getMarkersByPoiId: getMarkersByPoiId,
             getMarkersByItemId: getMarkersByItemId,
             getAllMarkers: getAllMarkers,
             getItem: getItem,
-            getClubsByItemId: getClubsByItemId,
+            getClubsByItemId: getClubsByItemId
         }
     }])
     .factory('Swipe', ['$ionicTabsDelegate', function ($ionicTabsDelegate) {

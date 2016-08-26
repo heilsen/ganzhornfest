@@ -97,12 +97,8 @@ angular.module('ngGanzhornfest.controllers', [])
             $scope.swipeRight = Swipe.swipeRight;
             $scope.swipeLeft = Swipe.swipeLeft;
 
-            // TODO: parseArray and use ids as array
-            var ids = parseInt($stateParams.ids);
-            var type = $stateParams.type;
-
             $scope.defaults = DataService.mapDefaults;
-            $scope.center = DataService.mapCenter;
+            $scope.center = DataService.getMapCenter();
 
 
             DataService.getAllMarkers().then(function (markers) {
@@ -119,9 +115,12 @@ angular.module('ngGanzhornfest.controllers', [])
 
             DataService.getEvents.then(function (result) {
                 result.map(function (item) {
+                    //noinspection JSUnresolvedVariable
                     item.eventtime = $filter('date')(item.startdate, "HH:mm");
                     //string means data/date, object means no data/date
+                    //noinspection JSUnresolvedVariable
                     if (typeof item.enddate === "string") {
+                        //noinspection JSUnresolvedVariable
                         item.eventtime += " - " + $filter('date')(item.enddate, "HH:mm");
                     }
                 });
@@ -139,6 +138,7 @@ angular.module('ngGanzhornfest.controllers', [])
                 return parseInt($scope.selectedStage) === poi.id;
             };
             $scope.eventFilter = function (event) {
+                //noinspection JSUnresolvedVariable
                 return (new Date(event.startdate)).getDay() === $scope.selectedDay &&  event.poiid === parseInt($scope.selectedStage);
             };
             $scope.days = [
@@ -178,6 +178,7 @@ angular.module('ngGanzhornfest.controllers', [])
                 // little hack to get all departures until 1 hour (3 -"+0200" for german MESZ = 1) after midnight
                 var date = new Date(item.date);
                 date.setHours(date.getHours() - 3);
+                //noinspection JSUnresolvedVariable
                 return $scope.selectedDay === date.getDay() && $scope.selectedDestination === item.busline;
             };
             $scope.scrollTop = function() {
@@ -202,21 +203,24 @@ angular.module('ngGanzhornfest.controllers', [])
             $scope.swipeRight = Swipe.swipeRight;
             $scope.swipeLeft = Swipe.swipeLeft;
 
-            $scope.type = $stateParams.type;
-
             $scope.defaults = DataService.mapDefaults;
-            $scope.center = DataService.mapCenter;
-            if ($stateParams.type === "busstop") {
-                $scope.center = DataService.mapCenterBusstop;
+            $scope.center = DataService.getMapCenter();
+
+            var type = $stateParams.type;
+            if (type === "busstop") {
+                $scope.center = DataService.getMapCenter("busstop");
             }
-            if ($stateParams.type === "stage") {
-                $scope.center = DataService.mapCenter;
+            if (type === "stage") {
+                $scope.center = DataService.getMapCenter();
             }
-            DataService.getPoi(parseInt($stateParams.id)).then(function(result) {
+
+            var poiId = parseInt($stateParams.id);
+            DataService.getPoi(poiId).then(function(result) {
                 $scope.poi = result.details;
                 $scope.items = result.items;
             });
-            DataService.getMarkersByPois(parseInt($stateParams.id)).then(function (markers) {
+
+            DataService.getMarkersByPoiId(poiId).then(function (markers) {
                 $scope.markers = markers;
             });
         }])
@@ -227,15 +231,16 @@ angular.module('ngGanzhornfest.controllers', [])
             $scope.swipeLeft = Swipe.swipeLeft;
 
             $scope.defaults = DataService.mapDefaults;
-            $scope.center = DataService.mapCenter;
+            $scope.center = DataService.getMapCenter();
 
-            DataService.getItem(parseInt($stateParams.id)).then(function(result) {
+            var itemId = parseInt($stateParams.id);
+            DataService.getItem(itemId).then(function(result) {
                 $scope.item = result;
             });
-            DataService.getClubsByItemId(parseInt($stateParams.id)).then(function(result) {
+            DataService.getClubsByItemId(itemId).then(function(result) {
                 $scope.clubs = result;
             });
-            DataService.getMarkersByItemId(parseInt($stateParams.id)).then(function (markers) {
+            DataService.getMarkersByItemId(itemId).then(function (markers) {
                 $scope.markers = markers;
             });
         }])
