@@ -104,34 +104,11 @@ angular.module('ngGanzhornfest.controllers', [])
             $scope.defaults = DataService.mapDefaults;
             $scope.center = DataService.mapCenter;
 
-            //TODO: busstop and stage switch
-            switch (type) {
-                case "food":
-                case "drink":
-                case "other":
-                    DataService.getMarkersByItemId(id).then(function (markers) {
-                        console.dir(markers);
-                        $scope.markers = markers;
-                    });
-                    break;
-                case "busstop":
-                    $scope.center = DataService.mapCenterBusstop;
-                case "club":
-                case "stage":
-                    DataService.getPoi(ids).then(function (result) {
-                        $scope.itemArray = result["items"];
-                        $scope.stand = result["details"];
-                        $scope.name = result["details"].name;
-                    });
-                    DataService.getMarkersByPois(ids).then(function (markers) {
-                        $scope.markers = markers;
-                    });
-                    break;
-                default:
-                    DataService.getAllMarkers().then(function (markers) {
-                        $scope.markers = markers;
-                    });
-            }
+
+            DataService.getAllMarkers().then(function (markers) {
+                $scope.markers = markers;
+            });
+
         }])
 
 
@@ -229,18 +206,16 @@ angular.module('ngGanzhornfest.controllers', [])
 
             $scope.defaults = DataService.mapDefaults;
             $scope.center = DataService.mapCenter;
+            if ($stateParams.type === "busstop") {
+                $scope.center = DataService.mapCenterBusstop;
+            }
+            if ($stateParams.type === "stage") {
+                $scope.center = DataService.mapCenter;
+            }
             DataService.getPoi(parseInt($stateParams.id)).then(function(result) {
                 $scope.poi = result.details;
                 $scope.items = result.items;
             });
-            if ($stateParams.type === "busstop") {
-                $scope.center.lat = 49.193846;
-                $scope.center.lng = 9.227222;
-            }
-            if ($stateParams.type === "stage") {
-                $scope.center.lat = 49.191992;
-                $scope.center.lng = 9.223657;
-            }
             DataService.getMarkersByPois(parseInt($stateParams.id)).then(function (markers) {
                 $scope.markers = markers;
             });
