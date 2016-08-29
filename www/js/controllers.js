@@ -16,7 +16,7 @@ angular.module('ngGanzhornfest.controllers', [])
 
             $scope.shareAnywhere = function () {
                 $cordovaSocialSharing.share("Hol dir die Ganzhornfest App!", null, null,
-                    "https://play.google.com/store/apps/DataServices?id=de.heilsen.ganzhornfest")
+                    "https://play.google.com/store/apps/details?id=de.heilsen.ganzhornfest")
                     .then(function (result) {
                     }, function () {
                         $scope.showAlert("Die App konnte mit dem Ziel nicht geteilt werden.");
