@@ -155,7 +155,7 @@ angular.module('ngGanzhornfest.controllers', [])
             };
             $scope.eventFilter = function (event) {
                 //noinspection JSUnresolvedVariable
-                return (new Date(event.startdate)).getDay() === $scope.selectedDay && event.poiid === parseInt($scope.selectedStage);
+                return (new Date(event.startdate + "+0200")).getDay() === $scope.selectedDay && event.poiid === parseInt($scope.selectedStage);
             };
             $scope.days = [
                 {id: 6, name: 'Samstag'},
@@ -197,9 +197,9 @@ angular.module('ngGanzhornfest.controllers', [])
                 return item.id === $scope.selectedDestination;
             };
             $scope.depatureFilter = function (item) {
-                // little hack to get all departures until 1 hour (3 -"+0200" for german MESZ = 1) after midnight
-                var date = new Date(item.date);
-                date.setHours(date.getHours() - 3);
+                var date = new Date(item.date + "+0200");
+                // little hack to get all departures until 1 hour after midnight for the previous day
+                date.setHours(date.getHours() - 1);
                 //noinspection JSUnresolvedVariable
                 return $scope.selectedDay === date.getDay() && $scope.selectedDestination === item.busline;
             };
@@ -234,17 +234,19 @@ angular.module('ngGanzhornfest.controllers', [])
             $scope.defaults = DataService.mapDefaults;
             $scope.center = DataService.getMapCenter();
 
-            var type = $stateParams.type;
-            if (type === "busstop") {
+            $scope.type = $stateParams.type;
+
+            if ($scope.type === "busstop") {
                 $scope.center = DataService.getMapCenter("busstop");
             }
-            if (type === "stage") {
+            if ($scope.type === "stage") {
                 $scope.center = DataService.getMapCenter();
             }
 
             var poiId = parseInt($stateParams.id);
             DataService.getPoi(poiId).then(function (result) {
                 $scope.poi = result.details;
+                $scope.poi.webpage = $scope.poi.url.replace(/.*?:\/\//g, "");
                 $scope.items = result.items;
             });
 

@@ -129,7 +129,7 @@ angular.module('ngGanzhornfest.services', [])
             return $q(function (resolve) {
                 if (typeof pois[poiId] === "undefined") {
                     $q.all([
-                        queryDb("SELECT i.id, i.name FROM poi as p, poiid_itemid as pi, items as i where p.id=pi.poiid and pi.itemid=i.id and p.id=" + poiId + ";"),
+                        queryDb("SELECT i.id, i.name, i.type FROM poi as p, poiid_itemid as pi, items as i where p.id=pi.poiid and pi.itemid=i.id and p.id=" + poiId + ";"),
                         queryDb("SELECT name, description, url FROM poi as p where p.id=" + poiId + ";")
                     ]).then(function (result) {
                         pois[poiId] = {};
@@ -210,6 +210,7 @@ angular.module('ngGanzhornfest.services', [])
         function getMarkersByPoiId(poiId) {
             return $q(function (resolve) {
                 if (typeof poiMarkers[poiId] === "undefined") {
+                    poiMarkers[poiId] = [];
                     queryDb("SELECT g.id as gid, p.id as pid, p.name,p.type,g.lat,g.lng " +
                         "FROM geodata as g, poiid_geoid as pg, poi as p " +
                         "WHERE pg.poiid=p.id and pg.geoid=g.id and p.id = " + poiId + ";")

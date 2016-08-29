@@ -21,25 +21,25 @@
     </ion-pane>
     <ion-content style="top:203px" class="has-header has-subheader" ng-switch="category">
         <ion-list ng-switch-when="club">
-            <ion-item ng-repeat="listItem in clubs | filter:searchTerm"
+            <ion-item ng-repeat="listItem in clubs | orderBy:'name' | filter:searchTerm"
                       ui-sref="tab.club({type:{{category}},id:{{listItem.id}}})">
                 {{::listItem.name}}
             </ion-item>
         </ion-list>
         <ion-list ng-switch-when="food">
-            <ion-item ng-repeat="listItem in foods | filter:searchTerm"
+            <ion-item ng-repeat="listItem in foods | orderBy:'name' | filter:searchTerm"
                       ui-sref="tab.detail({id:{{listItem.id}}})">
                 {{::listItem.name}}
             </ion-item>
         </ion-list>
         <ion-list ng-switch-when="drink">
-            <ion-item ng-repeat="listItem in drinks | filter:searchTerm"
+            <ion-item ng-repeat="listItem in drinks | orderBy:'name' | filter:searchTerm"
                       ui-sref="tab.detail({id:{{listItem.id}}})">
                 {{::listItem.name}}
             </ion-item>
         </ion-list>
         <ion-list ng-switch-when="other">
-            <ion-item ng-repeat="listItem in other | filter:searchTerm"
+            <ion-item ng-repeat="listItem in other | orderBy:'name' | filter:searchTerm"
                       ui-sref="tab.detail({id:{{listItem.id}}})">
                 {{::listItem.name}}
             </ion-item>

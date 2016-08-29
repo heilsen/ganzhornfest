@@ -11,10 +11,10 @@
                 <h2>{{poi.name}}</h2>
 
                 <div ng-if="type === 'club'">
-                    <p><a ng-if="poi.url" ng-href="http://{{poi.url}}">{{poi.url}}</a></p>
+                    <p><a ng-if="poi.url" ng-href="{{poi.url}}">{{poi.webpage}}</a></p>
                     <p class="item-text-wrap" ng-if="poi.description">{{poi.description}}</p>
                     <div style="margin-top:10px;">
-                        <div ng-repeat="item in items | orderBy: 'name'" class="item item-text-wrapper"
+                        <div ng-repeat="item in items | orderBy: ['-type','name']" class="item item-text-wrapper"
                              ui-sref="tab.detail({id: item.id})" ng-click="">
                             {{item.name}}
                         </div>
