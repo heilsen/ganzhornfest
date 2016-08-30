@@ -115,12 +115,11 @@ angular.module('ngGanzhornfest.controllers', [])
 
             $scope.defaults = DataService.mapDefaults;
             $scope.center = DataService.getMapCenter();
-
+            $scope.maxbounds = DataService.maxbounds;
 
             DataService.getAllMarkers().then(function (markers) {
                 $scope.markers = markers;
             });
-
         }])
 
 
@@ -233,6 +232,7 @@ angular.module('ngGanzhornfest.controllers', [])
 
             $scope.defaults = DataService.mapDefaults;
             $scope.center = DataService.getMapCenter();
+            $scope.maxbounds = DataService.maxbounds;
 
             $scope.type = $stateParams.type;
 
@@ -262,6 +262,7 @@ angular.module('ngGanzhornfest.controllers', [])
 
             $scope.defaults = DataService.mapDefaults;
             $scope.center = DataService.getMapCenter();
+            $scope.maxbounds = DataService.maxbounds;
 
             var itemId = parseInt($stateParams.id);
             DataService.getItem(itemId).then(function (result) {

@@ -11,13 +11,24 @@ angular.module('ngGanzhornfest.services', [])
         var clubsByItemId = [];
 
         var mapDefaults = {
-            // tileLayer: "/appdata/map-tiles/{z}/{x}/{y}.png",
-            tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            tileLayer: "/appdata/osm-tiles/{z}/{x}/{y}.png",
+            //tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             minZoom: 17,
             tileLayerOptions: {
                 maxZoom: 21,
                 maxNativeZoom: 19,
                 attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }
+        };
+
+        var maxbounds = {
+            northEast: {
+                lat: 49.1961,
+                lng: 9.2301
+            },
+            southWest: {
+                lat: 49.1884,
+                lng: 9.2183
             }
         };
 
@@ -305,7 +316,8 @@ angular.module('ngGanzhornfest.services', [])
             getMarkersByItemId: getMarkersByItemId,
             getAllMarkers: getAllMarkers,
             getItem: getItem,
-            getClubsByItemId: getClubsByItemId
+            getClubsByItemId: getClubsByItemId,
+            maxbounds: maxbounds
         }
     }])
     .factory('Swipe', ['$ionicTabsDelegate', function ($ionicTabsDelegate) {
