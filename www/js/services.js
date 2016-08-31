@@ -11,7 +11,7 @@ angular.module('ngGanzhornfest.services', [])
         var clubsByItemId = [];
 
         var mapDefaults = {
-            tileLayer: "/appdata/osm-tiles/{z}/{x}/{y}.png",
+            tileLayer: "appdata/osm-tiles/{z}/{x}/{y}.png",
             //tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             minZoom: 17,
             tileLayerOptions: {
