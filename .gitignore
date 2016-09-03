@@ -12,3 +12,4 @@ www/css/ionic.app.css
 www/css/ionic.app.min.css
 *.keystore
 .gradle/
+todo.txt
