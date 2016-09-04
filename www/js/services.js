@@ -191,6 +191,7 @@ angular.module('ngGanzhornfest.services', [])
                         "FROM geodata as g, poiid_geoid as pg, poi as p, items as i, poiid_itemid as pi " +
                         "WHERE pg.geoid = g.id and pg.poiid = pi.poiid and pg.poiid = p.id and pi.itemid = i.id and i.id = " + itemId + ";")
                         .then(function (result) {
+                            itemMarkers[itemId] = [];
                             result.forEach(function (item) {
                                 //noinspection JSUnresolvedVariable
                                 itemMarkers[itemId].push({
