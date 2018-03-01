@@ -14,7 +14,7 @@ public class ClubListPresenter extends Presenter<ClubListPresenter.View> {
     }
 
     public void initialize() {
-        getClubList.getAll(new GetClubList.Callback() {
+        getClubList.execute(new GetClubList.Callback() {
             @Override
             public void onClubListLoaded(List<Club> clubList) {
                 View view = getView();
@@ -32,6 +32,7 @@ public class ClubListPresenter extends Presenter<ClubListPresenter.View> {
 
     public interface View extends Presenter.View {
         void showClubs(List<Club> clubs);
+
         void openClubDetail(Club club);
     }
 }

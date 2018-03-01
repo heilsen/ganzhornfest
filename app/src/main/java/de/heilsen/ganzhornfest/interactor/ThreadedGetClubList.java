@@ -12,30 +12,30 @@ public class ThreadedGetClubList extends GetClubList {
     }
 
     @Override
-    public void getAll(final Callback callback) {
+    public void execute(final Callback callback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 //runs in main Thread
-                onGetFinished(callback);
+                onFinished(callback);
             }
         }).run();
     }
 
-    private void onGetFinished(final Callback callback) {
+    private void onFinished(final Callback callback) {
         new Handler(Looper.getMainLooper()).post(
                 //runs in current thread
                 new Runnable() {
 
                     @Override
                     public void run() {
-                        onGetStarted(callback);
+                        onStarted(callback);
                     }
                 }
         );
     }
 
-    private void onGetStarted(final Callback callback) {
-        super.getAll(callback);
+    private void onStarted(final Callback callback) {
+        super.execute(callback);
     }
 }

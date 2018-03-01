@@ -6,23 +6,23 @@ import de.heilsen.ganzhornfest.interactor.GetClubList;
 public class ServiceLocator {
     private static ServiceLocator soleInstance;
     private ClubListPresenter clubListPresenter;
-    private GetClubList getClubList;
+    private ClubListAdapter adapter;
 
     public ServiceLocator(GetClubList getClubList) {
-        this.getClubList = getClubList;
         this.clubListPresenter = new ClubListPresenter(getClubList);
+        this.adapter = new ClubListAdapter(clubListPresenter);
     }
 
     public static void load(ServiceLocator serviceLocator) {
         soleInstance = serviceLocator;
     }
 
-    public static GetClubList getClubList() {
-        return soleInstance.getClubList;
-    }
-
     public static ClubListPresenter clubListPresenter() {
         return soleInstance.clubListPresenter;
+    }
+
+    public static ClubListAdapter clubListAdapter() {
+        return soleInstance.adapter;
     }
 
 }

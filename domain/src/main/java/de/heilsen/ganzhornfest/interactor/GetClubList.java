@@ -12,7 +12,7 @@ public class GetClubList {
         this.clubRepository = clubRepository;
     }
 
-    public void getAll(Callback callback) {
+    public void execute(Callback callback) {
         List<Club> clubList = clubRepository.getAll();
         callback.onClubListLoaded(clubList);
 

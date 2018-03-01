@@ -21,6 +21,7 @@ class ClubListAdapter extends RecyclerView.Adapter<ClubListViewHolder> {
 
     public void addAll(Collection<Club> clubs) {
         clubList.addAll(clubs);
+        notifyDataSetChanged();
     }
 
     @Override
