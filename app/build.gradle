@@ -32,6 +32,7 @@ dependencies {
     })
     compile project(path: ':domain')
     implementation 'com.android.support:recyclerview-v7:27.0.2'
+    implementation 'com.android.support:design:27.0.2'
     compile project(path: ':data')
 }
 

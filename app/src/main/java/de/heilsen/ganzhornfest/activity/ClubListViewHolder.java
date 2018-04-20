@@ -1,9 +1,13 @@
-package de.heilsen.ganzhornfest;
+package de.heilsen.ganzhornfest.activity;
 
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import de.heilsen.ganzhornfest.Club;
+import de.heilsen.ganzhornfest.R;
+import de.heilsen.ganzhornfest.presenter.ClubListPresenter;
 
 class ClubListViewHolder extends RecyclerView.ViewHolder {
     private ClubListPresenter presenter;
@@ -31,7 +35,7 @@ class ClubListViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.onClubClicked(club);
+                presenter.select(club);
             }
         });
     }

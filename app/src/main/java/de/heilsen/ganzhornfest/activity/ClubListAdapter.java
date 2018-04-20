@@ -1,4 +1,4 @@
-package de.heilsen.ganzhornfest;
+package de.heilsen.ganzhornfest.activity;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class ClubListAdapter extends RecyclerView.Adapter<ClubListViewHolder> {
+import de.heilsen.ganzhornfest.Club;
+import de.heilsen.ganzhornfest.R;
+import de.heilsen.ganzhornfest.presenter.ClubListPresenter;
+
+public class ClubListAdapter extends RecyclerView.Adapter<ClubListViewHolder> {
     private List<Club> clubList;
     private ClubListPresenter presenter;
 

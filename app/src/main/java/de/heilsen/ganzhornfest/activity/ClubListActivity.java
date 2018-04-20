@@ -1,6 +1,5 @@
-package de.heilsen.ganzhornfest;
+package de.heilsen.ganzhornfest.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -8,10 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import java.util.List;
+
+import de.heilsen.ganzhornfest.Club;
+import de.heilsen.ganzhornfest.R;
+import de.heilsen.ganzhornfest.di.ServiceLocator;
+import de.heilsen.ganzhornfest.presenter.ClubListPresenter;
 
 public class ClubListActivity extends AppCompatActivity implements ClubListPresenter.View {
     private static final String LAYOUT_MANAGER_SAVED_STATE = "LayoutManagerSavedState";
@@ -25,31 +30,33 @@ public class ClubListActivity extends AppCompatActivity implements ClubListPrese
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_list);
-        initDependencyInjection();
+        injectDependencies();
 
-        initRecyclerView();
+        initViews();
+
         initPresenter();
 
         restoreRecyclerViewState(savedInstanceState);
     }
 
-    private void initDependencyInjection() {
-        presenter = ServiceLocator.clubListPresenter();
-        layoutManager = new LinearLayoutManager(getApplicationContext());
-        adapter = ServiceLocator.clubListAdapter();
+    private void injectDependencies() {
+        ServiceLocator serviceLocator = ServiceLocator.locator();
 
-        initViews();
+        presenter = serviceLocator.clubListPresenter();
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        adapter = serviceLocator.clubListAdapter();
+
+        injectViews();
     }
 
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), layoutManager.getOrientation()));
+    private void initViews() {
+        initToolbar();
+        initRecyclerView();
     }
 
     private void initPresenter() {
-        presenter.initialize();
         presenter.setView(this);
+        presenter.show();
     }
 
     private void restoreRecyclerViewState(Bundle savedInstanceState) {
@@ -60,9 +67,20 @@ public class ClubListActivity extends AppCompatActivity implements ClubListPrese
         }
     }
 
-    private void initViews() {
+    private void injectViews() {
         recyclerView = findViewById(R.id.club_list_recycler_view);
         progressBar = findViewById(R.id.club_list_progress_bar);
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void initRecyclerView() {
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), layoutManager.getOrientation()));
     }
 
     @Override
@@ -92,7 +110,13 @@ public class ClubListActivity extends AppCompatActivity implements ClubListPrese
 
     @Override
     public void openClubDetail(Club club) {
-        Intent intent = new Intent(this, ClubDetailActivity.class);
-        startActivity(intent);
+        ClubDetailActivity.open(this, club);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.setView(null);
+        adapter = null;
     }
 }

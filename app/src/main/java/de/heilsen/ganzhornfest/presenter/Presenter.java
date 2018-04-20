@@ -1,15 +1,17 @@
-package de.heilsen.ganzhornfest;
+package de.heilsen.ganzhornfest.presenter;
 
+
+import java.lang.ref.WeakReference;
 
 public class Presenter<T extends Presenter.View> {
-    private T view;
+    private WeakReference<T> viewRef;
 
     public void setView(T view) {
-        this.view = view;
+        this.viewRef = new WeakReference<>(view);
     }
 
     public T getView() {
-        return view;
+        return viewRef.get();
     }
 
     public interface View {

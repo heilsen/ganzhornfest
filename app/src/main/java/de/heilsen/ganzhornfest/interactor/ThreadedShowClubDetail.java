@@ -1,33 +1,34 @@
 package de.heilsen.ganzhornfest.interactor;
 
+
 import android.os.Handler;
 import android.os.Looper;
 
-import de.heilsen.ganzhornfest.repository.ClubRepository;
 
-public class ThreadedGetClubList extends GetClubList {
-    public ThreadedGetClubList(ClubRepository clubRepository) {
-        super(clubRepository);
+import de.heilsen.ganzhornfest.Club;
+
+public class ThreadedShowClubDetail extends ShowClubDetail {
+    public ThreadedShowClubDetail(Club club) {
+        super(club);
     }
 
     @Override
     public void execute(final Callback callback) {
-        //run in worker thread:
+        // run in worker thread
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //runs in main Thread:
+                // run in main thread
                 new Handler(Looper.getMainLooper()).post(
-                        //runs in current worker thread:
                         new Runnable() {
+                            // run in the worker thread
                             @Override
                             public void run() {
-                                ThreadedGetClubList.super.execute(callback);
+                                ThreadedShowClubDetail.super.execute(callback);
                             }
                         }
                 );
             }
         }).run();
     }
-
 }
