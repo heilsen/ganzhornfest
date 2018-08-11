@@ -1,27 +1,30 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="navigation_icon_selected">@color/white</item>
+        <item name="navigation_icon_unselected">@color/primary_dark</item>
+        <item name="bottom_navigation_background">@color/colorPrimary</item>
+        <item name="android:textViewStyle">@style/Widget.AppTheme.TextView</item>
     </style>
 
-    <style name="AppTheme.AppBar">
-        <item name="android:colorPrimary">@android:color/white</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:actionMenuTextColor">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
+    <style name="Widget.AppTheme.TextView" parent="@android:style/Widget.Material.Light.TextView">
+        <item name="android:padding">@dimen/spacing_medium</item>
+    </style>
+    <style name="AppTheme.RecyclerView.ViewHolder.TextView" parent="Widget.AppTheme.TextView">
+        <item name="android:padding">@dimen/spacing_large</item>
     </style>
 
-    <style name="AppStyleAppBar">
-        <item name="android:background">@color/colorPrimary</item>
+    <style name="AppTHeme.InfoHeader.TextView" parent="Widget.AppTheme.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
+        <item name="android:padding">@dimen/spacing_large</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
+    <style name="AppTheme.RecyclerView.ViewHolder.TextView.Header">
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>

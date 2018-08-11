@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="navigation_icon_selected" format="reference|color"/>
+    <attr name="navigation_icon_unselected" format="reference|color"/>
+    <attr name="bottom_navigation_background" format="reference|color"/>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_icon_info">Info</string>
+    <string name="navigation_icon_list">Liste</string>
+    <string name="navigation_icon_map">Karte</string>
+    <string name="navigation_icon_program">Programm</string>
+    <string name="navigation_icon_bus">Bus</string>
+</resources>
