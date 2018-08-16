@@ -1,21 +1,21 @@
 package de.heilsen.ganzhornfest.app.data
 
-import de.heilsen.ganzhornfest.domain.entity.Club
+import de.heilsen.ganzhornfest.domain.entity.*
 import de.heilsen.ganzhornfest.domain.repository.Repository
 import io.objectbox.Box
 import io.objectbox.BoxStore
 
 //TODO: make ObjectBoxCLubRepo a Singleton
-class ObjectBoxClubRepository(boxStore: BoxStore, private var foodRepo: ObjectBoxFoodRepository, objectBoxDrinkRepository: ObjectBoxDrinkRepository) : Repository<Club> {
+class ObjectBoxClubRepository(boxStore: BoxStore, private val foodRepo: ObjectBoxFoodRepository, private val drinkRepo: ObjectBoxDrinkRepository, private val actionActionOfferRepo: ObjectBoxActionOfferRepository) : Repository<Club> {
     private var box: Box<ClubEntity> = boxStore.boxFor(ClubEntity::class.java)
 
-    var asb = ClubEntity("Arbeiter-Samariter-Bund", "", "ASB")
-    var bsv = ClubEntity("Bowlingsportverein", "", "BSV")
+    var asb = ClubEntity("Arbeiter-Samariter-Bund", "")
+    var bsv = ClubEntity("Bowlingsportverein", "")
     var circoloItaliano = ClubEntity("Circolo Italiano")
     var dlrg = ClubEntity("DLRG")
     var downtownboys = ClubEntity("Downtownboys")
     var drkOrtsverein = ClubEntity("DRK Ortsverein")
-    var fsv = ClubEntity("Fischerei- und Sportanglerverein", "", "FSV")
+    var fsv = ClubEntity("Fischerei- und Sportanglerverein", "")
     var freierKindergartenNeckarsulm = ClubEntity("Freier Kindergarten Neckarsulm")
     var georgspfadfinder = ClubEntity("Georgspfadfinder")
     var gesangsvereinConcordia = ClubEntity("Gesangsverein Concordia")
@@ -59,17 +59,17 @@ class ObjectBoxClubRepository(boxStore: BoxStore, private var foodRepo: ObjectBo
     }
 
     override fun getAll(): List<Club> {
-        return box.all.map { ClubEntityDelegate(it) }
+        return box.all.map { ClubConverter.from(it) }
     }
 
 
     override fun get(i: Int): Club {
-        return ClubEntityDelegate(box.get(i.toLong()))
+        return ClubConverter.from(box.get(i.toLong()))
     }
 
     override fun get(name: String): Club {
         val query = box.query().equal(ClubEntity_.name, name).build()
-        return ClubEntityDelegate(query.findUnique()!!)
+        return ClubConverter.from(query.findUnique()!!)
     }
 
 
@@ -237,4 +237,5 @@ class ObjectBoxClubRepository(boxStore: BoxStore, private var foodRepo: ObjectBo
         )
 
     }
+
 }

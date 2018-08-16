@@ -1,13 +1,14 @@
 package de.heilsen.ganzhornfest.app.data
 
 import de.heilsen.ganzhornfest.domain.entity.Food
+import de.heilsen.ganzhornfest.domain.entity.Offer
+import de.heilsen.ganzhornfest.domain.entity.OfferType
 import de.heilsen.ganzhornfest.domain.repository.Repository
 import io.objectbox.Box
 import io.objectbox.BoxStore
 
 class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
-
-    private var box: Box<FoodEntity> = boxStore.boxFor(FoodEntity::class.java)
+    internal var box: Box<FoodEntity> = boxStore.boxFor(FoodEntity::class.java)
 
     internal var linsenSpaetzleSaitenwuerste = FoodEntity("Linsen & Spätzle mit Saitenwürstle")
     internal var apfelkuechle = FoodEntity("Apfehlküchle mit Zimt/Zukcer und Vanillesoße")
@@ -104,21 +105,17 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
     }
 
     override fun getAll(): List<Food> {
-        return box.all.map { FoodEntityDelegate(it) }
+        return box.all.map { FoodConverter.from(it) }
     }
 
 
     override fun get(i: Int): Food {
-        return FoodEntityDelegate(box.get(i.toLong()))
+        return FoodConverter.from(box.get(i.toLong()))
     }
 
     override fun get(name: String): Food {
-        return FoodEntityDelegate(box.query().equal(FoodEntity_.name, name).build().findUnique()!!)
+        return FoodConverter.from(box.query().equal(FoodEntity_.name, name).build().findUnique()!!)
     }
-
-
-
-
 
     fun prefill() {
         box.removeAll()

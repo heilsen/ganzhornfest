@@ -3,20 +3,20 @@ package de.heilsen.ganzhornfest.app.ui.recyclerview;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.Collection;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.app.R;
-import de.heilsen.ganzhornfest.domain.entity.ListableItem;
+import de.heilsen.ganzhornfest.app.presenter.ListableItem;
+import de.heilsen.ganzhornfest.domain.entity.Offer;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 
 public class ListableItemSection extends StatelessSection {
     private final String title;
-    private final List<? extends ListableItem> items;
+    private final List<ListableItem> items;
 
-    public ListableItemSection(String title, List<? extends ListableItem> items) {
+    public ListableItemSection(String title, List<ListableItem> items) {
         super(SectionParameters.builder()
                 .itemResourceId(R.layout.item_view_holder)
                 .headerResourceId(R.layout.header_view_holder)

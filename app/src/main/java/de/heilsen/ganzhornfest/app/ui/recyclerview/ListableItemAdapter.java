@@ -12,19 +12,19 @@ import java.util.Collection;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.app.R;
-import de.heilsen.ganzhornfest.app.presenter.ListableItemsPresenter;
-import de.heilsen.ganzhornfest.domain.entity.ListableItem;
+import de.heilsen.ganzhornfest.app.presenter.ListableItem;
+import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 
 public class ListableItemAdapter extends RecyclerView.Adapter<TextViewViewHolder> {
     private List<ListableItem> list;
-    private ListableItemsPresenter presenter;
+    private ListPresenter presenter;
 
-    public ListableItemAdapter(ListableItemsPresenter presenter) {
+    public ListableItemAdapter(ListPresenter presenter) {
         this.presenter = presenter;
         this.list = new ArrayList<>();
     }
 
-    public void set(Collection<? extends ListableItem> listableItems) {
+    public void set(Collection<ListableItem> listableItems) {
         list.clear();
         list.addAll(listableItems);
         notifyDataSetChanged();

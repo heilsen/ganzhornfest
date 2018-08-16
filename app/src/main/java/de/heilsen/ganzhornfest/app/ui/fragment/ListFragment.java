@@ -15,23 +15,22 @@ import android.widget.Spinner;
 
 import java.util.List;
 
+import de.heilsen.ganzhornfest.app.GanzhornfestApplication;
 import de.heilsen.ganzhornfest.app.R;
-import de.heilsen.ganzhornfest.app.di.ServiceLocator;
-import de.heilsen.ganzhornfest.app.presenter.ListableItemsPresenter;
+import de.heilsen.ganzhornfest.app.di.ApplicationComponent;
+import de.heilsen.ganzhornfest.app.presenter.ListableItem;
+import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
+import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 import de.heilsen.ganzhornfest.app.ui.recyclerview.ListableItemAdapter;
-import de.heilsen.ganzhornfest.domain.entity.ListableItem;
-import de.heilsen.ganzhornfest.domain.entity.ListableItemType;
 
-import static de.heilsen.ganzhornfest.domain.entity.ListableItemType.CLUB;
-
-public class ListFragment extends InsideTabbedActivityFragment implements ListableItemsPresenter.View {
+public class ListFragment extends InsideTabbedActivityFragment implements ListPresenter.View {
 
     public static final String TAG = "ListFragment";
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private ListableItemAdapter adapter;
     private Spinner spinner;
-    private ListableItemsPresenter listableItemsPresenter;
+    private ListPresenter listPresenter;
 
     public ListFragment() {
     }
@@ -52,11 +51,10 @@ public class ListFragment extends InsideTabbedActivityFragment implements Listab
 
     private void injectDependencies() {
         layoutManager = new LinearLayoutManager(getTabbedActivity().getApplicationContext());
-        ServiceLocator serviceLocator = ServiceLocator.locator();
-        listableItemsPresenter = serviceLocator.clubListPresenter();
-        listableItemsPresenter.attachView(this);
-        listableItemsPresenter.showListOfType(CLUB);
-        adapter = serviceLocator.clubListAdapter();
+        ApplicationComponent di = ((GanzhornfestApplication) getActivity().getApplication()).getDi();
+        listPresenter = di.listableItemPresenter();
+        listPresenter.attachView(this);
+        adapter = di.clubListAdapter();
     }
 
     private void injectViews() {
@@ -73,7 +71,7 @@ public class ListFragment extends InsideTabbedActivityFragment implements Listab
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getTabbedActivity(),
                 R.array.category_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setOnItemSelectedListener(new CategorySpinnerOnItemSelectedListener(listableItemsPresenter));
+        spinner.setOnItemSelectedListener(new CategorySpinnerOnItemSelectedListener(listPresenter));
         spinner.setAdapter(adapter);
     }
 
@@ -88,7 +86,7 @@ public class ListFragment extends InsideTabbedActivityFragment implements Listab
     }
 
     @Override
-    public void showList(List<? extends ListableItem> listableItems) {
+    public void showList(List<ListableItem> listableItems) {
         adapter.set(listableItems);
     }
 

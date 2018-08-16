@@ -4,64 +4,110 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:3965754449560202334",
-      "lastPropertyId": "4:3423558026998401268",
-      "name": "ClubEntity",
+      "id": "1:5409987747741887413",
+      "lastPropertyId": "3:5370851993881153345",
+      "name": "FoodEntity",
       "properties": [
         {
-          "id": "1:5408294343174870972",
+          "id": "1:6764284437046059150",
           "name": "id"
         },
         {
-          "id": "2:6410598675526379816",
+          "id": "2:7174144350879124573",
           "name": "name"
         },
         {
-          "id": "3:7363432901888774167",
+          "id": "3:5370851993881153345",
           "name": "description"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:3073919190735876388",
+      "lastPropertyId": "4:1361583907855363739",
+      "name": "ClubEntity",
+      "properties": [
+        {
+          "id": "1:3095565970988137493",
+          "name": "id"
         },
         {
-          "id": "4:3423558026998401268",
-          "name": "abbreviation"
+          "id": "2:7962727291749675880",
+          "name": "name"
+        },
+        {
+          "id": "3:1029079101363620992",
+          "name": "description"
         }
       ],
       "relations": [
         {
-          "id": "1:8208703766136590587",
+          "id": "1:2630581029395084676",
           "name": "foods"
+        },
+        {
+          "id": "2:3754804939092543475",
+          "name": "drinks"
+        },
+        {
+          "id": "3:4561124423824871391",
+          "name": "actionOffers"
         }
       ]
     },
     {
-      "id": "2:1281509507603893078",
-      "lastPropertyId": "3:921875549697785612",
-      "name": "FoodEntity",
+      "id": "3:4543366177189615890",
+      "lastPropertyId": "3:48403717453275165",
+      "name": "ActionOfferEntity",
       "properties": [
         {
-          "id": "1:4667382772148109077",
+          "id": "1:923980649064577210",
           "name": "id"
         },
         {
-          "id": "2:1412045843933571472",
+          "id": "2:5088135982000298591",
           "name": "name"
         },
         {
-          "id": "3:921875549697785612",
+          "id": "3:48403717453275165",
+          "name": "description"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:2727118334983574760",
+      "lastPropertyId": "3:767068612242361644",
+      "name": "DrinkEntity",
+      "properties": [
+        {
+          "id": "1:3518400859898442848",
+          "name": "id"
+        },
+        {
+          "id": "2:913154927046780619",
+          "name": "name"
+        },
+        {
+          "id": "3:767068612242361644",
           "name": "description"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:1281509507603893078",
+  "lastEntityId": "4:2727118334983574760",
   "lastIndexId": "0:0",
-  "lastRelationId": "1:8208703766136590587",
+  "lastRelationId": "3:4561124423824871391",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    1361583907855363739
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

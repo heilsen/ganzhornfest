@@ -2,37 +2,50 @@ package de.heilsen.ganzhornfest.app.presenter;
 
 
 import java.util.List;
-import java.util.Map;
 
 import de.heilsen.ganzhornfest.domain.entity.Club;
-import de.heilsen.ganzhornfest.domain.entity.ListableItem;
-import de.heilsen.ganzhornfest.domain.entity.ListableItemType;
-import de.heilsen.ganzhornfest.domain.interactor.GetClubInfoInteractor;
+import de.heilsen.ganzhornfest.domain.entity.Offer;
+import de.heilsen.ganzhornfest.domain.entity.OfferType;
+import de.heilsen.ganzhornfest.domain.interactor.ClubInfoInteractor;
+import de.heilsen.ganzhornfest.domain.interactor.OfferInfoInteractor;
 
-public class DetailPresenter extends Presenter<DetailPresenter.View> {
-    private GetClubInfoInteractor getClubInfoInteractor;
+public class DetailPresenter extends Presenter<DetailPresenter.DetailView> {
+    private ClubInfoInteractor clubInfoInteractor;
+    private OfferInfoInteractor offerInfoInteractor;
 
-    public DetailPresenter(GetClubInfoInteractor getClubInfoInteractor) {
-        this.getClubInfoInteractor = getClubInfoInteractor;
+    public DetailPresenter(ClubInfoInteractor clubInfoInteractor, OfferInfoInteractor offerInfoInteractor) {
+        this.clubInfoInteractor = clubInfoInteractor;
+        this.offerInfoInteractor = offerInfoInteractor;
     }
 
-    public void show(String name) {
-        getView();
-        getClubInfoInteractor.showInfo(name, new GetClubInfoInteractor.Callback() {
-            @Override
-            public void show(Club club, Map<ListableItemType, List<? extends ListableItem>> infoMap) {
-                if (club != null) {
-                    getView().showDetail(infoMap);
-                } else {
-                    getView().showEmpty();
+    public void show(ListableItemType type, String name) {
+        getView().showLoading();
+        if (type == ListableItemType.CLUB) {
+            clubInfoInteractor.show(name, new ClubInfoInteractor.Callback() {
+                @Override
+                public void show(Club club) {
+                    if (club != null) {
+                        getView().showClubDetail(club);
+                    } else {
+                        getView().showEmpty();
+                    }
                 }
-            }
 
-        });
+            });
+        } else {
+            offerInfoInteractor.showInfo(OfferType.FOOD, name, new OfferInfoInteractor.Callback() {
+                @Override
+                public void show(Offer offer, List<Club> clubList) {
+                    getView().showOfferDetail(offer, clubList);
+                }
+            });
+        }
+        getView().hideLoading();
     }
 
-    public interface View extends Presenter.View {
-        void showDetail(Map<ListableItemType, List<? extends ListableItem>> infoMap);
+    public interface DetailView extends Presenter.View {
+        void showClubDetail(Club club);
+        void showOfferDetail(Offer offer, List<Club> clubList);
         void showEmpty();
     }
 }

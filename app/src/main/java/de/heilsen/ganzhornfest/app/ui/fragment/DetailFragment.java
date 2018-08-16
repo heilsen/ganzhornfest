@@ -11,21 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
-import java.util.Map;
 
+import de.heilsen.ganzhornfest.app.GanzhornfestApplication;
 import de.heilsen.ganzhornfest.app.R;
-import de.heilsen.ganzhornfest.app.di.ServiceLocator;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
-import de.heilsen.ganzhornfest.app.ui.recyclerview.ListableItemSection;
-import de.heilsen.ganzhornfest.domain.entity.ListableItem;
-import de.heilsen.ganzhornfest.domain.entity.ListableItemType;
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
+import de.heilsen.ganzhornfest.domain.entity.Club;
+import de.heilsen.ganzhornfest.domain.entity.Offer;
 
 //TODO: add presenter
-public class DetailFragment extends InsideTabbedActivityFragment implements DetailPresenter.View {
+public class DetailFragment extends InsideTabbedActivityFragment implements DetailPresenter.DetailView {
 
     private static final String ARG_ITEM_NAME = "item_name";
-    private static final String ARG_ITEM_DESCRIPTION = "item_description";
+    private static final String ARG_ITEM_TYPE = "item_type";
     private ListableItemType itemType;
     private String itemName;
     private RecyclerView recyclerView;
@@ -34,7 +32,7 @@ public class DetailFragment extends InsideTabbedActivityFragment implements Deta
     public static DetailFragment newInstance(ListableItemType itemType, String name) {
         Bundle args = new Bundle();
         args.putString(ARG_ITEM_NAME, name);
-        args.putSerializable(ARG_ITEM_DESCRIPTION, itemType);
+        args.putSerializable(ARG_ITEM_TYPE, itemType);
         DetailFragment fragment = new DetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -46,7 +44,7 @@ public class DetailFragment extends InsideTabbedActivityFragment implements Deta
         setHasOptionsMenu(true);
         if (getArguments() != null) {
             itemName = getArguments().getString(ARG_ITEM_NAME);
-            itemType = (ListableItemType) getArguments().getSerializable(ARG_ITEM_DESCRIPTION);
+            itemType = (ListableItemType) getArguments().getSerializable(ARG_ITEM_TYPE);
         }
     }
 
@@ -59,22 +57,28 @@ public class DetailFragment extends InsideTabbedActivityFragment implements Deta
         return rootView;
     }
 
-    @Override
-    public void showDetail(Map<ListableItemType, List<? extends ListableItem>> infoMap) {
-        //TODO: make infoMap a class ItemDetail or add the functionality to ListableItem
-        SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
-        for (ListableItemType listableItemType : infoMap.keySet()) {
-            if (hasItemsOfType(infoMap, listableItemType)) {
-                sectionAdapter.addSection(new ListableItemSection(listableItemType.getItemName(), infoMap.get(listableItemType)));
-            }
-        }
 
-        recyclerView.setAdapter(sectionAdapter);
+
+//    @Override
+//    public void showDetail(Club club) {
+//        SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+//
+//        sectionAdapter.addSection(new ListableItemSection("Essen", club.getFoodList()));
+//        sectionAdapter.addSection(new ListableItemSection("Trinken", club.getDrinkList()));
+//        sectionAdapter.addSection(new ListableItemSection("Angebote", club.getActionableOfferList()));
+//
+//        recyclerView.setAdapter(sectionAdapter);
+//
+//    }
+
+    @Override
+    public void showClubDetail(Club club) {
 
     }
 
-    private boolean hasItemsOfType(Map<ListableItemType, List<? extends ListableItem>> infoMap, ListableItemType listableItemType) {
-        return !infoMap.get(listableItemType).isEmpty();
+    @Override
+    public void showOfferDetail(Offer offer, List<Club> clubList) {
+
     }
 
     @Override
@@ -103,9 +107,9 @@ public class DetailFragment extends InsideTabbedActivityFragment implements Deta
 
     private void injectViews(View view) {
         recyclerView = view.findViewById(R.id.item_recycler_view);
-        detailPresenter = ServiceLocator.locator().detailPresenter();
+        detailPresenter = ((GanzhornfestApplication) getActivity().getApplication()).getDi().detailPresenter();
         detailPresenter.attachView(this);
-        detailPresenter.show(itemName);
+        detailPresenter.show(itemType, itemName);
     }
 
     @Override

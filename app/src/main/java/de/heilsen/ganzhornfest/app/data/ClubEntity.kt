@@ -6,13 +6,12 @@ import io.objectbox.relation.ToMany
 
 @Entity
 data class ClubEntity @JvmOverloads constructor(val name: String = "",
-                                                val description: String = "",
-                                                val abbreviation: String = "") {
+                                                val description: String = "") {
     @Id
     var id: Long = 0
 
     lateinit var foods: ToMany<FoodEntity>
     lateinit var drinks: ToMany<DrinkEntity>
-//    lateinit var someOtherOffers: ToMany<SomeOtherOfferEntity>
+    lateinit var actionableOffers: ToMany<ActionableOfferEntity>
 
 }

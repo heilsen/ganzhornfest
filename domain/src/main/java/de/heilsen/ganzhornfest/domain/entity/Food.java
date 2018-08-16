@@ -1,6 +1,6 @@
 package de.heilsen.ganzhornfest.domain.entity;
 
-public class Food extends ListableItem {
+public class Food extends Offer {
     public Food(String name, String description) {
         super(name, description);
     }
