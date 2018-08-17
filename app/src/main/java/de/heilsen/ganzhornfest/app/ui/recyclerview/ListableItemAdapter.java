@@ -14,17 +14,21 @@ import java.util.List;
 import de.heilsen.ganzhornfest.app.R;
 import de.heilsen.ganzhornfest.app.presenter.ListableItem;
 import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
+import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
+import de.heilsen.ganzhornfest.domain.interactor.ClubListInteractor;
 
 public class ListableItemAdapter extends RecyclerView.Adapter<TextViewViewHolder> {
     private List<ListableItem> list;
-    private ListPresenter presenter;
+    private ListPresenter listPresenter;
+    private ListableItemType listableItemType;
 
-    public ListableItemAdapter(ListPresenter presenter) {
-        this.presenter = presenter;
+    public ListableItemAdapter() {
         this.list = new ArrayList<>();
     }
 
-    public void set(Collection<ListableItem> listableItems) {
+    public void set(Collection<ListableItem> listableItems, ListPresenter listPresenter, ListableItemType listableItemType) {
+        this.listPresenter = listPresenter;
+        this.listableItemType = listableItemType;
         list.clear();
         list.addAll(listableItems);
         notifyDataSetChanged();
@@ -34,14 +38,20 @@ public class ListableItemAdapter extends RecyclerView.Adapter<TextViewViewHolder
     @Override
     public TextViewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_holder, parent, false);
-        return new PresentableListItemViewHolder(view, presenter);
+        return new ListItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TextViewViewHolder holder, int position) {
-        PresentableListItemViewHolder presentableListItemViewHolder = (PresentableListItemViewHolder) holder;
-        ListableItem listableItem = list.get(position);
-        presentableListItemViewHolder.render(listableItem);
+        ListItemViewHolder listItemViewHolder = (ListItemViewHolder) holder;
+        final ListableItem listableItem = list.get(position);
+        listItemViewHolder.render(listableItem);
+        listItemViewHolder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listPresenter.showItem(listableItemType, listableItem);
+            }
+        });
     }
 
 

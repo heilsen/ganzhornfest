@@ -114,7 +114,7 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
     }
 
     override fun get(name: String): Food {
-        return FoodConverter.from(box.query().equal(FoodEntity_.name, name).build().findUnique()!!)
+        return Food("food", "asdf") //TODO: FoodConverter.from(box.query().equal(FoodEntity_.name, name).build().findUnique()!!)
     }
 
     fun prefill() {

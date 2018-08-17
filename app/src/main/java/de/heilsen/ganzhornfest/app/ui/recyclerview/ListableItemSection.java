@@ -7,7 +7,6 @@ import java.util.List;
 
 import de.heilsen.ganzhornfest.app.R;
 import de.heilsen.ganzhornfest.app.presenter.ListableItem;
-import de.heilsen.ganzhornfest.domain.entity.Offer;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
@@ -32,12 +31,12 @@ public class ListableItemSection extends StatelessSection {
 
     @Override
     public RecyclerView.ViewHolder getItemViewHolder(View view) {
-        return new PresentableListItemViewHolder(view, null); //TODO: übergebe presenter
+        return new ListItemViewHolder(view); //TODO: übergebe presenter
     }
 
     @Override
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-        PresentableListItemViewHolder viewHolder = (PresentableListItemViewHolder) holder;
+        ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
         viewHolder.render(items.get(position));
     }
 

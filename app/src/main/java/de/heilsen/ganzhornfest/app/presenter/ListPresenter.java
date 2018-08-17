@@ -28,26 +28,37 @@ public class ListPresenter extends Presenter<ListPresenter.View> {
                     new ClubListInteractor.Callback() {
                         @Override
                         public void showClubList(List<Club> clubList) {
-                            getView().showList(listableItemConverter.fromClubList(clubList));
+                            getView().showList(ListableItemType.CLUB, listableItemConverter.fromClubList(clubList));
                             getView().hideLoading();
                         }
                     });
         }
-        OfferListInteractor.Callback callback = new OfferListInteractor.Callback() {
-            @Override
-            public void showOfferList(List<Offer> offerList) {
-                getView().showList(listableItemConverter.fromOfferList(offerList));
-                getView().hideLoading();
-            }
-        };
         if (listableItemType == ListableItemType.FOOD) {
-            offerListInteractor.listOffer(OfferType.FOOD, callback);
+            offerListInteractor.listOffer(OfferType.FOOD, new OfferListInteractor.Callback() {
+                @Override
+                public void showOfferList(List<Offer> offerList) {
+                    getView().showList(ListableItemType.FOOD, listableItemConverter.fromOfferList(offerList));
+                    getView().hideLoading();
+                }
+            });
         }
         if (listableItemType == ListableItemType.DRINK) {
-            offerListInteractor.listOffer(OfferType.DRINK, callback);
+            offerListInteractor.listOffer(OfferType.DRINK, new OfferListInteractor.Callback() {
+                @Override
+                public void showOfferList(List<Offer> offerList) {
+                    getView().showList(ListableItemType.DRINK, listableItemConverter.fromOfferList(offerList));
+                    getView().hideLoading();
+                }
+            });
         }
         if (listableItemType == ListableItemType.ACTIONABLE_OFFER) {
-            offerListInteractor.listOffer(OfferType.ACTIONABLE_OFFER, callback);
+            offerListInteractor.listOffer(OfferType.ACTIONABLE_OFFER, new OfferListInteractor.Callback() {
+                @Override
+                public void showOfferList(List<Offer> offerList) {
+                    getView().showList(ListableItemType.ACTIONABLE_OFFER, listableItemConverter.fromOfferList(offerList));
+                    getView().hideLoading();
+                }
+            });
         }
     }
 
@@ -77,7 +88,7 @@ public class ListPresenter extends Presenter<ListPresenter.View> {
     }
 
     public interface View extends Presenter.View {
-        void showList(List<ListableItem> listableItems);
+        void showList(ListableItemType listableItemType, List<ListableItem> listableItems);
 
         void openItemDetail(ListableItemType itemType, String name);
     }

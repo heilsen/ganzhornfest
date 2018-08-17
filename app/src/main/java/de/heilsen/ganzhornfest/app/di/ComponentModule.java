@@ -74,8 +74,8 @@ public class ComponentModule {
 
     @Provides
     @Singleton
-    public ListableItemAdapter listableItemAdapter(ListPresenter listPresenter) {
-        return new ListableItemAdapter(listPresenter);
+    public ListableItemAdapter listableItemAdapter() {
+        return new ListableItemAdapter();
     }
 
     @Provides

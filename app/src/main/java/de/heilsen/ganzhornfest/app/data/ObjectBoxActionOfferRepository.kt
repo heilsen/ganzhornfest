@@ -25,7 +25,7 @@ class ObjectBoxActionOfferRepository(boxStore: BoxStore) : Repository<Actionable
     }
 
     override fun get(name: String): ActionableOffer {
-        return ActionableOffer("asdf") // ActionableOfferEntityDelegate(box.query().equal(OfferEntity_.name, name).build().findUnique()!!)
+        return ActionableOffer("action!") // ActionableOfferEntityDelegate(box.query().equal(OfferEntity_.name, name).build().findUnique()!!)
     }
 
 

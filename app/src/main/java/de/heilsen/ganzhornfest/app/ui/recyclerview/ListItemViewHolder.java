@@ -5,12 +5,10 @@ import android.view.View;
 import de.heilsen.ganzhornfest.app.presenter.ListableItem;
 import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 
-public class PresentableListItemViewHolder extends TextViewViewHolder {
-    private ListPresenter presenter;
+public class ListItemViewHolder extends TextViewViewHolder {
 
-    PresentableListItemViewHolder(View itemView, ListPresenter presenter) {
+    ListItemViewHolder(View itemView) {
         super(itemView);
-        this.presenter = presenter;
     }
 
     public void render(ListableItem listableItem) {

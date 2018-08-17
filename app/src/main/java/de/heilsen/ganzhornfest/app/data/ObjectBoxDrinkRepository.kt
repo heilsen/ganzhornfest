@@ -112,7 +112,7 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     }
 
     override fun get(name: String): Drink {
-        return Drink("asdf") // DrinkEntityDelegate(box.query().equal(DrinkEntity_.name, name).build().findUnique()!!)
+        return Drink("drink") // DrinkEntityDelegate(box.query().equal(DrinkEntity_.name, name).build().findUnique()!!)
     }
 
 

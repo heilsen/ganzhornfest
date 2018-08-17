@@ -69,7 +69,7 @@ class ObjectBoxClubRepository(boxStore: BoxStore, private val foodRepo: ObjectBo
 
     override fun get(name: String): Club {
         val query = box.query().equal(ClubEntity_.name, name).build()
-        return ClubConverter.from(query.findUnique()!!)
+        return Club("club", "club") //TODO: ClubConverter.from(query.findUnique()!!)
     }
 
 
