@@ -26,11 +26,11 @@
 
                 <TextView
                     android:id="@+id/info_header"
+                    style="@style/AppTHeme.InfoHeader.TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/ganzhornfest_with_year"
-                    style="@style/AppTHeme.InfoHeader.TextView"
                     />
 
                 <TextView
@@ -66,7 +66,7 @@
 
                 <TextView
                     android:id="@+id/eventDateRange"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/loading"
@@ -80,31 +80,30 @@
             android:layout_margin="@dimen/spacing_medium"
             >
 
-            <TextView
-                android:id="@+id/eventOpeningTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/loading"
-                android:drawableStart="@drawable/ic_access_time_black"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacing_large"
+                >
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_margin="@dimen/spacing_large"-->
-                <!--&gt;-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/opening_hours"
+                    app:srcCompat="@drawable/ic_access_time_black"/>
 
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginEnd="@dimen/spacing_large"-->
-                    <!--android:background="@android:color/transparent"-->
-                    <!--android:contentDescription="@string/opening_hours"-->
-                    <!--app:srcCompat="@drawable/ic_access_time_black"/>-->
+                <TextView
+                    android:id="@+id/eventOpeningTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/loading"
+                    />
 
-            <!--</LinearLayout>-->
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -130,7 +129,7 @@
 
                 <TextView
                     android:id="@+id/eventLocationInfo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/loading"
@@ -161,7 +160,7 @@
 
                 <TextView
                     android:id="@+id/eventListingInfo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/loading"
@@ -192,7 +191,7 @@
 
                 <TextView
                     android:id="@+id/eventProgramInfo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/loading"
@@ -223,7 +222,7 @@
 
                 <TextView
                     android:id="@+id/eventBusInfo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:autoLink="web"
