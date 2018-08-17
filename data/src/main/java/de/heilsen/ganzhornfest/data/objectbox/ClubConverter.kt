@@ -1,4 +1,4 @@
-package de.heilsen.ganzhornfest.app.data
+package de.heilsen.ganzhornfest.data.objectbox
 
 import de.heilsen.ganzhornfest.domain.entity.Club
 

@@ -1,4 +1,16 @@
-apply plugin: 'java'
+apply plugin: 'com.android.library'
+apply plugin: "kotlin-android"
+apply plugin: 'kotlin-kapt'
+apply plugin: 'io.objectbox'
+
+android {
+    compileSdkVersion project(':app').android.compileSdkVersion
+}
+
 dependencies {
-    compile project(path: ':domain')
+    implementation project(path: ':domain')
+
+    implementation 'com.google.dagger:dagger:2.14.1'
+    kapt 'com.google.dagger:dagger-compiler:2.14.1'
+
 }

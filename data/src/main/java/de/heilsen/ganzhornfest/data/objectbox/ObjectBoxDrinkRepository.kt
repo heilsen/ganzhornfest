@@ -1,8 +1,6 @@
-package de.heilsen.ganzhornfest.app.data
+package de.heilsen.ganzhornfest.data.objectbox
 
 import de.heilsen.ganzhornfest.domain.entity.Drink
-import de.heilsen.ganzhornfest.domain.entity.Offer
-import de.heilsen.ganzhornfest.domain.entity.OfferType
 import de.heilsen.ganzhornfest.domain.repository.Repository
 import io.objectbox.Box
 import io.objectbox.BoxStore

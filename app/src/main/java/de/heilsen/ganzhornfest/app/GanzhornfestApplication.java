@@ -5,8 +5,10 @@ import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 
 import de.heilsen.ganzhornfest.app.di.ApplicationComponent;
-import de.heilsen.ganzhornfest.app.di.ComponentModule;
 import de.heilsen.ganzhornfest.app.di.DaggerApplicationComponent;
+import de.heilsen.ganzhornfest.data.di.DaggerObjectBoxRepositoryComponent;
+import de.heilsen.ganzhornfest.data.di.ObjectBoxModule;
+import de.heilsen.ganzhornfest.data.di.ObjectBoxRepositoryComponent;
 
 
 public class GanzhornfestApplication extends Application {
@@ -21,7 +23,12 @@ public class GanzhornfestApplication extends Application {
         }
         LeakCanary.install(this);
 
-        di = DaggerApplicationComponent.builder().componentModule(new ComponentModule(this)).build();
+        ObjectBoxRepositoryComponent repositoryComponent = DaggerObjectBoxRepositoryComponent.builder()
+                .objectBoxModule(new ObjectBoxModule(this))
+                .build();
+        di = DaggerApplicationComponent.builder()
+                .repositoryComponent(repositoryComponent)
+                .build();
     }
 
     public ApplicationComponent getDi() {

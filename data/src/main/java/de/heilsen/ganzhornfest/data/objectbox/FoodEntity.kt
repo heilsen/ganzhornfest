@@ -1,4 +1,4 @@
-package de.heilsen.ganzhornfest.app.data
+package de.heilsen.ganzhornfest.data.objectbox
 
 import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Entity
@@ -6,7 +6,7 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
 
 @Entity
-data class ActionableOfferEntity @JvmOverloads constructor(val name: String = "", val description: String = "") {
+data class FoodEntity @JvmOverloads constructor(val name: String = "", val description: String = "") {
 
     @Id
     var id: Long = 0
