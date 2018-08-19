@@ -1,5 +1,7 @@
 package de.heilsen.ganzhornfest.domain.interactor;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.domain.entity.Club;
@@ -14,7 +16,7 @@ public class ClubListInteractor {
 
 
     public void listClubs(Callback callback) {
-        callback.showClubList(clubRepository.getAll());
+        callback.showClubList(sort(clubRepository.getAll()));
     }
 
     public void selectClub(String name, DetailCallback callback) {
@@ -29,6 +31,17 @@ public class ClubListInteractor {
     public interface DetailCallback {
 
         void showClubDetail(Club club);
+    }
+
+    private static List<Club> sort(List<Club> list) {
+        //noinspection Java8ListSort, doesn't work for API<24
+        Collections.sort(list, new Comparator<Club>() {
+            @Override
+            public int compare(Club club1, Club club2) {
+                return club1.getName().compareTo(club2.getName());
+            }
+        });
+        return list;
     }
 
 }

@@ -6,7 +6,10 @@ import android.view.View;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.app.R;
+import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
+import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItem;
+import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
@@ -14,14 +17,20 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 public class ListableItemSection extends StatelessSection {
     private final String title;
     private final List<ListableItem> items;
+    private final ListableItemType listableItemType;
+    private final DetailPresenter detailPresenter;
 
-    public ListableItemSection(String title, List<ListableItem> items) {
+    public ListableItemSection(String title, List<ListableItem> items,
+                               ListableItemType listableItemType,
+                               DetailPresenter detailPresenter) {
         super(SectionParameters.builder()
                 .itemResourceId(R.layout.item_view_holder)
                 .headerResourceId(R.layout.header_view_holder)
                 .build());
         this.title = title;
         this.items = items;
+        this.listableItemType = listableItemType;
+        this.detailPresenter = detailPresenter;
     }
 
     @Override
@@ -35,9 +44,16 @@ public class ListableItemSection extends StatelessSection {
     }
 
     @Override
-    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
         viewHolder.render(items.get(position));
+        //TODO: add every click to navigation history
+//        viewHolder.textView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                detailPresenter.show(listableItemType, items.get(position).getName());
+//            }
+//        });
     }
 
     @Override

@@ -2,9 +2,11 @@ package de.heilsen.ganzhornfest.domain.interactor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.domain.entity.ActionableOffer;
+import de.heilsen.ganzhornfest.domain.entity.Club;
 import de.heilsen.ganzhornfest.domain.entity.Drink;
 import de.heilsen.ganzhornfest.domain.entity.Food;
 import de.heilsen.ganzhornfest.domain.entity.Offer;
@@ -28,13 +30,13 @@ public class OfferListInteractor {
     public void listOffer(OfferType offerType, Callback callback) {
         switch (offerType) {
             case FOOD:
-                callback.showOfferList(new ArrayList<>(foodRepository.getAll()));
+                callback.showOfferList(sort(new ArrayList<>(foodRepository.getAll())));
                 break;
             case DRINK:
-                callback.showOfferList(new ArrayList<>(drinkRepository.getAll()));
+                callback.showOfferList(sort(new ArrayList<>(drinkRepository.getAll())));
                 break;
             case ACTIONABLE_OFFER:
-                callback.showOfferList(new ArrayList<>(actionableOfferRepository.getAll()));
+                callback.showOfferList(sort(new ArrayList<>(actionableOfferRepository.getAll())));
                 break;
             case UNKNOWN:
             default:
@@ -67,4 +69,16 @@ public class OfferListInteractor {
     public interface Callback {
         void showOfferList(List<Offer> offerList);
     }
+
+    private static List<Offer> sort(List<Offer> list) {
+        //noinspection Java8ListSort, doesn't work for API<24
+        Collections.sort(list, new Comparator<Offer>() {
+            @Override
+            public int compare(Offer Offer1, Offer Offer2) {
+                return Offer1.getName().compareTo(Offer2.getName());
+            }
+        });
+        return list;
+    }
+
 }

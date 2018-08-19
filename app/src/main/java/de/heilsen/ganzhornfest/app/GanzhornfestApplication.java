@@ -6,9 +6,12 @@ import com.squareup.leakcanary.LeakCanary;
 
 import de.heilsen.ganzhornfest.app.di.ApplicationComponent;
 import de.heilsen.ganzhornfest.app.di.DaggerApplicationComponent;
+import de.heilsen.ganzhornfest.data.di.DaggerFakeRepositoryComponent;
 import de.heilsen.ganzhornfest.data.di.DaggerObjectBoxRepositoryComponent;
+import de.heilsen.ganzhornfest.data.di.FakeRepositoryModule;
 import de.heilsen.ganzhornfest.data.di.ObjectBoxModule;
 import de.heilsen.ganzhornfest.data.di.ObjectBoxRepositoryComponent;
+import de.heilsen.ganzhornfest.data.di.RepositoryComponent;
 
 
 public class GanzhornfestApplication extends Application {
@@ -23,8 +26,8 @@ public class GanzhornfestApplication extends Application {
         }
         LeakCanary.install(this);
 
-        ObjectBoxRepositoryComponent repositoryComponent = DaggerObjectBoxRepositoryComponent.builder()
-                .objectBoxModule(new ObjectBoxModule(this))
+        RepositoryComponent repositoryComponent = DaggerFakeRepositoryComponent.builder()
+                .fakeRepositoryModule(new FakeRepositoryModule())
                 .build();
         di = DaggerApplicationComponent.builder()
                 .repositoryComponent(repositoryComponent)

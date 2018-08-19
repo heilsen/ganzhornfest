@@ -33,7 +33,7 @@ public class OfferInfoInteractor {
 
     public void showInfo(OfferType offerType, String itemName, OfferInfoInteractor.Callback callback) {
         List<Club> clubList = clubRepository.getAll();
-        List<Club> resultList = new ArrayList<>();
+        List<Club> clubsWithOfferList = new ArrayList<>();
         Offer offer;
         switch (offerType) {
             case FOOD:
@@ -67,22 +67,27 @@ public class OfferInfoInteractor {
             }
             for (Offer offerItem : offerList) {
                 if (offerItem.getName().equals(itemName)) {
-                    resultList.add(club);
+                    clubsWithOfferList.add(club);
                     continue clubLoop;
                 }
             }
         }
+        callback.show(offer, sort(clubsWithOfferList));
+    }
+
+    private static List<Club> sort(List<Club> list) {
         //noinspection Java8ListSort, doesn't work for API<24
-        Collections.sort(resultList, new Comparator<Club>() {
+        Collections.sort(list, new Comparator<Club>() {
             @Override
             public int compare(Club club1, Club club2) {
                 return club1.getName().compareTo(club2.getName());
             }
         });
-        callback.show(offer, resultList);
+        return list;
     }
 
     public interface Callback {
         void show(Offer offer, List<Club> clubList);
     }
+
 }

@@ -26,7 +26,7 @@ public class ListableItemAdapter extends RecyclerView.Adapter<TextViewViewHolder
         this.list = new ArrayList<>();
     }
 
-    public void set(Collection<ListableItem> listableItems, ListPresenter listPresenter, ListableItemType listableItemType) {
+    public void updateList(Collection<ListableItem> listableItems, ListPresenter listPresenter, ListableItemType listableItemType) {
         this.listPresenter = listPresenter;
         this.listableItemType = listableItemType;
         list.clear();

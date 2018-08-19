@@ -87,7 +87,7 @@ public class ListFragment extends InsideTabbedActivityFragment implements ListPr
 
     @Override
     public void showList(ListableItemType listableItemType, List<ListableItem> listableItems) {
-        adapter.set(listableItems, listPresenter, listableItemType);
+        adapter.updateList(listableItems, listPresenter, listableItemType);
     }
 
     @Override
