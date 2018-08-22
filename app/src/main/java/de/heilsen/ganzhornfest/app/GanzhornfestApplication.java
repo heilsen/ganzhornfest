@@ -26,11 +26,14 @@ public class GanzhornfestApplication extends Application {
         }
         LeakCanary.install(this);
 
-        RepositoryComponent repositoryComponent = DaggerFakeRepositoryComponent.builder()
+        RepositoryComponent fakeRepositoryComponent = DaggerFakeRepositoryComponent.builder()
                 .fakeRepositoryModule(new FakeRepositoryModule())
                 .build();
+        RepositoryComponent oBoxRepositoryComponent = DaggerObjectBoxRepositoryComponent.builder()
+                .objectBoxModule(new ObjectBoxModule(this))
+                .build();
         di = DaggerApplicationComponent.builder()
-                .repositoryComponent(repositoryComponent)
+                .repositoryComponent(oBoxRepositoryComponent)
                 .build();
     }
 

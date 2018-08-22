@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.data.objectbox
 
 import de.heilsen.ganzhornfest.domain.entity.Drink
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException
 import de.heilsen.ganzhornfest.domain.repository.Repository
 import io.objectbox.Box
 import io.objectbox.BoxStore
@@ -110,7 +111,8 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     }
 
     override fun get(name: String): Drink {
-        return Drink("drink") // DrinkEntityDelegate(box.query().equal(DrinkEntity_.name, name).build().findUnique()!!)
+        val entity = box.query().equal(DrinkEntity_.name, name).build().findUnique() ?: throw EntityNotFoundException()
+        return DrinkConverter.from(entity)
     }
 
 

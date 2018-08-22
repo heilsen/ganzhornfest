@@ -1,0 +1,111 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:5398473745798239326",
+      "lastPropertyId": "3:6432760160360040094",
+      "name": "FoodEntity",
+      "properties": [
+        {
+          "id": "1:3901011321460295343",
+          "name": "id"
+        },
+        {
+          "id": "2:2640756560829023863",
+          "name": "name"
+        },
+        {
+          "id": "3:6432760160360040094",
+          "name": "description"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:7850980430164174955",
+      "lastPropertyId": "3:4898633688705543415",
+      "name": "ClubEntity",
+      "properties": [
+        {
+          "id": "1:8480543483822795003",
+          "name": "id"
+        },
+        {
+          "id": "2:6148954980001741190",
+          "name": "name"
+        },
+        {
+          "id": "3:4898633688705543415",
+          "name": "description"
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:1389053258257932527",
+          "name": "foods"
+        },
+        {
+          "id": "2:3492622204330165970",
+          "name": "drinks"
+        },
+        {
+          "id": "3:8296951935136177895",
+          "name": "actionableOffers"
+        }
+      ]
+    },
+    {
+      "id": "3:8489740658172043795",
+      "lastPropertyId": "3:143691934408576952",
+      "name": "DrinkEntity",
+      "properties": [
+        {
+          "id": "1:6663570556978247697",
+          "name": "id"
+        },
+        {
+          "id": "2:6769945891665408654",
+          "name": "name"
+        },
+        {
+          "id": "3:143691934408576952",
+          "name": "description"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:6621162857397617767",
+      "lastPropertyId": "3:3923183826079261455",
+      "name": "ActionableOfferEntity",
+      "properties": [
+        {
+          "id": "1:6685918776216266211",
+          "name": "id"
+        },
+        {
+          "id": "2:373444230215249111",
+          "name": "name"
+        },
+        {
+          "id": "3:3923183826079261455",
+          "name": "description"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "4:6621162857397617767",
+  "lastIndexId": "0:0",
+  "lastRelationId": "3:8296951935136177895",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

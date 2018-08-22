@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.data.objectbox
 
 import de.heilsen.ganzhornfest.domain.entity.ActionableOffer
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException
 import de.heilsen.ganzhornfest.domain.repository.Repository
 import io.objectbox.Box
 import io.objectbox.BoxStore
@@ -25,7 +26,8 @@ class ObjectBoxActionOfferRepository(boxStore: BoxStore) : Repository<Actionable
     }
 
     override fun get(name: String): ActionableOffer {
-        return ActionableOffer("action!") // ActionableOfferEntityDelegate(box.query().equal(OfferEntity_.name, name).build().findUnique()!!)
+        val entity = box.query().equal(ActionableOfferEntity_.name, name).build().findUnique() ?: throw EntityNotFoundException()
+        return ActionableOfferConverter.from(entity)
     }
 
 

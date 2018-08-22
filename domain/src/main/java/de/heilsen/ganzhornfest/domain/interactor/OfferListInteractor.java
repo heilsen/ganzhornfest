@@ -6,11 +6,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.domain.entity.ActionableOffer;
-import de.heilsen.ganzhornfest.domain.entity.Club;
 import de.heilsen.ganzhornfest.domain.entity.Drink;
 import de.heilsen.ganzhornfest.domain.entity.Food;
 import de.heilsen.ganzhornfest.domain.entity.Offer;
 import de.heilsen.ganzhornfest.domain.entity.OfferType;
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
 
 public class OfferListInteractor {
@@ -44,32 +44,6 @@ public class OfferListInteractor {
         }
     }
 
-    public void selectOffer(OfferType offerType, String name, DetailCallback callback) {
-        switch (offerType) {
-            case FOOD:
-                callback.showOfferDetail(foodRepository.get(name));
-                break;
-            case DRINK:
-                callback.showOfferDetail(drinkRepository.get(name));
-                break;
-            case ACTIONABLE_OFFER:
-                callback.showOfferDetail(actionableOfferRepository.get(name));
-                break;
-            case UNKNOWN:
-            default:
-                callback.showOfferDetail(new Offer("", ""));
-        }
-    }
-
-
-    public interface DetailCallback {
-        void showOfferDetail(Offer offer);
-    }
-
-    public interface Callback {
-        void showOfferList(List<Offer> offerList);
-    }
-
     private static List<Offer> sort(List<Offer> list) {
         //noinspection Java8ListSort, doesn't work for API<24
         Collections.sort(list, new Comparator<Offer>() {
@@ -79,6 +53,37 @@ public class OfferListInteractor {
             }
         });
         return list;
+    }
+
+    public void selectOffer(OfferType offerType, String name, DetailCallback callback) {
+        try {
+            switch (offerType) {
+                case FOOD:
+                    callback.showOfferDetail(foodRepository.get(name));
+                    break;
+                case DRINK:
+                    callback.showOfferDetail(drinkRepository.get(name));
+                    break;
+                case ACTIONABLE_OFFER:
+                    callback.showOfferDetail(actionableOfferRepository.get(name));
+                    break;
+                case UNKNOWN:
+                default:
+                    callback.showOfferDetail(new Offer("", ""));
+            }
+        } catch (EntityNotFoundException e) {
+            callback.showEmpty();
+        }
+    }
+
+    public interface DetailCallback {
+        void showOfferDetail(Offer offer);
+
+        void showEmpty();
+    }
+
+    public interface Callback {
+        void showOfferList(List<Offer> offerList);
     }
 
 }

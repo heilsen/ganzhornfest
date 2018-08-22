@@ -2,6 +2,7 @@ package de.heilsen.ganzhornfest.domain.interactor;
 
 
 import de.heilsen.ganzhornfest.domain.entity.Club;
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
 
 public class ClubInfoInteractor {
@@ -13,11 +14,16 @@ public class ClubInfoInteractor {
     }
 
     public void show(String clubName, Callback callback) {
-        Club club = clubRepository.get(clubName);
-        callback.show(club);
+        try {
+            Club club = clubRepository.get(clubName);
+            callback.show(club);
+        } catch (EntityNotFoundException e) {
+            callback.showEmpty();
+        }
     }
 
     public interface Callback {
         void show(Club club);
+        void showEmpty();
     }
 }

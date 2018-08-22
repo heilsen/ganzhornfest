@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.domain.entity.Club;
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
 
 public class ClubListInteractor {
@@ -20,7 +21,11 @@ public class ClubListInteractor {
     }
 
     public void selectClub(String name, DetailCallback callback) {
-        callback.showClubDetail(clubRepository.get(name));
+        try {
+            callback.showClubDetail(clubRepository.get(name));
+        } catch (EntityNotFoundException e) {
+            callback.emptyClubDetail();
+        }
     }
 
 
@@ -31,6 +36,8 @@ public class ClubListInteractor {
     public interface DetailCallback {
 
         void showClubDetail(Club club);
+
+        void emptyClubDetail();
     }
 
     private static List<Club> sort(List<Club> list) {

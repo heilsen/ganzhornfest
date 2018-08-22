@@ -10,4 +10,7 @@
     <string name="program_info_description">Informationen zum Programm</string>
     <string name="club_and_offer_info_description">Allgemeine Informationen zu den Vereine und Ihren Angeboten</string>
     <string name="category_spinner_label">Kategorie:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

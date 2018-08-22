@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.data.objectbox
 
 import de.heilsen.ganzhornfest.domain.entity.Food
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException
 import de.heilsen.ganzhornfest.domain.repository.Repository
 import io.objectbox.Box
 import io.objectbox.BoxStore
@@ -112,7 +113,8 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
     }
 
     override fun get(name: String): Food {
-        return Food("food", "asdf") //TODO: FoodConverter.from(box.query().equal(FoodEntity_.name, name).build().findUnique()!!)
+        val entity = box.query().equal(FoodEntity_.name, name).build().findUnique() ?: throw EntityNotFoundException()
+        return FoodConverter.from(entity)
     }
 
     fun prefill() {

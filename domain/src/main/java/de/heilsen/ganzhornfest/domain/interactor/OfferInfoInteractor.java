@@ -11,6 +11,7 @@ import de.heilsen.ganzhornfest.domain.entity.Drink;
 import de.heilsen.ganzhornfest.domain.entity.Food;
 import de.heilsen.ganzhornfest.domain.entity.Offer;
 import de.heilsen.ganzhornfest.domain.entity.OfferType;
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
 
 import static java.util.Collections.emptyList;
@@ -35,46 +36,51 @@ public class OfferInfoInteractor {
         List<Club> clubList = clubRepository.getAll();
         List<Club> clubsWithOfferList = new ArrayList<>();
         Offer offer;
-        switch (offerType) {
-            case FOOD:
-                offer = foodRepository.get(itemName);
-                break;
-            case DRINK:
-                offer = drinkRepository.get(itemName);
-                break;
-            case ACTIONABLE_OFFER:
-                offer = actionableOfferRepository.get(itemName);
-                break;
-            default:
-                offer = new Offer("", "");
-        }
-
-        clubLoop:
-        for (Club club : clubList) {
-            List<? extends Offer> offerList;
+        try {
             switch (offerType) {
                 case FOOD:
-                    offerList = club.getFoodList();
+                    offer = foodRepository.get(itemName);
                     break;
                 case DRINK:
-                    offerList = club.getDrinkList();
+                    offer = drinkRepository.get(itemName);
                     break;
                 case ACTIONABLE_OFFER:
-                    offerList = club.getActionableOfferList();
+                    offer = actionableOfferRepository.get(itemName);
                     break;
                 default:
-                    offerList = emptyList();
+                    offer = new Offer("", "");
             }
-            for (Offer offerItem : offerList) {
-                if (offerItem.getName().equals(itemName)) {
-                    clubsWithOfferList.add(club);
-                    continue clubLoop;
+
+            clubLoop:
+            for (Club club : clubList) {
+                List<? extends Offer> offerList;
+                switch (offerType) {
+                    case FOOD:
+                        offerList = club.getFoodList();
+                        break;
+                    case DRINK:
+                        offerList = club.getDrinkList();
+                        break;
+                    case ACTIONABLE_OFFER:
+                        offerList = club.getActionableOfferList();
+                        break;
+                    default:
+                        offerList = emptyList();
+                }
+                for (Offer offerItem : offerList) {
+                    if (offerItem.getName().equals(itemName)) {
+                        clubsWithOfferList.add(club);
+                        continue clubLoop;
+                    }
                 }
             }
+            callback.show(offer, sort(clubsWithOfferList));
+        } catch (EntityNotFoundException e) {
+            callback.showEmpty();
         }
-        callback.show(offer, sort(clubsWithOfferList));
     }
 
+    //TODO: move sort out of here. It should be in the presenter
     private static List<Club> sort(List<Club> list) {
         //noinspection Java8ListSort, doesn't work for API<24
         Collections.sort(list, new Comparator<Club>() {
@@ -88,6 +94,8 @@ public class OfferInfoInteractor {
 
     public interface Callback {
         void show(Offer offer, List<Club> clubList);
+
+        void showEmpty();
     }
 
 }

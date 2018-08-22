@@ -68,12 +68,21 @@ public class ListPresenter extends Presenter<ListPresenter.View> {
                 public void showClubDetail(Club club) {
                     getView().openItemDetail(listableItemType, club.getName());
                 }
+
+                @Override
+                public void emptyClubDetail() {
+                }
             });
         }
         OfferListInteractor.DetailCallback detailCallback = new OfferListInteractor.DetailCallback() {
             @Override
             public void showOfferDetail(Offer offer) {
                 getView().openItemDetail(listableItemType, offer.getName());
+            }
+
+            @Override
+            public void showEmpty() {
+
             }
         };
         if (listableItemType == ListableItemType.FOOD) {

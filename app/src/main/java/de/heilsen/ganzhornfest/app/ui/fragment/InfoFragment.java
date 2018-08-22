@@ -59,7 +59,7 @@ public class InfoFragment extends InsideTabbedActivityFragment {
                 Html.fromHtml(
                         "<b>Samstag</b><br>16:00 - 01:00 Uhr<br>" +
                                 "<b>Sonntag</b><br>11:00 - 24:00 Uhr<br>" +
-                                "<b>Montag</b><br>11:00-24:00 Uhr"));
+                                "<b>Montag</b><br>11:00 - 24:00 Uhr"));
     }
 
     private void setLocationText() {

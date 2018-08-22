@@ -15,6 +15,7 @@ import java.util.Objects;
 import de.heilsen.ganzhornfest.app.R;
 import de.heilsen.ganzhornfest.app.ui.fragment.ListFragment;
 import de.heilsen.ganzhornfest.app.ui.fragment.InfoFragment;
+import de.heilsen.ganzhornfest.app.ui.fragment.MapFragment;
 
 public class TabbedActivity extends AppCompatActivity {
 
@@ -77,12 +78,15 @@ public class TabbedActivity extends AppCompatActivity {
                         item.setChecked(true);
                         break;
                     case R.id.action_list:
-                    case R.id.action_map:
-                    case R.id.action_program:
-                    case R.id.action_bus:
                         fragmentTransaction.replace(R.id.tabbed_content, new ListFragment(), ListFragment.TAG);
                         item.setChecked(true);
                         break;
+                    case R.id.action_map:
+                        fragmentTransaction.replace(R.id.tabbed_content, new MapFragment(), MapFragment.TAG);
+                        item.setChecked(true);
+                        break;
+                    case R.id.action_program:
+                    case R.id.action_bus:
                     default:
                         return false;
                 }

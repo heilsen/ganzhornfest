@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.data.objectbox
 
 import de.heilsen.ganzhornfest.domain.entity.*
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException
 import de.heilsen.ganzhornfest.domain.repository.Repository
 import io.objectbox.Box
 import io.objectbox.BoxStore
@@ -62,14 +63,13 @@ class ObjectBoxClubRepository(boxStore: BoxStore, private val foodRepo: ObjectBo
         return box.all.map { ClubConverter.from(it) }
     }
 
-
     override fun get(i: Int): Club {
         return ClubConverter.from(box.get(i.toLong()))
     }
 
     override fun get(name: String): Club {
-        val query = box.query().equal(ClubEntity_.name, name).build()
-        return Club("club", "club") //TODO: ClubConverter.from(query.findUnique()!!)
+        val clubEntity: ClubEntity = box.query().equal(ClubEntity_.name, name).build().findUnique() ?: throw EntityNotFoundException()
+        return ClubConverter.from(clubEntity)
     }
 
 

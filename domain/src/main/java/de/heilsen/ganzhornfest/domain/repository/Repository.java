@@ -9,5 +9,5 @@ public interface Repository<T> {
 
     T get(int i);
 
-    T get(String name);
+    T get(String name) throws EntityNotFoundException;
 }

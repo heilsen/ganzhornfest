@@ -31,12 +31,22 @@ public class DetailPresenter extends Presenter<DetailPresenter.DetailView> {
                     }
                 }
 
+                @Override
+                public void showEmpty() {
+                    getView().showEmpty();
+                }
+
             });
         } else {
             offerInfoInteractor.showInfo(OfferType.FOOD, name, new OfferInfoInteractor.Callback() {
                 @Override
                 public void show(Offer offer, List<Club> clubList) {
                     getView().showOfferDetail(offer, clubList);
+                }
+
+                @Override
+                public void showEmpty() {
+                    getView().showEmpty();
                 }
             });
         }
