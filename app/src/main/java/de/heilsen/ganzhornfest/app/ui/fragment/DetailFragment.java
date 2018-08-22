@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.MapView;
+
 import java.util.List;
 
 import de.heilsen.ganzhornfest.app.GanzhornfestApplication;
@@ -17,6 +19,7 @@ import de.heilsen.ganzhornfest.app.R;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemConverter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
+import de.heilsen.ganzhornfest.app.ui.map.MapDelegator;
 import de.heilsen.ganzhornfest.app.ui.recyclerview.ListableItemSection;
 import de.heilsen.ganzhornfest.domain.entity.Club;
 import de.heilsen.ganzhornfest.domain.entity.Offer;
@@ -30,6 +33,7 @@ public class DetailFragment extends InsideTabbedActivityFragment implements Deta
     private String itemName;
     private RecyclerView recyclerView;
     private DetailPresenter detailPresenter;
+    private MapView mapView;
 
     public static DetailFragment newInstance(ListableItemType itemType, String name) {
         Bundle args = new Bundle();
@@ -56,6 +60,8 @@ public class DetailFragment extends InsideTabbedActivityFragment implements Deta
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
         injectViews(rootView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(new MapDelegator());
         setupRecyclerview();
         return rootView;
     }
@@ -65,10 +71,17 @@ public class DetailFragment extends InsideTabbedActivityFragment implements Deta
         detailPresenter = ((GanzhornfestApplication) getActivity().getApplication()).getDi().detailPresenter();
         detailPresenter.attachView(this);
         detailPresenter.show(itemType, itemName);
+        mapView = view.findViewById(R.id.map_view);
     }
 
     private void setupRecyclerview() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getTabbedActivity()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
     }
 
     @Override
@@ -131,4 +144,41 @@ public class DetailFragment extends InsideTabbedActivityFragment implements Deta
     protected boolean showToolbarNavigationUp() {
         return true;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
 }
