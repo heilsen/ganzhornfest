@@ -16,14 +16,14 @@ import android.widget.Spinner;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.app.GanzhornfestApplication;
-import de.heilsen.ganzhornfest.app.R;
+import de.heilsen.ganzhornfest.R;
 import de.heilsen.ganzhornfest.app.di.ApplicationComponent;
 import de.heilsen.ganzhornfest.app.presenter.ListableItem;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
 import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 import de.heilsen.ganzhornfest.app.ui.recyclerview.ListableItemAdapter;
 
-public class ListFragment extends InsideTabbedActivityFragment implements ListPresenter.View {
+public class ListFragment extends IsInBottomNavActivityFragment implements ListPresenter.View {
 
     public static final String TAG = "ListFragment";
     private RecyclerView recyclerView;

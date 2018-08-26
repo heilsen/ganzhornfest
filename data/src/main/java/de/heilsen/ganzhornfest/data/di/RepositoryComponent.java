@@ -1,8 +1,10 @@
 package de.heilsen.ganzhornfest.data.di;
 
 import de.heilsen.ganzhornfest.domain.entity.ActionableOffer;
+import de.heilsen.ganzhornfest.domain.entity.BusDeparture;
 import de.heilsen.ganzhornfest.domain.entity.Club;
 import de.heilsen.ganzhornfest.domain.entity.Drink;
+import de.heilsen.ganzhornfest.domain.entity.Event;
 import de.heilsen.ganzhornfest.domain.entity.Food;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
 
@@ -14,4 +16,8 @@ public interface RepositoryComponent {
     Repository<Drink> drinkRepository();
 
     Repository<ActionableOffer> actionableOfferRepository();
+
+    Repository<Event> eventRepository();
+    
+    Repository<BusDeparture> busDepartureRepository();
 }

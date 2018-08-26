@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
+import de.heilsen.ganzhornfest.app.ui.fragment.ListTimeEventsByDateFragment;
 import de.heilsen.ganzhornfest.app.ui.recyclerview.ListableItemAdapter;
 import de.heilsen.ganzhornfest.data.di.RepositoryComponent;
 
@@ -17,4 +18,5 @@ public interface ApplicationComponent {
 
     ListableItemAdapter clubListAdapter();
 
+    void inject(ListTimeEventsByDateFragment listTimeEventsByDateFragment);
 }

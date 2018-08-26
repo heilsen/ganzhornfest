@@ -7,7 +7,7 @@ import io.objectbox.Box
 import io.objectbox.BoxStore
 
 //TODO: make ObjectBoxCLubRepo a Singleton
-class ObjectBoxClubRepository(boxStore: BoxStore, private val foodRepo: ObjectBoxFoodRepository, private val drinkRepo: ObjectBoxDrinkRepository, private val actionActionOfferRepo: ObjectBoxActionOfferRepository) : Repository<Club> {
+class ObjectBoxClubRepository(boxStore: BoxStore, private val foodRepo: ObjectBoxFoodRepository) : Repository<Club> {
     private var box: Box<ClubEntity> = boxStore.boxFor(ClubEntity::class.java)
 
     var asb = ClubEntity("Arbeiter-Samariter-Bund", "")
@@ -235,7 +235,6 @@ class ObjectBoxClubRepository(boxStore: BoxStore, private val foodRepo: ObjectBo
                 ufc,
                 weinbauverein
         )
-
     }
 
 }

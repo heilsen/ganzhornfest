@@ -5,7 +5,7 @@ import android.view.View;
 
 import java.util.List;
 
-import de.heilsen.ganzhornfest.app.R;
+import de.heilsen.ganzhornfest.R;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItem;

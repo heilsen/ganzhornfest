@@ -7,12 +7,16 @@ import dagger.Module;
 import dagger.Provides;
 import de.heilsen.ganzhornfest.data.objectbox.MyObjectBox;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxActionOfferRepository;
+import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxBusDepartureRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxClubRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxDrinkRepository;
+import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxEventRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxFoodRepository;
 import de.heilsen.ganzhornfest.domain.entity.ActionableOffer;
+import de.heilsen.ganzhornfest.domain.entity.BusDeparture;
 import de.heilsen.ganzhornfest.domain.entity.Club;
 import de.heilsen.ganzhornfest.domain.entity.Drink;
+import de.heilsen.ganzhornfest.domain.entity.Event;
 import de.heilsen.ganzhornfest.domain.entity.Food;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
 import io.objectbox.BoxStore;
@@ -70,10 +74,8 @@ public class ObjectBoxModule {
     @Provides
     @RepositoryScope
     public ObjectBoxClubRepository objectBoxClubRepository(BoxStore boxStore,
-                                                           ObjectBoxFoodRepository objectBoxFoodRepository,
-                                                           ObjectBoxDrinkRepository objectBoxDrinkRepository,
-                                                           ObjectBoxActionOfferRepository objectBoxActionOfferRepository) {
-        return new ObjectBoxClubRepository(boxStore, objectBoxFoodRepository, objectBoxDrinkRepository, objectBoxActionOfferRepository);
+                                                           ObjectBoxFoodRepository objectBoxFoodRepository) {
+        return new ObjectBoxClubRepository(boxStore, objectBoxFoodRepository);
     }
 
     @Provides
@@ -82,4 +84,15 @@ public class ObjectBoxModule {
         return objectBoxClubRepository;
     }
 
+    @Provides
+    @RepositoryScope
+    public Repository<Event> eventRepository(BoxStore boxStore) {
+        return new ObjectBoxEventRepository(boxStore);
+    }
+
+    @Provides
+    @RepositoryScope
+    public Repository<BusDeparture> busDepartureRepository(BoxStore boxStore) {
+        return new ObjectBoxBusDepartureRepository(boxStore);
+    }
 }

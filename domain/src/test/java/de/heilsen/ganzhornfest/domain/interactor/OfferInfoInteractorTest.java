@@ -20,6 +20,7 @@ import de.heilsen.ganzhornfest.domain.entity.Food;
 import de.heilsen.ganzhornfest.domain.entity.Offer;
 import de.heilsen.ganzhornfest.domain.entity.OfferType;
 import de.heilsen.ganzhornfest.domain.interactor.testdouble.FakeClubRepository;
+import de.heilsen.ganzhornfest.domain.repository.EntityNotFoundException;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
 
 import static java.util.Collections.emptyList;
@@ -69,7 +70,7 @@ public class OfferInfoInteractorTest {
     }
 
     @Test
-    public void showInfo_forFood() {
+    public void showInfo_forFood() throws EntityNotFoundException {
         Food food = mock(Food.class);
         doReturn(food).when(foodRepository).get(anyString());
         offerItemInteractor.showInfo(OfferType.FOOD, "a", new OfferInfoInteractor.Callback() {
@@ -78,11 +79,16 @@ public class OfferInfoInteractorTest {
                 assertThat(offer, is(food));
                 assertThat(clubList, contains(lionsClub, stpc));
             }
+
+            @Override
+            public void showEmpty() {
+
+            }
         });
     }
 
     @Test
-    public void showInfo_forDrink() {
+    public void showInfo_forDrink() throws EntityNotFoundException {
         Drink drink = mock(Drink.class);
         doReturn(drink).when(drinkRepository).get(anyString());
         offerItemInteractor.showInfo(OfferType.DRINK, "b", new OfferInfoInteractor.Callback() {
@@ -91,11 +97,16 @@ public class OfferInfoInteractorTest {
                 assertThat(offer, is(drink));
                 assertThat(clubList, contains(kolping, stpc));
             }
+
+            @Override
+            public void showEmpty() {
+
+            }
         });
     }
 
     @Test
-    public void showInfo_forActionableOffer() {
+    public void showInfo_forActionableOffer() throws EntityNotFoundException {
         ActionableOffer actionableOffer = mock(ActionableOffer.class);
         doReturn(actionableOffer).when(actionableOfferRepository).get(anyString());
         offerItemInteractor.showInfo(OfferType.ACTIONABLE_OFFER, "c", new OfferInfoInteractor.Callback() {
@@ -103,6 +114,11 @@ public class OfferInfoInteractorTest {
             public void show(Offer offer, List<Club> clubList) {
                 assertThat(offer, is(actionableOffer));
                 assertThat(clubList, contains(soccerClub));
+            }
+
+            @Override
+            public void showEmpty() {
+
             }
         });
     }
@@ -114,6 +130,11 @@ public class OfferInfoInteractorTest {
             public void show(Offer offer, List<Club> clubList) {
                 assertThat(offer, is(new Offer("", "")));
                 assertThat(clubList, is(emptyIterable()));
+            }
+
+            @Override
+            public void showEmpty() {
+
             }
         });
     }

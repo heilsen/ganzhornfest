@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import de.heilsen.ganzhornfest.app.R;
+import de.heilsen.ganzhornfest.R;
 
 public class TextViewViewHolder extends RecyclerView.ViewHolder {
-    TextView textView;
+    public TextView textView;
 
-    TextViewViewHolder(View itemView) {
+    public TextViewViewHolder(View itemView) {
         super(itemView);
         textView = itemView.findViewById(R.id.item_name_text_view);
     }

@@ -15,7 +15,7 @@ import com.google.android.gms.maps.MapView;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.app.GanzhornfestApplication;
-import de.heilsen.ganzhornfest.app.R;
+import de.heilsen.ganzhornfest.R;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemConverter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
@@ -25,7 +25,7 @@ import de.heilsen.ganzhornfest.domain.entity.Club;
 import de.heilsen.ganzhornfest.domain.entity.Offer;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class DetailFragment extends InsideTabbedActivityFragment implements DetailPresenter.DetailView {
+public class DetailFragment extends IsInBottomNavActivityFragment implements DetailPresenter.DetailView {
 
     private static final String ARG_ITEM_NAME = "item_name";
     private static final String ARG_ITEM_TYPE = "item_type";

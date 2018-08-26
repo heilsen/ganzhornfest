@@ -95,10 +95,67 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "5:6802592438163905862",
+      "lastPropertyId": "3:8605843393997397363",
+      "name": "EventEntity",
+      "properties": [
+        {
+          "id": "1:1797968011903420754",
+          "name": "id"
+        },
+        {
+          "id": "2:4033289405830896748",
+          "name": "description"
+        },
+        {
+          "id": "3:8605843393997397363",
+          "name": "startDate"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:8331587469241150419",
+      "lastPropertyId": "2:8369900920417288044",
+      "name": "BuslineEntity",
+      "properties": [
+        {
+          "id": "1:5514064369523723433",
+          "name": "id"
+        },
+        {
+          "id": "2:8369900920417288044",
+          "name": "direction"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:5318232046182077048",
+      "lastPropertyId": "3:6522943292657932734",
+      "name": "BusDepartureEntity",
+      "properties": [
+        {
+          "id": "1:6490858738381867889",
+          "name": "id"
+        },
+        {
+          "id": "2:3993360112163947778",
+          "name": "startDate"
+        },
+        {
+          "id": "3:6522943292657932734",
+          "indexId": "1:2451028125107473327",
+          "name": "buslineId"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "4:6621162857397617767",
-  "lastIndexId": "0:0",
+  "lastEntityId": "7:5318232046182077048",
+  "lastIndexId": "1:2451028125107473327",
   "lastRelationId": "3:8296951935136177895",
   "lastSequenceId": "0:0",
   "modelVersion": 4,

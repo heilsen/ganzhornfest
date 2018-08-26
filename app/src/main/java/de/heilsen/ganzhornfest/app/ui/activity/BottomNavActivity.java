@@ -12,12 +12,13 @@ import android.view.MenuItem;
 
 import java.util.Objects;
 
-import de.heilsen.ganzhornfest.app.R;
+import de.heilsen.ganzhornfest.R;
+import de.heilsen.ganzhornfest.app.ui.fragment.DatePagerFragment;
 import de.heilsen.ganzhornfest.app.ui.fragment.ListFragment;
 import de.heilsen.ganzhornfest.app.ui.fragment.InfoFragment;
 import de.heilsen.ganzhornfest.app.ui.fragment.MapFragment;
 
-public class TabbedActivity extends AppCompatActivity {
+public class BottomNavActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -30,7 +31,7 @@ public class TabbedActivity extends AppCompatActivity {
     }
 
     private void setContentView() {
-        setContentView(R.layout.root_tabbed);
+        setContentView(R.layout.activity_bottom_navigation);
     }
 
     private void initViews() {
@@ -86,7 +87,13 @@ public class TabbedActivity extends AppCompatActivity {
                         item.setChecked(true);
                         break;
                     case R.id.action_program:
+                        fragmentTransaction.replace(R.id.tabbed_content, DatePagerFragment.newInstance("Programm", "program"), DatePagerFragment.TAG);
+                        item.setChecked(true);
+                        break;
                     case R.id.action_bus:
+                        fragmentTransaction.replace(R.id.tabbed_content, DatePagerFragment.newInstance("Busfahrplan", "bus"), DatePagerFragment.TAG);
+                        item.setChecked(true);
+                        break;
                     default:
                         return false;
                 }

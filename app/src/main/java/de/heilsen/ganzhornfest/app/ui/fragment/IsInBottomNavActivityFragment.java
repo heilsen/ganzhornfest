@@ -8,9 +8,9 @@ import android.view.View;
 
 import java.util.Objects;
 
-import de.heilsen.ganzhornfest.app.ui.activity.TabbedActivity;
+import de.heilsen.ganzhornfest.app.ui.activity.BottomNavActivity;
 
-public abstract class InsideTabbedActivityFragment extends Fragment {
+public abstract class IsInBottomNavActivityFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -23,8 +23,8 @@ public abstract class InsideTabbedActivityFragment extends Fragment {
     }
 
     @NonNull
-    public TabbedActivity getTabbedActivity() {
-        return Objects.requireNonNull((TabbedActivity) getActivity());
+    public BottomNavActivity getTabbedActivity() {
+        return Objects.requireNonNull((BottomNavActivity) getActivity());
     }
 
     protected abstract String getToolbarTitle();

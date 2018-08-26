@@ -49,6 +49,11 @@ public class ClubListInteractorTest {
             public void showClubDetail(Club club) {
                 assertThat(club, is(stpc));
             }
+
+            @Override
+            public void emptyClubDetail() {
+
+            }
         });
     }
 }

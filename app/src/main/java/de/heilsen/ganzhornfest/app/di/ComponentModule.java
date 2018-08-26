@@ -1,22 +1,29 @@
 package de.heilsen.ganzhornfest.app.di;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import de.heilsen.ganzhornfest.app.interactor.ThreadedClubInfoInteractor;
 import de.heilsen.ganzhornfest.app.interactor.ThreadedClubListInteractor;
 import de.heilsen.ganzhornfest.app.interactor.ThreadedOfferInfoInteractor;
 import de.heilsen.ganzhornfest.app.interactor.ThreadedOfferListInteractor;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
+import de.heilsen.ganzhornfest.app.presenter.ListPointInTimePresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 import de.heilsen.ganzhornfest.app.ui.recyclerview.ListableItemAdapter;
 import de.heilsen.ganzhornfest.domain.entity.ActionableOffer;
+import de.heilsen.ganzhornfest.domain.entity.BusDeparture;
 import de.heilsen.ganzhornfest.domain.entity.Club;
 import de.heilsen.ganzhornfest.domain.entity.Drink;
+import de.heilsen.ganzhornfest.domain.entity.Event;
 import de.heilsen.ganzhornfest.domain.entity.Food;
 import de.heilsen.ganzhornfest.domain.interactor.ClubInfoInteractor;
 import de.heilsen.ganzhornfest.domain.interactor.ClubListInteractor;
+import de.heilsen.ganzhornfest.domain.interactor.ListPointInTimeInteractor;
 import de.heilsen.ganzhornfest.domain.interactor.OfferInfoInteractor;
 import de.heilsen.ganzhornfest.domain.interactor.OfferListInteractor;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
@@ -33,7 +40,7 @@ public class ComponentModule {
     @Provides
     @Singleton
     public static ListPresenter listableItemsPresenter(ClubListInteractor clubListInteractor,
-                                                OfferListInteractor offerListInteractor) {
+                                                       OfferListInteractor offerListInteractor) {
         return new ListPresenter(clubListInteractor, offerListInteractor);
     }
 
@@ -45,16 +52,18 @@ public class ComponentModule {
 
     @Provides
     @Singleton
-    public static OfferInfoInteractor getItemInfoInteractor(Repository<Club> clubRepository, Repository<Food> foodRepository,
-                                                     Repository<Drink> drinkRepository,
-                                                     Repository<ActionableOffer> actionableOfferRepository) {
+    public static OfferInfoInteractor getItemInfoInteractor(Repository<Club> clubRepository,
+                                                            Repository<Food> foodRepository,
+                                                            Repository<Drink> drinkRepository,
+                                                            Repository<ActionableOffer> actionableOfferRepository) {
         return new ThreadedOfferInfoInteractor(clubRepository, foodRepository, drinkRepository, actionableOfferRepository);
     }
 
     @Provides
     @Singleton
-    public static OfferListInteractor offerListInteractor(Repository<Food> foodRepository, Repository<Drink> drinkRepository,
-                                                   Repository<ActionableOffer> actionableOfferRepository) {
+    public static OfferListInteractor offerListInteractor(Repository<Food> foodRepository,
+                                                          Repository<Drink> drinkRepository,
+                                                          Repository<ActionableOffer> actionableOfferRepository) {
         return new ThreadedOfferListInteractor(foodRepository, drinkRepository, actionableOfferRepository);
     }
 
@@ -67,8 +76,36 @@ public class ComponentModule {
     @Provides
     @Singleton
     public static DetailPresenter detailPresenter(ClubInfoInteractor clubInfoInteractor,
-                                           OfferInfoInteractor offerInfoInteractor) {
+                                                  OfferInfoInteractor offerInfoInteractor) {
         return new DetailPresenter(clubInfoInteractor, offerInfoInteractor);
+    }
+
+    @Provides
+    @Singleton
+    @Named("program")
+    public static ListPointInTimeInteractor programInteractor(Repository<Event> eventRepository) {
+        return new ListPointInTimeInteractor(eventRepository);
+    }
+
+    @Provides
+    @Singleton
+    @Named("bus")
+    public static ListPointInTimeInteractor busInteractor(Repository<BusDeparture> busDepartureRepository) {
+        return new ListPointInTimeInteractor(busDepartureRepository);
+    }
+
+    @Provides
+    @Singleton
+    @Named("program")
+    public static ListPointInTimePresenter provideProgramListDateItemPresenter(@Named("program") ListPointInTimeInteractor listPointInTimeInteractor) {
+        return new ListPointInTimePresenter(listPointInTimeInteractor);
+    }
+
+    @Provides
+    @Singleton
+    @Named("bus")
+    public static ListPointInTimePresenter provideBusListDateItemPresenter(@Named("bus") ListPointInTimeInteractor listPointInTimeInteractor) {
+        return new ListPointInTimePresenter(listPointInTimeInteractor);
     }
 
 }

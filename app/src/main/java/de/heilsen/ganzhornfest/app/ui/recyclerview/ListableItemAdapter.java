@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.heilsen.ganzhornfest.app.R;
+import de.heilsen.ganzhornfest.R;
 import de.heilsen.ganzhornfest.app.presenter.ListableItem;
 import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemType;

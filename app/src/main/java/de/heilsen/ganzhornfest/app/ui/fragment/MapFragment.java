@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 //TODO: handle outdated play servies
 public class MapFragment extends SupportMapFragment implements OnMapReadyCallback {
     public static final String TAG = "MapFragment";
-    private InsideTabbedActivityFragmentDelegate insideTabbedActivityFragmentDelegate;
+    private IsInBottomNavActivityFragmentDelegate isInBottomNavActivityFragmentDelegate;
 
     public MapFragment() {
     }
@@ -33,12 +33,12 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         getMapAsync(this);
     }
 
-    protected InsideTabbedActivityFragmentDelegate getTabbedDelegate() {
-        if (insideTabbedActivityFragmentDelegate == null) {
-            insideTabbedActivityFragmentDelegate =
-                    new InsideTabbedActivityFragmentDelegate(getActivity(), "Karte", false);
+    protected IsInBottomNavActivityFragmentDelegate getTabbedDelegate() {
+        if (isInBottomNavActivityFragmentDelegate == null) {
+            isInBottomNavActivityFragmentDelegate =
+                    new IsInBottomNavActivityFragmentDelegate(getActivity(), "Karte", false);
         }
-        return insideTabbedActivityFragmentDelegate;
+        return isInBottomNavActivityFragmentDelegate;
     }
 
     @Override

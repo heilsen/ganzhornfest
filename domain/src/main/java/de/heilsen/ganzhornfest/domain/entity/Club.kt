@@ -7,4 +7,4 @@ data class Club @JvmOverloads constructor(val name: String = "",
                                           val foodList: List<Food> = emptyList<Food>(),
                                           val drinkList: List<Drink> = emptyList<Drink>(),
                                           val actionableOfferList: List<ActionableOffer> = emptyList<ActionableOffer>(),
-                                          val poi: Poi = Poi(0.0, 0.0))
+                                          val geoLocation: GeoLocation = GeoLocation(0.0, 0.0))

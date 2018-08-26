@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO: replace manual layout settings in BottomNavigationView with a style -->
+<!--TODO: replace the per-view layout_* settings (e.g. in BottomNavigationView) with a style -->
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:id="@+id/main_content"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
-                                                 tools:context=".ui.activity.TabbedActivity">
+                                                 tools:context=".app.ui.activity.BottomNavActivity">
 
     <include
         android:id="@+id/toolbar"

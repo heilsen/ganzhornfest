@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import de.heilsen.ganzhornfest.app.R;
+import de.heilsen.ganzhornfest.R;
 
-public class InfoFragment extends InsideTabbedActivityFragment {
+public class InfoFragment extends IsInBottomNavActivityFragment {
     public static final String TAG = "InfoFragment";
     private int bulletPointGapWidth;
 
