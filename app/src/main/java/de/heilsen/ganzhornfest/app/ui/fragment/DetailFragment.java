@@ -33,7 +33,7 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
     private String itemName;
     private RecyclerView recyclerView;
     private DetailPresenter detailPresenter;
-    private MapView mapView;
+//    private MapView mapView;
 
     public static DetailFragment newInstance(ListableItemType itemType, String name) {
         Bundle args = new Bundle();
@@ -60,8 +60,8 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
         injectViews(rootView);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(new MapDelegator());
+//        mapView.onCreate(savedInstanceState);
+//        mapView.getMapAsync(new MapDelegator());
         setupRecyclerview();
         return rootView;
     }
@@ -71,7 +71,7 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
         detailPresenter = ((GanzhornfestApplication) getActivity().getApplication()).getDi().detailPresenter();
         detailPresenter.attachView(this);
         detailPresenter.show(itemType, itemName);
-        mapView = view.findViewById(R.id.map_view);
+//        mapView = view.findViewById(R.id.map_view);
     }
 
     private void setupRecyclerview() {
@@ -81,7 +81,7 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
     @Override
     public void onStart() {
         super.onStart();
-        mapView.onStart();
+//        mapView.onStart();
     }
 
     @Override
@@ -148,37 +148,37 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
+//        mapView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mapView.onPause();
+//        mapView.onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mapView.onStop();
+//        mapView.onStop();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+//        mapView.onDestroy();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
+//        mapView.onSaveInstanceState(outState);
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
+//        mapView.onLowMemory();
     }
 
 }
