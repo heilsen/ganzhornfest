@@ -98,7 +98,7 @@
     },
     {
       "id": "5:6802592438163905862",
-      "lastPropertyId": "3:8605843393997397363",
+      "lastPropertyId": "4:5741455307498176038",
       "name": "EventEntity",
       "properties": [
         {
@@ -112,13 +112,17 @@
         {
           "id": "3:8605843393997397363",
           "name": "startDate"
+        },
+        {
+          "id": "4:5741455307498176038",
+          "name": "location"
         }
       ],
       "relations": []
     },
     {
       "id": "6:8331587469241150419",
-      "lastPropertyId": "2:8369900920417288044",
+      "lastPropertyId": "3:7889441605550296360",
       "name": "BuslineEntity",
       "properties": [
         {
@@ -128,6 +132,10 @@
         {
           "id": "2:8369900920417288044",
           "name": "direction"
+        },
+        {
+          "id": "3:7889441605550296360",
+          "name": "description"
         }
       ],
       "relations": []

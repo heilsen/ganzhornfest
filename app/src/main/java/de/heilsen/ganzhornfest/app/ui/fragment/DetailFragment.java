@@ -88,9 +88,12 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
     public void showClubDetail(Club club) {
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
 
-        sectionAdapter.addSection(new ListableItemSection("Essen", ListableItemConverter.INSTANCE.fromOfferList(club.getFoodList()), ListableItemType.FOOD, detailPresenter));
-        sectionAdapter.addSection(new ListableItemSection("Trinken", ListableItemConverter.INSTANCE.fromOfferList(club.getDrinkList()), ListableItemType.DRINK, detailPresenter));
-        sectionAdapter.addSection(new ListableItemSection("Angebote", ListableItemConverter.INSTANCE.fromOfferList(club.getActionableOfferList()), ListableItemType.ACTIONABLE_OFFER, detailPresenter));
+        if (!club.getFoodList().isEmpty())
+            sectionAdapter.addSection(new ListableItemSection("Essen", ListableItemConverter.INSTANCE.fromOfferList(club.getFoodList()), ListableItemType.FOOD, detailPresenter));
+        if (!club.getDrinkList().isEmpty())
+            sectionAdapter.addSection(new ListableItemSection("Trinken", ListableItemConverter.INSTANCE.fromOfferList(club.getDrinkList()), ListableItemType.DRINK, detailPresenter));
+        if (!club.getActionableOfferList().isEmpty())
+            sectionAdapter.addSection(new ListableItemSection("Angebote", ListableItemConverter.INSTANCE.fromOfferList(club.getActionableOfferList()), ListableItemType.ACTIONABLE_OFFER, detailPresenter));
 
         recyclerView.setAdapter(sectionAdapter);
     }

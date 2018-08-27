@@ -7,7 +7,7 @@ object ClubConverter {
         return Club(clubEntity.name,
                 clubEntity.description,
                 FoodConverter.from(clubEntity.foods),
-                emptyList(),
-                emptyList())
+                DrinkConverter.from(clubEntity.drinks),
+                ActionableOfferConverter.from(clubEntity.actionableOffers))
     }
 }

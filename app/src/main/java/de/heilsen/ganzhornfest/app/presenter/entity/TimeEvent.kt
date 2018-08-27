@@ -1,9 +1,9 @@
 package de.heilsen.ganzhornfest.app.presenter.entity
 
-class TimeEvent(val time: String, val description: String? = null, val location: String?) {
+class TimeEvent(val time: String, val description: String? = null, val location: String? = null) {
 
     fun hasLocation(): Boolean {
-        return location != null
+        return !location.isNullOrEmpty()
     }
 
     fun hasDescription(): Boolean {

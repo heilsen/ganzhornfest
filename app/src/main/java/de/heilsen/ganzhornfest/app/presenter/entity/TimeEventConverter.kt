@@ -8,7 +8,7 @@ import java.util.*
 object TimeEventConverter {
 
     fun from(pointInTime: PointInTime): TimeEvent {
-        return TimeEvent(timeFormatter(pointInTime.time), pointInTime.description, null)
+        return TimeEvent(timeFormatter(pointInTime.time), pointInTime.description, pointInTime.location)
     }
 
     @JvmStatic
@@ -17,11 +17,11 @@ object TimeEventConverter {
     }
 
     fun from(event: Event): TimeEvent {
-        return TimeEvent(timeFormatter(event.time), event.description, null)
+        return TimeEvent(timeFormatter(event.time), event.description, event.location)
     }
 
     fun from(busDeparture: BusDeparture): TimeEvent {
-        return TimeEvent(timeFormatter(busDeparture.time), busDeparture.description, null)
+        return TimeEvent(timeFormatter(busDeparture.time), busDeparture.description, busDeparture.location)
     }
 
     private fun timeFormatter(time: Long): String {

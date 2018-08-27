@@ -16,6 +16,7 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     internal val altenmuenster = DrinkEntity("Bier (Altenmünster)")
     internal val aperolSpriz = DrinkEntity("Aperol Spriz")
     internal val apfelschorle = DrinkEntity("Apfelschorle")
+    internal val sprite = DrinkEntity("Sprite")
     internal val ayran = DrinkEntity("Ayran", "türkisches Joghurt-Getränk")
     internal val becks = DrinkEntity("Beck's Biere")
     internal val becksGold = DrinkEntity("Bier (Beck's Gold)")
@@ -30,6 +31,7 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     internal val cubaLibre = DrinkEntity("Cuba Libre")
     internal val erfrischungsgetraenke = DrinkEntity("Erfrischungsgetränke")
     internal val export = DrinkEntity("Bier (Export)")
+    internal val landbier = DrinkEntity("Bier (Landbier)")
     internal val fanta = DrinkEntity("Fanta")
     internal val fritzCola = DrinkEntity("Fritz Cola")
     internal val fritzLimo = DrinkEntity("Fritz Limo")
@@ -84,7 +86,7 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     internal val tequilla = DrinkEntity("Tequilla")
     internal val traubensaft = DrinkEntity("Traubensaft")
     internal val traubensaftschorle = DrinkEntity("Traubensaftschorle")
-    internal val traubenSecco = DrinkEntity("Trauben Secco alkohlfrei")
+    internal val traubenSeccoAlkohlfrei = DrinkEntity("Trauben Secco alkohlfrei")
     internal val tuerkischerTee = DrinkEntity("Tee (türkisch)")
     internal val veltinsBerryX = DrinkEntity("Veltins Berry X")
     internal val veltinsEnergy = DrinkEntity("Veltins Energy")
@@ -194,7 +196,7 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
                 tequilla,
                 traubensaft,
                 traubensaftschorle,
-                traubenSecco,
+                traubenSeccoAlkohlfrei,
                 tuerkischerTee,
                 veltinsBerryX,
                 veltinsEnergy,

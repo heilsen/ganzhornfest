@@ -8,6 +8,7 @@ import dagger.Provides;
 import de.heilsen.ganzhornfest.data.objectbox.MyObjectBox;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxActionOfferRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxBusDepartureRepository;
+import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxBusLineRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxClubRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxDrinkRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxEventRepository;
@@ -74,8 +75,10 @@ public class ObjectBoxModule {
     @Provides
     @RepositoryScope
     public ObjectBoxClubRepository objectBoxClubRepository(BoxStore boxStore,
-                                                           ObjectBoxFoodRepository objectBoxFoodRepository) {
-        return new ObjectBoxClubRepository(boxStore, objectBoxFoodRepository);
+                                                           ObjectBoxFoodRepository objectBoxFoodRepository,
+                                                           ObjectBoxDrinkRepository objectBoxDrinkRepository,
+                                                           ObjectBoxActionOfferRepository objectBoxActionOfferRepository) {
+        return new ObjectBoxClubRepository(boxStore, objectBoxFoodRepository, objectBoxDrinkRepository, objectBoxActionOfferRepository);
     }
 
     @Provides
@@ -92,7 +95,13 @@ public class ObjectBoxModule {
 
     @Provides
     @RepositoryScope
-    public Repository<BusDeparture> busDepartureRepository(BoxStore boxStore) {
-        return new ObjectBoxBusDepartureRepository(boxStore);
+    public ObjectBoxBusLineRepository busLineRepository(BoxStore boxStore) {
+        return new ObjectBoxBusLineRepository(boxStore);
+    }
+
+    @Provides
+    @RepositoryScope
+    public Repository<BusDeparture> busDepartureRepository(BoxStore boxStore, ObjectBoxBusLineRepository objectBoxBusLineRepository) {
+        return new ObjectBoxBusDepartureRepository(boxStore, objectBoxBusLineRepository);
     }
 }

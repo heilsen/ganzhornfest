@@ -27,7 +27,7 @@ public class TimeEventViewHolder extends RecyclerView.ViewHolder {
 
         if (timeEvent.hasLocation()) {
             location.setVisibility(View.VISIBLE);
-            description.setText(timeEvent.getLocation());
+            location.setText(timeEvent.getLocation());
         }
     }
 }

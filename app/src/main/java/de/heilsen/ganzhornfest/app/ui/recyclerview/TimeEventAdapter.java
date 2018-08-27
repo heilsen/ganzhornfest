@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.R;
@@ -21,7 +22,17 @@ public class TimeEventAdapter extends RecyclerView.Adapter<TimeEventViewHolder> 
     }
 
     public void setTimeEvents(List<TimeEvent> timeEvents) {
-        this.timeEvents = timeEvents;
+        this.timeEvents = sort(timeEvents);
+    }
+
+    private static List<TimeEvent> sort(List<TimeEvent> list) {
+        Collections.sort(list, new Comparator<TimeEvent>() {
+            @Override
+            public int compare(TimeEvent event1, TimeEvent event2) {
+                return event1.getTime().compareTo(event2.getTime());
+            }
+        });
+        return list;
     }
 
     @NonNull
@@ -41,4 +52,5 @@ public class TimeEventAdapter extends RecyclerView.Adapter<TimeEventViewHolder> 
     public int getItemCount() {
         return timeEvents.size();
     }
+
 }

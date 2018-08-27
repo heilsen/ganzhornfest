@@ -1,5 +1,5 @@
 package de.heilsen.ganzhornfest.domain.entity
 
-class Event(description: String, val startDate: Long): PointInTime(startDate, description) {
+class Event @JvmOverloads constructor(description: String, val startDate: Long, location: String = ""): PointInTime(startDate, description, location) {
     val endDate: Long? = null
 }

@@ -11,6 +11,14 @@ class ObjectBoxActionOfferRepository(boxStore: BoxStore) : Repository<Actionable
     internal var box: Box<ActionableOfferEntity> = boxStore.boxFor(ActionableOfferEntity::class.java)
 
     internal val schnappfalle = ActionableOfferEntity("Schnappfalle")
+    internal val kinderschminken = ActionableOfferEntity("Kinderschminken")
+    internal val dosenwerfen = ActionableOfferEntity("Dosenwerfen")
+    internal val raupenbasteln = ActionableOfferEntity("Raupen basteln")
+    internal val ponyreiten = ActionableOfferEntity("Ponyreiten")
+    internal val kinderspiele = ActionableOfferEntity("Kinderspiele")
+    internal val musikprogramm = ActionableOfferEntity("Musikprogramm (siehe Programm)")
+    internal val wurfwand = ActionableOfferEntity("Wurfwand")
+    internal val schiessbude = ActionableOfferEntity("Schießbudenstand")
 
     init {
         prefill()

@@ -6,4 +6,8 @@ object DrinkConverter {
     fun from(drinkEntity: DrinkEntity): Drink {
         return Drink(drinkEntity.name, drinkEntity.description)
     }
+
+    fun from(drinks: List<DrinkEntity>): List<Drink> {
+        return drinks.map { drinkEntity: DrinkEntity -> from(drinkEntity) }
+    }
 }

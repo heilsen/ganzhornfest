@@ -9,6 +9,10 @@ import de.heilsen.ganzhornfest.domain.entity.OfferType;
 import de.heilsen.ganzhornfest.domain.interactor.ClubInfoInteractor;
 import de.heilsen.ganzhornfest.domain.interactor.OfferInfoInteractor;
 
+import static de.heilsen.ganzhornfest.app.presenter.ListableItemType.ACTIONABLE_OFFER;
+import static de.heilsen.ganzhornfest.app.presenter.ListableItemType.DRINK;
+import static de.heilsen.ganzhornfest.app.presenter.ListableItemType.FOOD;
+
 public class DetailPresenter extends Presenter<DetailPresenter.DetailView> {
     private ClubInfoInteractor clubInfoInteractor;
     private OfferInfoInteractor offerInfoInteractor;
@@ -37,8 +41,35 @@ public class DetailPresenter extends Presenter<DetailPresenter.DetailView> {
                 }
 
             });
-        } else {
+        }
+        if (type == FOOD) {
             offerInfoInteractor.showInfo(OfferType.FOOD, name, new OfferInfoInteractor.Callback() {
+                @Override
+                public void show(Offer offer, List<Club> clubList) {
+                    getView().showOfferDetail(offer, clubList);
+                }
+
+                @Override
+                public void showEmpty() {
+                    getView().showEmpty();
+                }
+            });
+        }
+        if (type == DRINK) {
+            offerInfoInteractor.showInfo(OfferType.DRINK, name, new OfferInfoInteractor.Callback() {
+                @Override
+                public void show(Offer offer, List<Club> clubList) {
+                    getView().showOfferDetail(offer, clubList);
+                }
+
+                @Override
+                public void showEmpty() {
+                    getView().showEmpty();
+                }
+            });
+        }
+        if (type == ACTIONABLE_OFFER) {
+            offerInfoInteractor.showInfo(OfferType.ACTIONABLE_OFFER, name, new OfferInfoInteractor.Callback() {
                 @Override
                 public void show(Offer offer, List<Club> clubList) {
                     getView().showOfferDetail(offer, clubList);

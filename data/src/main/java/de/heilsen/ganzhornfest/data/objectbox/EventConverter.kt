@@ -4,7 +4,7 @@ import de.heilsen.ganzhornfest.domain.entity.Event
 
 object EventConverter {
     fun from(eventEntity: EventEntity): Event {
-        return Event(eventEntity.description, eventEntity.startDate)
+        return Event(eventEntity.description, eventEntity.startDate, eventEntity.location)
     }
 
     fun from(eventEntityList: List<EventEntity>): List<Event> {

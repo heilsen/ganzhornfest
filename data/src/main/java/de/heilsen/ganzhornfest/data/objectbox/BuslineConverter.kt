@@ -4,7 +4,7 @@ import de.heilsen.ganzhornfest.domain.entity.Busline
 
 object BuslineConverter {
     fun from(buslineEntity: BuslineEntity): Busline {
-        return Busline(buslineEntity.direction)
+        return Busline(buslineEntity.direction, buslineEntity.description)
     }
 
     fun from(buslineEntityList: List<BuslineEntity>): List<Busline> {
