@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">@string/ganzhornfest_with_year</string>
+    <string name="app_name">@string/ganzhornfest_without_year</string>
     <string name="loading">Lade Daten…</string>
+    <string name="ganzhornfest_without_year">Ganzhornfest</string>
     <string name="ganzhornfest_with_year">Ganzhornfest 2018</string>
     <string name="ganzhornfest_description">39. Herbstfest der Neckarsulmer Vereine zwischen Deutschordensschloss und Marktplatz</string>
     <string name="opening_hours">Öffnungszeiten</string>
