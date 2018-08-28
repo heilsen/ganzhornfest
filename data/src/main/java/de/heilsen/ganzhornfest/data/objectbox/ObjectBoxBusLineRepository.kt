@@ -10,6 +10,9 @@ import io.objectbox.BoxStore
 class ObjectBoxBusLineRepository(boxStore: BoxStore) : Repository<Busline> {
     internal var box: Box<BuslineEntity> = boxStore.boxFor(BuslineEntity::class.java)
     internal val amorbach = BuslineEntity("Amorbach", "Amorbach (Linie 624/691/Sonderbus)")
+    internal val dahenfeld = BuslineEntity("Dahenfeld", "Dahenfeld (Linie 624/N20/Sonderbus)")
+    internal val neuberg = BuslineEntity("Neuberg", "Neuberg (Linie 92/Sonderbus)")
+    internal val obereisesheim = BuslineEntity("Obereisesheim", "Obereisesheim (Linie 694/695/94/Sonderbus)")
 
     init {
         prefill()
@@ -18,7 +21,7 @@ class ObjectBoxBusLineRepository(boxStore: BoxStore) : Repository<Busline> {
     fun prefill() {
         box.removeAll()
         box.put(
-                amorbach
+                amorbach,dahenfeld,neuberg,obereisesheim
         )
     }
 

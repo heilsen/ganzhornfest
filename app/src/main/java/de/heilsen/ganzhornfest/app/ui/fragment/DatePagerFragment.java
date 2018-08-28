@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -31,15 +32,20 @@ public class DatePagerFragment extends IsInBottomNavActivityFragment {
     public static final String TAG = "DatePagerFragment";
     private static final String ARG_TITLE = "ARG_TITLE";
     private static final String ARG_TYPE = "ARG_TYPE";
+    private static final String ARG_DESCRIPTION_TEXT = "ARG_DESCRIPTION_TEXT";
 
     public DatePagerFragment() {
         // Required empty public constructor
     }
 
     public static DatePagerFragment newInstance(String title, String type) {
+        return newInstance(title, type, null);
+    }
+    public static DatePagerFragment newInstance(String title, String type, String description) {
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         args.putString(ARG_TYPE, type);
+        args.putString(ARG_DESCRIPTION_TEXT, description);
         DatePagerFragment fragment = new DatePagerFragment();
         fragment.setArguments(args);
         return fragment;
@@ -54,6 +60,12 @@ public class DatePagerFragment extends IsInBottomNavActivityFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_date_pager, container, false);
+        TextView textView = view.findViewById(R.id.description_text_view);
+        String description = getArguments().getString(ARG_DESCRIPTION_TEXT);
+        if (description != null && !description.isEmpty()) {
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(description);
+        }
         ViewPager pager = view.findViewById(R.id.pager);
         TabLayout tabLayout = view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);

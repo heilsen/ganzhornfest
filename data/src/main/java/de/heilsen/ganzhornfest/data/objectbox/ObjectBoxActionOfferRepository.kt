@@ -42,7 +42,8 @@ class ObjectBoxActionOfferRepository(boxStore: BoxStore) : Repository<Actionable
     fun prefill() {
         box.removeAll()
         box.put(
-                schnappfalle
+                schnappfalle,
+                kinderschminken,dosenwerfen,raupenbasteln,ponyreiten,kinderspiele,musikprogramm,wurfwand,schiessbude
         )
     }
 

@@ -1,15 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.51'
-    ext.objectbox_version = '2.0.0'
+    ext.kotlin_version = '1.2.61'
+    ext.objectbox_version = '2.1.0'
 
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha05'
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha06'
         classpath "io.objectbox:objectbox-gradle-plugin:$objectbox_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
@@ -28,3 +28,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

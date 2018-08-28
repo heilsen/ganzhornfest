@@ -21,9 +21,6 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     internal val becks = DrinkEntity("Beck's Biere")
     internal val becksGold = DrinkEntity("Bier (Beck's Gold)")
     internal val bionade = DrinkEntity("Bionade")
-    internal val bitterLemon = DrinkEntity("Bitter Lemon")
-    internal val bitterOrange = DrinkEntity("Bitter Orange")
-    internal val campariOrange = DrinkEntity("Campari Orange")
     internal val chillyWilli = DrinkEntity("Chilly Willi")
     internal val cocktails = DrinkEntity("Cocktails")
     internal val cola = DrinkEntity("Cola")
@@ -33,10 +30,6 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     internal val export = DrinkEntity("Bier (Export)")
     internal val landbier = DrinkEntity("Bier (Landbier)")
     internal val fanta = DrinkEntity("Fanta")
-    internal val fritzCola = DrinkEntity("Fritz Cola")
-    internal val fritzLimo = DrinkEntity("Fritz Limo")
-    internal val fritzMischMasch = DrinkEntity("Fritz Misch-Masch")
-    internal val fritzSpritz = DrinkEntity("Fritz Spritz")
     internal val gazoz = DrinkEntity("Gazos", "türkische Limonade")
     internal val ginTonic = DrinkEntity("Gin Tonic")
     internal val grichischerWein = DrinkEntity("Wein (Griechisch)")
@@ -44,7 +37,6 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     internal val hefeweizen = DrinkEntity("Bier (Hefeweizen)")
     internal val helga = DrinkEntity("Helga")
     internal val hugo = DrinkEntity("Hugo")
-    internal val italienischerWein = DrinkEntity("Wein (Italienisch)")
     internal val jackieCola = DrinkEntity("Jackie-Cola")
     internal val joster = DrinkEntity("Joster")
     internal val kaffee = DrinkEntity("Kaffee")
@@ -67,12 +59,8 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     internal val prinzAlteMarielle = DrinkEntity("Prinz Alte Marielle", "österreichische Traditionsbrennerei")
     internal val radler = DrinkEntity("Radler")
     internal val raki = DrinkEntity("Raki")
-    internal val saft = DrinkEntity("Saft")
     internal val schnaps = DrinkEntity("Schnaps")
     internal val schnapsmeter = DrinkEntity("Schnapsmeter")
-    internal val schoefferhoferGrapefruit = DrinkEntity("Schöfferhofer Grapefruit")
-    internal val schoefferhoferGrapefruitAlkoholfrei = DrinkEntity("Schöfferhofer Grapefruit alkoholfrei")
-    internal val schoefferhoferKaktusfeige = DrinkEntity("Schöfferhofer Kaktusfeige")
     internal val secco = DrinkEntity("Secco")
     internal val sekt = DrinkEntity("Sekt")
     internal val sinalco = DrinkEntity("Sinalco")
@@ -88,14 +76,11 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
     internal val traubensaftschorle = DrinkEntity("Traubensaftschorle")
     internal val traubenSeccoAlkohlfrei = DrinkEntity("Trauben Secco alkohlfrei")
     internal val tuerkischerTee = DrinkEntity("Tee (türkisch)")
-    internal val veltinsBerryX = DrinkEntity("Veltins Berry X")
-    internal val veltinsEnergy = DrinkEntity("Veltins Energy")
     internal val verschiedeneBiere = DrinkEntity("verschiedene Biere")
     internal val wasser = DrinkEntity("Wasser")
     internal val wein = DrinkEntity("Wein")
     internal val weinbergpfirsichlikoer = DrinkEntity("Weinbergpfirsichlikör")
     internal val weinschorle = DrinkEntity("Weinschorle")
-    internal val weissherbst = DrinkEntity("Weißherbst")
     internal val wodkaAhoi = DrinkEntity("Wodka-Ahoi")
     internal val wulle = DrinkEntity("Bier (Wulle Vollbier Hell)")
 
@@ -132,9 +117,6 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
                 becks,
                 becksGold,
                 bionade,
-                bitterLemon,
-                bitterOrange,
-                campariOrange,
                 chillyWilli,
                 cocktails,
                 cola,
@@ -143,10 +125,6 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
                 erfrischungsgetraenke,
                 export,
                 fanta,
-                fritzCola,
-                fritzLimo,
-                fritzMischMasch,
-                fritzSpritz,
                 gazoz,
                 ginTonic,
                 grichischerWein,
@@ -154,7 +132,6 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
                 hefeweizen,
                 helga,
                 hugo,
-                italienischerWein,
                 jackieCola,
                 joster,
                 kaffee,
@@ -177,12 +154,8 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
                 prinzAlteMarielle,
                 radler,
                 raki,
-                saft,
                 schnaps,
                 schnapsmeter,
-                schoefferhoferGrapefruit,
-                schoefferhoferGrapefruitAlkoholfrei,
-                schoefferhoferKaktusfeige,
                 secco,
                 sekt,
                 sinalco,
@@ -198,14 +171,11 @@ class ObjectBoxDrinkRepository(boxStore: BoxStore) : Repository<Drink> {
                 traubensaftschorle,
                 traubenSeccoAlkohlfrei,
                 tuerkischerTee,
-                veltinsBerryX,
-                veltinsEnergy,
                 verschiedeneBiere,
                 wasser,
                 wein,
                 weinbergpfirsichlikoer,
                 weinschorle,
-                weissherbst,
                 wodkaAhoi,
                 wulle
         )

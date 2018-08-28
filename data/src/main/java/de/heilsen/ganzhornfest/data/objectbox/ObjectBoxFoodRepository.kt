@@ -16,11 +16,6 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
     internal val currywurstSpezial = FoodEntity("Currywurst Spezial (mit Zwiebeln)")
     internal val roteWurst = FoodEntity("Rote Wurst vom Grill")
     internal val pommes = FoodEntity("Pommes")
-    internal val arancinoSiciliano = FoodEntity("Arancino Siciliano")
-    internal val arancinoMitNutella = FoodEntity("Arancino mit Nutella")
-    internal val pasta = FoodEntity("Pasta")
-    internal val paniniMitSalsiccia = FoodEntity("Panini mit Salsiccia")
-    internal val piadinaRomana = FoodEntity("Piadina romana")
     internal val bratwurstInDerSeele = FoodEntity("1/2 Meter Bratwurst in der Seele")
     internal val crepesSuess = FoodEntity("Crêpes (süß)")
     internal val crepesPikant = FoodEntity("Crêpes (pikant)")
@@ -54,10 +49,6 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
     internal val bratwuersteMitKartoffelsalat = FoodEntity("Bratwürste mit Kartoffelsalat")
     internal val waffeln = FoodEntity("Waffeln")
     internal val zuckerwatte = FoodEntity("Zuckerwatte")
-    internal val suesskartoffelchips = FoodEntity("Süßkartoffelchips mit Kräuterdips")
-    internal val veganeCurrywurst = FoodEntity("Vegane Currywurst mit Vollkornbrot")
-    internal val veganerHotDog = FoodEntity("Veganer Hot Dog")
-    internal val weizenwrapMitGegrilltemGemuese = FoodEntity("Weizenwrap mit gegrilltem Gemüse")
     internal val metBurger = FoodEntity("MET-Burger (Fleisch & veggi/vegan")
     internal val tapasTeller = FoodEntity("Tapas-Teller")
     internal val wildbratwurst = FoodEntity("Wildbratwurst aus heimischer Jagd mit Kartoffelsalat oder Brot")
@@ -65,8 +56,6 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
     internal val oliven = FoodEntity("Oliven")
     internal val weisswurstfruehstueck = FoodEntity("Weißwurstfrühstück")
     internal val zopf = FoodEntity("Zopf")
-    internal val kartoffelpuffer = FoodEntity("Kartoffelpuffer")
-    internal val maiskolben = FoodEntity("Maiskolben")
     internal val grillwurst = FoodEntity("Grillwurst")
     internal val countryPotatoes = FoodEntity("Country-Potatoes (Kartoffelspalten) mit Dip")
     internal val raclette = FoodEntity("Raclette")
@@ -81,18 +70,14 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
     internal val snacks = FoodEntity("Snacks")
     internal val spitzdappen = FoodEntity("Seelen mit Schinken und Käse überbacken")
     internal val germknoedel = FoodEntity("Germknödel")
-    internal val kaesspaetzle = FoodEntity("Kässptzle")
+    internal val kaesspaetzle = FoodEntity("Kässpätzle")
     internal val hamburger = FoodEntity("Hamburger")
-    internal val nachosMitKaeseUeberbacken = FoodEntity("Nachos mit Käse überbacken")
-    internal val thaisuppe = FoodEntity("Thaisuppe")
-    internal val cheeseWaffle = FoodEntity("Cheese Waffle")
     internal val doenerKebap = FoodEntity("Döner Kebap")
     internal val pfannkuchen = FoodEntity("Pfannkuchen")
     internal val koefte = FoodEntity("Köfte", "deutsch: Frikadelle")
     internal val tuerkischeFleischGrillspezialitaeten = FoodEntity("türkische Fleisch-Grillspezialitäten")
     internal val boerek = FoodEntity("Borek", "deutsch: Blätterteigspezialiäten")
     internal val tuerkischeSuessspeisen = FoodEntity("türkische Süßspeisen aus Blätterteig")
-    internal val eis = FoodEntity("Eis")
     internal val sueBoerek = FoodEntity("Sü-Börek")
     internal val sarma = FoodEntity("Sarma")
     internal val salate = FoodEntity("Salate")
@@ -127,11 +112,6 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
                 currywurstSpezial,
                 roteWurst,
                 pommes,
-                arancinoSiciliano,
-                arancinoMitNutella,
-                pasta,
-                paniniMitSalsiccia,
-                piadinaRomana,
                 bratwurstInDerSeele,
                 crepesSuess,
                 crepesPikant,
@@ -165,10 +145,6 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
                 bratwuersteMitKartoffelsalat,
                 waffeln,
                 zuckerwatte,
-                suesskartoffelchips,
-                veganeCurrywurst,
-                veganerHotDog,
-                weizenwrapMitGegrilltemGemuese,
                 metBurger,
                 tapasTeller,
                 wildbratwurst,
@@ -176,8 +152,6 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
                 oliven,
                 weisswurstfruehstueck,
                 zopf,
-                kartoffelpuffer,
-                maiskolben,
                 grillwurst,
                 countryPotatoes,
                 raclette,
@@ -194,16 +168,12 @@ class ObjectBoxFoodRepository(boxStore: BoxStore) : Repository<Food> {
                 germknoedel,
                 kaesspaetzle,
                 hamburger,
-                nachosMitKaeseUeberbacken,
-                thaisuppe,
-                cheeseWaffle,
                 doenerKebap,
                 pfannkuchen,
                 koefte,
                 tuerkischeFleischGrillspezialitaeten,
                 boerek,
                 tuerkischeSuessspeisen,
-                eis,
                 sueBoerek,
                 sarma,
                 salate,

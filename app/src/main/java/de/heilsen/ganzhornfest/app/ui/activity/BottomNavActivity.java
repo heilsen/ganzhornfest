@@ -87,11 +87,20 @@ public class BottomNavActivity extends AppCompatActivity {
 //                        item.setChecked(true);
 //                        break;
                     case R.id.action_program:
-                        fragmentTransaction.replace(R.id.tabbed_content, DatePagerFragment.newInstance("Programm", "program"), DatePagerFragment.TAG);
+                        fragmentTransaction.replace(R.id.tabbed_content,
+                                DatePagerFragment.newInstance(
+                                        "Programm",
+                                        "program"),
+                                DatePagerFragment.TAG);
                         item.setChecked(true);
                         break;
                     case R.id.action_bus:
-                        fragmentTransaction.replace(R.id.tabbed_content, DatePagerFragment.newInstance("Busfahrplan", "bus"), DatePagerFragment.TAG);
+                        fragmentTransaction.replace(R.id.tabbed_content,
+                                DatePagerFragment.newInstance(
+                                        "Busfahrplan",
+                                        "bus",
+                                        "Rückfahrzeiten (ab 19:30 Uhr) ab Haltestelle ZOB/Ballei"),
+                                DatePagerFragment.TAG);
                         item.setChecked(true);
                         break;
                     default:
