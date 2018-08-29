@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import java.util.Objects;
+
 import de.heilsen.ganzhornfest.app.ui.activity.BottomNavActivity;
 
 public class IsInBottomNavActivityFragmentDelegate {
@@ -28,5 +30,9 @@ public class IsInBottomNavActivityFragmentDelegate {
 
     private void updateToolbar() {
         bottomNavActivity.updateToolbar(toolbarTitle, showToolbarNavigationUp);
+    }
+
+    public BottomNavActivity getTabbedActivity(Activity activity) {
+        return Objects.requireNonNull((BottomNavActivity) activity);
     }
 }

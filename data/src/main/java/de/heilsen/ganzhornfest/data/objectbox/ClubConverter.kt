@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.data.objectbox
 
 import de.heilsen.ganzhornfest.domain.entity.Club
+import de.heilsen.ganzhornfest.domain.entity.GeoLocation
 
 object ClubConverter {
     fun from(clubEntity: ClubEntity): Club {
@@ -8,6 +9,7 @@ object ClubConverter {
                 clubEntity.description,
                 FoodConverter.from(clubEntity.foods),
                 DrinkConverter.from(clubEntity.drinks),
-                ActionableOfferConverter.from(clubEntity.actionableOffers))
+                ActionableOfferConverter.from(clubEntity.actionableOffers),
+                GeolocationConverter.from(clubEntity.geoLocation))
     }
 }

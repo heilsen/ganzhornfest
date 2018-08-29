@@ -3,18 +3,36 @@ package de.heilsen.ganzhornfest.app.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+
+import de.heilsen.ganzhornfest.R;
+import de.heilsen.ganzhornfest.app.GanzhornfestApplication;
+import de.heilsen.ganzhornfest.app.di.ApplicationComponent;
+import de.heilsen.ganzhornfest.app.presenter.ClubListPresenter;
+import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
+import de.heilsen.ganzhornfest.domain.entity.Club;
+import de.heilsen.ganzhornfest.domain.entity.GeoLocation;
+
 //TODO: handle no google play services
 //TODO: handle outdated play servies
-public class MapFragment extends SupportMapFragment implements OnMapReadyCallback {
+public class MapFragment extends SupportMapFragment implements OnMapReadyCallback, ClubListPresenter.View,
+        GoogleMap.OnInfoWindowClickListener {
     public static final String TAG = "MapFragment";
     private IsInBottomNavActivityFragmentDelegate isInBottomNavActivityFragmentDelegate;
+    private ClubListPresenter clubListPresenter;
+    private List<Club> clubList;
 
     public MapFragment() {
     }
@@ -29,8 +47,11 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ApplicationComponent di = ((GanzhornfestApplication) getActivity().getApplication()).getDi();
+        clubListPresenter = di.clubListPresenter();
+        clubListPresenter.attachView(this);
+        clubListPresenter.showList();
         getTabbedDelegate().onViewCreated(view, savedInstanceState);
-        getMapAsync(this);
     }
 
     protected IsInBottomNavActivityFragmentDelegate getTabbedDelegate() {
@@ -43,17 +64,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //ne: new LatLng(49.1961, 9.2301),
-        //sw: new LatLng(49.1884, 9.2183));
-        LatLngBounds ganzhornfestArea = new LatLngBounds(
+        mapRestrictions(googleMap, 17, true, buildLatLngBounds(clubList));
+        addMarkers(googleMap, clubList);
+        googleMap.setOnInfoWindowClickListener(this);
 
-                new LatLng( 49.190600, 9.221356 ),
-                new LatLng( 49.191880, 9.225486 )
-        );
-        googleMap.setLatLngBoundsForCameraTarget(ganzhornfestArea);
-
-        googleMap.setMinZoomPreference(17);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
 
         /*
 49.19229    9.223065    Arbeiter-Samariter-Bund (ASB)  club
@@ -130,5 +144,65 @@ Karlsplatz                    stage
          */
     }
 
+    private void mapRestrictions(GoogleMap googleMap, int minZoom, boolean showZoomButtons,
+                                 LatLngBounds latLngBounds) {
+        googleMap.setMinZoomPreference(minZoom);
+        googleMap.getUiSettings().setZoomControlsEnabled(showZoomButtons);
+        googleMap.setLatLngBoundsForCameraTarget(latLngBounds);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngBounds.getCenter(), 10));
+    }
 
+    private void addMarkers(GoogleMap googleMap, List<Club> clubList) {
+        for (Club club : clubList) {
+            for (GeoLocation geoLocation : club.getGeoLocations()) {
+                LatLng latLng = new LatLng(geoLocation.getLat(), geoLocation.getLng());
+                Marker marker = googleMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(club.getName()));
+                marker.setTag(club.getName());
+            }
+        }
+    }
+
+    private LatLngBounds buildLatLngBounds(List<Club> clubList) {
+        LatLngBounds.Builder latLngBoundsBuilder = LatLngBounds.builder();
+        for (Club club : clubList) {
+            for (GeoLocation geoLocation : club.getGeoLocations()) {
+                LatLng latLng = new LatLng(geoLocation.getLat(), geoLocation.getLng());
+                latLngBoundsBuilder.include(latLng);
+            }
+        }
+        return latLngBoundsBuilder.build();
+    }
+
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showList(List<Club> clubList) {
+        this.clubList = clubList;
+        getMapAsync(this);
+    }
+
+    @Override
+    public void openClubDetail(String clubName) {
+
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        String clubName = (String) marker.getTag();
+        FragmentTransaction fragmentTransaction = getTabbedDelegate().getTabbedActivity(getActivity()).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(TAG);
+        fragmentTransaction.replace(R.id.tabbed_content, DetailFragment.newInstance(ListableItemType.CLUB, clubName));
+        fragmentTransaction.commit();
+    }
 }

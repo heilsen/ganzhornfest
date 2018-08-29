@@ -3,6 +3,7 @@ package de.heilsen.ganzhornfest.app.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,8 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.heilsen.ganzhornfest.app.GanzhornfestApplication;
@@ -19,21 +28,26 @@ import de.heilsen.ganzhornfest.R;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemConverter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
-import de.heilsen.ganzhornfest.app.ui.map.MapDelegator;
 import de.heilsen.ganzhornfest.app.ui.recyclerview.ListableItemSection;
 import de.heilsen.ganzhornfest.domain.entity.Club;
+import de.heilsen.ganzhornfest.domain.entity.GeoLocation;
 import de.heilsen.ganzhornfest.domain.entity.Offer;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class DetailFragment extends IsInBottomNavActivityFragment implements DetailPresenter.DetailView {
+import static java.util.Collections.singletonList;
+
+public class DetailFragment extends IsInBottomNavActivityFragment implements DetailPresenter.DetailView,
+        OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private static final String ARG_ITEM_NAME = "item_name";
     private static final String ARG_ITEM_TYPE = "item_type";
+    private static final String TAG = "DetailFragment";
     private ListableItemType itemType;
     private String itemName;
     private RecyclerView recyclerView;
     private DetailPresenter detailPresenter;
     private MapView mapView;
+    private List<Club> clubList;
 
     public static DetailFragment newInstance(ListableItemType itemType, String name) {
         Bundle args = new Bundle();
@@ -61,7 +75,6 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
         injectViews(rootView);
         mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(new MapDelegator());
         setupRecyclerview();
         return rootView;
     }
@@ -87,6 +100,7 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
     @Override
     public void showClubDetail(Club club) {
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        this.clubList = singletonList(club);
 
         if (!club.getFoodList().isEmpty())
             sectionAdapter.addSection(new ListableItemSection("Essen", ListableItemConverter.INSTANCE.fromOfferList(club.getFoodList()), ListableItemType.FOOD, detailPresenter));
@@ -95,6 +109,7 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
         if (!club.getActionableOfferList().isEmpty())
             sectionAdapter.addSection(new ListableItemSection("Angebote", ListableItemConverter.INSTANCE.fromOfferList(club.getActionableOfferList()), ListableItemType.ACTIONABLE_OFFER, detailPresenter));
 
+        mapView.getMapAsync(this);
         recyclerView.setAdapter(sectionAdapter);
     }
 
@@ -103,9 +118,10 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
 
         sectionAdapter.addSection(new ListableItemSection("Vereine", ListableItemConverter.INSTANCE.fromClubList(clubList), ListableItemType.CLUB, detailPresenter));
+        this.clubList = clubList;
 
+        mapView.getMapAsync(this);
         recyclerView.setAdapter(sectionAdapter);
-
     }
 
     @Override
@@ -184,4 +200,63 @@ public class DetailFragment extends IsInBottomNavActivityFragment implements Det
         mapView.onLowMemory();
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mapRestrictions(googleMap, 17, true, buildLatLngBounds(clubList));
+        List<Marker> markers = addMarkers(googleMap, clubList);
+        showInfoWindow(markers);
+        googleMap.setOnInfoWindowClickListener(this);
+
+    }
+
+    private void showInfoWindow(List<Marker> markers) {
+        if (markers.size() == 1) {
+            markers.get(0).showInfoWindow();
+        }
+    }
+
+    private void mapRestrictions(GoogleMap googleMap, int minZoom, boolean showZoomButtons,
+                                 LatLngBounds latLngBounds) {
+        googleMap.setMinZoomPreference(minZoom);
+        googleMap.getUiSettings().setZoomControlsEnabled(showZoomButtons);
+        googleMap.setLatLngBoundsForCameraTarget(latLngBounds);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngBounds.getCenter(), 10));
+    }
+
+    private List<Marker> addMarkers(GoogleMap googleMap, List<Club> clubList) {
+        List<Marker> markers = new ArrayList<>();
+        for (Club club : clubList) {
+            for (GeoLocation geoLocation : club.getGeoLocations()) {
+                LatLng latLng = new LatLng(geoLocation.getLat(), geoLocation.getLng());
+                Marker marker = googleMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(club.getName()));
+                marker.setTag(club.getName());
+                markers.add(marker);
+            }
+        }
+        return markers;
+    }
+
+    private LatLngBounds buildLatLngBounds(List<Club> clubList) {
+        LatLngBounds.Builder latLngBoundsBuilder = LatLngBounds.builder();
+        for (Club club : clubList) {
+            for (GeoLocation geoLocation : club.getGeoLocations()) {
+                LatLng latLng = new LatLng(geoLocation.getLat(), geoLocation.getLng());
+                latLngBoundsBuilder.include(latLng);
+            }
+        }
+        return latLngBoundsBuilder.build();
+    }
+
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        String clubName = (String) marker.getTag();
+        FragmentTransaction
+                fragmentTransaction = getTabbedActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(TAG);
+        fragmentTransaction.replace(R.id.tabbed_content, DetailFragment.newInstance(ListableItemType.CLUB, clubName));
+        fragmentTransaction.commit();
+    }
 }

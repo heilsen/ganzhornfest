@@ -11,6 +11,7 @@ import de.heilsen.ganzhornfest.app.interactor.ThreadedClubInfoInteractor;
 import de.heilsen.ganzhornfest.app.interactor.ThreadedClubListInteractor;
 import de.heilsen.ganzhornfest.app.interactor.ThreadedOfferInfoInteractor;
 import de.heilsen.ganzhornfest.app.interactor.ThreadedOfferListInteractor;
+import de.heilsen.ganzhornfest.app.presenter.ClubListPresenter;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListPointInTimePresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
@@ -106,6 +107,12 @@ public class ComponentModule {
     @Named("bus")
     public static ListPointInTimePresenter provideBusListDateItemPresenter(@Named("bus") ListPointInTimeInteractor listPointInTimeInteractor) {
         return new ListPointInTimePresenter(listPointInTimeInteractor);
+    }
+
+    @Provides
+    @Singleton
+    public static ClubListPresenter clubListPresenter(ClubListInteractor clubInfoInteractor) {
+        return new ClubListPresenter(clubInfoInteractor);
     }
 
 }
