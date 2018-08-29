@@ -53,6 +53,10 @@
         {
           "id": "3:8296951935136177895",
           "name": "actionableOffers"
+        },
+        {
+          "id": "4:2095402077563871589",
+          "name": "geoLocation"
         }
       ]
     },
@@ -160,11 +164,36 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "8:622872529698841484",
+      "lastPropertyId": "4:6664593901715378750",
+      "name": "GeoLocationEntity",
+      "properties": [
+        {
+          "id": "1:6369308642399731094",
+          "name": "id"
+        },
+        {
+          "id": "2:5977116848326014919",
+          "name": "lat"
+        },
+        {
+          "id": "3:559164147767892523",
+          "name": "lng"
+        },
+        {
+          "id": "4:6664593901715378750",
+          "indexId": "2:1485621479982288616",
+          "name": "clubId"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "7:5318232046182077048",
-  "lastIndexId": "1:2451028125107473327",
-  "lastRelationId": "3:8296951935136177895",
+  "lastEntityId": "8:622872529698841484",
+  "lastIndexId": "2:1485621479982288616",
+  "lastRelationId": "4:2095402077563871589",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,

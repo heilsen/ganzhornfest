@@ -13,12 +13,14 @@ import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxClubRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxDrinkRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxEventRepository;
 import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxFoodRepository;
+import de.heilsen.ganzhornfest.data.objectbox.ObjectBoxGeoLocationRepository;
 import de.heilsen.ganzhornfest.domain.entity.ActionableOffer;
 import de.heilsen.ganzhornfest.domain.entity.BusDeparture;
 import de.heilsen.ganzhornfest.domain.entity.Club;
 import de.heilsen.ganzhornfest.domain.entity.Drink;
 import de.heilsen.ganzhornfest.domain.entity.Event;
 import de.heilsen.ganzhornfest.domain.entity.Food;
+import de.heilsen.ganzhornfest.domain.entity.GeoLocation;
 import de.heilsen.ganzhornfest.domain.repository.Repository;
 import io.objectbox.BoxStore;
 
@@ -77,8 +79,13 @@ public class ObjectBoxModule {
     public ObjectBoxClubRepository objectBoxClubRepository(BoxStore boxStore,
                                                            ObjectBoxFoodRepository objectBoxFoodRepository,
                                                            ObjectBoxDrinkRepository objectBoxDrinkRepository,
-                                                           ObjectBoxActionOfferRepository objectBoxActionOfferRepository) {
-        return new ObjectBoxClubRepository(boxStore, objectBoxFoodRepository, objectBoxDrinkRepository, objectBoxActionOfferRepository);
+                                                           ObjectBoxActionOfferRepository objectBoxActionOfferRepository,
+                                                           ObjectBoxGeoLocationRepository objectBoxGeoLocationRepository) {
+        return new ObjectBoxClubRepository(boxStore,
+                objectBoxFoodRepository,
+                objectBoxDrinkRepository,
+                objectBoxActionOfferRepository,
+                objectBoxGeoLocationRepository);
     }
 
     @Provides
@@ -103,5 +110,11 @@ public class ObjectBoxModule {
     @RepositoryScope
     public Repository<BusDeparture> busDepartureRepository(BoxStore boxStore, ObjectBoxBusLineRepository objectBoxBusLineRepository) {
         return new ObjectBoxBusDepartureRepository(boxStore, objectBoxBusLineRepository);
+    }
+
+    @Provides
+    @RepositoryScope
+    public ObjectBoxGeoLocationRepository geoLocationRepository(BoxStore boxStore) {
+        return new ObjectBoxGeoLocationRepository(boxStore);
     }
 }
