@@ -82,10 +82,10 @@ public class BottomNavActivity extends AppCompatActivity {
                         fragmentTransaction.replace(R.id.tabbed_content, new ListFragment(), ListFragment.TAG);
                         item.setChecked(true);
                         break;
-//                    case R.id.action_map:
-//                        fragmentTransaction.replace(R.id.tabbed_content, new MapFragment(), MapFragment.TAG);
-//                        item.setChecked(true);
-//                        break;
+                    case R.id.action_map:
+                        fragmentTransaction.replace(R.id.tabbed_content, new MapFragment(), MapFragment.TAG);
+                        item.setChecked(true);
+                        break;
                     case R.id.action_program:
                         fragmentTransaction.replace(R.id.tabbed_content,
                                 DatePagerFragment.newInstance(
