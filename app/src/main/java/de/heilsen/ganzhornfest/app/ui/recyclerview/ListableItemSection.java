@@ -7,7 +7,6 @@ import java.util.List;
 
 import de.heilsen.ganzhornfest.R;
 import de.heilsen.ganzhornfest.app.presenter.DetailPresenter;
-import de.heilsen.ganzhornfest.app.presenter.ListPresenter;
 import de.heilsen.ganzhornfest.app.presenter.ListableItem;
 import de.heilsen.ganzhornfest.app.presenter.ListableItemType;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
@@ -47,7 +46,8 @@ public class ListableItemSection extends StatelessSection {
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
         viewHolder.render(items.get(position));
-        //TODO: add every click to navigation history
+        //TODO: needs refactoring becuase currently every click in the detail updates just the recyclerview and cannot be used out-of-the-box for navigation history
+        //TODO: better use fragements, but that needs a rewrite
 //        viewHolder.textView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
