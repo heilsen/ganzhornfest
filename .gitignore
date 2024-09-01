@@ -1,15 +1,11 @@
-# Specifies intentionally untracked files to ignore when using Git
-# http://git-scm.com/docs/gitignore
-
-node_modules/
-www/lib/
-platforms/
-plugins/
-resources/*.pdf
-resources/ganzhornfest-splash.png
-resources/*.xcf
-www/css/ionic.app.css
-www/css/ionic.app.min.css
-*.keystore
+.idea/
+*.iml
+.kotlin/
 .gradle/
-todo.txt
+/local.properties
+.DS_Store
+captures/
+.externalNativeBuild
+.cxx
+/app/release
+build/

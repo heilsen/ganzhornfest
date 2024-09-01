@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Ganzhornfest</string>
+    <string name="search">Suche</string>
+    <string name="map">Karte</string>
+    <string name="program">Programm</string>
+    <string name="info">Info</string>
+    <string name="bustimes">Busfahrplan</string>
+    <string name="food">Essen</string>
+    <string name="drink">Trinken</string>
+    <string name="club">Vereine</string>
+    <string name="empty_search">Suchbegriff hier eingeben</string>
+    <string name="clear_search">Suchbegriff löschen</string>
+</resources>

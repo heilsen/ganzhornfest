@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS "busLine" (id INTEGER PRIMARY KEY, busLine TEXT NOT NULL, stops TEXT, destination TEXT NOT NULL);
+
+INSERT INTO busLine VALUES(1,'91','Amorbach','Dahenfeld');
+INSERT INTO busLine VALUES(2,'624','Plattenwald-Amorbach','Dahenfeld');
+INSERT INTO busLine VALUES(3,'691','Amorbach','Plattenwald');
+INSERT INTO busLine VALUES(4,'Sonderbus','Amorbach','Dahenfeld');
+INSERT INTO busLine VALUES(5,'N20','Viktorshöhe','Dahenfeld');
+INSERT INTO busLine VALUES(6,'92',NULL,'Neuberg');
+INSERT INTO busLine VALUES(7,'Sonderbus',NULL,'Neuberg');
+INSERT INTO busLine VALUES(8,'695',NULL,'Obereisesheim');
+INSERT INTO busLine VALUES(9,'94/694',NULL,'Obereisesheim');
+INSERT INTO busLine VALUES(10,'Sonderbus',NULL,'Obereisesheim');

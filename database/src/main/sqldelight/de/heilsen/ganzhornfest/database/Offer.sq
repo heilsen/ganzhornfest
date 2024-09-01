@@ -1,0 +1,246 @@
+CREATE TABLE IF NOT EXISTS offer (id INTEGER PRIMARY KEY, typeId INTEGER NOT NULL, name TEXT NOT NULL, description TEXT);
+
+-- drinks
+INSERT INTO offer VALUES(1,1,'Bier',NULL);
+INSERT INTO offer VALUES(2,1,'Cocktails',NULL);
+INSERT INTO offer VALUES(3,1,'Apfelschorle',NULL);
+INSERT INTO offer VALUES(4,1,'Sprite',NULL);
+INSERT INTO offer VALUES(5,1,'Bionade','Limonade');
+INSERT INTO offer VALUES(6,1,'alkoholfreie Getränke','Softdrinks: Limonade, Cola, Spezi, ...');
+INSERT INTO offer VALUES(7,1,'Hefeweizen','Bier');
+INSERT INTO offer VALUES(8,1,'Ayran','türkisches Joghurt-Getränk');
+INSERT INTO offer VALUES(9,1,'Altenmünster','Bier');
+INSERT INTO offer VALUES(10,1,'Aperol Spriz',NULL);
+INSERT INTO offer VALUES(11,1,'Chilly Willi',NULL);
+INSERT INTO offer VALUES(12,1,'Cocktails','alkoholfrei');
+INSERT INTO offer VALUES(13,1,'Cola',NULL);
+INSERT INTO offer VALUES(14,1,'Cola Light',NULL);
+INSERT INTO offer VALUES(15,1,'Cuba Libre',NULL);
+INSERT INTO offer VALUES(16,1,'Export','Bier');
+INSERT INTO offer VALUES(17,1,'Fanta','Limonade');
+INSERT INTO offer VALUES(18,1,'Gazos','türkische Limonade');
+INSERT INTO offer VALUES(19,1,'Griechischer Wein',NULL);
+INSERT INTO offer VALUES(20,1,'Gutmann Hefeweizen','Bier');
+INSERT INTO offer VALUES(22,1,'Helga',NULL);
+INSERT INTO offer VALUES(23,1,'Hugo',NULL);
+INSERT INTO offer VALUES(24,1,'Jackie-Cola',NULL);
+INSERT INTO offer VALUES(25,1,'Joster',NULL);
+INSERT INTO offer VALUES(26,1,'Kaffee',NULL);
+INSERT INTO offer VALUES(27,1,'Kellerpils','Bier');
+INSERT INTO offer VALUES(28,1,'Kölsch','Bier');
+INSERT INTO offer VALUES(29,1,'Kräuterschnaps',NULL);
+INSERT INTO offer VALUES(30,1,'Lillet Berry',NULL);
+INSERT INTO offer VALUES(31,1,'Lockstädter',NULL);
+INSERT INTO offer VALUES(32,1,'Longdrink-Pitcher',NULL);
+INSERT INTO offer VALUES(33,1,'Longdrink',NULL);
+INSERT INTO offer VALUES(34,1,'Metaxa',NULL);
+INSERT INTO offer VALUES(35,1,'Mixgetränke',NULL);
+INSERT INTO offer VALUES(36,1,'Neuer Wein',NULL);
+INSERT INTO offer VALUES(37,1,'Orangensaft',NULL);
+INSERT INTO offer VALUES(38,1,'Ouzo',NULL);
+INSERT INTO offer VALUES(39,1,'Pfefferminzlikör',NULL);
+INSERT INTO offer VALUES(40,1,'Pils','Bier');
+INSERT INTO offer VALUES(41,1,'Prinz Alte Himbeere','österreichische Traditionsbrennerei');
+INSERT INTO offer VALUES(42,1,'Prinz Alte Marielle','österreichische Traditionsbrennerei');
+INSERT INTO offer VALUES(43,1,'Radler',NULL);
+INSERT INTO offer VALUES(44,1,'Raki',NULL);
+INSERT INTO offer VALUES(45,1,'Schnaps',NULL);
+INSERT INTO offer VALUES(46,1,'Schnapsmeter',NULL);
+INSERT INTO offer VALUES(47,1,'Secco',NULL);
+INSERT INTO offer VALUES(48,1,'Sekt',NULL);
+INSERT INTO offer VALUES(49,1,'Sinalco',NULL);
+INSERT INTO offer VALUES(50,1,'Slush',NULL);
+INSERT INTO offer VALUES(51,1,'Sommerschorle',NULL);
+INSERT INTO offer VALUES(52,1,'Sprudel','Mineralwasser');
+INSERT INTO offer VALUES(53,1,'Limonade','Süßer Sprudel');
+INSERT INTO offer VALUES(54,1,'Erdbeer Margarita',NULL);
+INSERT INTO offer VALUES(55,1,'Tee',NULL);
+INSERT INTO offer VALUES(56,1,'Tequilla',NULL);
+INSERT INTO offer VALUES(57,1,'Traubensaft',NULL);
+INSERT INTO offer VALUES(58,1,'Traubensaftschorle',NULL);
+INSERT INTO offer VALUES(59,1,'Trauben Secco',NULL);
+INSERT INTO offer VALUES(60,1,'Tee','türkisch');
+INSERT INTO offer VALUES(61,1,'verschiedene Biere',NULL);
+INSERT INTO offer VALUES(62,1,'Wasser',NULL);
+INSERT INTO offer VALUES(63,1,'Wein',NULL);
+INSERT INTO offer VALUES(64,1,'Weinbergpfirsichlikör',NULL);
+INSERT INTO offer VALUES(65,1,'Weinschorle',NULL);
+INSERT INTO offer VALUES(66,1,'Wodka-Ahoi',NULL);
+INSERT INTO offer VALUES(67,1,'Wulle Vollbier Hell','Bier');
+INSERT INTO offer VALUES(68,1,'Gin Tonic',NULL);
+INSERT INTO offer VALUES(69,1,'Becks Gold','Bier');
+INSERT INTO offer VALUES(70,1,'Afri Cola',NULL);
+INSERT INTO offer VALUES(72,1,'Wein (Rumänisch)',NULL);
+INSERT INTO offer VALUES(73,1,'Schnaps (Rumänisch)',NULL);
+INSERT INTO offer VALUES(74,1,'Liköre',NULL);
+INSERT INTO offer VALUES(75,1,'Helles','Bier');
+INSERT INTO offer VALUES(76,1,'Bier (alkoholfrei)',NULL);
+INSERT INTO offer VALUES(77,1,'Spezi','MezzoMix');
+INSERT INTO offer VALUES(78,1,'Becks','Bier');
+INSERT INTO offer VALUES(79,1,'Schorle',NULL);
+
+-- food
+INSERT INTO offer VALUES(101, 2, 'Linsen & Spätzle','Mit Saitenwürstle');
+INSERT INTO offer VALUES(102, 2, 'Apfelküchle','Mit Zimt/Zucker und Vanillesoße');
+INSERT INTO offer VALUES(103, 2, 'Steak','Mit Zwiebel');
+INSERT INTO offer VALUES(104, 2, 'Currywurst', 'mit hausgemachter Soße');
+INSERT INTO offer VALUES(105, 2, 'Bratwurst',NULL);
+INSERT INTO offer VALUES(106, 2, 'Pommes frites',NULL);
+INSERT INTO offer VALUES(107, 2, 'Kesselgulasch',NULL);
+INSERT INTO offer VALUES(108, 2, 'Ungarische Paprikawürste',NULL);
+INSERT INTO offer VALUES(109, 2, 'Pizza',NULL);
+INSERT INTO offer VALUES(110, 2, 'Salciccia',NULL);
+INSERT INTO offer VALUES(111, 2, 'Arancino',NULL);
+INSERT INTO offer VALUES(112, 2, 'Lasagne al forno',NULL);
+INSERT INTO offer VALUES(113, 2, 'Spaghetti aglio olio e Peperoncino','Nur mit Vorbestellung');
+INSERT INTO offer VALUES(114, 2, 'Antipasto all italiana',NULL);
+INSERT INTO offer VALUES(115, 2, 'Kuchen',NULL);
+INSERT INTO offer VALUES(116, 2, 'Crêpes','Süß und pikant');
+INSERT INTO offer VALUES(117, 2, 'Geräucherte Forellen','Mit Kartoffelsalat');
+INSERT INTO offer VALUES(118, 2, 'Lachsbröchten',NULL);
+INSERT INTO offer VALUES(119, 2, 'Aalbrötchen',NULL);
+INSERT INTO offer VALUES(120, 2, 'Shrimps','Mit Soße');
+INSERT INTO offer VALUES(121, 2, 'Neckarsulmer Rädle',NULL);
+INSERT INTO offer VALUES(122, 2, 'Schnitzel','Mit Kartoffelsalat oder Brot');
+INSERT INTO offer VALUES(123, 2, 'Wurst vom Sud',NULL);
+INSERT INTO offer VALUES(124, 2, 'Rauchfleisch-Kräuterkäsbrot',NULL);
+INSERT INTO offer VALUES(125, 2, 'Wurstsalat',NULL);
+INSERT INTO offer VALUES(126, 2, 'Gefüllter Hals mit Spätzle + Kartoffelsalat',NULL);
+INSERT INTO offer VALUES(127, 2, 'Schälrippchen','Mit Brot');
+INSERT INTO offer VALUES(128, 2, 'Hacksteak','im Brötchen');
+INSERT INTO offer VALUES(129, 2, 'Kartoffelsalat',NULL);
+INSERT INTO offer VALUES(130, 2, 'Zwiebelkuchen',NULL);
+INSERT INTO offer VALUES(131, 2, 'Saitenwurst','Mit Brötchen');
+INSERT INTO offer VALUES(132, 2, 'Souvlaki','Spieß mit Brötchen');
+INSERT INTO offer VALUES(133, 2, 'Maultaschen',NULL);
+INSERT INTO offer VALUES(134, 2, 'Bratwurstschnecken',NULL);
+INSERT INTO offer VALUES(135, 2, 'Fleischkäse','mit Kartoffelsalat');
+INSERT INTO offer VALUES(136, 2, 'Ganzhornteller',NULL);
+INSERT INTO offer VALUES(137, 2, 'Langos',NULL);
+INSERT INTO offer VALUES(138, 2, 'Flammkuchen',NULL);
+INSERT INTO offer VALUES(139, 2, 'Baguettes',NULL);
+INSERT INTO offer VALUES(140, 2, 'Schupfnudeln',NULL);
+INSERT INTO offer VALUES(141, 2, 'Sauerkraut',NULL);
+INSERT INTO offer VALUES(142, 2, 'Blutwurst',NULL);
+INSERT INTO offer VALUES(143, 2, 'Leberwurst',NULL);
+INSERT INTO offer VALUES(144, 2, 'Besentoast',NULL);
+INSERT INTO offer VALUES(145, 2, 'Käsebrot',NULL);
+INSERT INTO offer VALUES(146, 2, 'Rauchfleischbrot',NULL);
+INSERT INTO offer VALUES(147, 2, 'Käsewürfel',NULL);
+INSERT INTO offer VALUES(148, 2, 'Waffeln',NULL);
+INSERT INTO offer VALUES(149, 2, 'Zuckerwatte',NULL);
+INSERT INTO offer VALUES(150, 2, 'Bratwürste mit Kartoffelsalat','Nur Montag');
+INSERT INTO offer VALUES(151, 2, 'Burger',NULL);
+INSERT INTO offer VALUES(152, 2, 'Baguette mit Lachs',NULL);
+INSERT INTO offer VALUES(153, 2, 'Tapas-Teller',NULL);
+INSERT INTO offer VALUES(154, 2, 'Oliven',NULL);
+INSERT INTO offer VALUES(155, 2, 'Weißwürste','Nur Sonntag');
+INSERT INTO offer VALUES(156, 2, 'Kartoffelpuffer',NULL);
+INSERT INTO offer VALUES(157, 2, 'Maiskolben',NULL);
+INSERT INTO offer VALUES(158, 2, 'Überbackene Seele',NULL);
+INSERT INTO offer VALUES(159, 2, 'Überbackene Hörner',NULL);
+INSERT INTO offer VALUES(160, 2, 'Country-Potatoes (Kartoffelspalten)','mit Dip');
+INSERT INTO offer VALUES(161, 2, 'Raclette',NULL);
+INSERT INTO offer VALUES(162, 2, 'Gebrannte Mandeln',NULL);
+INSERT INTO offer VALUES(163, 2, 'Gebrannte Erdnüsse',NULL);
+INSERT INTO offer VALUES(164, 2, 'Magenbrot',NULL);
+INSERT INTO offer VALUES(165, 2, 'Popcorn',NULL);
+INSERT INTO offer VALUES(166, 2, 'Sonstige Süßigkeiten',NULL);
+INSERT INTO offer VALUES(167, 2, 'Thai Suppe',NULL);
+INSERT INTO offer VALUES(168, 2, 'Bigos','Polnischer Eintopf');
+INSERT INTO offer VALUES(169, 2, 'Piroschki','Russische gefüllte Teigtaschen');
+INSERT INTO offer VALUES(170, 2, 'Hähnchen',NULL);
+INSERT INTO offer VALUES(171, 2, 'Bogenwurst',NULL);
+INSERT INTO offer VALUES(172, 2, 'Calamaris',NULL);
+INSERT INTO offer VALUES(173, 2, 'Snacks',NULL);
+INSERT INTO offer VALUES(174, 2, 'Seelen mit Schinken und Käse überbacken (Spitzdappen)',NULL);
+INSERT INTO offer VALUES(175, 2, 'Germknödel',NULL);
+INSERT INTO offer VALUES(176, 2, 'Kässpätzle',NULL);
+INSERT INTO offer VALUES(177, 2, 'Weißwürste mit frischen Brezel','Sonntag');
+INSERT INTO offer VALUES(178, 2, 'Döner Kebab',NULL);
+INSERT INTO offer VALUES(179, 2, 'Pfannkuchen',NULL);
+INSERT INTO offer VALUES(180, 2, 'Köfte','verschiedene Sorten');
+INSERT INTO offer VALUES(181, 2, 'Türkische Fleisch-Grillspezialitäten',NULL);
+INSERT INTO offer VALUES(182, 2, 'Börek',NULL);
+INSERT INTO offer VALUES(183, 2, 'Türkische Süßspeisen aus Blätterteig',NULL);
+INSERT INTO offer VALUES(184, 2, 'Eis',NULL);
+INSERT INTO offer VALUES(185, 2, 'Gefüllter Blätterteig',NULL);
+INSERT INTO offer VALUES(186, 2, 'Su-Börek',NULL);
+INSERT INTO offer VALUES(187, 2, 'Sarma','Gefüllte Weinblätter');
+INSERT INTO offer VALUES(188, 2, 'Salate',NULL);
+INSERT INTO offer VALUES(189, 2, 'Muffins',NULL);
+INSERT INTO offer VALUES(190, 2, 'Putenwiener',NULL);
+INSERT INTO offer VALUES(191, 2, 'Soguk Mezze','Mediterrane-Platte');
+INSERT INTO offer VALUES(192, 2, 'Sac Kavurma','Hirtenpfanne');
+INSERT INTO offer VALUES(193, 2, 'Tantuni','Teigrolle mit einer Fleisch- und Gemüsefüllung');
+INSERT INTO offer VALUES(194, 2, 'Manti','Türkische Teigtasche mit Joghurtsoße');
+INSERT INTO offer VALUES(195, 2, 'Icli Köfte','Mit Hackfleisch gefüllte Bulgurklöße');
+INSERT INTO offer VALUES(196, 2, 'Chicken-Nuggets',NULL);
+INSERT INTO offer VALUES(197, 2, 'Süßkartoffelchips','mit Kräuterdips');
+INSERT INTO offer VALUES(198, 2, 'Vegane Currywurst','mit Vollkornbrot');
+INSERT INTO offer VALUES(199, 2, 'Veganer Hot Dog',NULL);
+INSERT INTO offer VALUES(200, 2, 'Weizenwrap','mit gegrilltem Gemüse');
+INSERT INTO offer VALUES(201, 2, 'Penne Arrabiata',NULL);
+INSERT INTO offer VALUES(202, 2, 'Calzoni fritti',NULL);
+INSERT INTO offer VALUES(203, 2, 'Copolline',NULL);
+INSERT INTO offer VALUES(204, 2, 'Cannoli Siciliani',NULL);
+INSERT INTO offer VALUES(205, 2, 'Frühlingsrolle',NULL);
+INSERT INTO offer VALUES(206, 2, 'Panini',NULL);
+INSERT INTO offer VALUES(207, 2, 'Nachos','mit Käse überbacken');
+INSERT INTO offer VALUES(208, 2, 'Pasta (vegan)',NULL);
+INSERT INTO offer VALUES(209, 2, 'Piadina romana',NULL);
+INSERT INTO offer VALUES(210, 2, 'Ungarische Spezialitäten','In Gläsern und Tuben');
+INSERT INTO offer VALUES(211, 2, 'Ungarisches Paprikapulver','Süß oder Scharf');
+INSERT INTO offer VALUES(212, 2, 'Mittagstisch',NULL);
+INSERT INTO offer VALUES(213, 2, 'Feuerseele',NULL);
+INSERT INTO offer VALUES(214, 2, 'Rumänische Speisen',NULL);
+INSERT INTO offer VALUES(215, 2, 'Syrische Speisen',NULL);
+INSERT INTO offer VALUES(216, 2, 'Gebäck',NULL);
+INSERT INTO offer VALUES(217, 2, 'Wengertweck','vegetarisch oder mit Salzfleisch');
+INSERT INTO offer VALUES(218, 2, 'Blut- und Leberwurst','mit Kraut');
+INSERT INTO offer VALUES(219, 2, 'Salzfleisch','mit Kraut/Brot');
+INSERT INTO offer VALUES(220, 2, 'Belegte Brote','Käse oder Rauchfleisch');
+INSERT INTO offer VALUES(221, 2, 'Wildbratwurst',NULL);
+INSERT INTO offer VALUES(222, 2, 'Brötchen',NULL);
+INSERT INTO offer VALUES(223, 2, 'Fingerfood',NULL);
+INSERT INTO offer VALUES(224, 2, 'Ciabatta Salsiccia',NULL);
+INSERT INTO offer VALUES(225, 2, 'Ciabatta Tomaten-Mozzarella',NULL);
+
+-- others
+INSERT INTO offer VALUES(301, 3, 'Schnappfalle', NULL);
+INSERT INTO offer VALUES(302, 3, 'Spielangebote', NULL);
+INSERT INTO offer VALUES(303, 3, 'Schminken', NULL);
+INSERT INTO offer VALUES(304, 3, 'Glücksrad', NULL);
+INSERT INTO offer VALUES(305, 3, 'Ponyreiten', NULL);
+INSERT INTO offer VALUES(306, 3, 'Kinderspiele', NULL);
+INSERT INTO offer VALUES(307, 3, 'Losbude', NULL);
+INSERT INTO offer VALUES(308, 3, 'Wurfwand', NULL);
+INSERT INTO offer VALUES(309, 3, 'Schießbudenstand', NULL);
+
+selectAllDrinks:
+SELECT * FROM offer WHERE typeId = 1;
+
+selectAllFood:
+SELECT * FROM offer WHERE typeId = 2;
+
+selectAllOthers:
+SELECT * FROM offer WHERE typeId = 3;
+
+selectDrinkByName:
+SELECT * FROM offer
+WHERE typeId = 1
+AND (name LIKE '%' || :name || '%' OR description LIKE '%' || :name || '%');
+
+selectFoodByName:
+SELECT * FROM offer
+WHERE typeId = 2
+AND (name LIKE '%' || :name || '%' OR description LIKE '%' || :name || '%');
+
+selectOthersByName:
+SELECT * FROM offer
+WHERE typeId = 3
+AND (name LIKE '%' || :name || '%' OR description LIKE '%' || :name || '%');
+
+selectByName:
+SELECT * FROM offer
+WHERE name LIKE '%' || :name || '%' OR description LIKE '%' || :name || '%';

@@ -1,0 +1,74 @@
+CREATE TABLE poiCoordinate (id INTEGER PRIMARY KEY, poiId INTEGER NOT NULL, coordinateId INTEGER NOT NULL);
+
+INSERT INTO poiCoordinate VALUES(NULL,1,1);
+INSERT INTO poiCoordinate VALUES(NULL,2,2);
+INSERT INTO poiCoordinate VALUES(NULL,3,3);
+INSERT INTO poiCoordinate VALUES(NULL,4,4);
+INSERT INTO poiCoordinate VALUES(NULL,5,5);
+INSERT INTO poiCoordinate VALUES(NULL,6,6);
+INSERT INTO poiCoordinate VALUES(NULL,7,7);
+INSERT INTO poiCoordinate VALUES(NULL,8,8);
+INSERT INTO poiCoordinate VALUES(NULL,9,9);
+INSERT INTO poiCoordinate VALUES(NULL,10,10);
+INSERT INTO poiCoordinate VALUES(NULL,11,11);
+INSERT INTO poiCoordinate VALUES(NULL,11,12);
+INSERT INTO poiCoordinate VALUES(NULL,12,13);
+INSERT INTO poiCoordinate VALUES(NULL,13,14);
+INSERT INTO poiCoordinate VALUES(NULL,14,15);
+INSERT INTO poiCoordinate VALUES(NULL,15,16);
+INSERT INTO poiCoordinate VALUES(NULL,16,17);
+INSERT INTO poiCoordinate VALUES(NULL,17,18);
+INSERT INTO poiCoordinate VALUES(NULL,18,19);
+INSERT INTO poiCoordinate VALUES(NULL,19,20);
+INSERT INTO poiCoordinate VALUES(NULL,20,21);
+INSERT INTO poiCoordinate VALUES(NULL,21,22);
+INSERT INTO poiCoordinate VALUES(NULL,22,23);
+INSERT INTO poiCoordinate VALUES(NULL,23,24);
+INSERT INTO poiCoordinate VALUES(NULL,23,25);
+INSERT INTO poiCoordinate VALUES(NULL,24,26);
+INSERT INTO poiCoordinate VALUES(NULL,25,27);
+INSERT INTO poiCoordinate VALUES(NULL,26,28);
+INSERT INTO poiCoordinate VALUES(NULL,27,29);
+INSERT INTO poiCoordinate VALUES(NULL,28,30);
+INSERT INTO poiCoordinate VALUES(NULL,29,31);
+INSERT INTO poiCoordinate VALUES(NULL,30,32);
+INSERT INTO poiCoordinate VALUES(NULL,32,34);
+INSERT INTO poiCoordinate VALUES(NULL,33,35);
+INSERT INTO poiCoordinate VALUES(NULL,34,36);
+INSERT INTO poiCoordinate VALUES(NULL,35,37);
+INSERT INTO poiCoordinate VALUES(NULL,36,38);
+INSERT INTO poiCoordinate VALUES(NULL,37,39);
+INSERT INTO poiCoordinate VALUES(NULL,38,40);
+INSERT INTO poiCoordinate VALUES(NULL,39,41);
+
+INSERT INTO poiCoordinate VALUES(NULL,101,101);
+INSERT INTO poiCoordinate VALUES(NULL,102,102);
+INSERT INTO poiCoordinate VALUES(NULL,103,20);
+INSERT INTO poiCoordinate VALUES(NULL,104,103);
+INSERT INTO poiCoordinate VALUES(NULL,105,104);
+
+INSERT INTO poiCoordinate VALUES(NULL,201,201);
+INSERT INTO poiCoordinate VALUES(NULL,202,202);
+
+INSERT INTO poiCoordinate VALUES(NULL,301,301);
+INSERT INTO poiCoordinate VALUES(NULL,301,302);
+INSERT INTO poiCoordinate VALUES(NULL,301,303);
+INSERT INTO poiCoordinate VALUES(NULL,301,304);
+
+INSERT INTO poiCoordinate VALUES(NULL,401,401);
+
+INSERT INTO poiCoordinate VALUES(NULL,501,501);
+
+selectAll:
+SELECT poi.name AS poiName, pt.name AS type, c.lat, c.lng
+FROM poiCoordinate AS pc
+INNER JOIN poi ON pc.poiId = poi.id
+INNER JOIN poiType AS pt ON poi.typeId = pt.id
+INNER JOIN coordinate AS c ON pc.coordinateId = c.id;
+
+selectByClubName:
+SELECT poi.name AS poiName, c.lat, c.lng
+FROM poiCoordinate AS pc
+INNER JOIN poi ON pc.poiId = poi.id
+INNER JOIN coordinate AS c ON pc.coordinateId = c.id
+WHERE poi.typeId = 1 AND poi.name LIKE '%' || :name || '%';

@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS "poiType" (id INTEGER PRIMARY KEY, name TEXT NOT NULL);
+
+INSERT INTO poiType VALUES(1,'club');
+INSERT INTO poiType VALUES(2,'stage');
+INSERT INTO poiType VALUES(3,'playground');
+INSERT INTO poiType VALUES(4,'wc');
+INSERT INTO poiType VALUES(5,'first aid');
+INSERT INTO poiType VALUES(6,'busstop');

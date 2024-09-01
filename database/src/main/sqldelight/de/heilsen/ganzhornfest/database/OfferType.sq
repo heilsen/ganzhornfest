@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS offerType (id INTEGER PRIMARY KEY, type TEXT NOT NULL);
+
+INSERT INTO offerType VALUES(1, 'food');
+INSERT INTO offerType VALUES(2, 'drink');
+INSERT INTO offerType VALUES(3, 'other');

@@ -1,0 +1,71 @@
+CREATE TABLE IF NOT EXISTS "poi" (id INTEGER PRIMARY KEY, name TEXT NOT NULL, typeId INTEGER NOT NULL);
+
+INSERT INTO poi VALUES(1,'Arbeiter-Samariter-Bund',1);
+INSERT INTO poi VALUES(2,'DLRG',1);
+INSERT INTO poi VALUES(3,'Downtownboys',1);
+INSERT INTO poi VALUES(4,'DRK Ortsverein',1);
+INSERT INTO poi VALUES(5,'Förderverein der Feuerwehr NSU',1);
+INSERT INTO poi VALUES(6,'Georgspfadfinder',1);
+INSERT INTO poi VALUES(7,'Gesangsverein Lassallia',1);
+INSERT INTO poi VALUES(8,'Herzmahl',1);
+INSERT INTO poi VALUES(9,'Internationales Gremium',1);
+INSERT INTO poi VALUES(10,'JES Kirche',1);
+INSERT INTO poi VALUES(11,'Jugendfarm',1);
+INSERT INTO poi VALUES(12,'Junge Union Stadtverband',1);
+INSERT INTO poi VALUES(13,'Jusos (Kreisverband)',1);
+INSERT INTO poi VALUES(14,'Kiwanis Club',1);
+INSERT INTO poi VALUES(15,'Kolping Blasorchester',1);
+INSERT INTO poi VALUES(16,'Kolpingsfamilie',1);
+INSERT INTO poi VALUES(17,'Kolpingjugend',1);
+INSERT INTO poi VALUES(18,'Kreatief - Kultur im Unterland',1);
+INSERT INTO poi VALUES(19,'Metropolitian Jazz Community',1);
+INSERT INTO poi VALUES(20,'MGV Concordia 1855',1);
+INSERT INTO poi VALUES(21,'Montessori Kinderhaus, Freier Kindergarten',1);
+INSERT INTO poi VALUES(22,'Sängerbund 1830',1);
+INSERT INTO poi VALUES(23,'SC Amorbach',1);
+INSERT INTO poi VALUES(24,'Schützengilde',1);
+INSERT INTO poi VALUES(25,'SPD Ortsverein',1);
+INSERT INTO poi VALUES(26,'Sport-Union Neckarsulm - Cheerleader',1);
+INSERT INTO poi VALUES(27,'Sport-Union Neckarsulm - Fußball',1);
+INSERT INTO poi VALUES(28,'Sport-Union Neckarsulm - Handball',1);
+INSERT INTO poi VALUES(29,'Sport-Union Neckarsulm - Kanu',1);
+INSERT INTO poi VALUES(30,'Sport-Union Neckarsulm - Rugby & Leichtathletik',1);
+INSERT INTO poi VALUES(31,'Sport-Union Neckarsulm - Tischtennis',1);
+INSERT INTO poi VALUES(32,'Stone Heads',1);
+INSERT INTO poi VALUES(33,'Sulmanafetza',1);
+INSERT INTO poi VALUES(34,'Tauchclub Walhai',1);
+INSERT INTO poi VALUES(35,'TC Sulmtal',1);
+INSERT INTO poi VALUES(36,'Türkspor Neckarsulm 1969',1);
+INSERT INTO poi VALUES(37,'Trabzonspor Taraftarlar Birliği',1);
+INSERT INTO poi VALUES(38,'UFC',1);
+INSERT INTO poi VALUES(39,'Weinbauverein',1);
+
+INSERT INTO poi VALUES(101,'Hauptbühne Museumsplatz', 2);
+INSERT INTO poi VALUES(102,'Bühne Karlsplatz', 2);
+INSERT INTO poi VALUES(103,'Metropolitan Jazz Community', 2);
+INSERT INTO poi VALUES(104,'Karlsplatz', 2);
+INSERT INTO poi VALUES(105,'Marktplatz', 2);
+
+INSERT INTO poi VALUES(201,'Karussell',3);
+INSERT INTO poi VALUES(202,'Kinder-Flohmarkt',3);
+
+INSERT INTO poi VALUES(301,'WC',4);
+
+INSERT INTO poi VALUES(401,'Erste-Hilfe (ASB)',5);
+
+INSERT INTO poi VALUES(501,'ZOB (Ballei)',6);
+
+selectAll:
+SELECT * FROM poi;
+
+selectClubs:
+SELECT * FROM poi WHERE typeId = 1;
+
+selectStages:
+SELECT * FROM poi WHERE typeId = 2;
+
+countClubs:
+SELECT count(*) FROM poi WHERE typeId = 1;
+
+selectClubByName:
+SELECT * FROM poi WHERE typeId = 1 AND name LIKE '%' || :name || '%';
