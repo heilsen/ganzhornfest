@@ -5,7 +5,6 @@ espresso-core = "3.6.1"
 junit = "1.2.1"
 kotest-runner-junit5 = "5.6.2"
 kotlin-plugin = "1.9.24"
-ksp = "1.9.24-1.0.20"
 kotlinx-datetime = "0.6.0"
 mockk = "1.13.5"
 sqldelight = "2.0.0"
@@ -32,7 +31,6 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 anvil = { id = "com.squareup.anvil", version.ref = "anvil" }
 molecule = { id = "app.cash.molecule", version.ref = "molecule" }
-google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [libraries]
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }

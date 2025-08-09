@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.anvil)
-    alias(libs.plugins.google.ksp)
     alias(libs.plugins.molecule)
 }
 
