@@ -14,12 +14,12 @@ plugins {
 
 android {
     namespace = "de.heilsen.ganzhornfest"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "de.heilsen.ganzhornfest"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 202401
         versionName = "2024.1"
 

@@ -1,13 +1,12 @@
 package de.heilsen.ganzhornfest.search
 
 import app.cash.turbine.test
-import de.heilsen.ganzhornfest.database.Club
-import de.heilsen.ganzhornfest.database.Drink
-import de.heilsen.ganzhornfest.database.Food
-import de.heilsen.ganzhornfest.club.data.ClubRepository
 import de.heilsen.ganzhornfest.core.ConfigurationProvider
+import de.heilsen.ganzhornfest.database.Offer
+import de.heilsen.ganzhornfest.database.Poi
 import de.heilsen.ganzhornfest.drink.data.DrinkRepository
 import de.heilsen.ganzhornfest.food.data.FoodRepository
+import de.heilsen.ganzhornfest.poi.PoiRepository
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -20,28 +19,28 @@ class ShowSearchResultsUseCaseTest : DescribeSpec({
     val foodRepository = mockk<FoodRepository> {
         every { getAll() } returns flowOf(
             listOf(
-                Food(1, "eins", null),
-                Food(2, "zwei", "ein Essen")
+                Offer(1, 0, "eins", null),
+                Offer(2, 0, "zwei", "ein Essen")
             )
         )
-        every { selectByName(any()) } returns flowOf(listOf(Food(1, "eins", null)))
+        every { selectByName(any()) } returns flowOf(listOf(Offer(1, 0, "eins", null)))
     }
     val drinkRepository = mockk<DrinkRepository> {
         every { getAll() } returns flowOf(
             listOf(
-                Drink(1, "eins", null, 0),
-                Drink(2, "zwei", "ein alkholisches Getränk", 1)
+                Offer(1, 1, "eins", null),
+                Offer(2, 1, "zwei", "ein alkoholisches Getränk")
             )
         )
         every { selectByName(any()) } returns flowOf(
             listOf(
-                Drink(2, "zwei", "ein alkholisches Getränk", 1)
+                Offer(2, 1, "zwei", "ein alkoholisches Getränk")
             )
         )
     }
-    val clubRepository = mockk<ClubRepository> {
-        every { getAll() } returns flowOf(listOf(Club(1, "eins"), Club(2, "zwei")))
-        every { selectByName(any()) } returns flowOf(listOf(Club(1, "eins")))
+    val poiRepository = mockk<PoiRepository> {
+        every { getAll() } returns flowOf(listOf(Poi(1, "eins", 0), Poi(2, "zwei", 0)))
+        every { selectByName(any()) } returns flowOf(listOf(Poi(1, "eins", 0)))
     }
     val configurationProvider: ConfigurationProvider = mockk {
         every { getLocale() } returns Locale.GERMAN
@@ -49,31 +48,33 @@ class ShowSearchResultsUseCaseTest : DescribeSpec({
     val showSearchResults = ShowSearchResultsUseCase(
         foodRepository,
         drinkRepository,
-        clubRepository,
+        poiRepository,
         configurationProvider
     )
 
-
     describe("showSearchResults") {
-        it("with no-arg") {
-            showSearchResults().test {
+        it("returns food when category is Food and query is empty") {
+            showSearchResults("", Category.Food).test {
                 awaitItem() shouldBe persistentListOf(
-                    "eins", "eins", "eins", "zwei", "zwei", "zwei"
+                    SearchModel.Result("eins", ""),
+                    SearchModel.Result("zwei", "ein Essen")
                 )
                 awaitComplete()
             }
         }
-        it("with query") {
-            showSearchResults("foobar").test {
+        it("returns filtered drinks when category is Drink and query is not empty") {
+            showSearchResults("foobar", Category.Drink).test {
                 awaitItem() shouldBe persistentListOf(
-                    "eins", "eins", "zwei"
+                    SearchModel.Result("zwei", "ein alkoholisches Getränk")
                 )
                 awaitComplete()
             }
         }
-        it("with query") {
-            showSearchResults("foobar", setOf(Category.Club)).test {
-                awaitItem() shouldBe persistentListOf("eins")
+        it("returns filtered clubs when category is Club and query is not empty") {
+            showSearchResults("foobar", Category.Club).test {
+                awaitItem() shouldBe persistentListOf(
+                    SearchModel.Result("eins", "")
+                )
                 awaitComplete()
             }
         }
