@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "de.heilsen.di.impl"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
