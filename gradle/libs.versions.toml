@@ -1,27 +1,26 @@
 [versions]
 android-plugin = "8.11.1"
-annotation = "1.8.0"
+annotation = "1.9.1"
+anvil = "2.4.9"
+compose-compiler = "1.5.14"
+compose-foundation-android = "1.6.8"
 compose-lint-checks = "1.1.1"
+compose-ui-tooling = "1.6.8"
+dagger = "2.51.1"
 espresso-core = "3.6.1"
 junit = "1.2.1"
+junit-version = "4.13.2"
 kotest-runner-junit5 = "5.6.2"
 kotlin-plugin = "1.9.24"
+kotlinx-coroutines = "1.7.3"
 kotlinx-datetime = "0.6.0"
+kotlinx-serialization = "1.6.3"
 lifecycle-viewmodel-ktx = "2.6.1"
 mockk = "1.13.5"
+molecule = "1.4.3"
 molecule-runtime = "1.1.0"
 sqldelight = "2.0.0"
-anvil = "2.4.9"
-molecule = "1.4.3"
-
-dagger = "2.51.1"
-kotlinx-coroutines = "1.7.3"
-kotlinx-serialization = "1.6.3"
-compose-ui-tooling = "1.6.8"
-compose-foundation-android = "1.6.8"
-compose-compiler = "1.5.14"
 turbine = "1.0.0"
-junit-version = "4.13.2"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
@@ -34,48 +33,42 @@ anvil = { id = "com.squareup.anvil", version.ref = "anvil" }
 molecule = { id = "app.cash.molecule", version.ref = "molecule" }
 
 [libraries]
-androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
-androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-ktx" }
-androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
-androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-ui-tooling" }
-compose-lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "compose-lint-checks" }
-sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
-sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
-dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
-
-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest-runner-junit5" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-molecule-runtime = { module = "app.cash.molecule:molecule-runtime", version.ref = "molecule-runtime" }
-timber = { module = "com.jakewharton.timber:timber", version = "5.0.1"}
-
-kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
-kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version = "0.3.5" }
-
-androidx-core = { module = "androidx.core:core-ktx", version = "1.13.1" }
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
-androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime", version = "2.8.0" }
 androidx-activity = { module = "androidx.activity:activity", version = "1.9.0" }
-
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version = "1.9.0" }
-androidx-compose-ui = { module = "androidx.compose.ui:ui", version = "1.4.3" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-foundation-android" }
+androidx-compose-foundation-android = { module = "androidx.compose.foundation:foundation-android", version.ref = "compose-foundation-android" }
+androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose-foundation-android" }
 androidx-compose-material = { module = "androidx.compose.material3:material3", version = "1.2.1" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui", version = "1.4.3" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui-tooling" }
+androidx-core = { module = "androidx.core:core-ktx", version = "1.13.1" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
+androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime", version = "2.8.0" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-ktx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version = "2.8.0-beta01" }
-androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-foundation-android" }
-androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose-foundation-android" }
-androidx-compose-foundation-android = { module = "androidx.compose.foundation:foundation-android", version.ref = "compose-foundation-android" }
-
-play-services-maps = { module = "com.google.android.gms:play-services-maps", version = "18.2.0"}
-
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-ui-tooling" }
+compose-lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "compose-lint-checks" }
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 google-maps-compose = { module = "com.google.maps.android:maps-compose", version = "5.0.1"}
-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 junit = { group = "junit", name = "junit", version.ref = "junit-version" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest-runner-junit5" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version = "0.3.5" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+molecule-runtime = { module = "app.cash.molecule:molecule-runtime", version.ref = "molecule-runtime" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version = "18.2.0"}
+sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+timber = { module = "com.jakewharton.timber:timber", version = "5.0.1"}
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [bundles]
 androidx = ["androidx-core", "androidx-appcompat", "androidx-lifecycle", "androidx-activity", "androidx-activity-compose"]
