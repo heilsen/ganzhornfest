@@ -1,7 +1,6 @@
 [versions]
 android-plugin = "8.11.1"
 annotation = "1.9.1"
-anvil = "2.5.0-beta11"
 compose-compiler = "1.5.14"
 compose-foundation-android = "1.8.3"
 compose-lint-checks = "1.4.2"
@@ -30,7 +29,6 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-plugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-plugin" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
-anvil = { id = "com.squareup.anvil", version.ref = "anvil" }
 molecule = { id = "app.cash.molecule", version.ref = "molecule" }
 
 [libraries]

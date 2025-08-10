@@ -1,16 +1,33 @@
 package de.heilsen.ganzhornfest.di
 
 import android.app.Application
-import com.squareup.anvil.annotations.MergeComponent
-import com.squareup.anvil.annotations.optional.SingleIn
+import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import de.heilsen.ganzhornfest.GanzhornfestApplication
+import de.heilsen.ganzhornfest.bus.BusModule
+import de.heilsen.ganzhornfest.core.CoreModule
+import javax.inject.Singleton
 
-@SingleIn(AppScope::class)
-@MergeComponent(scope = AppScope::class)
-interface AppComponent {
+@Singleton
+@Component(
+    modules = [
+        TimberModule::class,
+        BusModule::class,
+        CoreModule::class,
+        GanzhornfestDbModule::class
+    ]
+)
+interface AppComponent :
+    de.heilsen.ganzhornfest.main.EntryPoint,
+    de.heilsen.ganzhornfest.EntryPoint,
+    de.heilsen.ganzhornfest.search.EntryPoint {
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance application: Application): AppComponent
+        fun create(
+            @BindsInstance ganzhornfestApplication: GanzhornfestApplication,
+            @BindsInstance application: Application,
+            @BindsInstance context: Context,
+        ): AppComponent
     }
 }

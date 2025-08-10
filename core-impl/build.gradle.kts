@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.anvil)
 }
 
 android {
@@ -15,14 +14,9 @@ kotlin {
     jvmToolchain(17)
 }
 
-anvil {
-    addOptionalAnnotations = true
-    generateDaggerFactories = true
-}
-
 dependencies {
     api(project(":core-api"))
-    api(project(":di-api"))
+    implementation(project(":di-api"))
 
     implementation(libs.kotlinx.coroutines)
 

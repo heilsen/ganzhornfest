@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
-    alias(libs.plugins.anvil)
     alias(libs.plugins.molecule)
 }
 
@@ -75,10 +74,6 @@ kotlin {
     jvmToolchain(17)
 }
 
-anvil {
-    addOptionalAnnotations = true
-}
-
 dependencies {
     implementation(project(":presenter-api"))
     implementation(project(":bus-api"))
@@ -88,7 +83,6 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":database"))
     implementation(project(":di-api"))
-    implementation(project(":di-impl"))
     implementation(project(":map"))
     implementation(project(":program"))
     implementation(project(":theme"))

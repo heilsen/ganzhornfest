@@ -1,6 +1,5 @@
 package de.heilsen.ganzhornfest.di
 
-import com.squareup.anvil.annotations.ContributesTo
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.ElementsIntoSet
@@ -9,7 +8,6 @@ import de.heilsen.ganzhornfest.BuildConfig
 import timber.log.Timber
 
 @Module
-@ContributesTo(AppScope::class)
 abstract class TimberModule {
 
     @Multibinds

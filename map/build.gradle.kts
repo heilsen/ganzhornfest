@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.anvil)
 }
 
 android {
@@ -26,18 +25,8 @@ android {
 //    }
 }
 
-anvil {
-    generateDaggerFactories = true
-    addOptionalAnnotations = true
-}
-
 kotlin {
     jvmToolchain(17)
-}
-
-anvil {
-    addOptionalAnnotations = true
-    generateDaggerFactories = true
 }
 
 dependencies {

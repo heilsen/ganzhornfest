@@ -4,12 +4,9 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
-import com.squareup.anvil.annotations.ContributesBinding
-import de.heilsen.ganzhornfest.di.AppScope
 import java.util.Locale
 import javax.inject.Inject
 
-@ContributesBinding(AppScope::class)
 class ConfigurationProviderImpl(private val configuration: Configuration): ConfigurationProvider {
     constructor(resources: Resources) : this(resources.configuration)
 
@@ -23,3 +20,4 @@ class ConfigurationProviderImpl(private val configuration: Configuration): Confi
         configuration.locale
     }
 }
+

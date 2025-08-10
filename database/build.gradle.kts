@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.anvil)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.sqldelight)
 }
 
@@ -20,15 +20,10 @@ kotlin {
 dependencies {
     api(project(":core-api"))
     api(project(":di-api"))
-    api(project(":di-impl"))
     api(libs.dagger)
+    kapt(libs.dagger.compiler)
     api(libs.sqldelight.android.driver)
     api(libs.sqldelight.coroutines.extensions)
-}
-
-anvil {
-    generateDaggerFactories = true
-    addOptionalAnnotations = true
 }
 
 sqldelight {

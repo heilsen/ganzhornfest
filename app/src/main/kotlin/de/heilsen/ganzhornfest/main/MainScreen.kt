@@ -26,7 +26,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.squareup.anvil.annotations.ContributesTo
 import de.heilsen.ganzhornfest.R
 import de.heilsen.ganzhornfest.bus.BusScreen
 import de.heilsen.ganzhornfest.bus.BusViewModel
@@ -34,7 +33,6 @@ import de.heilsen.ganzhornfest.detail.DetailEvent
 import de.heilsen.ganzhornfest.detail.DetailScreen
 import de.heilsen.ganzhornfest.detail.DetailViewModel
 import de.heilsen.ganzhornfest.detail.OfferTypeUi
-import de.heilsen.ganzhornfest.di.AppScope
 import de.heilsen.ganzhornfest.di.getValue
 import de.heilsen.ganzhornfest.di.rememberAppScope
 import de.heilsen.ganzhornfest.info.InfoScreen
@@ -47,7 +45,6 @@ import de.heilsen.ganzhornfest.search.SearchScreen
 import de.heilsen.ganzhornfest.search.SearchViewModel
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 
-@ContributesTo(AppScope::class)
 interface EntryPoint {
     val busViewModel: BusViewModel
     val programViewModel: ProgramViewModel
