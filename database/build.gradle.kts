@@ -18,7 +18,7 @@ kotlin {
 }
 
 dependencies {
-    api(project(":core"))
+    api(project(":core-api"))
     api(project(":di-api"))
     api(project(":di-impl"))
     api(libs.dagger)

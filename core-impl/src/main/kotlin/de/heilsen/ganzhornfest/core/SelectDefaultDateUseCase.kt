@@ -8,10 +8,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 import javax.inject.Inject
 
-fun interface SelectDefaultDateUseCase {
-    operator fun invoke(): LocalDate
-}
-
 @ContributesBinding(AppScope::class)
 class SelectDefaultDate @Inject constructor(private val getOpeningDays: GetOpeningDaysUseCase):
     SelectDefaultDateUseCase {

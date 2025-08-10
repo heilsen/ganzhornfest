@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.anvil)
 }
 
@@ -12,32 +13,35 @@ android {
     }
 
     buildFeatures {
-        compose = true
+//        compose = true
         shaders = false
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-    kotlinOptions {
-        freeCompilerArgs += listOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
-                    "${rootProject.projectDir.absolutePath}/compose_compiler_config.conf"
-        )
-    }
-
+//    kotlinOptions {
+//        freeCompilerArgs += listOf(
+//            "-P",
+//            "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
+//                    "${rootProject.projectDir.absolutePath}/compose_compiler_config.conf"
+//        )
+//    }
 }
+
+anvil {
+    generateDaggerFactories = true
+    addOptionalAnnotations = true
+}
+
 kotlin {
     jvmToolchain(17)
 }
 
 anvil {
+    addOptionalAnnotations = true
     generateDaggerFactories = true
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":core-api"))
     implementation(project(":presenter-api"))
     implementation(project(":data"))
     implementation(project(":database"))
@@ -58,6 +62,5 @@ dependencies {
     implementation(libs.androidx.compose.foundation.android)
     implementation(libs.androidx.compose.material)
     debugImplementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.ui.tooling.preview)
 
 }

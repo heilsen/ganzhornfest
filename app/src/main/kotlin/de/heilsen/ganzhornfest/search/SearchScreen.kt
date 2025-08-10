@@ -31,13 +31,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.squareup.anvil.annotations.ContributesTo
+import de.heilsen.ganzhornfest.GanzhornfestApplication
 import de.heilsen.ganzhornfest.R
 import de.heilsen.ganzhornfest.core.ResourcesProvider
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.di.AppScope
+import de.heilsen.ganzhornfest.di.getValue
+import de.heilsen.ganzhornfest.di.rememberAppScope
 import de.heilsen.ganzhornfest.theme.component.LoadingScreen
 import de.heilsen.ganzhornfest.theme.component.SelectionCard
 import de.heilsen.ganzhornfest.theme.component.SelectionConfig
 import kotlinx.collections.immutable.persistentListOf
+
+@ContributesTo(AppScope::class)
+interface EntryPoint {
+    val resourcesProvider: ResourcesProvider
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") // empty lambda in Scaffold, due to SearchBar
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +68,8 @@ fun SearchScreen(
 ) {
     Scaffold(
         topBar = {
-            val resourcesProvider = ResourcesProvider(LocalContext.current)
+            val entryPoint: EntryPoint by rememberAppScope()
+            val resourcesProvider = entryPoint.resourcesProvider
             var query by remember { mutableStateOf("") }
 
             SearchBar(

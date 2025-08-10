@@ -15,14 +15,20 @@ kotlin {
     jvmToolchain(17)
 }
 
+anvil {
+    addOptionalAnnotations = true
+    generateDaggerFactories = true
+}
+
 dependencies {
-    implementation(project(":di-api"))
+    api(project(":core-api"))
+    api(project(":di-api"))
 
     implementation(libs.kotlinx.coroutines)
 
     implementation(libs.kotlinx.collections.immutable)
 
-    implementation(libs.dagger)
+    api(libs.dagger)
 
     api(libs.kotlinx.datetime)
     implementation(libs.androidx.annotation)

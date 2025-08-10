@@ -7,10 +7,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.datetime.LocalDate
 import javax.inject.Inject
 
-fun interface GetOpeningDaysUseCase {
-    operator fun invoke(): PersistentList<LocalDate>
-}
-
 @ContributesBinding(AppScope::class)
 class GetOpeningDaysFor2024 @Inject constructor() : GetOpeningDaysUseCase {
     override fun invoke(): PersistentList<LocalDate> {

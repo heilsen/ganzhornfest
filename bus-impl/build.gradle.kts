@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.anvil)
 }
 
@@ -16,9 +17,6 @@ android {
         shaders = false
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
     kotlinOptions {
         freeCompilerArgs += listOf(
             "-P",
@@ -33,12 +31,13 @@ kotlin {
 }
 
 anvil {
+    addOptionalAnnotations = true
     generateDaggerFactories = true
 }
 
 dependencies {
     implementation(project(":bus-api"))
-    implementation(project(":core"))
+    implementation(project(":core-api"))
     implementation(project(":presenter-api"))
     implementation(project(":database"))
     implementation(project(":di-api"))

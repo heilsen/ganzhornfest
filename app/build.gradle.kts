@@ -4,6 +4,7 @@ import java.util.*
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
@@ -48,9 +49,6 @@ android {
         shaders = false
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -85,7 +83,8 @@ dependencies {
     implementation(project(":presenter-api"))
     implementation(project(":bus-api"))
     implementation(project(":bus-impl"))
-    implementation(project(":core"))
+    implementation(project(":core-api"))
+    implementation(project(":core-impl"))
     implementation(project(":data"))
     implementation(project(":database"))
     implementation(project(":di-api"))
