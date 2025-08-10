@@ -15,8 +15,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "Ganzhornfest"
 include(":app")
-include(":base-presenter")
-include(":bus")
+include(":presenter-api")
+include(":bus-api")
+include(":bus-impl")
 include(":core")
 include(":data")
 include(":database")

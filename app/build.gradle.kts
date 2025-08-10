@@ -82,8 +82,9 @@ anvil {
 }
 
 dependencies {
-    implementation(project(":base-presenter"))
-    implementation(project(":bus"))
+    implementation(project(":presenter-api"))
+    implementation(project(":bus-api"))
+    implementation(project(":bus-impl"))
     implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":database"))

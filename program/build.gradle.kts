@@ -38,7 +38,7 @@ anvil {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":base-presenter"))
+    implementation(project(":presenter-api"))
     implementation(project(":database"))
     implementation(project(":di-api"))
     implementation(project(":theme"))

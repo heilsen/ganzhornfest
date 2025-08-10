@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "de.heilsen.ganzhornfest.map"
+    namespace = "de.heilsen.ganzhornfest.bus"
     compileSdk = 36
     defaultConfig {
         minSdk = 24
@@ -37,17 +37,14 @@ anvil {
 }
 
 dependencies {
+    implementation(project(":bus-api"))
     implementation(project(":core"))
     implementation(project(":presenter-api"))
-    implementation(project(":data"))
     implementation(project(":database"))
     implementation(project(":di-api"))
     implementation(project(":theme"))
 
     implementation(libs.dagger)
-
-    implementation(libs.play.services.maps)
-    implementation(libs.google.maps.compose)
 
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.datetime)
@@ -57,7 +54,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.foundation.android)
     implementation(libs.androidx.compose.material)
-    debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
 }
