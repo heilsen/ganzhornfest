@@ -20,11 +20,11 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+    implementation(libs.kotlinx.collections.immutable)
 
-    implementation("com.google.dagger:dagger:2.47")
+    implementation(libs.dagger)
 
     api(libs.kotlinx.datetime)
-    implementation("androidx.annotation:annotation:1.8.0")
-    implementation(libs.androidx.ui.tooling.preview.android)
+    implementation(libs.androidx.annotation)
+    implementation(libs.androidx.compose.ui.tooling.preview)
 }

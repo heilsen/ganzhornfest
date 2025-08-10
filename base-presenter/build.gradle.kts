@@ -26,9 +26,9 @@ kotlin {
 dependencies {
     implementation(libs.kotlinx.coroutines)
 
-    implementation("app.cash.molecule:molecule-runtime:1.1.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("androidx.compose.ui:ui:1.4.3")
+    implementation(libs.molecule.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.compose.ui)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+    implementation(libs.kotlinx.collections.immutable)
 }

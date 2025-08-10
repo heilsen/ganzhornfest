@@ -21,9 +21,9 @@ dependencies {
     api(project(":core"))
     api(project(":di-api"))
     api(project(":di-impl"))
-    api("com.google.dagger:dagger:2.47")
-    api("app.cash.sqldelight:android-driver:2.0.0")
-    api("app.cash.sqldelight:coroutines-extensions:2.0.0")
+    api(libs.dagger)
+    api(libs.sqldelight.android.driver)
+    api(libs.sqldelight.coroutines.extensions)
 }
 
 anvil {

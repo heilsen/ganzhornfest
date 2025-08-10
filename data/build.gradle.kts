@@ -17,8 +17,8 @@ kotlin {
 dependencies {
     api(project(":database"))
 
-    implementation("com.google.dagger:dagger:2.47")
+    implementation(libs.dagger)
 
-    implementation("app.cash.sqldelight:coroutines-extensions:2.0.0")
+    implementation(libs.sqldelight.coroutines.extensions)
 }
 
