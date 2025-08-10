@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
@@ -15,6 +15,7 @@ import javax.inject.Inject
 /**
  * Date Time is stored as Zulu time (Z = +T00:00) in our SQLite DB.
  */
+@OptIn(kotlin.time.ExperimentalTime::class)
 class BusConnectionRepository @Inject constructor(
     private val ganzhornfestDb: GanzhornfestDb
 ) {

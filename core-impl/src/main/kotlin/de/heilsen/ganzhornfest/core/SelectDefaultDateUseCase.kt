@@ -1,11 +1,12 @@
 package de.heilsen.ganzhornfest.core
 
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 import javax.inject.Inject
 
+@OptIn(kotlin.time.ExperimentalTime::class)
 class SelectDefaultDateUseCaseImpl @Inject constructor(private val getOpeningDays: GetOpeningDaysUseCase):
     SelectDefaultDateUseCase {
     override fun invoke(): LocalDate {

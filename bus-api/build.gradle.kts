@@ -16,14 +16,6 @@ android {
         shaders = false
     }
 
-    kotlinOptions {
-        freeCompilerArgs += listOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
-                    "${rootProject.projectDir.absolutePath}/compose_compiler_config.conf"
-        )
-    }
-
 }
 kotlin {
     jvmToolchain(17)

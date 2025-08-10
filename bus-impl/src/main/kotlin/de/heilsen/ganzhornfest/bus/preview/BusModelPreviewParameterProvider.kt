@@ -4,13 +4,7 @@ import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameter
 import de.heilsen.ganzhornfest.bus.BusModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
-import kotlinx.datetime.todayIn
 
 
 val day1 = LocalDate(2024,8,31)

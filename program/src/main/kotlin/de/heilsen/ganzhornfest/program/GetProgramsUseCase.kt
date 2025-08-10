@@ -6,9 +6,10 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 
+@OptIn(kotlin.time.ExperimentalTime::class)
 class GetProgramsUseCase @Inject constructor(private val programRepository: ProgramRepository){
     operator fun invoke(
         location: String?,

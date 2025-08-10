@@ -21,6 +21,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import javax.inject.Inject
 
+@OptIn(kotlin.time.ExperimentalTime::class)
 class ProgramPresenter @Inject constructor(
     private val getPrograms: GetProgramsUseCase,
     private val getStages: GetStagesUseCase,

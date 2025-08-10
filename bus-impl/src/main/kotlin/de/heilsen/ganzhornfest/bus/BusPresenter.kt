@@ -42,6 +42,7 @@ class BusPresenter @Inject constructor(
         }
         val start = departureDate.atTime(19, 0)
         val end = departureDate.plus(1, DateTimeUnit.DAY).atTime(3, 0)
+        @OptIn(kotlin.time.ExperimentalTime::class)
         val busConnectionList: PersistentList<BusConnection>? by getDepartures(
             destination,
             start.toInstant(TimeZone.currentSystemDefault()),

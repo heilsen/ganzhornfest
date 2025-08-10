@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
-    alias(libs.plugins.molecule)
 }
 
 android {

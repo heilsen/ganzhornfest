@@ -4,15 +4,7 @@ import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameter
 import de.heilsen.ganzhornfest.bus.BusConnection
 import de.heilsen.ganzhornfest.bus.Busline
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.atTime
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.todayIn
 
 class BusConnectionPreviewParameterProvider : CollectionPreviewParameterProvider<BusConnection>(
     persistentListOf(

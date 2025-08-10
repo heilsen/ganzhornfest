@@ -5,9 +5,10 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 
+@OptIn(kotlin.time.ExperimentalTime::class)
 interface GetBusConnectionsUseCase  {
     operator fun invoke(
         destination: String,
