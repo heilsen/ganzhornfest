@@ -24,7 +24,7 @@ kotlin {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation(libs.kotlinx.coroutines)
 
     implementation("app.cash.molecule:molecule-runtime:1.1.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
