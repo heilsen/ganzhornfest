@@ -3,18 +3,33 @@ package de.heilsen.ganzhornfest.search
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.heilsen.ganzhornfest.R
 import de.heilsen.ganzhornfest.core.ResourcesProvider
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
 import de.heilsen.ganzhornfest.di.getValue
@@ -23,6 +38,7 @@ import de.heilsen.ganzhornfest.theme.component.LoadingScreen
 import de.heilsen.ganzhornfest.theme.component.SelectionCard
 import de.heilsen.ganzhornfest.theme.component.SelectionConfig
 import kotlinx.collections.immutable.persistentListOf
+import de.heilsen.ganzhornfest.search.impl.R
 
 interface EntryPoint {
     val resourcesProvider: ResourcesProvider
@@ -65,15 +81,15 @@ fun SearchScreen(
                     onEvent(SearchEvent.Search(it))
                 },
                 onSearch = { onEvent(SearchEvent.Search(it)) },
-                placeholder = { Text(resourcesProvider.getString(R.string.empty_search)) },
+                placeholder = { Text(resourcesProvider.getString(de.heilsen.ganzhornfest.search.impl.R.string.empty_search)) },
                 trailingIcon = {
                     Icon(
-                        modifier = Modifier.clickable {
+                        modifier = Modifier.Companion.clickable {
                             query = ""
                             onEvent(SearchEvent.Clear)
                         },
                         imageVector = Icons.Default.Clear,
-                        contentDescription = resourcesProvider.getString(R.string.clear_search),
+                        contentDescription = resourcesProvider.getString(de.heilsen.ganzhornfest.search.impl.R.string.clear_search),
                     )
                 },
             ) {
@@ -97,7 +113,7 @@ private fun SearchScreenSuccess(
     resourcesProvider: ResourcesProvider
 ) {
     Column(
-        Modifier
+        Modifier.Companion
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
@@ -119,7 +135,7 @@ private fun SearchScreenSuccess(
             ),
         )
         SelectionCard(selectionConfigs)
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.Companion.height(8.dp))
         LazyVerticalGrid(
             columns = GridCells.Fixed(1),
             horizontalArrangement = Arrangement.Center,
@@ -127,7 +143,7 @@ private fun SearchScreenSuccess(
         ) {
             items(searchModel.results) { (message, description) ->
                 Card(onClick = { /* TODO: onClick(message) */ }) {
-                    Column(Modifier.padding(8.dp)) {
+                    Column(Modifier.Companion.padding(8.dp)) {
                         Text(message, style = MaterialTheme.typography.headlineSmall)
                         Text(description)
                     }

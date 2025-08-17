@@ -86,6 +86,8 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":database"))
     implementation(project(":di-api"))
+    implementation(project(":feature:search-api"))
+    implementation(project(":feature:search-impl"))
     implementation(project(":info-api"))
     implementation(project(":map"))
     implementation(project(":program"))

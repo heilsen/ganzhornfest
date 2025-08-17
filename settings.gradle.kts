@@ -24,6 +24,8 @@ include(
     ":data",
     ":database",
     ":di-api",
+    ":feature:search-api",
+    ":feature:search-impl",
     ":info-api",
     ":map",
     ":presenter-api",

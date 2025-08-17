@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty_search">Suchbegriff hier eingeben</string>
+    <string name="clear_search">Suchbegriff löschen</string>
+    <string name="food">Essen</string>
+    <string name="drink">Trinken</string>
+    <string name="club">Vereine</string>
+</resources>

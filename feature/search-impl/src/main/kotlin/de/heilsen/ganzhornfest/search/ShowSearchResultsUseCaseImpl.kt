@@ -1,6 +1,5 @@
 package de.heilsen.ganzhornfest.search
 
-import de.heilsen.ganzhornfest.club.data.ClubRepository
 import de.heilsen.ganzhornfest.core.ConfigurationProvider
 import de.heilsen.ganzhornfest.drink.data.DrinkRepository
 import de.heilsen.ganzhornfest.food.data.FoodRepository
@@ -11,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class ShowSearchResultsUseCase @Inject constructor(
+class ShowSearchResultsUseCaseImpl @Inject constructor(
     private val foodRepository: FoodRepository,
     private val drinkRepository: DrinkRepository,
     private val poiRepository: PoiRepository,
     private val configurationProvider: ConfigurationProvider
-) {
-    operator fun invoke(
+): ShowSearchResultsUseCase {
+    override operator fun invoke(
         searchTerm: String,
         category: Category
     ): Flow<PersistentList<SearchModel.Result>> {

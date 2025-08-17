@@ -1,11 +1,8 @@
 package de.heilsen.ganzhornfest.search
 
 import androidx.compose.runtime.Immutable
-import de.heilsen.ganzhornfest.program.Program
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.PersistentMap
-import kotlinx.datetime.LocalDate
 
 @Immutable
 sealed interface SearchModel {

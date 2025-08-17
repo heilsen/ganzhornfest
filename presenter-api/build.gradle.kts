@@ -16,7 +16,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines)
 
     implementation(libs.molecule.runtime)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    api(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.compose.ui)
 
     implementation(libs.kotlinx.collections.immutable)
