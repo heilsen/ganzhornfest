@@ -1,14 +1,8 @@
 package de.heilsen.ganzhornfest
 
 import android.app.Application
-import de.heilsen.ganzhornfest.di.AppComponent
-import de.heilsen.ganzhornfest.di.AppComponentProvider
-import de.heilsen.ganzhornfest.di.AppScope
-import de.heilsen.ganzhornfest.di.DaggerAppComponent
-import de.heilsen.ganzhornfest.di.appScope
-import de.heilsen.ganzhornfest.di.getValue
+import de.heilsen.ganzhornfest.di.*
 import timber.log.Timber
-import java.security.KeyStore.Entry
 import javax.inject.Inject
 
 interface EntryPoint {
@@ -17,7 +11,7 @@ interface EntryPoint {
 
 class GanzhornfestApplication : Application(), AppComponentProvider {
 
-    override val appComponent: AppComponent by lazy { DaggerAppComponent.factory().create(this, this, this) }
+    override val appComponent: AppComponent by lazy { DaggerAppComponent.factory().create(this) }
 
     @Inject
     lateinit var timberTrees: Set<@JvmSuppressWildcards Timber.Tree>

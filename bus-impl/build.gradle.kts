@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "de.heilsen.ganzhornfest.bus"
+    namespace = "de.heilsen.ganzhornfest.bus.impl"
     compileSdk = 36
     defaultConfig {
         minSdk = 24

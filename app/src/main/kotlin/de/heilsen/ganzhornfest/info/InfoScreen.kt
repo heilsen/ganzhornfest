@@ -27,8 +27,8 @@ import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 import kotlin.text.Typography.bullet
 
 @Composable
-fun InfoScreen() {
-    Surface {
+fun InfoScreen(modifier: Modifier = Modifier) {
+    Surface(modifier) {
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Card(
                 Modifier

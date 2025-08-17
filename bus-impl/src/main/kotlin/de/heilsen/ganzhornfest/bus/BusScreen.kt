@@ -1,45 +1,30 @@
 package de.heilsen.ganzhornfest.bus
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import de.heilsen.ganzhornfest.core.datetime.formatToLocalDate
 import de.heilsen.ganzhornfest.bus.preview.BusModelPreviewParameterProvider
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.core.datetime.formatToLocalDate
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
-import de.heilsen.ganzhornfest.theme.component.EmptyScreen
-import de.heilsen.ganzhornfest.theme.component.GanzhornfestScaffold
-import de.heilsen.ganzhornfest.theme.component.LoadingScreen
-import de.heilsen.ganzhornfest.theme.component.SelectionCard
-import de.heilsen.ganzhornfest.theme.component.SelectionConfig
+import de.heilsen.ganzhornfest.theme.component.*
 import kotlinx.datetime.LocalDate
 import java.text.DateFormat
+import de.heilsen.ganzhornfest.bus.api.R as ApiR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +33,7 @@ fun BusScreen(
     onEvent: (BusEvent) -> Unit = {},
 ) {
     GanzhornfestScaffold(
-        title = { Text(stringResource(id = R.string.bus_screen_title)) }
+        title = { Text(stringResource(id = ApiR.string.bus_screen_title)) }
     ) {
         Box {
             Column {

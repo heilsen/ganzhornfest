@@ -1,7 +1,5 @@
 package de.heilsen.ganzhornfest.di
 
-import android.app.Application
-import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import de.heilsen.ganzhornfest.GanzhornfestApplication
@@ -12,6 +10,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
+        AppModule::class,
         TimberModule::class,
         BusModule::class,
         CoreModule::class,
@@ -26,8 +25,6 @@ interface AppComponent :
     interface Factory {
         fun create(
             @BindsInstance ganzhornfestApplication: GanzhornfestApplication,
-            @BindsInstance application: Application,
-            @BindsInstance context: Context,
         ): AppComponent
     }
 }

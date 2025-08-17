@@ -99,7 +99,7 @@ fun MainScreen() {
                     NavigationBarItem(currentDestination?.hasRoute<Destination.Bus>() ?: false,
                         icon = {
                             Icon(
-                                ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.R.drawable.ic_directions_bus_filled_24),
+                                ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
                                 stringResource(R.string.bustimes)
                             )
                         },
