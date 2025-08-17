@@ -7,19 +7,10 @@ plugins {
 android {
     namespace = "de.heilsen.ganzhornfest.base.presenter"
     compileSdk = 36
-    defaultConfig {
-        minSdk = 24
-    }
+    defaultConfig.minSdk = 24
+}
 
-    buildFeatures {
-        buildConfig = false
-        compose = true
-        shaders = false
-    }
-}
-kotlin {
-    jvmToolchain(17)
-}
+kotlin.jvmToolchain(21)
 
 dependencies {
     implementation(libs.kotlinx.coroutines)

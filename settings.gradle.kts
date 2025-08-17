@@ -14,18 +14,21 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Ganzhornfest"
-include(":app")
-include(":presenter-api")
-include(":bus-api")
-include(":bus-impl")
-include(":core-api")
-include(":core-impl")
-include(":data")
-include(":database")
-include(":di-api")
-include(":map")
-include(":program")
-include(":theme")
+include(
+    ":app",
+    ":presenter-api",
+    ":bus-api",
+    ":bus-impl",
+    ":core-api",
+    ":core-impl",
+    ":data",
+    ":database",
+    ":di-api",
+    ":info-api",
+    ":map",
+    ":program",
+    ":theme"
+)
 
 gradle.lifecycle.beforeProject {
     group = "de.heilsen.ganzhornfest"

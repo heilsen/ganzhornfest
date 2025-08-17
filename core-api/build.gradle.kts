@@ -6,13 +6,9 @@ plugins {
 android {
     namespace = "de.heilsen.ganzhornfest.core"
     compileSdk = 36
-    defaultConfig {
-        minSdk = 24
-    }
+    defaultConfig.minSdk = 24
 }
-kotlin {
-    jvmToolchain(17)
-}
+kotlin.jvmToolchain(21)
 
 dependencies {
     implementation(project(":di-api"))
@@ -26,4 +22,5 @@ dependencies {
     api(libs.kotlinx.datetime)
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 }

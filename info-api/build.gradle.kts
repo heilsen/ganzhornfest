@@ -5,35 +5,24 @@ plugins {
 }
 
 android {
-    namespace = "de.heilsen.ganzhornfest.map"
+    namespace = "de.heilsen.ganzhornfest.info.api"
     compileSdk = 36
     defaultConfig.minSdk = 24
 }
 
-kotlin.jvmToolchain(21)
+kotlin {
+    jvmToolchain(21)
+}
 
 dependencies {
     implementation(project(":core-api"))
-    implementation(project(":presenter-api"))
-    implementation(project(":data"))
-    implementation(project(":database"))
-    implementation(project(":di-api"))
     implementation(project(":theme"))
 
     implementation(libs.dagger)
 
-    implementation(libs.play.services.maps)
-    implementation(libs.google.maps.compose)
-
-    implementation(libs.kotlinx.collections.immutable)
-    implementation(libs.kotlinx.datetime)
-
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.foundation.android)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
-
 }

@@ -12,42 +12,42 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.LinkAnnotation
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withLink
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.info.api.R
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
-import kotlin.text.Typography.bullet
+import kotlin.text.Typography
+import kotlin.text.appendLine
 
 @Composable
 fun InfoScreen(modifier: Modifier = Modifier) {
-    Surface(modifier) {
+    Surface(modifier = modifier) {
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Card(
                 Modifier
                     .padding(4.dp)
                     .fillMaxWidth()
             ) {
-                Column(Modifier.padding(8.dp)) {
+                Column(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.headlineLarge,
-                        text = "Ganzhornfest 2024"
+                        text = stringResource(R.string.ganzhornfest_with_year)
                     )
                     Spacer(modifier = Modifier.padding(4.dp))
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.labelLarge,
-                        text = "43. Herbstfest der Neckarsulmer Vereine",
-                        textAlign = TextAlign.Center
+                        style = MaterialTheme.typography.bodyLarge,
+                        text = stringResource(R.string.ganzhornfest_official_name),
                     )
                 }
             }
@@ -58,28 +58,29 @@ fun InfoScreen(modifier: Modifier = Modifier) {
             ) {
                 Column(Modifier.padding(8.dp)) {
                     Text(
-                        style = MaterialTheme.typography.labelLarge,
-                        text = "Samstag, 31. August 2024"
+                        style = MaterialTheme.typography.bodyLarge,
+                        //TODO: only provide date and let kotlinx datetiem do the formatting
+                        text = stringResource(R.string.date_of_saturday)
                     )
                     Text(
                         style = MaterialTheme.typography.bodyMedium,
-                        text = "16:00 - 01:00 Uhr"
+                        text = stringResource(R.string.opening_hours_saturday)
                     )
                     Text(
-                        style = MaterialTheme.typography.labelLarge,
-                        text = "Sonntag, 1. September 2024"
-                    )
-                    Text(
-                        style = MaterialTheme.typography.bodyMedium,
-                        text = "11:00 - 00:00 Uhr"
-                    )
-                    Text(
-                        style = MaterialTheme.typography.labelLarge,
-                        text = "Montag, 2. September 2024"
+                        style = MaterialTheme.typography.bodyLarge,
+                        text = stringResource(R.string.date_of_sunday)
                     )
                     Text(
                         style = MaterialTheme.typography.bodyMedium,
-                        text = "11:00 - 01:00 Uhr"
+                        text = stringResource(R.string.opening_hours_sunday)
+                    )
+                    Text(
+                        style = MaterialTheme.typography.bodyLarge,
+                        text = stringResource(R.string.date_of_monday)
+                    )
+                    Text(
+                        style = MaterialTheme.typography.bodyMedium,
+                        text = stringResource(R.string.opening_hours_monday)
                     )
                 }
             }
@@ -89,17 +90,18 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     .padding(4.dp)
                     .fillMaxWidth()
             ) {
-                Column(Modifier.padding(8.dp)) {
-                    Text(style = MaterialTheme.typography.labelLarge, text = "Neckarsulm")
-                    Text(
-                        style = MaterialTheme.typography.bodyMedium,
-                        text = "rund um das Deutschordensschloss,"
-                    )
-                    Text(
-                        style = MaterialTheme.typography.bodyMedium,
-                        text = "den umliegenden Gassen und dem Karlsplatz"
-                    )
-                }
+                Text(
+                    modifier = Modifier.padding(8.dp),
+                    text = buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                            appendLine("Neckarsulm")
+                        }
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
+                            appendLine("rund um das Deutschordensschloss,")
+                            append("den umliegenden Gassen und dem Karlsplatz")
+                        }
+                    }
+                )
             }
             ProvideTextStyle(value = MaterialTheme.typography.bodyMedium) {
                 Card(
@@ -110,23 +112,23 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     Text(
                         buildAnnotatedString {
                             append("39 Neckarsulmer Vereine bieten:"); appendLine()
-                            append("$bullet\t\teine Vielzahl internationaler und lokaler ");
+                            append("${Typography.bullet}\t\teine Vielzahl internationaler und lokaler ");
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("Speisen")
                             }
                             appendLine()
-                            append("$bullet\t\teine üppige ");
+                            append("${Typography.bullet}\t\teine üppige ");
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("Getränke")
                             }
                             append("auswahl")
                             appendLine()
-                            append("$bullet\t\tüber 20 künstlerische")
+                            append("${Typography.bullet}\t\tüber 20 künstlerische")
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append(" Veranstaltungen")
                             }
                             appendLine()
-                            append("$bullet\t\tund mehrere ")
+                            append("${Typography.bullet}\t\tund mehrere ")
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("Programmpunkte")
                             }
@@ -144,7 +146,7 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     Column(Modifier.padding(8.dp)) {
                         Text(
                             buildAnnotatedString {
-                                append("An den Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für Rufauto-Fahrten). Dieser Service wird ermöglicht durch die Stadt Neckarsulm, den HNV und die Busunternehmen OVR, RBS und Zartmann. Die Fahrpläne befinden sich auf den Aushängen an den Haltestellen sowie unter ")
+                                append("An den Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für Rufauto-Fahrten). Dieser Service wird ermöglicht durch die Stadt Neckarsulm, den HNV und die Busunternehmen FMO, OVR und Zartmann. Die Fahrpläne befinden sich auf den Aushängen an den Haltestellen sowie unter ")
                                 withLink(LinkAnnotation.Url("https://www.neckarsulmer-stadtbus.de")) {
                                     withStyle(
                                         SpanStyle(

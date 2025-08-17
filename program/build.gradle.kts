@@ -7,20 +7,10 @@ plugins {
 android {
     namespace = "de.heilsen.ganzhornfest.program"
     compileSdk = 36
-    defaultConfig {
-        minSdk = 24
-    }
-
-    buildFeatures {
-        compose = true
-        shaders = false
-    }
-
+    defaultConfig.minSdk = 24
 }
 
-kotlin {
-    jvmToolchain(17)
-}
+kotlin.jvmToolchain(21)
 
 dependencies {
     implementation(project(":core-api"))
@@ -39,8 +29,8 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.foundation.android)
     implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(project(":data"))
+    implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
 }

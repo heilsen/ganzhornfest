@@ -70,7 +70,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 kapt {
@@ -86,6 +86,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":database"))
     implementation(project(":di-api"))
+    implementation(project(":info-api"))
     implementation(project(":map"))
     implementation(project(":program"))
     implementation(project(":theme"))
