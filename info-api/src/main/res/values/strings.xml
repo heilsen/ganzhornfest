@@ -2,10 +2,10 @@
 <resources>
     <string name="ganzhornfest_official_name">44. Herbstfest der Neckarsulmer Vereine</string>
     <string name="ganzhornfest_with_year">Ganzhornfest 2025</string>
-    <string name="date_of_saturday">Samstag, 31. August 2024</string>
+    <string name="date_of_first_day">2025-09-06</string>
     <string name="opening_hours_saturday">16:00 - 01:00 Uhr</string>
-    <string name="date_of_sunday">Sonntag, 1. September 2024</string>
+    <string name="date_of_second_day">2025-09-07</string>
     <string name="opening_hours_sunday">11:00 - 00:00 Uhr</string>
-    <string name="date_of_monday">Montag, 2. September 2024</string>
+    <string name="date_of_third_day">2025-09-08</string>
     <string name="opening_hours_monday">11:00 - 01:00 Uhr</string>
 </resources>

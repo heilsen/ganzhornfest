@@ -4,7 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "de.heilsen.ganzhornfest.info.api"
+    namespace = "de.heilsen.ganzhornfest.datetime"
     compileSdk = 36
     defaultConfig.minSdk = 24
+}
+
+kotlin.jvmToolchain(21)
+
+dependencies {
+    implementation(libs.kotlinx.datetime)
 }

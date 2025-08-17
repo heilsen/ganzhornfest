@@ -16,18 +16,19 @@ dependencyResolutionManagement {
 rootProject.name = "Ganzhornfest"
 include(
     ":app",
-    ":presenter-api",
     ":bus-api",
     ":bus-impl",
     ":core-api",
     ":core-impl",
+    ":core:datetime-api",
     ":data",
     ":database",
     ":di-api",
     ":info-api",
     ":map",
+    ":presenter-api",
     ":program",
-    ":theme"
+    ":theme",
 )
 
 gradle.lifecycle.beforeProject {

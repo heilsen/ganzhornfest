@@ -16,6 +16,7 @@ kotlin {
 
 dependencies {
     implementation(project(":core-api"))
+    implementation(project(":core:datetime-api"))
     implementation(project(":theme"))
 
     implementation(libs.dagger)
@@ -25,4 +26,5 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.kotlinx.datetime)
 }
