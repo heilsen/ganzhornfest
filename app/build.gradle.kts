@@ -45,8 +45,7 @@ android {
 
     buildFeatures {
         buildConfig = true
-        compose = true
-        shaders = false
+        resValues = true
     }
 
     packaging {
@@ -58,7 +57,6 @@ android {
         lintConfig = file("lint.xml")
     }
 
-    @Suppress("UnstableApiUsage")
     testOptions {
         unitTests {
             isReturnDefaultValues = true
@@ -73,6 +71,10 @@ android {
 
 kotlin {
     jvmToolchain(17)
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
@@ -121,11 +123,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
-fun readProperties(fileName: String): Properties {
+private fun readProperties(fileName: String): Properties {
     val propertiesFile = rootProject.file(fileName)
     return Properties().apply {
         FileInputStream(propertiesFile).use {
