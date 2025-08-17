@@ -22,8 +22,10 @@ android {
         versionName = "2024.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        resourceConfigurations.add("de")
+        androidResources {
+            @Suppress("UnstableApiUsage")
+            localeFilters += setOf("de")
+        }
 
         //TODO: don't read properties in configuration phase
         val localProperties = readProperties("local.properties")
