@@ -1,5 +1,4 @@
 plugins {
-    // Kotlin Plugin requires to be applied in the root project
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.kapt) apply false
