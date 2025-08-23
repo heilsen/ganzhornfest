@@ -2,6 +2,7 @@
 DELETE FROM poi WHERE poi.id = 30; -- Sport-Union Neckarsulm - Rugby & Leichtathletik
 DELETE FROM poi WHERE poi.id = 19; -- Metropolitian Jazz Community
 DELETE FROM poi WHERE poi.id = 103; -- Metropolitian Jazz Community
+DELETE FROM poi WHERE poi.id = 105; -- Marktplatz
 INSERT INTO poi VALUES(40,'Sport-Union Neckarsulm - Rugby',1);
 INSERT INTO poi VALUES(41,'Medienkult',1);
 INSERT INTO poi VALUES(106,'Quergasse', 2);

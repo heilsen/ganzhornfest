@@ -43,7 +43,6 @@ INSERT INTO poi VALUES(41,'Medienkult',1);
 INSERT INTO poi VALUES(101,'Hauptbühne Museumsplatz', 2);
 INSERT INTO poi VALUES(102,'Bühne Karlsplatz', 2);
 INSERT INTO poi VALUES(104,'Karlsplatz', 2);
-INSERT INTO poi VALUES(105,'Marktplatz', 2);
 INSERT INTO poi VALUES(106,'Quergasse', 2);
 
 INSERT INTO poi VALUES(201,'Karussell',3);
