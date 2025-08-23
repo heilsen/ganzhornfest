@@ -25,7 +25,8 @@ dependencies {
 sqldelight {
     databases {
         create("GanzhornfestDb") {
-            packageName.set(android.namespace)
+            packageName = android.namespace
+            schemaOutputDirectory = file("src/main/sqldelight/databases")
         }
     }
 }
