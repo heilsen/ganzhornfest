@@ -1,35 +1,33 @@
 -- Add explicit autoincrement
+CREATE TABLE clubOffer_autoincrement (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, offerId INTEGER NOT NULL);
+INSERT INTO clubOffer_autoincrement(id, poiId, offerId) SELECT id, poiId, offerId FROM clubOffer;
+DROP TABLE clubOffer;
+ALTER TABLE clubOffer_autoincrement RENAME TO clubOffer;
 
--- CREATE TABLE clubOffer_autoincrement (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, offerId INTEGER NOT NULL);
--- INSERT INTO clubOffer_autoincrement(id, poiId, offerId) SELECT id, poiId, offerId FROM clubOffer;
--- DROP TABLE clubOffer;
--- ALTER TABLE clubOffer_autoincrement RENAME TO clubOffer;
---
--- CREATE TABLE coordinate_autoincrement (id INTEGER PRIMARY KEY NOT NULL, lat REAL NOT NULL, lng REAL NOT NULL);
--- INSERT INTO coordinate_autoincrement(id, lat, lng) SELECT id, lat, lng FROM coordinate;
--- DROP TABLE coordinate;
--- ALTER TABLE coordinate_autoincrement RENAME TO coordinate;
---
--- CREATE TABLE offer_autoincrement (id INTEGER PRIMARY KEY NOT NULL, typeId INTEGER NOT NULL, name TEXT NOT NULL, description TEXT);
--- INSERT INTO offer_autoincrement(id, typeId, name, description) SELECT id, typeId, name, description FROM offer;
--- DROP TABLE offer;
--- ALTER TABLE offer_autoincrement RENAME TO offer;
---
--- CREATE TABLE offerType_autoincrement (id INTEGER PRIMARY KEY NOT NULL, type TEXT NOT NULL);
--- INSERT INTO offerType_autoincrement(id, type) SELECT id, type FROM offerType;
--- DROP TABLE offerType;
--- ALTER TABLE offerType_autoincrement RENAME TO offerType;
---
--- CREATE TABLE poiCoordinate_autoincrement (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, coordinateId INTEGER NOT NULL);
--- INSERT INTO poiCoordinate_autoincrement(id, poiId, coordinateId) SELECT id, poiId, coordinateId FROM poiCoordinate;
--- DROP TABLE poiCoordinate;
--- ALTER TABLE poiCoordinate_autoincrement RENAME TO poiCoordinate;
---
--- CREATE TABLE poiType_autoincrement (id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL);
--- INSERT INTO poiType_autoincrement(id, name) SELECT id, name FROM poiType;
--- DROP TABLE poiType;
--- ALTER TABLE poiType_autoincrement RENAME TO poiType;
---
+CREATE TABLE coordinate_autoincrement (id INTEGER PRIMARY KEY NOT NULL, lat REAL NOT NULL, lng REAL NOT NULL);
+INSERT INTO coordinate_autoincrement(id, lat, lng) SELECT id, lat, lng FROM coordinate;
+DROP TABLE coordinate;
+ALTER TABLE coordinate_autoincrement RENAME TO coordinate;
+
+CREATE TABLE offer_autoincrement (id INTEGER PRIMARY KEY NOT NULL, typeId INTEGER NOT NULL, name TEXT NOT NULL, description TEXT);
+INSERT INTO offer_autoincrement(id, typeId, name, description) SELECT id, typeId, name, description FROM offer;
+DROP TABLE offer;
+ALTER TABLE offer_autoincrement RENAME TO offer;
+
+CREATE TABLE offerType_autoincrement (id INTEGER PRIMARY KEY NOT NULL, type TEXT NOT NULL);
+INSERT INTO offerType_autoincrement(id, type) SELECT id, type FROM offerType;
+DROP TABLE offerType;
+ALTER TABLE offerType_autoincrement RENAME TO offerType;
+
+CREATE TABLE poiCoordinate_autoincrement (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, coordinateId INTEGER NOT NULL);
+INSERT INTO poiCoordinate_autoincrement(id, poiId, coordinateId) SELECT id, poiId, coordinateId FROM poiCoordinate;
+DROP TABLE poiCoordinate;
+ALTER TABLE poiCoordinate_autoincrement RENAME TO poiCoordinate;
+
+CREATE TABLE poiType_autoincrement (id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL);
+INSERT INTO poiType_autoincrement(id, name) SELECT id, name FROM poiType;
+DROP TABLE poiType;
+ALTER TABLE poiType_autoincrement RENAME TO poiType;
 
 
 -- Update POI
@@ -76,11 +74,6 @@ INSERT INTO program VALUES(NULL,'Small Circle', 'Akustikpop', '2025-09-08T20:00:
 INSERT INTO program VALUES(NULL,'New2morrow','Partyband', '2025-09-08T21:00:00+02:00','2025-09-08T22:15:00+02:00',102);
 
 -- Update BusConnections
-CREATE TABLE busConnection_autoincrement(id INTEGER PRIMARY KEY AUTOINCREMENT, busLineId INTEGER NOT NULL, departure TEXT NOT NULL);
-INSERT INTO busConnection_autoincrement(id, busLineId, departure) SELECT id, busLineId, departure FROM busConnection;
-DROP TABLE busConnection;
-ALTER TABLE busConnection_autoincrement RENAME TO busConnection;
-
 CREATE TABLE busLine_autoincrement (id INTEGER PRIMARY KEY NOT NULL, busLine TEXT NOT NULL, stops TEXT, destination TEXT NOT NULL);
 INSERT INTO busLine_autoincrement(id, busLine, stops, destination) SELECT id, busLine, stops, destination FROM busLine;
 DROP TABLE busLine;
@@ -89,6 +82,10 @@ ALTER TABLE busLine_autoincrement RENAME TO busLine;
 INSERT INTO busLine VALUES(11,'91/692','Amorbach','Dahenfeld');
 INSERT INTO busLine VALUES(12,'694',NULL,'Obereisesheim');
 INSERT INTO busLine VALUES(13,'94',NULL,'Obereisesheim');
+--
+DROP TABLE busConnection;
+CREATE TABLE busConnection(id INTEGER PRIMARY KEY AUTOINCREMENT, busLineId INTEGER NOT NULL, departure TEXT NOT NULL);
+
 INSERT INTO busConnection VALUES(NULL,11,'2025-09-08T19:18:00+02:00');
 INSERT INTO busConnection VALUES(NULL,11,'2025-09-08T19:48:00+02:00');
 INSERT INTO busConnection VALUES(NULL,11,'2025-09-08T22:48:00+02:00');

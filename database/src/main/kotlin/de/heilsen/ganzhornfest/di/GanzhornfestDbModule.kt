@@ -10,7 +10,12 @@ import de.heilsen.ganzhornfest.database.GanzhornfestDb
 object GanzhornfestDbModule {
     @Provides
     fun database(application: Application): GanzhornfestDb {
-        val driver = AndroidSqliteDriver(GanzhornfestDb.Schema, application, "ganzhornfest.db")
+        val driver = AndroidSqliteDriver(
+            schema = GanzhornfestDb.Schema,
+            context = application,
+            name = "ganzhornfest.db",
+            useNoBackupDirectory = true
+        )
         return GanzhornfestDb(driver)
     }
 }
