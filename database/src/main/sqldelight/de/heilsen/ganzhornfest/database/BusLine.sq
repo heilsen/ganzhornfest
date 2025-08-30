@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "busLine" (id INTEGER PRIMARY KEY, busLine TEXT NOT NULL, stops TEXT, destination TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS busLine (id INTEGER PRIMARY KEY NOT NULL, busLine TEXT NOT NULL, stops TEXT, destination TEXT NOT NULL);
 
 INSERT INTO busLine VALUES(1,'91','Amorbach','Dahenfeld');
 INSERT INTO busLine VALUES(2,'624','Plattenwald-Amorbach','Dahenfeld');
