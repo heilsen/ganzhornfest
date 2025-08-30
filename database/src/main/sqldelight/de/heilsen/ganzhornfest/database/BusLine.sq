@@ -10,3 +10,6 @@ INSERT INTO busLine VALUES(7,'Sonderbus',NULL,'Neuberg');
 INSERT INTO busLine VALUES(8,'695',NULL,'Obereisesheim');
 INSERT INTO busLine VALUES(9,'94/694',NULL,'Obereisesheim');
 INSERT INTO busLine VALUES(10,'Sonderbus',NULL,'Obereisesheim');
+INSERT INTO busLine VALUES(11,'91/692','Amorbach','Dahenfeld');
+INSERT INTO busLine VALUES(12,'694',NULL,'Obereisesheim');
+INSERT INTO busLine VALUES(13,'94',NULL,'Obereisesheim');
