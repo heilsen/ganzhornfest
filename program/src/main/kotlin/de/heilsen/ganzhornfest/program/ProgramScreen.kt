@@ -82,7 +82,12 @@ fun ProgramScreenSuccess(
 @Composable
 private fun Programs(programs: List<Program>) {
     if (programs.isEmpty()) {
-        EmptyScreen()
+        EmptyScreen {
+            Text(
+                text = "Kein Programm gefunden.\nBitte die Auswahl oben ändern",
+                textAlign = TextAlign.Center
+            )
+        }
     } else {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp)
