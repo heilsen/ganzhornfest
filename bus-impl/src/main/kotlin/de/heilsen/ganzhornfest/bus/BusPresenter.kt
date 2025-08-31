@@ -25,7 +25,7 @@ class BusPresenter @Inject constructor(
     getOpeningDays: GetOpeningDaysUseCase
 ) {
     private var destination: String by mutableStateOf("Amorbach")
-    private val destinations: PersistentList<String> = persistentListOf("Amorbach", "Dahenfeld", "Neuberg")
+    private val destinations: PersistentList<String> = persistentListOf("Amorbach", "Dahenfeld", "Neuberg", "Obereisesheim")
     private var departureDate: LocalDate by mutableStateOf(selectDefaultDate())
     private val departureDates = getOpeningDays()
 
