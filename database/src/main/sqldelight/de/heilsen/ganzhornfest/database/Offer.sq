@@ -10,7 +10,7 @@ INSERT INTO offer VALUES(6,1,'alkoholfreie Getränke','Softdrinks: Limonade, Col
 INSERT INTO offer VALUES(7,1,'Hefeweizen','Bier');
 INSERT INTO offer VALUES(8,1,'Ayran','türkisches Joghurt-Getränk');
 INSERT INTO offer VALUES(9,1,'Altenmünster','Bier');
-INSERT INTO offer VALUES(10,1,'Aperol Spriz',NULL);
+INSERT INTO offer VALUES(10,1,'Aperol Spritz',NULL);
 INSERT INTO offer VALUES(11,1,'Chilly Willi',NULL);
 INSERT INTO offer VALUES(12,1,'Cocktails','alkoholfrei');
 INSERT INTO offer VALUES(13,1,'Cola',NULL);
@@ -77,7 +77,9 @@ INSERT INTO offer VALUES(75,1,'Helles','Bier');
 INSERT INTO offer VALUES(76,1,'Bier (alkoholfrei)',NULL);
 INSERT INTO offer VALUES(77,1,'Spezi','MezzoMix');
 INSERT INTO offer VALUES(78,1,'Becks','Bier');
-INSERT INTO offer VALUES(79,1,'Schorle',NULL);
+INSERT INTO offer VALUES(79,1,'Saftschorle',NULL);
+INSERT INTO offer VALUES(80,1,'Aperol',NULL);
+INSERT INTO offer VALUES(81,1,'Lillet',NULL);
 
 -- food
 INSERT INTO offer VALUES(101, 2, 'Linsen & Spätzle','Mit Saitenwürstle');
@@ -191,7 +193,7 @@ INSERT INTO offer VALUES(208, 2, 'Pasta (vegan)',NULL);
 INSERT INTO offer VALUES(209, 2, 'Piadina romana',NULL);
 INSERT INTO offer VALUES(210, 2, 'Ungarische Spezialitäten','In Gläsern und Tuben');
 INSERT INTO offer VALUES(211, 2, 'Ungarisches Paprikapulver','Süß oder Scharf');
-INSERT INTO offer VALUES(212, 2, 'Mittagstisch',NULL);
+INSERT INTO offer VALUES(212, 2, 'Mittagstisch','nur Montag mittag');
 INSERT INTO offer VALUES(213, 2, 'Feuerseele',NULL);
 INSERT INTO offer VALUES(214, 2, 'Rumänische Speisen',NULL);
 INSERT INTO offer VALUES(215, 2, 'Syrische Speisen',NULL);
@@ -205,6 +207,13 @@ INSERT INTO offer VALUES(222, 2, 'Brötchen',NULL);
 INSERT INTO offer VALUES(223, 2, 'Fingerfood',NULL);
 INSERT INTO offer VALUES(224, 2, 'Ciabatta Salsiccia',NULL);
 INSERT INTO offer VALUES(225, 2, 'Ciabatta Tomaten-Mozzarella',NULL);
+INSERT INTO offer VALUES(226, 2, 'Wedges',NULL);
+INSERT INTO offer VALUES(227, 2, 'Fleischkäsbrötchen',NULL);
+INSERT INTO offer VALUES(228, 2, 'Geschnetzeltes','mit Spätzle');
+INSERT INTO offer VALUES(229, 2, 'Gegrillte Sandwitches','mit Pommes');
+INSERT INTO offer VALUES(230, 2, 'Bubble Waffeln', NULL);
+INSERT INTO offer VALUES(231, 2, 'Geschnetzeltes/türkische Wurst im Brot', NULL);
+INSERT INTO offer VALUES(232, 2, 'Rindswurst', NULL);
 
 -- others
 INSERT INTO offer VALUES(301, 3, 'Schnappfalle', NULL);
