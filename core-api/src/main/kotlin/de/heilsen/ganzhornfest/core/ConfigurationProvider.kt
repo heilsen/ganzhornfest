@@ -1,6 +1,6 @@
 package de.heilsen.ganzhornfest.core
 
-import java.util.*
+import java.util.Locale
 
 interface ConfigurationProvider {
     fun getLocale(): Locale

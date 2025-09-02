@@ -34,11 +34,11 @@ import de.heilsen.ganzhornfest.core.ResourcesProvider
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
 import de.heilsen.ganzhornfest.di.getValue
 import de.heilsen.ganzhornfest.di.rememberAppScope
+import de.heilsen.ganzhornfest.search.impl.R
 import de.heilsen.ganzhornfest.theme.component.LoadingScreen
 import de.heilsen.ganzhornfest.theme.component.SelectionCard
 import de.heilsen.ganzhornfest.theme.component.SelectionConfig
 import kotlinx.collections.immutable.persistentListOf
-import de.heilsen.ganzhornfest.search.impl.R
 
 interface EntryPoint {
     val resourcesProvider: ResourcesProvider

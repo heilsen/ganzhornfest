@@ -2,7 +2,6 @@ package de.heilsen.ganzhornfest.bus
 
 import androidx.compose.runtime.Immutable
 import de.heilsen.ganzhornfest.core.datetime.dayOfTheWeek
-import de.heilsen.ganzhornfest.core.datetime.formatToLocalDate
 import de.heilsen.ganzhornfest.core.datetime.formatToLocalTime
 import kotlinx.datetime.LocalDateTime
 import java.text.DateFormat

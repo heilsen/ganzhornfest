@@ -16,9 +16,9 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.bus.preview.BusTicketPreviewParameterProvider
-import de.heilsen.ganzhornfest.theme.component.ticket.Ticket
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
+import de.heilsen.ganzhornfest.theme.component.ticket.Ticket
 
 @Composable
 fun BusTicket(

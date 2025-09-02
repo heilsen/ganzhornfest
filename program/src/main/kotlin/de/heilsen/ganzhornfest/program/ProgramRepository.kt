@@ -5,10 +5,10 @@ import app.cash.sqldelight.coroutines.mapToList
 import de.heilsen.ganzhornfest.database.GanzhornfestDb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
+import kotlin.time.Instant
 
 /**
  * Date Time is stored as Zulu time (Z = +T00:00) in our SQLite DB.

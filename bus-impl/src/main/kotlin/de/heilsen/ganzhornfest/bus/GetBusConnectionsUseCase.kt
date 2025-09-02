@@ -4,8 +4,8 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlin.time.Instant
 import javax.inject.Inject
+import kotlin.time.Instant
 
 class GetBusConnectionsUseCaseImpl @Inject constructor(
     private val busConnectionRepository: BusConnectionRepository

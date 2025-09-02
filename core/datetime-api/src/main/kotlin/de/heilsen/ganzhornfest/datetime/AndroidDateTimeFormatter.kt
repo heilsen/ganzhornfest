@@ -5,7 +5,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 import java.text.DateFormat
 import java.time.ZoneId
-import java.util.*
+import java.util.Date
 
 object AndroidDateTimeFormatter {
     /**

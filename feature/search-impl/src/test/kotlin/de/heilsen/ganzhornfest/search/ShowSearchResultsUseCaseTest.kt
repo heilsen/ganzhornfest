@@ -1,6 +1,5 @@
 package de.heilsen.ganzhornfest.search
 
-import androidx.compose.ui.Modifier.Companion.any
 import de.heilsen.ganzhornfest.core.ConfigurationProvider
 import de.heilsen.ganzhornfest.database.Offer
 import de.heilsen.ganzhornfest.database.Poi
@@ -12,7 +11,6 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.flowOf
-import net.bytebuddy.description.type.TypeDefinition.Sort.describe
 import java.util.Locale
 
 class ShowSearchResultsUseCaseTest : DescribeSpec({

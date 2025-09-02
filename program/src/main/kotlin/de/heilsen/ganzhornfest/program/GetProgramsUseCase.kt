@@ -6,8 +6,8 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlin.time.Instant
 import javax.inject.Inject
+import kotlin.time.Instant
 
 @OptIn(kotlin.time.ExperimentalTime::class)
 class GetProgramsUseCase @Inject constructor(private val programRepository: ProgramRepository){

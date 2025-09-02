@@ -1,12 +1,8 @@
 package de.heilsen.ganzhornfest.bus
 
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.forEach
-import kotlinx.coroutines.flow.map
 import kotlin.time.Instant
-import javax.inject.Inject
 
 @OptIn(kotlin.time.ExperimentalTime::class)
 interface GetBusConnectionsUseCase  {

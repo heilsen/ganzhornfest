@@ -1,7 +1,11 @@
 package de.heilsen.ganzhornfest
 
 import android.app.Application
-import de.heilsen.ganzhornfest.di.*
+import de.heilsen.ganzhornfest.di.AppComponent
+import de.heilsen.ganzhornfest.di.AppComponentProvider
+import de.heilsen.ganzhornfest.di.DaggerAppComponent
+import de.heilsen.ganzhornfest.di.appScope
+import de.heilsen.ganzhornfest.di.getValue
 import timber.log.Timber
 import javax.inject.Inject
 
