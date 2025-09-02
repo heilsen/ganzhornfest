@@ -1,9 +1,4 @@
 -- Add explicit autoincrement
-CREATE TABLE clubOffer_autoincrement (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, offerId INTEGER NOT NULL);
-INSERT INTO clubOffer_autoincrement(id, poiId, offerId) SELECT id, poiId, offerId FROM clubOffer;
-DROP TABLE clubOffer;
-ALTER TABLE clubOffer_autoincrement RENAME TO clubOffer;
-
 CREATE TABLE coordinate_autoincrement (id INTEGER PRIMARY KEY NOT NULL, lat REAL NOT NULL, lng REAL NOT NULL);
 INSERT INTO coordinate_autoincrement(id, lat, lng) SELECT id, lat, lng FROM coordinate;
 DROP TABLE coordinate;
@@ -18,11 +13,6 @@ CREATE TABLE offerType_autoincrement (id INTEGER PRIMARY KEY NOT NULL, type TEXT
 INSERT INTO offerType_autoincrement(id, type) SELECT id, type FROM offerType;
 DROP TABLE offerType;
 ALTER TABLE offerType_autoincrement RENAME TO offerType;
-
-CREATE TABLE poiCoordinate_autoincrement (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, coordinateId INTEGER NOT NULL);
-INSERT INTO poiCoordinate_autoincrement(id, poiId, coordinateId) SELECT id, poiId, coordinateId FROM poiCoordinate;
-DROP TABLE poiCoordinate;
-ALTER TABLE poiCoordinate_autoincrement RENAME TO poiCoordinate;
 
 CREATE TABLE poiType_autoincrement (id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL);
 INSERT INTO poiType_autoincrement(id, name) SELECT id, name FROM poiType;
@@ -165,7 +155,9 @@ INSERT INTO offer VALUES(230, 2, 'Bubble Waffeln', NULL);
 INSERT INTO offer VALUES(231, 2, 'Geschnetzeltes/türkische Wurst im Brot', NULL);
 INSERT INTO offer VALUES(232, 2, 'Rindswurst', NULL);
 
-DELETE FROM clubOffer;
+DROP TABLE clubOffer;
+CREATE TABLE clubOffer (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, offerId INTEGER NOT NULL);
+
 -- ASB
 INSERT INTO clubOffer VALUES(NULL,1,101);
 INSERT INTO clubOffer VALUES(NULL,1,102);
@@ -181,6 +173,7 @@ INSERT INTO clubOffer VALUES(NULL,2,12);
 INSERT INTO clubOffer VALUES(NULL,2,48);
 INSERT INTO clubOffer VALUES(NULL,2,35);
 INSERT INTO clubOffer VALUES(NULL,2,50);
+INSERT INTO clubOffer VALUES(NULL,2,301);
 -- Downtown Boys
 INSERT INTO clubOffer VALUES(NULL,3,105);
 INSERT INTO clubOffer VALUES(NULL,3,1);
@@ -424,3 +417,75 @@ INSERT INTO clubOffer VALUES(NULL,39,63);
 INSERT INTO clubOffer VALUES(NULL,39,48);
 INSERT INTO clubOffer VALUES(NULL,39,47);
 INSERT INTO clubOffer VALUES(NULL,39,50);
+
+-- Update Coordinates
+
+-- DLRG Schnappfalle
+INSERT INTO coordinate VALUES(42,49.191642467180756, 9.222679337044205);
+-- Pfadis neu
+INSERT INTO coordinate VALUES(43,49.19206004263777, 9.223478149219199);
+-- JES neu
+INSERT INTO coordinate VALUES(44,49.191525170335666, 9.223440837745734);
+-- Jugendfarm neu
+INSERT INTO coordinate VALUES(45,49.19167663922689, 9.22293956215638);
+-- Jugendfarm Ponies neu
+INSERT INTO coordinate VALUES(46,49.19091444474729, 9.222027469786271);
+-- Schützengilde neu
+INSERT INTO coordinate VALUES(47, 49.19156942808262, 9.22273528406468);
+-- Urbanstraße 12 (Türkspor)
+INSERT INTO coordinate VALUES(48, 49.191250042104485, 9.222475407152384);
+
+DROP TABLE poiCoordinate;
+CREATE TABLE poiCoordinate(id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, coordinateId INTEGER NOT NULL);
+
+INSERT INTO poiCoordinate VALUES(NULL,1,1);
+INSERT INTO poiCoordinate VALUES(NULL,2,2);
+INSERT INTO poiCoordinate VALUES(NULL,2,42);
+INSERT INTO poiCoordinate VALUES(NULL,3,4);
+INSERT INTO poiCoordinate VALUES(NULL,4,3);
+INSERT INTO poiCoordinate VALUES(NULL,5,5);
+INSERT INTO poiCoordinate VALUES(NULL,6,43);
+INSERT INTO poiCoordinate VALUES(NULL,7,7);
+INSERT INTO poiCoordinate VALUES(NULL,8,8);
+INSERT INTO poiCoordinate VALUES(NULL,9,9);
+INSERT INTO poiCoordinate VALUES(NULL,10,44);
+INSERT INTO poiCoordinate VALUES(NULL,11,45);
+INSERT INTO poiCoordinate VALUES(NULL,11,46);
+INSERT INTO poiCoordinate VALUES(NULL,12,13);
+INSERT INTO poiCoordinate VALUES(NULL,13,14);
+INSERT INTO poiCoordinate VALUES(NULL,14,15);
+INSERT INTO poiCoordinate VALUES(NULL,15,16);
+INSERT INTO poiCoordinate VALUES(NULL,16,17);
+INSERT INTO poiCoordinate VALUES(NULL,17,18);
+INSERT INTO poiCoordinate VALUES(NULL,18,19);
+INSERT INTO poiCoordinate VALUES(NULL,20,21);
+INSERT INTO poiCoordinate VALUES(NULL,21,12);
+INSERT INTO poiCoordinate VALUES(NULL,23,24);
+INSERT INTO poiCoordinate VALUES(NULL,23,25);
+INSERT INTO poiCoordinate VALUES(NULL,24,47);
+INSERT INTO poiCoordinate VALUES(NULL,25,27);
+INSERT INTO poiCoordinate VALUES(NULL,26,28);
+INSERT INTO poiCoordinate VALUES(NULL,27,29);
+INSERT INTO poiCoordinate VALUES(NULL,28,30);
+INSERT INTO poiCoordinate VALUES(NULL,29,31);
+INSERT INTO poiCoordinate VALUES(NULL,32,34);
+INSERT INTO poiCoordinate VALUES(NULL,33,35);
+INSERT INTO poiCoordinate VALUES(NULL,34,36);
+INSERT INTO poiCoordinate VALUES(NULL,35,37);
+INSERT INTO poiCoordinate VALUES(NULL,36,48);
+INSERT INTO poiCoordinate VALUES(NULL,37,32);
+INSERT INTO poiCoordinate VALUES(NULL,38,40);
+INSERT INTO poiCoordinate VALUES(NULL,39,41);
+INSERT INTO poiCoordinate VALUES(NULL,40,39);
+INSERT INTO poiCoordinate VALUES(NULL,41,38);
+INSERT INTO poiCoordinate VALUES(NULL,101,101);
+INSERT INTO poiCoordinate VALUES(NULL,102,102);
+INSERT INTO poiCoordinate VALUES(NULL,104,103);
+INSERT INTO poiCoordinate VALUES(NULL,201,201);
+INSERT INTO poiCoordinate VALUES(NULL,202,202);
+INSERT INTO poiCoordinate VALUES(NULL,301,301);
+INSERT INTO poiCoordinate VALUES(NULL,301,302);
+INSERT INTO poiCoordinate VALUES(NULL,301,303);
+INSERT INTO poiCoordinate VALUES(NULL,301,304);
+INSERT INTO poiCoordinate VALUES(NULL,401,401);
+INSERT INTO poiCoordinate VALUES(NULL,501,501);
