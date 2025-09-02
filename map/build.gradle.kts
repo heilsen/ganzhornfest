@@ -22,6 +22,8 @@ dependencies {
 
     implementation(libs.dagger)
 
+    implementation(libs.timber)
+
     implementation(libs.play.services.maps)
     implementation(libs.google.maps.compose)
 

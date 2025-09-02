@@ -8,6 +8,7 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 class ShowSearchResultsUseCaseImpl @Inject constructor(
@@ -20,8 +21,8 @@ class ShowSearchResultsUseCaseImpl @Inject constructor(
         searchTerm: String,
         category: Category
     ): Flow<PersistentList<SearchModel.Result>> {
-        println("searchTerm: $searchTerm")
-        println("category: $category")
+        Timber.tag("ShowSearchResults").i("searchTerm: $searchTerm")
+        Timber.tag("ShowSearchResults").i("category: $category")
         val resultFlow = when (category) {
             Category.Food -> {
                 if (searchTerm.isEmpty()) {

@@ -22,10 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.theme.component.GanzhornfestScaffold
+import timber.log.Timber
 
 @Composable
 fun DetailScreen(model: DetailModel) {
-    println("Got model: $model")
+    Timber.tag("DetailScreen").i("Got model: $model")
     GanzhornfestScaffold(
         title = { Text("TODO") },
         navigationIcon = {

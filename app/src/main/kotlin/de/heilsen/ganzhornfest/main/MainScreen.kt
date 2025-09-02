@@ -1,7 +1,6 @@
 package de.heilsen.ganzhornfest.main
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -55,6 +54,7 @@ import de.heilsen.ganzhornfest.program.ProgramViewModel
 import de.heilsen.ganzhornfest.search.SearchScreen
 import de.heilsen.ganzhornfest.search.SearchViewModel
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
+import timber.log.Timber
 
 interface EntryPoint {
     val busViewModel: BusViewModel
@@ -153,16 +153,16 @@ fun MainScreen() {
                         )
                     }
                     composable<Destination.Detail> { navBackStackEntry ->
-                        println("navigate to detail")
+                        Timber.tag("MainScreen").i("navigate to detail")
                         val detail: Destination.Detail = navBackStackEntry.toRoute()
-                        println("detail: $detail")
+                        Timber.tag("MainScreen").i("detail: $detail")
 
                         val detailEvent: DetailEvent = when (detail.type) {
                             "club" -> DetailEvent.Club(detail.title)
                             "food" -> DetailEvent.Offer(detail.title, OfferTypeUi.Food)
                             "drink" -> DetailEvent.Offer(detail.title, OfferTypeUi.Drink)
                             else -> {
-                                Log.e("MainScreen", "got unknown detail type")
+                                Timber.tag("MainScreen").e("got unknown detail type")
                                 DetailEvent.Init
                             }
                         }

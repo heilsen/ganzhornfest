@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.dagger)
+    implementation(libs.timber)
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.datetime)
     testImplementation(libs.kotest.runner.junit5)
