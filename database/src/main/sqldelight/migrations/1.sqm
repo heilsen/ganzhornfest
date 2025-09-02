@@ -489,3 +489,5 @@ INSERT INTO poiCoordinate VALUES(NULL,301,303);
 INSERT INTO poiCoordinate VALUES(NULL,301,304);
 INSERT INTO poiCoordinate VALUES(NULL,401,401);
 INSERT INTO poiCoordinate VALUES(NULL,501,501);
+
+UPDATE poiType SET name = 'event location';

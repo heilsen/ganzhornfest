@@ -17,12 +17,12 @@ class GetMarkersUseCase @Inject constructor(private val poiCoordinatesRepository
                             title = name,
                             markerUiType = when (type) {
                                 "club" -> MarkerUiType.CLUB
-                                "stage" -> MarkerUiType.STAGE
+                                "event location" -> MarkerUiType.EVENT_LOCATION
                                 "playground" -> MarkerUiType.PLAYGROUND
                                 "wc" -> MarkerUiType.WC
                                 "first aid" -> MarkerUiType.FIRST_AID
                                 "busstop" -> MarkerUiType.BUS_STOP
-                                else -> error("$type is not a knonw marker type")
+                                else -> error("markerUiType='$type' is not a known marker type")
                             },
                             latLng = latLng
                         )

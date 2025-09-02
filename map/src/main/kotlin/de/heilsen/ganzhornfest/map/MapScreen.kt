@@ -99,7 +99,7 @@ fun Legend(modifier: Modifier = Modifier) {
                         .background(Color(0xFFFF08F2))
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Bühne", style = MaterialTheme.typography.labelSmall)
+                Text(text = "Veranstaltungsort", style = MaterialTheme.typography.labelSmall)
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(

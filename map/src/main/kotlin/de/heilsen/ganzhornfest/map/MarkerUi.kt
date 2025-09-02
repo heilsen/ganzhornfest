@@ -13,7 +13,7 @@ data class MarkerUi(
 
     private fun convertMarkerUiTypeToMarkerHue(markerUiType: MarkerUiType) = when (markerUiType) {
         MarkerUiType.CLUB -> BitmapDescriptorFactory.HUE_VIOLET
-        MarkerUiType.STAGE -> BitmapDescriptorFactory.HUE_MAGENTA
+        MarkerUiType.EVENT_LOCATION -> BitmapDescriptorFactory.HUE_MAGENTA
         MarkerUiType.PLAYGROUND -> BitmapDescriptorFactory.HUE_ORANGE
         MarkerUiType.WC -> BitmapDescriptorFactory.HUE_AZURE
         MarkerUiType.FIRST_AID -> BitmapDescriptorFactory.HUE_RED
