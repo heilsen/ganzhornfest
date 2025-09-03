@@ -1,18 +1,25 @@
 package de.heilsen.ganzhornfest.info
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
@@ -32,43 +39,74 @@ import java.text.DateFormat
 import kotlin.time.ExperimentalTime
 
 
-@OptIn(ExperimentalTime::class)
+@OptIn(ExperimentalTime::class, ExperimentalMaterial3Api::class)
 @Composable
 fun InfoScreen(modifier: Modifier = Modifier) {
-    Surface(modifier = modifier) {
-        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+    val topAppBarState = rememberTopAppBarState()
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
+
+    Scaffold(
+        modifier = modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    scrolledContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                ),
+                title = {
+                    val isExpanded = topAppBarState.collapsedFraction < 0.5f
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.Start,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Text(
+                            style = MaterialTheme.typography.headlineLarge,
+                            text = stringResource(R.string.ganzhornfest_with_year),
+                        )
+                        if (isExpanded) {
+                            Spacer(modifier = Modifier.padding(4.dp))
+                            Text(
+                                style = MaterialTheme.typography.bodyLarge,
+                                text = stringResource(R.string.ganzhornfest_official_name),
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(top = 12.dp)
+                .padding(horizontal = 8.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
             Card(
                 Modifier
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                Column(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        style = MaterialTheme.typography.headlineLarge,
-                        text = stringResource(R.string.ganzhornfest_with_year),
-                    )
-                    Spacer(modifier = Modifier.padding(4.dp))
-                    Text(
-                        style = MaterialTheme.typography.headlineSmall,
-                        text = stringResource(R.string.ganzhornfest_official_name),
-                        textAlign = TextAlign.Center,
-                    )
-                }
             }
             Card(
                 Modifier
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                Column(Modifier.padding(8.dp)) {
+                Column(Modifier.padding(16.dp)) {
                     val context = LocalContext.current
                     Text(
                         fontWeight = FontWeight.Bold,
-                        text = localizedDateFormat(context, DateFormat.FULL, stringResource(R.string.date_of_first_day))
+                        text = localizedDateFormat(
+                            context,
+                            DateFormat.FULL,
+                            stringResource(R.string.date_of_first_day)
+                        )
                     )
                     Text(
                         text = stringResource(R.string.opening_hours_saturday)
@@ -84,7 +122,11 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     )
                     Text(
                         fontWeight = FontWeight.Bold,
-                        text = localizedDateFormat(context, DateFormat.FULL, stringResource(R.string.date_of_third_day))
+                        text = localizedDateFormat(
+                            context,
+                            DateFormat.FULL,
+                            stringResource(R.string.date_of_third_day)
+                        )
                     )
                     Text(
                         text = stringResource(R.string.opening_hours_monday)
@@ -94,11 +136,12 @@ fun InfoScreen(modifier: Modifier = Modifier) {
 
             Card(
                 Modifier
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .fillMaxWidth()
             ) {
                 Text(
-                    modifier = Modifier.padding(8.dp), text = buildAnnotatedString {
+                    modifier = Modifier.padding(16.dp),
+                    text = buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
                             appendLine("Neckarsulm")
                         }
@@ -106,15 +149,17 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                             appendLine("rund um das Deutschordensschloss,")
                             append("den umliegenden Gassen und dem Karlsplatz")
                         }
-                    })
+                    }
+                )
             }
             Card(
                 Modifier
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .fillMaxWidth()
             ) {
                 Text(
-                    buildAnnotatedString {
+                    modifier = Modifier.padding(16.dp),
+                    text = buildAnnotatedString {
                         append("39 Neckarsulmer Vereine bieten:"); appendLine()
                         append("${Typography.bullet}\t\tinternationale und lokale ");
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -137,16 +182,16 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                             append("Programmpunkte")
                         }
                         append(" für Kinder/Jugendliche")
-                    }, Modifier.padding(8.dp)
+                    }
                 )
             }
 
             Card(
                 Modifier
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                Column(Modifier.padding(8.dp)) {
+                Column(Modifier.padding(16.dp)) {
                     Text(
                         buildAnnotatedString {
                             append("An den Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für Rufauto-Fahrten). Dieser Service wird ermöglicht durch die Stadt Neckarsulm, den HNV und die Busunternehmen FMO, OVR und Zartmann. Die Fahrpläne befinden sich auf den Aushängen an den Haltestellen sowie unter ")
@@ -172,8 +217,9 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
             ) {
                 Text(
-                    buildAnnotatedString {
-                        append("Weitere Informationen auf ")
+                    modifier = Modifier.padding(16.dp),
+                    text = buildAnnotatedString {
+                        append("Offizielle Informationen auf: ")
                         withLink(LinkAnnotation.Url("https://www.ganzhornfest.com")) {
                             withStyle(
                                 SpanStyle(
@@ -184,8 +230,7 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                                 append("https://www.ganzhornfest.com")
                             }
                         }
-                        append(".")
-                    }, Modifier.padding(8.dp)
+                    }
                 )
             }
         }

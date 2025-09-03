@@ -44,7 +44,7 @@ fun GanzhornfestScaffold(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GanzhornfestTopAppBar(
-    topAppBarColors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+    topAppBarColors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
 ) {
