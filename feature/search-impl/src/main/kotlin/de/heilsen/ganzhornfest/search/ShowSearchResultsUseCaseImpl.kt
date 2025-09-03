@@ -1,8 +1,7 @@
 package de.heilsen.ganzhornfest.search
 
 import de.heilsen.ganzhornfest.core.ConfigurationProvider
-import de.heilsen.ganzhornfest.drink.data.DrinkRepository
-import de.heilsen.ganzhornfest.food.data.FoodRepository
+import de.heilsen.ganzhornfest.offer.data.OfferRepository
 import de.heilsen.ganzhornfest.poi.PoiRepository
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -12,8 +11,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ShowSearchResultsUseCaseImpl @Inject constructor(
-    private val foodRepository: FoodRepository,
-    private val drinkRepository: DrinkRepository,
+    private val offerRepository: OfferRepository,
     private val poiRepository: PoiRepository,
     private val configurationProvider: ConfigurationProvider
 ): ShowSearchResultsUseCase {
@@ -26,9 +24,9 @@ class ShowSearchResultsUseCaseImpl @Inject constructor(
         val resultFlow = when (category) {
             Category.Food -> {
                 if (searchTerm.isEmpty()) {
-                    foodRepository.getAll()
+                    offerRepository.getAllFood()
                 } else {
-                    foodRepository.selectByName(searchTerm)
+                    offerRepository.selectFoodByName(searchTerm)
                 }.map { list ->
                     list.map { item ->
                         SearchModel.Result(
@@ -41,9 +39,9 @@ class ShowSearchResultsUseCaseImpl @Inject constructor(
 
             Category.Drink -> {
                 if (searchTerm.isEmpty()) {
-                    drinkRepository.getAll()
+                    offerRepository.getAllDrinks()
                 } else {
-                    drinkRepository.selectByName(searchTerm)
+                    offerRepository.selectDrinkByName(searchTerm)
                 }.map { list ->
                     list.map { item ->
                         SearchModel.Result(

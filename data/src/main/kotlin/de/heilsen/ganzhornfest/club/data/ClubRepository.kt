@@ -12,6 +12,12 @@ class ClubRepository @Inject constructor(
 ) {
 
     fun getOffersByClub(clubName: String): Flow<List<String>> {
-        return ganzhornfestDb.clubOfferQueries.selectOffersByClubName(clubName).asFlow().mapToList(Dispatchers.IO)
+        return ganzhornfestDb.clubOfferQueries.selectOffersByClubName(clubName).asFlow()
+            .mapToList(Dispatchers.IO)
+    }
+
+    fun getClubsByOffer(offerName: String): Flow<List<String>> {
+        return ganzhornfestDb.clubOfferQueries.selectClubsByOfferName(offerName).asFlow()
+            .mapToList(Dispatchers.IO)
     }
 }

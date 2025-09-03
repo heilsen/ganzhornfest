@@ -264,5 +264,12 @@ selectOffersByClubName:
 SELECT offer.name
 FROM clubOffer
 INNER JOIN poi ON clubOffer.poiId = poi.id
-INNER JOIN offer ON offer.id = clubOffer.id
+INNER JOIN offer ON offer.id = clubOffer.offerId
 WHERE poi.name LIKE '%' || :name || '%';
+
+selectClubsByOfferName:
+SELECT DISTINCT poi.name
+FROM poi
+INNER JOIN clubOffer ON clubOffer.poiId = poi.id
+INNER JOIN offer ON offer.id = clubOffer.offerId
+WHERE offer.name LIKE '%' || :name || '%';

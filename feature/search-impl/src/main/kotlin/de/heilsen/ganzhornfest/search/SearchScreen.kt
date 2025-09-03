@@ -59,6 +59,7 @@ fun SearchScreen(
         )
     ),
     onEvent: (SearchEvent) -> Unit = {},
+    onSearchResultClicked: (String, Category) -> Unit = { _, _ -> },
     onBackPressed: () -> Unit = {}
 ) {
     Scaffold(
@@ -95,7 +96,12 @@ fun SearchScreen(
             ) {
                 when (searchModel) {
                     is SearchModel.Data -> {
-                        SearchScreenSuccess(searchModel, onEvent, resourcesProvider)
+                        SearchScreenSuccess(
+                            searchModel,
+                            onEvent,
+                            onSearchResultClicked,
+                            resourcesProvider
+                        )
                     }
 
                     SearchModel.Loading -> LoadingScreen()
@@ -110,6 +116,7 @@ fun SearchScreen(
 private fun SearchScreenSuccess(
     searchModel: SearchModel.Data,
     onEvent: (SearchEvent) -> Unit,
+    onSearchResultClicked: (String, Category) -> Unit,
     resourcesProvider: ResourcesProvider
 ) {
     Column(
@@ -142,7 +149,9 @@ private fun SearchScreenSuccess(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(searchModel.results) { (message, description) ->
-                Card(onClick = { /* TODO: onClick(message) */ }) {
+                Card(onClick = {
+                    onSearchResultClicked(message, searchModel.selectedCategory)
+                }) {
                     Column(Modifier.Companion.padding(8.dp)) {
                         Text(message, style = MaterialTheme.typography.headlineSmall)
                         Text(description)

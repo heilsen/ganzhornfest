@@ -71,3 +71,13 @@ FROM poiCoordinate AS pc
 INNER JOIN poi ON pc.poiId = poi.id
 INNER JOIN coordinate AS c ON pc.coordinateId = c.id
 WHERE poi.typeId = 1 AND poi.name LIKE '%' || :name || '%';
+
+selectByOfferName:
+SELECT poi.name AS poiName, c.lat, c.lng
+FROM poi
+INNER JOIN clubOffer ON clubOffer.poiId = poi.id
+INNER JOIN offer ON offer.id = clubOffer.offerId
+INNER JOIN poiCoordinate AS pc ON pc.poiId = poi.id
+INNER JOIN coordinate AS c ON pc.coordinateId = c.id
+WHERE poi.typeId = 1
+AND offer.name LIKE '%' || :name || '%';

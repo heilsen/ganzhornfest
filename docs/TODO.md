@@ -1,44 +1,37 @@
-## MVP
-- [ ] Details Screen
-    - [ ] Detail map for 1+ club(s) showing all their offerings
-    - [ ] navigation to Details from Search Screen
-
-## Post-MVP
-
-### Bugs
-- [ ] Fix (too many) recompositions in BusScreen
-
-### Internal
+# Internal
 1. [ ] PlayStore release readiness
-   - [ ] Add crash reporting (e.g., Firebase Crashlytics) with opt-in analytics respecting privacy
-   - [ ] Standardize Timber usage levels; add structured logging for critical flows
+    - [ ] Add crash reporting (e.g., Firebase Crashlytics) with opt-in analytics respecting privacy
+    - [ ] Standardize Timber usage levels; add structured logging for critical flows
 
 2. [ ] Detail Screen
-    - [ ] Replace passing detail type as String with a sealed class or enum across navigation routes; prefer IDs over titles for selection (align with TODO.md line 30)
+    - [ ] Replace passing detail type as String with a sealed class or enum across navigation
+      routes; prefer IDs over titles for selection
     - [ ] Add deep links and saved state handling for back stack restoration
     - [ ] Start destination: configure to Map when Details exist; remove temporary TODO
 
 3. [ ] Search screen polishing
-   - [ ] Replace dropdown with multi-selection FilterChips (TODO.md)
-   - [ ] Optimize search query performance; debounce input and leverage SQL indexes
-   - [ ] Add navigation into Details using IDs and typed routes
+    - [ ] Replace dropdown with multi-selection FilterChips
+    - [ ] Optimize search query performance; debounce input and leverage SQL indexes
+    - [ ] Add navigation into Details using IDs and typed routes
 
 4. [ ] Map screen improvements
-   - [ ] Implement marker clustering if number of markers is large
-   - [ ] Add legend for marker colors; ensure consistent MarkerUiType to hue mapping (map/MarkerUi.kt)
-   - [ ] Preload marker icons to avoid jank; consider using custom bitmaps instead of default hues
+    - [ ] Implement marker clustering if number of markers is large
+    - [ ] Add legend for marker colors; ensure consistent MarkerUiType to hue mapping (
+      map/MarkerUi.kt)
+    - [ ] Preload marker icons to avoid jank; consider using custom bitmaps instead of default hues
 
 5. [ ] Program and Info screens enhancements
-   - [ ] Replace hardcoded counts in InfoScreen with dynamic SQL query (TODO.md)
-   - [ ] Implement timetable layout for Program screen as per reference link; extract shared Selection components and unify with SelectionScreen
+    - [ ] Replace hardcoded counts in InfoScreen with dynamic SQL query
+    - [ ] Implement timetable layout for Program screen as per reference link; extract shared
+      Selection components and unify with SelectionScreen
 
 6. [ ] Compose best practices and performance
-    - [ ] Enable Compose Compiler metrics and reports; fix recomposition hotspots (TODO.md notes “too many recompositions” in BusScreen)
+    - [ ] Enable Compose Compiler metrics and reports; fix recomposition hotspots (too many
+      recompositions in BusScreen)
     - [ ] Mark stable UI models with @Stable or use immutable types; ensure MarkerUi is stable or precompute icon via remember (file: map/MarkerUi.kt)
     - [ ] Avoid heavy work inside composables; move IO/state transformations out of composition where possible
     - [ ] Ensure state hoisting: presenters should remain pure w.r.t. side-effects
-    - [ ] Add Previews for all major screens and reusable components; follow TODO.md for Selection/SelectionCard previews
-    - [ ] Fix orientation change issue (TODO.md) by validating state restoration and ViewModel scoping
+    - [ ] Add Previews for all major screens and reusable components
     - [ ] MarkerUi currently constructs a BitmapDescriptor per instance; consider caching or using remember in composables for performance and to avoid allocations.
 
 7. [ ] Time and date API consistency
@@ -58,16 +51,17 @@
     - [ ] Add caching strategies where appropriate
 
 10. [ ] Code quality: static analysis and style
-     - [ ] Enable Compose Lint (in TODO.md) and address reported issues
-     - [ ] Add Detekt and Ktlint with a shared baseline; integrate into CI
-     - [ ] Ensure public APIs have KDoc in api modules
+    - [ ] Enable Compose Lint and address reported issues
+    - [ ] Add Detekt and Ktlint with a shared baseline; integrate into CI
+    - [ ] Ensure public APIs have KDoc in api modules
 
 11. [ ] Testing: unit, UI, and integration
-     - [ ] Add unit tests for presenters (BusPresenter, ProgramPresenter, SearchPresenter) with Turbine for Flow testing
-     - [ ] Add DB integration tests for SQLDelight queries and migrations
-     - [ ] Add UI tests for navigation (Detail flow, Search to Detail, Map to Detail)
-     - [ ] Add snapshot tests for Compose components where stable
-     - [ ] Introduce test fixtures for sample data
+    - [ ] Add unit tests for presenters (BusPresenter, ProgramPresenter, SearchPresenter) with
+      Turbine for Flow testing
+    - [ ] Add DB integration tests for SQLDelight queries and migrations
+    - [ ] Add UI tests for navigation (Detail flow, Search to Detail, Map to Detail)
+    - [ ] Add snapshot tests for Compose components where stable
+    - [ ] Introduce test fixtures for sample data
 
 12. [ ] Build and CI/CD
     - [ ] Add GitHub Actions (or equivalent) pipeline: assemble, test, lint, detekt, ktlint, and build cache config

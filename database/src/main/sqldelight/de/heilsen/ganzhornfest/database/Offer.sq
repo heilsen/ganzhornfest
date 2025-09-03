@@ -253,3 +253,6 @@ AND (name LIKE '%' || :name || '%' OR description LIKE '%' || :name || '%');
 selectByName:
 SELECT * FROM offer
 WHERE name LIKE '%' || :name || '%' OR description LIKE '%' || :name || '%';
+
+selectAll:
+SELECT * FROM offer;

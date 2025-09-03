@@ -22,6 +22,14 @@ class ClubCoordinatesRepository @Inject constructor(
         .selectByClubName(clubName, mapper = { name, lat, lng -> MarkerDTO(name, "club", LatLng(lat, lng)) })
         .asFlow()
         .mapToList(Dispatchers.IO)
+
+    fun getClubCoordinatesByOffer(offerName: String): Flow<List<MarkerDTO>> = ganzhornfestDb
+        .poiCoordinateQueries
+        .selectByOfferName(
+            offerName,
+            mapper = { name, lat, lng -> MarkerDTO(name, "club", LatLng(lat, lng)) })
+        .asFlow()
+        .mapToList(Dispatchers.IO)
 }
 
 

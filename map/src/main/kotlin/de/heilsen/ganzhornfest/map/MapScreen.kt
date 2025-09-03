@@ -33,53 +33,65 @@ import com.google.maps.android.compose.rememberMarkerState
 @Composable
 fun MapScreen(
     modifier: Modifier = Modifier,
-    mapModel: MapModel = MapModel.Loading,
-    onEvent: (MapEvent) -> Unit = {},
+    mapModel: MapModel = MapModel.Loading(),
     onMarkerSelected: (String, MarkerUiType) -> Unit = { _, _ -> }
 ) {
-    val center = LatLng(49.191669847836216, 9.222756134219502)
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(center, 18f)
-    }
-    Box {
-        // Google Maps wants to also be able show Points on the Bound in the center, therefore the area must be very small around the center
-        val ganzhornfestArea = LatLngBounds(
-            LatLng(49.18859845006538, 9.219649084689227), // SW:Bahnhof
-            LatLng(49.19498798073398, 9.225975728423913) // NE:Frauenkirche
-        )
-        GoogleMap(
-            modifier = Modifier.align(Alignment.TopStart),
-            cameraPositionState = cameraPositionState,
-            contentPadding = PaddingValues(bottom = 70.dp),
-            properties = MapProperties(
-                mapType = MapType.HYBRID,
-                minZoomPreference = 16f,
-                latLngBoundsForCameraTarget = ganzhornfestArea
-            )
-        ) {
-            if (mapModel is MapModel.Data) {
-                for (marker in mapModel.markers) {
-                    val markerState = rememberMarkerState(position = marker.latLng)
-                    Marker(
-                        state = markerState,
-                        title = marker.title,
-                        icon = marker.icon,
-                        onInfoWindowClick = {
-                            onMarkerSelected(
-                                marker.title,
-                                marker.markerUiType
-                            )
-                        },
-                        onInfoWindowClose = { }
+    when (mapModel) {
+        is MapModel.Data -> {
+            //TODO: center around the club in the details screen
+            val center = LatLng(49.191669847836216, 9.222756134219502)
+            val cameraPositionState = rememberCameraPositionState {
+                position = CameraPosition.fromLatLngZoom(center, 18f)
+            }
+            Box(modifier = modifier) {
+                // Google Maps wants to also be able show Points on the Bound in the center, therefore the area must be very small around the center
+                val ganzhornfestArea = LatLngBounds(
+                    LatLng(49.18859845006538, 9.219649084689227), // SW:Bahnhof
+                    LatLng(49.19498798073398, 9.225975728423913) // NE:Frauenkirche
+                )
+                GoogleMap(
+                    modifier = Modifier.align(Alignment.TopStart),
+                    cameraPositionState = cameraPositionState,
+                    contentPadding = if (mapModel.isFullscreen) PaddingValues(bottom = 70.dp) else PaddingValues(
+                        0.dp
+                    ),
+                    properties = MapProperties(
+                        mapType = MapType.HYBRID,
+                        minZoomPreference = 16f,
+                        latLngBoundsForCameraTarget = ganzhornfestArea
+                    )
+                ) {
+                    for (marker in mapModel.markers) {
+                        val markerState = rememberMarkerState(position = marker.latLng)
+                        Marker(
+                            state = markerState,
+                            title = marker.title,
+                            icon = marker.icon,
+                            onInfoWindowClick = {
+                                onMarkerSelected(
+                                    marker.title,
+                                    marker.markerUiType
+                                )
+                            },
+                            onInfoWindowClose = { }
+                        )
+                        if (mapModel.showWindowInfo) markerState.showInfoWindow()
+                    }
+                }
+                if (mapModel.showLegend) {
+                    Legend(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .align(Alignment.BottomStart)
                     )
                 }
             }
+
         }
-        Legend(
-            modifier = Modifier
-                .padding(4.dp)
-                .align(Alignment.BottomStart)
-        )
+
+        is MapModel.Loading -> {
+            /*TODO("implement loading")*/
+        }
     }
 }
 
