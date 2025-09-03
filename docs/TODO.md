@@ -3,7 +3,6 @@
     - [ ] Detail map for 1+ club(s) showing all their offerings
     - [ ] navigation to Details from Search Screen
 - [ ] Update PlayStore assets
-- [ ] Review database storage: confirm intended behavior for backup/restore strategy
 
 ## Post-MVP
 
