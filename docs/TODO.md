@@ -2,7 +2,6 @@
 - [ ] Details Screen
     - [ ] Detail map for 1+ club(s) showing all their offerings
     - [ ] navigation to Details from Search Screen
-- [ ] Update PlayStore assets
 
 ## Post-MVP
 
@@ -12,7 +11,6 @@
 
 ### Internal
 1. [ ] PlayStore release readiness
-   - [ ] Prepare app metadata and store assets workflow
    - [ ] Add crash reporting (e.g., Firebase Crashlytics) with opt-in analytics respecting privacy
    - [ ] Standardize Timber usage levels; add structured logging for critical flows
 
