@@ -6,7 +6,6 @@
 ## Post-MVP
 
 ### Bugs
-- [ ] Fix orientation change issue
 - [ ] Fix (too many) recompositions in BusScreen
 
 ### Internal
