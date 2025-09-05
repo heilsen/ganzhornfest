@@ -10,14 +10,15 @@
     - [ ] Start destination: configure to Map when Details exist; remove temporary TODO
 
 3. [ ] Search screen polishing
+    - [ ] Replace SearchBar Composable with newest SearchBar composable
     - [ ] Replace dropdown with multi-selection FilterChips
     - [ ] Optimize search query performance; debounce input and leverage SQL indexes
     - [ ] Add navigation into Details using IDs and typed routes
 
 4. [ ] Map screen improvements
     - [ ] Implement marker clustering if number of markers is large
-    - [ ] Add legend for marker colors; ensure consistent MarkerUiType to hue mapping (
-      map/MarkerUi.kt)
+   - [ ] Add legend for marker colors; ensure consistent MarkerUiType to hue mapping (
+     map/MarkerUi.kt)
     - [ ] Preload marker icons to avoid jank; consider using custom bitmaps instead of default hues
 
 5. [ ] Program and Info screens enhancements

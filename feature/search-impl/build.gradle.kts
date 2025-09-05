@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.androidx.compose.foundation.android)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.dagger)
     implementation(libs.timber)

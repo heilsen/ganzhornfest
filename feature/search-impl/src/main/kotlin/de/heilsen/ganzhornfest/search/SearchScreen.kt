@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,27 +63,43 @@ fun SearchScreen(
     onSearchResultClicked: (String, Category) -> Unit = { _, _ -> },
     onBackPressed: () -> Unit = {}
 ) {
+    val entryPoint: EntryPoint by rememberAppScope()
+    val resourcesProvider = entryPoint.resourcesProvider
+
+    var query by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
-            val entryPoint: EntryPoint by rememberAppScope()
-            val resourcesProvider = entryPoint.resourcesProvider
-            var query by remember { mutableStateOf("") }
-
             SearchBar(
                 leadingIcon = {
-                    IconButton(onClick = onBackPressed) {
+                    IconButton(onClick = {
+                        if (expanded) {
+                            query = ""
+                            onEvent(SearchEvent.Clear)
+                            expanded = false
+                        } else {
+                            onBackPressed()
+                        }
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "zurück")
                     }
                 },
                 query = query,
-                active = true,
-                onActiveChange = { /* no-op */ },
+                active = expanded,
+                onActiveChange = { isActive ->
+                    expanded = isActive
+                    if (!isActive) {
+                        query = ""
+                        onEvent(SearchEvent.Clear)
+                    }
+                },
                 onQueryChange = {
                     query = it
                     onEvent(SearchEvent.Search(it))
                 },
                 onSearch = { onEvent(SearchEvent.Search(it)) },
-                placeholder = { Text(resourcesProvider.getString(de.heilsen.ganzhornfest.search.impl.R.string.empty_search)) },
+                placeholder = { Text(resourcesProvider.getString(R.string.empty_search)) },
                 trailingIcon = {
                     Icon(
                         modifier = Modifier.Companion.clickable {
@@ -90,7 +107,7 @@ fun SearchScreen(
                             onEvent(SearchEvent.Clear)
                         },
                         imageVector = Icons.Default.Clear,
-                        contentDescription = resourcesProvider.getString(de.heilsen.ganzhornfest.search.impl.R.string.clear_search),
+                        contentDescription = resourcesProvider.getString(R.string.clear_search),
                     )
                 },
             ) {
@@ -108,7 +125,22 @@ fun SearchScreen(
                 }
             }
         },
-        content = {}
+        content = { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                when (searchModel) {
+                    is SearchModel.Data -> {
+                        SearchScreenSuccess(
+                            searchModel,
+                            onEvent,
+                            onSearchResultClicked,
+                            resourcesProvider
+                        )
+                    }
+
+                    SearchModel.Loading -> LoadingScreen()
+                }
+            }
+        }
     )
 }
 
