@@ -101,14 +101,7 @@ fun MainScreen() {
                         icon = {
                             Icon(Icons.Default.LocationOn, stringResource(R.string.map))
                         },
-                        onClick = {
-                            navController.navigate(
-                                Destination.Detail(
-                                    "Kolpingsfamilie",
-                                    DetailType.Club
-                                )
-                            )
-                        },
+                        onClick = { navController.navigate(Destination.Map) },
                         label = { Text(stringResource(R.string.map)) })
                     NavigationBarItem(
                         currentDestination?.hasRoute<Destination.Program>() ?: false,
@@ -152,10 +145,32 @@ fun MainScreen() {
                         MapScreen(
                             mapModel = mapModel,
                             onMarkerSelected = { title, type ->
-                                if (type == MarkerUiType.CLUB) {
-                                    navController.navigate(
-                                        Destination.Detail(title, DetailType.Club)
-                                    )
+                                when (type) {
+                                    MarkerUiType.CLUB -> {
+                                        navController.navigate(
+                                            Destination.Detail(title, DetailType.Club)
+                                        )
+                                    }
+
+                                    MarkerUiType.EVENT_LOCATION -> {
+                                        navController.navigate(Destination.Program)
+                                    }
+
+                                    MarkerUiType.PLAYGROUND -> {
+                                        navController.navigate(Destination.Program)
+                                    }
+
+                                    MarkerUiType.WC -> {
+                                        // Nothing to see here
+                                    }
+
+                                    MarkerUiType.FIRST_AID -> {
+                                        // Nothing to see here
+                                    }
+
+                                    MarkerUiType.BUS_STOP -> {
+                                        navController.navigate(Destination.Bus)
+                                    }
                                 }
                             }
                         )
