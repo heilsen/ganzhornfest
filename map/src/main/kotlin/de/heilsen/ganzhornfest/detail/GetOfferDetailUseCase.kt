@@ -22,13 +22,10 @@ class GetOfferDetailUseCase @Inject constructor(
             val asdf = it.map { (clubName, type /* assuming always "club" */, latLng) ->
                 MarkerUi(clubName, latLng, MarkerUiType.CLUB)
             }
-            println("asdf: $asdf")
             return@map asdf
         }
 
         return combine(clubsFlow, markerUiFlow) { clubs, markerUiList ->
-            println("clubs: ${clubs.joinToString()}")
-            println("markerUI: $markerUiList")
             DetailModel.Success(
                 title = offerName,
                 type = DetailType.Offer,

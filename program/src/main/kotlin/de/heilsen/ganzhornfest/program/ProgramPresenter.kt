@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.atTime
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
@@ -46,7 +45,7 @@ class ProgramPresenter @Inject constructor(
                 /*no-op*/
             }
         }
-        val start = selectedDate.atStartOfDayIn(TimeZone.currentSystemDefault())
+        val start = selectedDate.atTime(3, 0).toInstant(TimeZone.currentSystemDefault())
         val end = selectedDate.plus(1, DateTimeUnit.DAY).atTime(3, 0).toInstant(TimeZone.currentSystemDefault())
         val programListOrNull: ImmutableList<Program>? by getPrograms(selectedLocation, start, end).collectAsState(initial = null)
 
