@@ -1,112 +1,107 @@
-# Internal
-1. [ ] PlayStore release readiness
-   - [ ] Add crash reporting (e.g., Firebase Crashlytics) with opt-in analytics respecting privacy
-   - [ ] Standardize Timber usage levels; add structured logging for critical flows
+# TODO
 
-2. [ ] Detail Screen
-   - [ ] Replace passing detail type as String with a sealed class or enum across navigation
-      routes; prefer IDs over titles for selection
-   - [ ] Add deep links and saved state handling for back stack restoration
-   - [ ] Start destination: configure to Map when Details exist; remove temporary TODO
+## High Priority
 
-3. [ ] Search screen polishing
-   - [ ] Replace SearchBar Composable with newest SearchBar composable
-   - [ ] Replace dropdown with multi-selection FilterChips
-   - [ ] Optimize search query performance; debounce input and leverage SQL indexes
-   - [ ] Add navigation into Details using IDs and typed routes
+- [ ] Make festival data edition-driven instead of hardcoded to 2025
+  - Replace `GetOpeningDaysFor2025` with a neutral festival config/source of truth
+  - Remove hardcoded 2025 values from seeded SQL data, `strings.xml`, and `InfoScreen`
+  - Document the yearly data-update workflow for the next festival season
 
-4. [ ] Map screen improvements
-   - [ ] Implement marker clustering if number of markers is large
-   - [ ] Add legend for marker colors; ensure consistent MarkerUiType to hue mapping (
-     map/MarkerUi.kt)
-   - [ ] Preload marker icons to avoid jank; consider using custom bitmaps instead of default hues
+- [ ] Fix detail/navigation architecture
+  - Replace title-based detail routing with stable IDs
+  - Scope screen state to the `NavBackStackEntry` instead of using app-wide shared view models
+  - Remove the `DetailEvent` push from `MainScreen` before navigation
+  - Add deep-link and back stack restoration support once routes are ID-based
 
-5. [ ] Program and Info screens enhancements
-   - [ ] Use LocalDateTime for GetOpeningDaysUseCase and add the opening hours (16 and 11 o'clock)
-     and then use that time for the bus/program start/end times
-   - [ ] Replace hardcoded counts in InfoScreen with dynamic SQL query
-   - [ ] Implement timetable layout for Program screen as per reference link; extract shared
-      Selection components and unify with SelectionScreen
+- [ ] Fill in missing loading and error states
+  - Show a proper loading state in `MapScreen`
+  - Show a proper loading state in `DetailScreen`
+  - Add a reusable error state for failed DB/data loads instead of blank screens
 
-6. [ ] Compose best practices and performance
-   - [ ] Enable Compose Compiler metrics and reports; fix recomposition hotspots (too many
-      recompositions in BusScreen)
-   - [ ] Mark stable UI models with @Stable or use immutable types; ensure MarkerUi is stable or
-     precompute icon via remember (file: map/MarkerUi.kt)
-   - [ ] Avoid heavy work inside composables; move IO/state transformations out of composition where
-     possible
-   - [ ] Ensure state hoisting: presenters should remain pure w.r.t. side-effects
-   - [ ] Add Previews for all major screens and reusable components
-   - [ ] MarkerUi currently constructs a BitmapDescriptor per instance; consider caching or using
-     remember in composables for performance and to avoid allocations.
+- [ ] Use real festival opening times in time-based features
+  - Stop hardcoding the bus start time to `19:00`
+  - Introduce opening hours per day and use them for bus/program filtering
 
-7. [ ] Time and date API consistency
-   - [ ] Introduce a small DateTimeMapper to convert to/from SQL and Instant with explicit
-     formatters
+- [ ] Remove or implement unused location capability
+  - `ACCESS_FINE_LOCATION` and `ACCESS_COARSE_LOCATION` are declared, but there is no visible runtime location feature
 
-8. [ ] Database: schema quality and data integrity (SQLDelight)
-   - [ ] Add foreign key constraints and indices for poiCoordinate(poiId, coordinateId) if not
-     present; enforce referential integrity
-   - [ ] Investigate duplicate insertion: poiCoordinate has two inserts for poiId=40 (lines 471 and
-     480). Confirm intentional multiplicity; otherwise remove duplicates or add a unique constraint
-     where appropriate (file: database/.../migrations/1.sqm)
-   - [ ] Normalize types and add NOT NULL constraints where applicable
-   - [ ] Consider seeding data via CSV or structured files to reduce massive INSERT noise and
-     support diffing
-   - [ ] Add migration tests to ensure schema can be created and migrated on devices
-   - [ ] Add indexes for frequent lookups used by Search/Map/Program screens
+## UX And Feature Work
 
-9. [ ] Data layer improvements
-   - [ ] Create repository interfaces in api modules; keep DB specifics in impl. Ensure data module
-     responsibilities are clear
-   - [ ] Replace string-based date filtering in repositories with proper typed parameters and SQL
-     parameter binding
-   - [ ] Add caching strategies where appropriate
+- [ ] Modernize the search screen
+  - Replace the deprecated Material 3 `SearchBar` overload
+  - Stop rendering `SearchScreenSuccess` twice
+  - Replace the dropdown category picker with multi-select `FilterChip`s
+  - Add query debouncing before hitting the database
+  - Replace `LazyVerticalGrid(GridCells.Fixed(1))` with a `LazyColumn`
+  - Add clearer empty-results and keyboard handling polish
 
-10. [ ] Code quality: static analysis and style
-- [ ] Enable Compose Lint and address reported issues
-- [ ] Add Detekt and Ktlint with a shared baseline; integrate into CI
-- [ ] Ensure public APIs have KDoc in api modules
+- [ ] Improve detail and map flows
+  - Allow the map to center on the selected club when entered from detail/search
+  - Finish detail-to-detail navigation from related items using IDs
+  - Replace the temporary placeholder in `DetailScreen` map interactions
 
-11. [ ] Testing: unit, UI, and integration
-- [ ] Add unit tests for presenters (BusPresenter, ProgramPresenter, SearchPresenter) with
-      Turbine for Flow testing
-- [ ] Add DB integration tests for SQLDelight queries and migrations
-- [ ] Add UI tests for navigation (Detail flow, Search to Detail, Map to Detail)
-- [ ] Add snapshot tests for Compose components where stable
-- [ ] Introduce test fixtures for sample data
+- [ ] Polish map presentation and performance
+  - Revisit the default `HYBRID` map type for the main festival map
+  - Cache/precompute `MarkerUi.icon` instead of creating a `BitmapDescriptor` on every access
+  - Keep the marker legend aligned with actual marker colors and resource strings
 
-12. [ ] Build and CI/CD
-- [ ] Add GitHub Actions (or equivalent) pipeline: assemble, test, lint, detekt, ktlint, and build
-  cache config
-- [ ] Enable Gradle Build Scan and configuration cache where compatible
-- [ ] Use dependency updates plugin to monitor outdated libraries
-- [ ] Add release signing and Play Store upload tasks if applicable
+- [ ] Finish Info and Program screen polish
+  - Replace hardcoded counts/text in `InfoScreen` with DB-backed values and string resources
+  - Remove or fill the empty `Card` in `InfoScreen`
+  - Rework the `ProgramScreen` into a timetable-style layout
 
-13. [ ] Resource and i18n improvements
-- [ ] Ensure all user-facing strings are in string resources; remove hardcoded text
+- [ ] Consider small product additions
+  - Instagram deep link
+  - In-app review prompt
 
-14. [ ] Accessibility and theming
-- [ ] Add content descriptions for icons (already partially used) and verify accessibility labels
-- [ ] Verify dynamic color and high-contrast support in GanzhornfestTheme
-- [ ] Ensure minimum hit targets, focus order, and TalkBack flows on all screens
-- [ ] Validate color contrast for map marker hues and legend if any
+## Architecture And Data
 
-15. [ ] Security and privacy
-- [ ] Ensure no sensitive logs in release builds
+- [ ] Move navigation and state handling out of composables where it is currently side-effect driven
+  - Remove the `MainScreen` navigation TODO by emitting navigation effects instead of navigating inline
+  - Keep presenters/view models predictable and easier to test
 
-16. [ ] Performance checks
-- [ ] Profile cold start; verify Dagger component creation and DB driver init overhead
-- [ ] Cache heavy resources and precompute maps data on background threads
-- [ ] Use remember and derivedStateOf judiciously to minimize recompositions
+- [ ] Reduce lifecycle-sensitive presenter state
+  - Revisit presenter-local `mutableStateOf` usage in `BusPresenter`, `ProgramPresenter`, and `SearchPresenter`
+  - Keep presenter state derivation consistent across features
 
+- [ ] Tighten database schema integrity and query performance
+  - Add explicit foreign keys where missing
+  - Add indexes for frequent lookups used by search and other list/detail flows
+  - Add migration tests for SQLDelight
+  - Consider moving large seed data into a format that is easier to diff and update yearly
 
-### Features
-- [ ] Instagram Deep Link
-   - https://stackoverflow.com/questions/21505941/intent-to-open-instagram-user-profile-on-android
-   - https://stackoverflow.com/questions/15497261/open-instagram-user-profile
-- [ ] replace hardcoded, manually counted number in InfoScreen with dynamic SQL query
-- [ ] In-app review
-- [ ] Search Screen: Use multi selection FilterChips instead of dropdown menu
-- [ ] Make Program Screen look like this https://www.maifeld-derby.de/timetable
-- [ ] Use IDs in Detail Screen instead of name to select corresponding detail item (club, offer)
+- [ ] Improve info/statistics queries
+  - Add the missing count queries needed for `InfoScreen` instead of manually maintained numbers
+
+## Quality, Tooling, And Release
+
+- [ ] Expand automated tests
+  - Add presenter/view model tests for bus, program, search, map, and detail flows
+  - Add DB integration and migration tests
+  - Add UI tests for navigation paths such as Search -> Detail and Map -> Detail
+
+- [ ] Add CI and static analysis
+  - Add a CI pipeline for assemble, test, lint, and schema verification
+  - Add Detekt and Ktlint
+  - Enable Compose lint checks and address the findings
+
+- [ ] Improve build and repo hygiene
+  - Stop reading `local.properties` during Gradle configuration
+  - Review whether `kapt` should be migrated to `ksp`
+  - Ignore release artifacts such as `.aab` files outside `/app/release`
+
+- [ ] Modernize Android setup
+  - Switch `MainActivity` from `AppCompatActivity` to `ComponentActivity`
+  - Add edge-to-edge/insets handling
+
+- [ ] Update project documentation
+  - Rewrite the README to describe the current Kotlin/Compose/SQLDelight app instead of the old Ionic/Cordova stack
+
+- [ ] Improve release readiness and privacy
+  - Add crash reporting with explicit privacy handling
+  - Standardize logging and avoid sensitive logs in release builds
+
+- [ ] Finish resource, accessibility, and preview coverage
+  - Move remaining hardcoded UI text into string resources
+  - Review content descriptions, touch targets, focus order, and color contrast
+  - Add previews for the major screens and important component states
