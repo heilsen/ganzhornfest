@@ -60,13 +60,31 @@ Use the Gradle wrapper from the repo root:
 ./gradlew :app:lintDebug
 ```
 
-## Current Architecture Notes
+## Architecture
 
-- The app is organized as small Gradle modules instead of a single monolith.
-- Dagger wiring starts in [`AppComponent.kt`](/Users/sebo/dev/code/ganzhornfest/GanzhornfestCompose/app/src/main/kotlin/de/heilsen/ganzhornfest/di/AppComponent.kt).
-- Screen state is typically exposed through `MoleculeViewModel` subclasses.
-- SQLDelight schema files live under [`database/src/main/sqldelight`](/Users/sebo/dev/code/ganzhornfest/GanzhornfestCompose/database/src/main/sqldelight).
-- Main navigation currently lives in [`MainScreen.kt`](/Users/sebo/dev/code/ganzhornfest/GanzhornfestCompose/app/src/main/kotlin/de/heilsen/ganzhornfest/main/MainScreen.kt).
+The app uses a **Molecule-based presenter pattern** layered as:
+
+```
+UI Screen → ViewModel → Presenter (@Composable) → Use Case → Repository → SQLDelight DB
+```
+
+- **`MoleculeViewModel<Event, Model>`** (`:presenter-api`) — base class. Events flow in via `take(event)`; the derived `StateFlow<Model>` flows out to the UI.
+- **Presenter** — a `@Composable fun present(events: Flow<Event>): Model`. Uses `remember`, `LaunchedEffect`, and `collectAsState` to derive state reactively.
+- **Use Cases** — interfaces in `-api` modules, implemented in `-impl` modules.
+- **Repositories** (`:data`) — wrap SQLDelight queries into `Flow<T>`.
+- **Database** (`:database`) — SQLDelight `.sq` schema files are the source of truth for the pre-seeded SQLite DB.
+
+### Dependency Injection
+
+Dagger 2 with a single `AppComponent` root (`:app`). Each feature module owns its `@Module` and optionally an `EntryPoint` interface. UI accesses the component via `rememberAppScope()` from `:di-api`.
+
+### Navigation
+
+Typed `@Serializable` destination objects in `Destination.kt`. Bottom nav covers Map, Program, Bus, and Info. Detail is a separate composable destination. Main navigation lives in `MainScreen.kt`.
+
+### Module Dependency Pattern
+
+Features with an `-api`/`-impl` split expose interfaces in `-api` and provide implementations in `-impl`. `:app` depends on all `-impl` modules; other features depend only on `-api` modules. Use `PersistentList` / `PersistentMap` (kotlinx-collections-immutable) for model state to keep Compose stability guarantees.
 
 ## Screenshots
 
