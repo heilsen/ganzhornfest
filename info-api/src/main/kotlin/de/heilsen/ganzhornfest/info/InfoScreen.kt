@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import de.heilsen.ganzhornfest.core.FestivalEdition
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
 import de.heilsen.ganzhornfest.datetime.AndroidDateTimeFormatter.localizedDateFormat
 import de.heilsen.ganzhornfest.info.api.R
@@ -64,13 +65,13 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     ) {
                         Text(
                             style = MaterialTheme.typography.headlineLarge,
-                            text = stringResource(R.string.ganzhornfest_with_year),
+                            text = stringResource(R.string.ganzhornfest_with_year, FestivalEdition.year),
                         )
                         if (isExpanded) {
                             Spacer(modifier = Modifier.padding(4.dp))
                             Text(
                                 style = MaterialTheme.typography.bodyLarge,
-                                text = stringResource(R.string.ganzhornfest_official_name),
+                                text = stringResource(R.string.ganzhornfest_official_name, FestivalEdition.editionNumber),
                                 textAlign = TextAlign.Center,
                             )
                         }
@@ -105,7 +106,7 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                         text = localizedDateFormat(
                             context,
                             DateFormat.FULL,
-                            stringResource(R.string.date_of_first_day)
+                            FestivalEdition.days[0]
                         )
                     )
                     Text(
@@ -114,7 +115,7 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     Text(
                         fontWeight = FontWeight.Bold,
                         text = localizedDateFormat(
-                            context, DateFormat.FULL, stringResource(R.string.date_of_second_day)
+                            context, DateFormat.FULL, FestivalEdition.days[1]
                         )
                     )
                     Text(
@@ -125,7 +126,7 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                         text = localizedDateFormat(
                             context,
                             DateFormat.FULL,
-                            stringResource(R.string.date_of_third_day)
+                            FestivalEdition.days[2]
                         )
                     )
                     Text(

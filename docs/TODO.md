@@ -2,11 +2,6 @@
 
 ## High Priority
 
-- [ ] Make festival data edition-driven instead of hardcoded to 2025
-  - Replace `GetOpeningDaysFor2025` with a neutral festival config/source of truth
-  - Remove hardcoded 2025 values from seeded SQL data, `strings.xml`, and `InfoScreen`
-  - Document the yearly data-update workflow for the next festival season
-
 - [ ] Fix detail/navigation architecture
   - Replace title-based detail routing with stable IDs
   - Scope screen state to the `NavBackStackEntry` instead of using app-wide shared view models

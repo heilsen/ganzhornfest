@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ganzhornfest_official_name">45. Herbstfest der Neckarsulmer Vereine</string>
-    <string name="ganzhornfest_with_year">Ganzhornfest 2026</string>
-    <string name="date_of_first_day">2026-09-05</string>
+    <string name="ganzhornfest_with_year">Ganzhornfest %1$d</string>
+    <string name="ganzhornfest_official_name">%1$d. Herbstfest der Neckarsulmer Vereine</string>
     <string name="opening_hours_saturday">16:00 - 01:00 Uhr</string>
-    <string name="date_of_second_day">2026-09-06</string>
     <string name="opening_hours_sunday">11:00 - 00:00 Uhr</string>
-    <string name="date_of_third_day">2026-09-07</string>
     <string name="opening_hours_monday">11:00 - 01:00 Uhr</string>
 </resources>
