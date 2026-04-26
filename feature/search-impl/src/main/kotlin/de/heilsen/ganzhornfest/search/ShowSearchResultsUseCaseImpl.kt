@@ -3,6 +3,8 @@ package de.heilsen.ganzhornfest.search
 import de.heilsen.ganzhornfest.core.ConfigurationProvider
 import de.heilsen.ganzhornfest.offer.data.OfferRepository
 import de.heilsen.ganzhornfest.poi.PoiRepository
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 
+@ContributesBinding(AppScope::class)
 class ShowSearchResultsUseCaseImpl @Inject constructor(
     private val offerRepository: OfferRepository,
     private val poiRepository: PoiRepository,
