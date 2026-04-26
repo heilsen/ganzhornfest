@@ -1,33 +1,20 @@
 package de.heilsen.ganzhornfest.di
 
-import dagger.BindsInstance
-import dagger.Component
 import de.heilsen.ganzhornfest.GanzhornfestApplication
-import de.heilsen.ganzhornfest.bus.BusModule
-import de.heilsen.ganzhornfest.core.CoreModule
-import de.heilsen.ganzhornfest.search.EntryPoint
-import de.heilsen.ganzhornfest.search.SearchModule
-import javax.inject.Singleton
+import dev.zacsweers.metro.DependencyGraph
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Provides
 
-@Singleton
-@Component(
-    modules = [
-        AppModule::class,
-        TimberModule::class,
-        BusModule::class,
-        CoreModule::class,
-        GanzhornfestDbModule::class,
-        SearchModule::class,
-    ]
-)
+@DependencyGraph(AppScope::class)
 interface AppComponent :
     de.heilsen.ganzhornfest.main.EntryPoint,
     de.heilsen.ganzhornfest.EntryPoint,
-    EntryPoint {
-    @Component.Factory
-    interface Factory {
+    de.heilsen.ganzhornfest.search.EntryPoint {
+
+    @DependencyGraph.Factory
+    fun interface Factory {
         fun create(
-            @BindsInstance ganzhornfestApplication: GanzhornfestApplication,
+            @Provides ganzhornfestApplication: GanzhornfestApplication,
         ): AppComponent
     }
 }
