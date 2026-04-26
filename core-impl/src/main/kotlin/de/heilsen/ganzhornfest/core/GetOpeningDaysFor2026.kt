@@ -5,11 +5,11 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.datetime.LocalDate
 import javax.inject.Inject
 
-class GetOpeningDaysFor2025 @Inject constructor() : GetOpeningDaysUseCase {
+class GetOpeningDaysFor2026 @Inject constructor() : GetOpeningDaysUseCase {
     override fun invoke(): PersistentList<LocalDate> {
-        val first = LocalDate(2025, 9, 6)
-        val second = LocalDate(2025, 9, 7)
-        val last = LocalDate(2025, 9, 8)
+        val first = LocalDate(2026, 9, 5)
+        val second = LocalDate(2026, 9, 6)
+        val last = LocalDate(2026, 9, 7)
         return persistentListOf(first, second, last)
     }
 }

@@ -1,4 +1,10 @@
-CREATE TABLE IF NOT EXISTS busConnection (id INTEGER PRIMARY KEY AUTOINCREMENT, busLineId INTEGER NOT NULL, departure TEXT NOT NULL);
+-- Clear 2025 program; 2026 lineup to be added later
+DROP TABLE program;
+CREATE TABLE program (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, description TEXT, start TEXT NOT NULL, end TEXT, poiId INTEGER NOT NULL);
+
+-- Shift bus connection dates from Sep 6-8 2025 to Sep 5-7 2026
+DROP TABLE busConnection;
+CREATE TABLE busConnection (id INTEGER PRIMARY KEY AUTOINCREMENT, busLineId INTEGER NOT NULL, departure TEXT NOT NULL);
 
 INSERT INTO busConnection VALUES(NULL,11,'2026-09-07T19:18:00+02:00');
 INSERT INTO busConnection VALUES(NULL,11,'2026-09-07T19:48:00+02:00');
@@ -64,19 +70,3 @@ INSERT INTO busConnection VALUES(NULL,6,'2026-09-07T22:48:00+02:00');
 INSERT INTO busConnection VALUES(NULL,8,'2026-09-07T19:36:00+02:00');
 INSERT INTO busConnection VALUES(NULL,8,'2026-09-07T20:36:00+02:00');
 INSERT INTO busConnection VALUES(NULL,8,'2026-09-07T21:36:00+02:00');
-
-getBusConnection:
-SELECT strftime('%Y-%m-%dT%H:%M:%SZ',busConnection.departure) AS departure,
-        busLine.busLine AS busLine,
-        busLine.stops AS stops,
-        busLine.destination AS destination
-FROM busConnection
-INNER JOIN busLine
-    ON busConnection.busLineId = busLine.id
-WHERE (
-            busLine.destination LIKE :destination
-            OR busLine.stops LIKE :destination
-            OR busLine.stops LIKE (:destination || '-%' )
-            OR busLine.stops LIKE ('%-' || :destination)
-        )
-    AND datetime(departure) BETWEEN datetime(:start) AND datetime(:end);

@@ -1,53 +1,5 @@
 CREATE TABLE IF NOT EXISTS program (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, description TEXT, start TEXT NOT NULL, end TEXT, poiId INTEGER NOT NULL);
 
--- SATURDAY
---- Hauptbühne Museumsplatz
-INSERT INTO program VALUES(NULL,'Eröffnung', 'Eröffnung durch die 1. Vorsitzende des Kultur- und Sportausschusses Marita Krottenthaler und Oberbürgermeister Steffen Hertwig','2025-09-06T16:00:00+02:00',NULL,101);
-INSERT INTO program VALUES(NULL,'MV Obereisesheim', NULL,'2025-09-06T16:00:00+02:00','2025-09-06T18:00:00+02:00',101);
-INSERT INTO program VALUES(NULL,'SUN Hotsteppers', NULL,'2025-09-06T18:40:00+02:00','2025-09-06T19:00:00+02:00',101);
-INSERT INTO program VALUES(NULL,'MGV Dahenfeld', NULL,'2025-09-06T20:00:00+02:00','2025-09-06T23:00:00+02:00',101);
-
---- Bühne Karlsplatz
-INSERT INTO program VALUES(NULL,'Dreams Instead','Pop-Rock', '2025-09-06T19:00:00+02:00','2025-09-06T20:00:00+02:00',102);
-INSERT INTO program VALUES(NULL,'Perfect Heat','Partyband', '2025-09-06T20:15:00+02:00','2025-09-07T00:00:00+02:00',102);
-
---- Karlsplatz
-INSERT INTO program VALUES(NULL,'Ponyreiten', 'Jugendfarm','2025-09-06T16:00:00+02:00','2025-09-06T18:00:00+02:00',104);
-
---- Quergasse
-INSERT INTO program VALUES(NULL,'Kinderflohmarkt', 'auf den ausgewiesenen Flächen','2025-09-06T16:00:00+02:00','2025-09-06T20:00:00+02:00',106);
-
--- SUNDAY
---- Hauptbühne Museumsplatz
-INSERT INTO program VALUES(NULL,'Stadtmusik Grenchen', NULL,'2025-09-07T13:00:00+02:00','2025-09-07T15:00:00+02:00',101);
-INSERT INTO program VALUES(NULL,'Paolo Simoes', NULL,'2025-09-07T16:00:00+02:00','2025-09-07T17:00:00+02:00',101);
-INSERT INTO program VALUES(NULL,'Neckar-Valley-Dancers', NULL,'2025-09-07T17:00:00+02:00','2025-09-07T17:30:00+02:00',101);
-INSERT INTO program VALUES(NULL,'Paolo Simoes', NULL,'2025-09-07T17:30:00+02:00','2025-09-07T18:30:00+02:00',101);
-INSERT INTO program VALUES(NULL,'Willenlos Sexy', NULL,'2025-09-07T19:45:00+02:00','2025-09-07T22:45:00+02:00',101);
-
---- Bühne Karlsplatz
-INSERT INTO program VALUES(NULL,'Ökumenischer Gottesdienst','bei schlechtem Wetter in der St. Dionysius Kirche', '2025-09-07T10:00:00+02:00','2025-09-07T11:00:00+02:00',102);
-INSERT INTO program VALUES(NULL,'Triolog','Jazz-Trio', '2025-09-07T19:00:00+02:00','2025-09-07T20:00:00+02:00',102);
-INSERT INTO program VALUES(NULL,'Snow','Partyband', '2025-09-07T20:15:00+02:00','2025-09-07T23:00:00+02:00',102);
-
---- Karlsplatz
-INSERT INTO program VALUES(NULL,'Kunterbunte Spiel- und Bastelaktionen', 'Freier Kindergarten','2025-09-07T11:00:00+02:00','2025-09-07T17:00:00+02:00',104);
-INSERT INTO program VALUES(NULL,'Clowntheater Frohnella Klücklich', 'Riesenseifenblasenshow, Clownerie','2025-09-07T11:00:00+02:00','2025-09-07T17:00:00+02:00',104);
-INSERT INTO program VALUES(NULL,'Ponyreiten', 'Jugendfarm','2025-09-07T12:00:00+02:00','2025-09-07T17:00:00+02:00',104);
-
---- Quergasse
-INSERT INTO program VALUES(NULL,'Kinderflohmarkt', 'auf den ausgewiesenen Flächen','2025-09-07T11:00:00+02:00','2025-09-07T18:00:00+02:00',106);
-
--- MONDAY
---- Hauptbühne Museumsplatz
-INSERT INTO program VALUES(NULL,'SUN Hotsteppers', NULL,'2025-09-08T18:40:00+02:00','2025-09-08T19:00:00+02:00',101);
-INSERT INTO program VALUES(NULL,'Polizei Big Band Heilbronn', NULL,'2025-09-08T20:00:00+02:00','2025-09-08T23:00:00+02:00',101);
-
---- Bühne Karlsplatz
-INSERT INTO program VALUES(NULL,'Annalena & Sofie','Deutschpop', '2025-09-08T19:00:00+02:00','2025-09-08T20:00:00+02:00',102);
-INSERT INTO program VALUES(NULL,'Small Circle', 'Akustikpop', '2025-09-08T20:00:00+02:00','2025-09-08T20:45:00+02:00',102);
-INSERT INTO program VALUES(NULL,'New2morrow','Partyband', '2025-09-08T21:00:00+02:00','2025-09-08T22:15:00+02:00',102);
-
 getPrograms:
 SELECT program.start AS start,
        program.end AS end,

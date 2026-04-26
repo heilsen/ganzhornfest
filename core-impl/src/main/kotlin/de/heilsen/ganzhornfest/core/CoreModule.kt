@@ -7,6 +7,6 @@ import dagger.Module
 abstract class CoreModule {
     @Binds abstract fun bindConfigurationProvider(configurationProvider: ConfigurationProviderImpl): ConfigurationProvider
     @Binds abstract fun bindResourcesProvider(resourcesProvider: ResourcesProviderImpl): ResourcesProvider
-    @Binds abstract fun bindGetOpeningDaysUseCase(getOpeningDaysFor2025: GetOpeningDaysFor2025): GetOpeningDaysUseCase
+    @Binds abstract fun bindGetOpeningDaysUseCase(getOpeningDaysFor2026: GetOpeningDaysFor2026): GetOpeningDaysUseCase
     @Binds abstract fun bindSelectDefaultDateUseCase(selectDefaultDateUseCaseImpl: SelectDefaultDateUseCaseImpl): SelectDefaultDateUseCase
 }
