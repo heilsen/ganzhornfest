@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "de.heilsen.ganzhornfest.data"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig.minSdk = 24
 }
 kotlin.jvmToolchain(21)

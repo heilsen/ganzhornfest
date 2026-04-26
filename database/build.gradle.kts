@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "de.heilsen.ganzhornfest.database"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig.minSdk = 24
 }
 

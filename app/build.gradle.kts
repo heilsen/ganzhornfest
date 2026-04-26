@@ -12,7 +12,7 @@ plugins {
 
 android {
     namespace = "de.heilsen.ganzhornfest"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "de.heilsen.ganzhornfest"

@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "de.heilsen.ganzhornfest.theme"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig.minSdk = 24
 }
 kotlin.jvmToolchain(21)
