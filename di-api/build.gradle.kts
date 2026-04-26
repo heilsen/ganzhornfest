@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.metro)
     alias(libs.plugins.kotlin.compose)
 }
 
@@ -13,6 +14,5 @@ android {
 kotlin.jvmToolchain(21)
 
 dependencies {
-    api(libs.dagger)
     implementation(libs.androidx.compose.ui)
 }

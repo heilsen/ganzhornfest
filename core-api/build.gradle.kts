@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.metro)
 }
 
 android {
@@ -16,8 +17,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines)
 
     implementation(libs.kotlinx.collections.immutable)
-
-    implementation(libs.dagger)
 
     api(libs.kotlinx.datetime)
     implementation(libs.androidx.annotation)

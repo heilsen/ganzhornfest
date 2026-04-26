@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.metro)
 }
 
 android {
@@ -12,8 +13,6 @@ kotlin.jvmToolchain(21)
 
 dependencies {
     api(project(":database"))
-
-    implementation(libs.dagger)
 
     implementation(libs.sqldelight.coroutines.extensions)
 }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.metro)
     alias(libs.plugins.kotlin.compose)
 }
 
@@ -28,7 +29,6 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.dagger)
     implementation(libs.timber)
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.datetime)

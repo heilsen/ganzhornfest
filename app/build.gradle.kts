@@ -4,8 +4,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.metro)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
 }
@@ -73,10 +73,6 @@ kotlin {
     jvmToolchain(21)
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
 dependencies {
     implementation(project(":presenter-api"))
     implementation(project(":bus-api"))
@@ -92,10 +88,6 @@ dependencies {
     implementation(project(":map"))
     implementation(project(":program"))
     implementation(project(":theme"))
-
-    kapt(libs.dagger.compiler)
-    kaptAndroidTest(libs.dagger.compiler)
-    implementation(libs.dagger)
 
     implementation(libs.timber)
 
