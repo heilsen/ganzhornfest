@@ -44,7 +44,7 @@ import de.heilsen.ganzhornfest.detail.DetailScreen
 import de.heilsen.ganzhornfest.detail.DetailType
 import de.heilsen.ganzhornfest.detail.DetailViewModel
 import de.heilsen.ganzhornfest.di.getValue
-import de.heilsen.ganzhornfest.di.rememberAppScope
+import de.heilsen.ganzhornfest.di.rememberAppGraph
 import de.heilsen.ganzhornfest.info.InfoScreen
 import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.map.MapViewModel
@@ -78,7 +78,7 @@ fun MainScreen() {
             navBackStackEntry?.destination?.hasRoute<Destination.Search>()?.not() ?: false
         }
     }
-    val entryPoint: EntryPoint by rememberAppScope()
+    val entryPoint: EntryPoint by rememberAppGraph()
     val busViewModel: BusViewModel = entryPoint.busViewModel
     val programViewModel: ProgramViewModel = entryPoint.programViewModel
     val mapViewModel: MapViewModel = entryPoint.mapViewModel

@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.core.ResourcesProvider
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
 import de.heilsen.ganzhornfest.di.getValue
-import de.heilsen.ganzhornfest.di.rememberAppScope
+import de.heilsen.ganzhornfest.di.rememberAppGraph
 import de.heilsen.ganzhornfest.search.impl.R
 import de.heilsen.ganzhornfest.theme.component.LoadingScreen
 import de.heilsen.ganzhornfest.theme.component.SelectionCard
@@ -63,7 +63,7 @@ fun SearchScreen(
     onSearchResultClicked: (String, Category) -> Unit = { _, _ -> },
     onBackPressed: () -> Unit = {}
 ) {
-    val entryPoint: EntryPoint by rememberAppScope()
+    val entryPoint: EntryPoint by rememberAppGraph()
     val resourcesProvider = entryPoint.resourcesProvider
 
     var query by remember { mutableStateOf("") }
