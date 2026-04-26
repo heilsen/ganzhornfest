@@ -7,27 +7,27 @@ import androidx.compose.ui.platform.LocalContext
 import kotlin.reflect.KProperty
 
 @JvmInline
-value class AppScope internal constructor(
+value class AppGraph internal constructor(
     val component: Any
 )
 
-val Context.appScope: AppScope
+val Context.appGraph: AppGraph
     get() {
         val component = (applicationContext as AppComponentProvider).appComponent
-        return AppScope(component)
+        return AppGraph(component)
     }
 
 @Suppress("UNCHECKED_CAST")
-fun <ENTRYPOINT : Any> AppScope.entryPoint(): ENTRYPOINT =
+fun <ENTRYPOINT : Any> AppGraph.entryPoint(): ENTRYPOINT =
     component as? ENTRYPOINT ?: error("entrypoint not found")
 
-inline operator fun <reified ENTRYPOINT : Any> AppScope.getValue(
+inline operator fun <reified ENTRYPOINT : Any> AppGraph.getValue(
     thisRef: Any?,
     property: KProperty<*>
 ): ENTRYPOINT = entryPoint()
 
 @Composable
-fun rememberAppScope(): AppScope {
+fun rememberAppGraph(): AppGraph {
     val context = LocalContext.current
-    return remember { context.appScope }
+    return remember { context.appGraph }
 }
