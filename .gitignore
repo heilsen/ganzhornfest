@@ -10,3 +10,4 @@ captures/
 /app/release
 build/
 assets/
+.worktrees/
