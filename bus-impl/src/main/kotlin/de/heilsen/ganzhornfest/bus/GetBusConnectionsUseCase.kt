@@ -1,5 +1,7 @@
 package de.heilsen.ganzhornfest.bus
 
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
@@ -7,6 +9,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.time.Instant
 
+@ContributesBinding(AppScope::class)
 class GetBusConnectionsUseCaseImpl @Inject constructor(
     private val busConnectionRepository: BusConnectionRepository
 ) : GetBusConnectionsUseCase {
