@@ -29,6 +29,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.javax.inject)
     implementation(libs.timber)
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.datetime)

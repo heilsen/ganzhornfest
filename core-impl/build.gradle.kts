@@ -16,6 +16,7 @@ dependencies {
     api(project(":core-api"))
     implementation(project(":di-api"))
 
+    implementation(libs.javax.inject)
     implementation(libs.kotlinx.coroutines)
 
     implementation(libs.kotlinx.collections.immutable)

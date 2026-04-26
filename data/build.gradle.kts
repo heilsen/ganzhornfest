@@ -14,6 +14,7 @@ kotlin.jvmToolchain(21)
 dependencies {
     api(project(":database"))
 
+    implementation(libs.javax.inject)
     implementation(libs.sqldelight.coroutines.extensions)
 }
 

@@ -6,7 +6,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 import kotlin.time.Instant
 
 @OptIn(kotlin.time.ExperimentalTime::class)

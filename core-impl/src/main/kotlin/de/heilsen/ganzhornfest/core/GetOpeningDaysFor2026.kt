@@ -5,7 +5,7 @@ import dev.zacsweers.metro.ContributesBinding
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.datetime.LocalDate
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 @ContributesBinding(AppScope::class)
 class GetOpeningDaysFor2026 @Inject constructor() : GetOpeningDaysUseCase {

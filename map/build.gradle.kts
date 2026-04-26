@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":di-api"))
     implementation(project(":theme"))
 
+    implementation(libs.javax.inject)
     implementation(libs.timber)
 
     implementation(libs.play.services.maps)

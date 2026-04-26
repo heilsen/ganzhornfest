@@ -6,7 +6,7 @@ import de.heilsen.ganzhornfest.database.GanzhornfestDb
 import de.heilsen.ganzhornfest.database.Offer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class OfferRepository @Inject constructor(private val ganzhornfestDb: GanzhornfestDb) {
     fun getAllFood(): Flow<List<Offer>> {

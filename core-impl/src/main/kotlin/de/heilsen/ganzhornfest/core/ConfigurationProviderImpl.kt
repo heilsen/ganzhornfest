@@ -7,7 +7,7 @@ import android.os.Build
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import java.util.Locale
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 @ContributesBinding(AppScope::class)
 class ConfigurationProviderImpl(private val configuration: Configuration): ConfigurationProvider {

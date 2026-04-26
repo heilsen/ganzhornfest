@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class MapPresenter @Inject constructor(
     private val getMarkers: GetMarkersUseCase

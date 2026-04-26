@@ -7,7 +7,7 @@ import de.heilsen.ganzhornfest.di.appGraph
 import de.heilsen.ganzhornfest.di.getValue
 import dev.zacsweers.metro.createGraphFactory
 import timber.log.Timber
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 interface EntryPoint {
     fun inject(ganzhornfestApplication: GanzhornfestApplication)

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 @ContributesBinding(AppScope::class)
 class ResourcesProviderImpl @Inject constructor(private val context: Context): ResourcesProvider {

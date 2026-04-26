@@ -3,7 +3,7 @@ package de.heilsen.ganzhornfest.detail
 import androidx.compose.runtime.Composable
 import de.heilsen.ganzhornfest.core.MoleculeViewModel
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class DetailViewModel @Inject constructor(
     private val detailPresenter: DetailPresenter

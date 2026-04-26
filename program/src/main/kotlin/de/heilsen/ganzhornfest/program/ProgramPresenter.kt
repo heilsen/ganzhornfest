@@ -18,7 +18,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 @OptIn(kotlin.time.ExperimentalTime::class)
 class ProgramPresenter @Inject constructor(

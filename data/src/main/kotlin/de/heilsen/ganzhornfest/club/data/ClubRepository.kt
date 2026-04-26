@@ -5,7 +5,7 @@ import app.cash.sqldelight.coroutines.mapToList
 import de.heilsen.ganzhornfest.database.GanzhornfestDb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class ClubRepository @Inject constructor(
     private val ganzhornfestDb: GanzhornfestDb

@@ -17,7 +17,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class BusPresenter @Inject constructor(
     private val getDepartures: GetBusConnectionsUseCase,

@@ -10,7 +10,7 @@ import androidx.compose.runtime.setValue
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class SearchPresenter @Inject constructor(
     private val showResults: ShowSearchResultsUseCase,

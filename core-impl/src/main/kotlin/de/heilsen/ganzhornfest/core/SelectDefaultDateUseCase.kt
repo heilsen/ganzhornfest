@@ -5,7 +5,7 @@ import dev.zacsweers.metro.ContributesBinding
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 import kotlin.time.Clock
 
 @OptIn(kotlin.time.ExperimentalTime::class)

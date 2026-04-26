@@ -3,7 +3,7 @@ package de.heilsen.ganzhornfest.map
 import androidx.compose.runtime.Composable
 import de.heilsen.ganzhornfest.core.MoleculeViewModel
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class MapViewModel @Inject constructor(
     private val presenter: MapPresenter

@@ -89,6 +89,7 @@ dependencies {
     implementation(project(":program"))
     implementation(project(":theme"))
 
+    implementation(libs.javax.inject)
     implementation(libs.timber)
 
     implementation(libs.kotlinx.coroutines)
