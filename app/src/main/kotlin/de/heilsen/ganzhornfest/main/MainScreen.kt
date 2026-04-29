@@ -39,6 +39,8 @@ import androidx.navigation.toRoute
 import de.heilsen.ganzhornfest.R
 import de.heilsen.ganzhornfest.bus.BusScreen
 import de.heilsen.ganzhornfest.bus.BusViewModel
+import de.heilsen.ganzhornfest.countdown.CountdownScreen
+import de.heilsen.ganzhornfest.countdown.CountdownViewModel
 import de.heilsen.ganzhornfest.detail.DetailEvent
 import de.heilsen.ganzhornfest.detail.DetailScreen
 import de.heilsen.ganzhornfest.detail.DetailType
@@ -63,6 +65,7 @@ interface EntryPoint {
     val mapViewModel: MapViewModel
     val searchViewModel: SearchViewModel
     val detailViewModel: DetailViewModel
+    val countdownViewModel: CountdownViewModel
 }
 
 @Preview(name = "Light Mode")
@@ -75,7 +78,14 @@ fun MainScreen() {
 
     val showSearchFab by remember {
         derivedStateOf {
-            navBackStackEntry?.destination?.hasRoute<Destination.Search>()?.not() ?: false
+            val dest = navBackStackEntry?.destination
+            dest?.hasRoute<Destination.Search>() == false &&
+                dest?.hasRoute<Destination.Home>() == false
+        }
+    }
+    val showBottomBar by remember {
+        derivedStateOf {
+            navBackStackEntry?.destination?.hasRoute<Destination.Home>() != true
         }
     }
     val entryPoint: EntryPoint by rememberAppGraph()
@@ -84,42 +94,45 @@ fun MainScreen() {
     val mapViewModel: MapViewModel = entryPoint.mapViewModel
     val searchViewModel: SearchViewModel = entryPoint.searchViewModel
     val detailViewModel: DetailViewModel = entryPoint.detailViewModel
+    val countdownViewModel: CountdownViewModel = entryPoint.countdownViewModel
 
     GanzhornfestTheme {
         Scaffold(
             bottomBar = {
-                NavigationBar {
-                    NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Info>() ?: false,
-                        icon = {
-                            Icon(Icons.Default.Info, stringResource(R.string.info))
-                        },
-                        onClick = { navController.navigate(Destination.Info) },
-                        label = { Text(stringResource(R.string.info)) })
-                    NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Map>() ?: false,
-                        icon = {
-                            Icon(Icons.Default.LocationOn, stringResource(R.string.map))
-                        },
-                        onClick = { navController.navigate(Destination.Map) },
-                        label = { Text(stringResource(R.string.map)) })
-                    NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Program>() ?: false,
-                        icon = {
-                            Icon(Icons.Default.DateRange, stringResource(R.string.program))
-                        },
-                        onClick = { navController.navigate(Destination.Program) },
-                        label = { Text(stringResource(R.string.program)) })
-                    NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Bus>() ?: false,
-                        icon = {
-                            Icon(
-                                ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
-                                stringResource(R.string.bustimes)
-                            )
-                        },
-                        onClick = { navController.navigate(Destination.Bus) },
-                        label = { Text(stringResource(R.string.bustimes)) })
+                if (showBottomBar) {
+                    NavigationBar {
+                        NavigationBarItem(
+                            currentDestination?.hasRoute<Destination.Info>() ?: false,
+                            icon = {
+                                Icon(Icons.Default.Info, stringResource(R.string.info))
+                            },
+                            onClick = { navController.navigate(Destination.Info) },
+                            label = { Text(stringResource(R.string.info)) })
+                        NavigationBarItem(
+                            currentDestination?.hasRoute<Destination.Map>() ?: false,
+                            icon = {
+                                Icon(Icons.Default.LocationOn, stringResource(R.string.map))
+                            },
+                            onClick = { navController.navigate(Destination.Map) },
+                            label = { Text(stringResource(R.string.map)) })
+                        NavigationBarItem(
+                            currentDestination?.hasRoute<Destination.Program>() ?: false,
+                            icon = {
+                                Icon(Icons.Default.DateRange, stringResource(R.string.program))
+                            },
+                            onClick = { navController.navigate(Destination.Program) },
+                            label = { Text(stringResource(R.string.program)) })
+                        NavigationBarItem(
+                            currentDestination?.hasRoute<Destination.Bus>() ?: false,
+                            icon = {
+                                Icon(
+                                    ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
+                                    stringResource(R.string.bustimes)
+                                )
+                            },
+                            onClick = { navController.navigate(Destination.Bus) },
+                            label = { Text(stringResource(R.string.bustimes)) })
+                    }
                 }
             },
             floatingActionButton = {
@@ -138,8 +151,19 @@ fun MainScreen() {
             Surface(modifier = Modifier.padding(innerPadding)) {
                 NavHost(
                     navController = navController,
-                    startDestination = Destination.Map
+                    startDestination = Destination.Home
                 ) {
+                    composable<Destination.Home> {
+                        val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
+                        CountdownScreen(
+                            model = countdownModel,
+                            onEnterApp = {
+                                navController.navigate(Destination.Map) {
+                                    popUpTo(Destination.Home) { inclusive = true }
+                                }
+                            },
+                        )
+                    }
                     composable<Destination.Map> {
                         val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
                         MapScreen(
