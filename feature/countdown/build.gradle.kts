@@ -26,9 +26,7 @@ kotlin {
 dependencies {
     implementation(project(":core-api"))
     implementation(project(":presenter-api"))
-    implementation(project(":theme"))
 
-    implementation(libs.javax.inject)
     implementation(libs.kotlinx.datetime)
     implementation(libs.molecule.runtime)
 

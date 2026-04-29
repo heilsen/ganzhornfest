@@ -1,7 +1,7 @@
 package de.heilsen.ganzhornfest.countdown
 
 import dev.zacsweers.metro.Inject
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 @OptIn(kotlin.time.ExperimentalTime::class)
 class CountdownUseCase @Inject constructor() {

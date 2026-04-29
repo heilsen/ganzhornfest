@@ -4,7 +4,7 @@ package de.heilsen.ganzhornfest.countdown
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlin.time.Duration.Companion.seconds
 
 class CountdownUseCaseTest : DescribeSpec({

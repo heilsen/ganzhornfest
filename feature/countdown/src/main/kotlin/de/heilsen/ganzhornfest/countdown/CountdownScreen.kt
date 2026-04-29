@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.heilsen.ganzhornfest.countdown.R
 import de.heilsen.ganzhornfest.core.FestivalEdition
 
 @Composable
@@ -33,8 +35,8 @@ fun CountdownScreen(
         ) {
             when (model) {
                 is CountdownModel.Before -> BeforeContent(model, onEnterApp)
-                CountdownModel.During -> MessageContent("Das Fest läuft!", onEnterApp)
-                CountdownModel.After -> MessageContent("Bis nächstes Jahr!", onEnterApp)
+                CountdownModel.During -> MessageContent(stringResource(R.string.countdown_message_during), onEnterApp)
+                CountdownModel.After -> MessageContent(stringResource(R.string.countdown_message_after), onEnterApp)
             }
         }
     }
@@ -48,14 +50,14 @@ private fun BeforeContent(model: CountdownModel.Before, onEnterApp: () -> Unit) 
     )
     Spacer(modifier = Modifier.height(32.dp))
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        CountdownUnit(model.days, "Tage")
-        CountdownUnit(model.hours, "Stunden")
-        CountdownUnit(model.minutes, "Minuten")
-        CountdownUnit(model.seconds, "Sekunden")
+        CountdownUnit(model.days, stringResource(R.string.countdown_unit_days))
+        CountdownUnit(model.hours, stringResource(R.string.countdown_unit_hours))
+        CountdownUnit(model.minutes, stringResource(R.string.countdown_unit_minutes))
+        CountdownUnit(model.seconds, stringResource(R.string.countdown_unit_seconds))
     }
     Spacer(modifier = Modifier.height(32.dp))
     Button(onClick = onEnterApp) {
-        Text("Zur App")
+        Text(stringResource(R.string.countdown_cta))
     }
 }
 
@@ -88,6 +90,6 @@ private fun MessageContent(message: String, onEnterApp: () -> Unit) {
     )
     Spacer(modifier = Modifier.height(32.dp))
     Button(onClick = onEnterApp) {
-        Text("Zur App")
+        Text(stringResource(R.string.countdown_cta))
     }
 }

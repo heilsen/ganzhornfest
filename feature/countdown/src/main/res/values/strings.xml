@@ -1,0 +1,9 @@
+<resources>
+    <string name="countdown_unit_days">Tage</string>
+    <string name="countdown_unit_hours">Stunden</string>
+    <string name="countdown_unit_minutes">Minuten</string>
+    <string name="countdown_unit_seconds">Sekunden</string>
+    <string name="countdown_message_during">Das Fest läuft!</string>
+    <string name="countdown_message_after">Bis nächstes Jahr!</string>
+    <string name="countdown_cta">Zur App</string>
+</resources>
