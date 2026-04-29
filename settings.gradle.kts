@@ -24,6 +24,7 @@ include(
     ":data",
     ":database",
     ":di-api",
+    ":feature:countdown",
     ":feature:search-api",
     ":feature:search-impl",
     ":info-api",
