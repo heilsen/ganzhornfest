@@ -205,7 +205,7 @@ private fun AppScaffold(navController: NavController, content: @Composable () ->
     val currentDestination = navBackStackEntry?.destination
     val showSearchFab by remember {
         derivedStateOf {
-            currentDestination?.hasRoute<Destination.Search>() == false
+            navBackStackEntry?.destination?.hasRoute<Destination.Search>() == false
         }
     }
     Scaffold(
