@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -168,10 +167,10 @@ fun MainScreen() {
                     )
                 }
                 composable<Destination.Map> {
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
-                        MapScreen(
-                            mapModel = mapModel,
+                    val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
+                    MapScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        mapModel = mapModel,
                             onMarkerSelected = { title, type ->
                                 when (type) {
                                     MarkerUiType.CLUB -> {
@@ -202,67 +201,66 @@ fun MainScreen() {
                                 }
                             }
                         )
-                    }
                 }
                 composable<Destination.Detail> { navBackStackEntry ->
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        val detail: Destination.Detail = navBackStackEntry.toRoute()
+                    val detail: Destination.Detail = navBackStackEntry.toRoute()
 
-                        val detailEvent: DetailEvent = when (detail.type) {
-                            DetailType.Club -> DetailEvent.Club(detail.title)
-                            DetailType.Offer -> DetailEvent.Offer(detail.title)
-                        }
-                        detailViewModel.take(detailEvent)
-                        val model by detailViewModel.models.collectAsStateWithLifecycle()
-                        DetailScreen(
-                            model = model,
-                            onBackClick = { navController.popBackStack() },
-                            onItemClicked = { searchTerm, type ->
-                                navController.navigate(
-                                    Destination.Detail(searchTerm, type)
-                                )
-                            }
-                        )
+                    val detailEvent: DetailEvent = when (detail.type) {
+                        DetailType.Club -> DetailEvent.Club(detail.title)
+                        DetailType.Offer -> DetailEvent.Offer(detail.title)
                     }
+                    detailViewModel.take(detailEvent)
+                    val model by detailViewModel.models.collectAsStateWithLifecycle()
+                    DetailScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        model = model,
+                        onBackClick = { navController.popBackStack() },
+                        onItemClicked = { searchTerm, type ->
+                            navController.navigate(
+                                Destination.Detail(searchTerm, type)
+                            )
+                        }
+                    )
                 }
                 composable<Destination.Program> {
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        val programModel by programViewModel.models.collectAsStateWithLifecycle()
-                        ProgramScreen(programModel, onEvent = programViewModel::take)
-                    }
+                    val programModel by programViewModel.models.collectAsStateWithLifecycle()
+                    ProgramScreen(
+                        programModel,
+                        onEvent = programViewModel::take,
+                        modifier = Modifier.padding(innerPadding),
+                    )
                 }
                 composable<Destination.Info> {
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        InfoScreen()
-                    }
+                    InfoScreen(modifier = Modifier.padding(innerPadding))
                 }
                 composable<Destination.Bus> {
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        val busModel by busViewModel.models.collectAsStateWithLifecycle()
-                        BusScreen(busModel, onEvent = busViewModel::take)
-                    }
+                    val busModel by busViewModel.models.collectAsStateWithLifecycle()
+                    BusScreen(
+                        busModel,
+                        onEvent = busViewModel::take,
+                        modifier = Modifier.padding(innerPadding),
+                    )
                 }
                 composable<Destination.Search> {
-                    Surface(modifier = Modifier.padding(innerPadding)) {
-                        val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
-                        SearchScreen(
-                            searchModel = searchModel,
-                            onEvent = { searchViewModel.take(it) },
-                            onSearchResultClicked = { item, category ->
-                                //TODO: move navigation into viewmodel
-                                val type = when (category) {
-                                    Category.Food,
-                                    Category.Drink -> DetailType.Offer
+                    val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
+                    SearchScreen(
+                        searchModel = searchModel,
+                        onEvent = { searchViewModel.take(it) },
+                        onSearchResultClicked = { item, category ->
+                            //TODO: move navigation into viewmodel
+                            val type = when (category) {
+                                Category.Food,
+                                Category.Drink -> DetailType.Offer
 
-                                    Category.Club -> DetailType.Club
-                                }
-                                navController.navigate(
-                                    Destination.Detail(item, type)
-                                )
-                            },
-                            onBackPressed = { navController.popBackStack() }
-                        )
-                    }
+                                Category.Club -> DetailType.Club
+                            }
+                            navController.navigate(
+                                Destination.Detail(item, type)
+                            )
+                        },
+                        onBackPressed = { navController.popBackStack() },
+                        modifier = Modifier.padding(innerPadding),
+                    )
                 }
             }
         }

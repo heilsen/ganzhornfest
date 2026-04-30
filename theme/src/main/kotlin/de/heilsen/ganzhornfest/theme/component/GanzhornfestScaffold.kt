@@ -22,10 +22,12 @@ import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 @Composable
 fun GanzhornfestScaffold(
     title: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     Scaffold(
+        modifier = modifier,
         topBar = {
             @OptIn(ExperimentalMaterial3Api::class)
             GanzhornfestTopAppBar(

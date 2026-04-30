@@ -27,12 +27,14 @@ fun DetailScreen(
     model: DetailModel,
     onBackClick: () -> Unit,
     onItemClicked: (String, DetailType) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Timber.tag("DetailScreen").i("Got model: $model")
     //TODO: handle DetailModel Loading
     if (model !is DetailModel.Success) return
     GanzhornfestScaffold(
         title = { Text(text = model.title) },
+        modifier = modifier,
         navigationIcon = {
             IconButton(onClick = { onBackClick() }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, "zurück")

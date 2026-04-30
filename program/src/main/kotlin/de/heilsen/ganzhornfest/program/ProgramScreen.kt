@@ -28,13 +28,14 @@ import java.text.DateFormat
 @Composable
 fun ProgramScreen(
     programModel: ProgramModel,
-    onEvent: (ProgramEvent) -> Unit = {}
+    onEvent: (ProgramEvent) -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     GanzhornfestScaffold(title = {
         Text(
             "Programmplan"
         )
-    }) {
+    }, modifier = modifier) {
         Box {
             Column {
                 when (programModel) {

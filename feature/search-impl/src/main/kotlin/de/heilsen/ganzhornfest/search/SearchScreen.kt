@@ -61,7 +61,8 @@ fun SearchScreen(
     ),
     onEvent: (SearchEvent) -> Unit = {},
     onSearchResultClicked: (String, Category) -> Unit = { _, _ -> },
-    onBackPressed: () -> Unit = {}
+    onBackPressed: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     val entryPoint: EntryPoint by rememberAppGraph()
     val resourcesProvider = entryPoint.resourcesProvider
@@ -70,6 +71,7 @@ fun SearchScreen(
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             SearchBar(
                 leadingIcon = {

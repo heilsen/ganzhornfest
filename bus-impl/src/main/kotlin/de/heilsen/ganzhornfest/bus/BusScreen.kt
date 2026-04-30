@@ -40,9 +40,11 @@ import de.heilsen.ganzhornfest.bus.api.R as ApiR
 fun BusScreen(
     busModel: BusModel,
     onEvent: (BusEvent) -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     GanzhornfestScaffold(
-        title = { Text(stringResource(id = ApiR.string.bus_screen_title)) }
+        title = { Text(stringResource(id = ApiR.string.bus_screen_title)) },
+        modifier = modifier,
     ) {
         Box {
             Column {
