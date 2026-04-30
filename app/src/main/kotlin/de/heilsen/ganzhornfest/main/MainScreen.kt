@@ -152,23 +152,23 @@ fun MainScreen() {
             },
             floatingActionButtonPosition = FabPosition.End,
         ) { innerPadding ->
-            Surface(modifier = Modifier.padding(innerPadding)) {
-                NavHost(
-                    navController = navController,
-                    startDestination = Destination.Home
-                ) {
-                    composable<Destination.Home> {
-                        val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
-                        CountdownScreen(
-                            model = countdownModel,
-                            onEnterApp = {
-                                navController.navigate(Destination.Map) {
-                                    popUpTo(Destination.Home) { inclusive = true }
-                                }
-                            },
-                        )
-                    }
-                    composable<Destination.Map> {
+            NavHost(
+                navController = navController,
+                startDestination = Destination.Home
+            ) {
+                composable<Destination.Home> {
+                    val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
+                    CountdownScreen(
+                        model = countdownModel,
+                        onEnterApp = {
+                            navController.navigate(Destination.Map) {
+                                popUpTo(Destination.Home) { inclusive = true }
+                            }
+                        },
+                    )
+                }
+                composable<Destination.Map> {
+                    Surface(modifier = Modifier.padding(innerPadding)) {
                         val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
                         MapScreen(
                             mapModel = mapModel,
@@ -203,7 +203,9 @@ fun MainScreen() {
                             }
                         )
                     }
-                    composable<Destination.Detail> { navBackStackEntry ->
+                }
+                composable<Destination.Detail> { navBackStackEntry ->
+                    Surface(modifier = Modifier.padding(innerPadding)) {
                         val detail: Destination.Detail = navBackStackEntry.toRoute()
 
                         val detailEvent: DetailEvent = when (detail.type) {
@@ -222,18 +224,26 @@ fun MainScreen() {
                             }
                         )
                     }
-                    composable<Destination.Program> {
+                }
+                composable<Destination.Program> {
+                    Surface(modifier = Modifier.padding(innerPadding)) {
                         val programModel by programViewModel.models.collectAsStateWithLifecycle()
                         ProgramScreen(programModel, onEvent = programViewModel::take)
                     }
-                    composable<Destination.Info> {
+                }
+                composable<Destination.Info> {
+                    Surface(modifier = Modifier.padding(innerPadding)) {
                         InfoScreen()
                     }
-                    composable<Destination.Bus> {
+                }
+                composable<Destination.Bus> {
+                    Surface(modifier = Modifier.padding(innerPadding)) {
                         val busModel by busViewModel.models.collectAsStateWithLifecycle()
                         BusScreen(busModel, onEvent = busViewModel::take)
                     }
-                    composable<Destination.Search> {
+                }
+                composable<Destination.Search> {
+                    Surface(modifier = Modifier.padding(innerPadding)) {
                         val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
                         SearchScreen(
                             searchModel = searchModel,
