@@ -33,6 +33,17 @@ android {
         resValue("string", "google_maps_key", localProperties["google_maps_key"] as String)
     }
 
+    val keystoreProps = readProperties("keystore.properties")
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(keystoreProps["storeFile"] as String)
+            storePassword = keystoreProps["storePassword"] as String
+            keyAlias = keystoreProps["keyAlias"] as String
+            keyPassword = keystoreProps["keyPassword"] as String
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -40,6 +51,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 file("proguard-rules.pro")
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 

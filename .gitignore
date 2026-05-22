@@ -3,6 +3,7 @@
 .kotlin/
 .gradle/
 /local.properties
+/keystore.properties
 .DS_Store
 captures/
 .externalNativeBuild
