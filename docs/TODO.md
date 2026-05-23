@@ -17,9 +17,6 @@
   - Stop hardcoding the bus start time to `19:00`
   - Introduce opening hours per day and use them for bus/program filtering
 
-- [ ] Remove or implement unused location capability
-  - `ACCESS_FINE_LOCATION` and `ACCESS_COARSE_LOCATION` are declared, but there is no visible runtime location feature
-
 ## UX And Feature Work
 
 - [ ] Modernize the search screen
@@ -82,11 +79,8 @@
 
 - [ ] Improve build and repo hygiene
   - Stop reading `local.properties` during Gradle configuration
-  - Review whether `kapt` should be migrated to `ksp`
-  - Ignore release artifacts such as `.aab` files outside `/app/release`
 
 - [ ] Modernize Android setup
-  - Switch `MainActivity` from `AppCompatActivity` to `ComponentActivity`
   - Add edge-to-edge/insets handling
 
 - [ ] Update project documentation
