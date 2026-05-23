@@ -32,7 +32,9 @@ android {
         resValue("string", "google_maps_key", localProperties["google_maps_key"] as String)
     }
 
-    val keystoreProps = readProperties("keystore.properties")
+    val keystoreProps = rootProject.file("keystore.properties")
+        .takeIf { it.exists() }
+        ?.let { readProperties("keystore.properties") }
     val signingConfigName = (findProperty("signingConfig") as String?) ?: "release"
     require(signingConfigName in setOf("release", "upload")) {
         "Unknown -PsigningConfig='$signingConfigName'. Use 'release' or 'upload'."
@@ -40,16 +42,20 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file(keystoreProps["storeFile"] as String)
-            storePassword = keystoreProps["storePassword"] as String
-            keyAlias = keystoreProps["release.keyAlias"] as String
-            keyPassword = keystoreProps["release.keyPassword"] as String
+            if (keystoreProps != null) {
+                storeFile = file(keystoreProps["storeFile"] as String)
+                storePassword = keystoreProps["storePassword"] as String
+                keyAlias = keystoreProps["release.keyAlias"] as String
+                keyPassword = keystoreProps["release.keyPassword"] as String
+            }
         }
         create("upload") {
-            storeFile = file(keystoreProps["storeFile"] as String)
-            storePassword = keystoreProps["storePassword"] as String
-            keyAlias = keystoreProps["upload.keyAlias"] as String
-            keyPassword = keystoreProps["upload.keyPassword"] as String
+            if (keystoreProps != null) {
+                storeFile = file(keystoreProps["storeFile"] as String)
+                storePassword = keystoreProps["storePassword"] as String
+                keyAlias = keystoreProps["upload.keyAlias"] as String
+                keyPassword = keystoreProps["upload.keyPassword"] as String
+            }
         }
     }
 
@@ -60,7 +66,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 file("proguard-rules.pro")
             )
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName(signingConfigName)
         }
     }
 
