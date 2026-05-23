@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.metro)
     alias(libs.plugins.kotlin.compose)
 }
@@ -9,6 +8,14 @@ android {
     namespace = "de.heilsen.ganzhornfest.search.impl"
     compileSdk = 37
     defaultConfig.minSdk = 24
+
+    testOptions {
+        unitTests {
+            all { test ->
+                test.useJUnitPlatform()
+            }
+        }
+    }
 }
 
 kotlin {

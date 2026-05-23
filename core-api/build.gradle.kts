@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.metro)
 }
 
 android {
-    namespace = "de.heilsen.ganzhornfest.core"
+    namespace = "de.heilsen.ganzhornfest.core.api"
     compileSdk = 37
     defaultConfig.minSdk = 24
 }
