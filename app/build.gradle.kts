@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId = "de.heilsen.ganzhornfest"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 202601
         versionName = "2026.1.1"
 
