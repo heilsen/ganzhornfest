@@ -33,13 +33,23 @@ android {
     }
 
     val keystoreProps = readProperties("keystore.properties")
+    val signingConfigName = (findProperty("signingConfig") as String?) ?: "release"
+    require(signingConfigName in setOf("release", "upload")) {
+        "Unknown -PsigningConfig='$signingConfigName'. Use 'release' or 'upload'."
+    }
 
     signingConfigs {
         create("release") {
             storeFile = file(keystoreProps["storeFile"] as String)
             storePassword = keystoreProps["storePassword"] as String
-            keyAlias = keystoreProps["keyAlias"] as String
-            keyPassword = keystoreProps["keyPassword"] as String
+            keyAlias = keystoreProps["release.keyAlias"] as String
+            keyPassword = keystoreProps["release.keyPassword"] as String
+        }
+        create("upload") {
+            storeFile = file(keystoreProps["storeFile"] as String)
+            storePassword = keystoreProps["storePassword"] as String
+            keyAlias = keystoreProps["upload.keyAlias"] as String
+            keyPassword = keystoreProps["upload.keyPassword"] as String
         }
     }
 
