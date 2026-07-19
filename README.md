@@ -16,7 +16,7 @@ The app provides festival information in German, including:
 - Android Gradle Plugin
 - Jetpack Compose
 - Navigation Compose
-- Dagger
+- Metro (compiler plugin DI)
 - SQLDelight
 - Kotlin Coroutines
 - Kotlinx Serialization
@@ -33,6 +33,7 @@ The app provides festival information in German, including:
 - `:map` - map and detail flows
 - `:program` - festival program feature
 - `:bus-api`, `:bus-impl` - bus feature
+- `:feature:countdown` - countdown feature, the cleanest module template
 - `:feature:search-api`, `:feature:search-impl` - search feature
 - `:info-api` - info screen surface
 - `:di-api` - DI scopes and component access helpers
@@ -40,7 +41,7 @@ The app provides festival information in German, including:
 ## Requirements
 
 - JDK 21
-- Android SDK / build tools compatible with `compileSdk 36`
+- Android SDK / build tools compatible with `compileSdk 37`
 - `local.properties` with a Google Maps API key:
 
 ```properties
@@ -54,11 +55,16 @@ The current Gradle setup reads `local.properties` during configuration from [`ap
 Use the Gradle wrapper from the repo root:
 
 ```bash
+./gradlew check              # the full gate: unit tests, android lint, ktlint
 ./gradlew :app:assembleDebug
 ./gradlew test
 ./gradlew :feature:search-impl:test
 ./gradlew :app:lintDebug
+./gradlew ktlintFormat       # auto fix formatting
 ```
+
+`./gradlew check` is the single verification gate. ktlint is wired in through
+the `ganzhornfest` convention plugin in `build-logic`.
 
 ## Architecture
 
@@ -76,7 +82,19 @@ UI Screen → ViewModel → Presenter (@Composable) → Use Case → Repository 
 
 ### Dependency Injection
 
-Dagger 2 with a single `AppComponent` root (`:app`). Each feature module owns its `@Module` and optionally an `EntryPoint` interface. UI accesses the component via `rememberAppScope()` from `:di-api`.
+Metro (`dev.zacsweers.metro`), a compiler plugin DI framework. Not Dagger, Hilt, or Koin. A single `@DependencyGraph(AppScope::class)` root lives in `:app` (`di/AppComponent.kt`) and is created with `createGraphFactory` in `GanzhornfestApplication`. Bindings use `@Inject constructor`, `@ContributesBinding`, `@ContributesTo`, `@Provides`, and `@BindingContainer`. UI reaches the graph via `rememberAppGraph()` from `:di-api`.
+
+### Adding A Feature
+
+`:feature:countdown` is the cleanest template. A feature module usually holds:
+
+- a `Model` sealed interface
+- a `UseCase` with a unit test
+- a `@Composable` presenter
+- a `MoleculeViewModel` subclass
+- the Compose screen
+
+Register the new module in `settings.gradle.kts`.
 
 ### Navigation
 
