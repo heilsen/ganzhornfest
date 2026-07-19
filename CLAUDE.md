@@ -41,9 +41,8 @@ each other's files.
 
 ## Testing
 
-Coverage is light. Unit tests live in `:feature:search-impl` and `:feature:countdown`.
-For logic changes add or extend tests where the module already has test dependencies
-(`kotest`, `mockk`, `turbine`).
+Coverage is light. For logic changes add or extend tests where the module already has
+test dependencies (`kotest`, `mockk`, `turbine`).
 
 ## Writing style
 
