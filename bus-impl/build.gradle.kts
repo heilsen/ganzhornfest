@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.metro)
+    id("ganzhornfest")
     alias(libs.plugins.kotlin.compose)
 }
 
@@ -31,5 +32,4 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
-
 }

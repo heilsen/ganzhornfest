@@ -9,7 +9,8 @@ sealed interface ProgramModel {
         val selectedLocation: String?,
         val dates: ImmutableList<LocalDate>,
         val selectedDate: LocalDate,
-        val programs: ImmutableList<Program>
+        val programs: ImmutableList<Program>,
     ) : ProgramModel
+
     data object Loading : ProgramModel
 }

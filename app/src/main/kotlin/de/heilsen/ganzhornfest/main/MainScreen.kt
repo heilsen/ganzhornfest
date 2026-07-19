@@ -110,31 +110,35 @@ fun MainScreen() {
                                 Icon(Icons.Default.Info, stringResource(R.string.info))
                             },
                             onClick = { navController.navigate(Destination.Info) },
-                            label = { Text(stringResource(R.string.info)) })
+                            label = { Text(stringResource(R.string.info)) },
+                        )
                         NavigationBarItem(
                             currentDestination?.hasRoute<Destination.Map>() ?: false,
                             icon = {
                                 Icon(Icons.Default.LocationOn, stringResource(R.string.map))
                             },
                             onClick = { navController.navigate(Destination.Map) },
-                            label = { Text(stringResource(R.string.map)) })
+                            label = { Text(stringResource(R.string.map)) },
+                        )
                         NavigationBarItem(
                             currentDestination?.hasRoute<Destination.Program>() ?: false,
                             icon = {
                                 Icon(Icons.Default.DateRange, stringResource(R.string.program))
                             },
                             onClick = { navController.navigate(Destination.Program) },
-                            label = { Text(stringResource(R.string.program)) })
+                            label = { Text(stringResource(R.string.program)) },
+                        )
                         NavigationBarItem(
                             currentDestination?.hasRoute<Destination.Bus>() ?: false,
                             icon = {
                                 Icon(
                                     ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
-                                    stringResource(R.string.bustimes)
+                                    stringResource(R.string.bustimes),
                                 )
                             },
                             onClick = { navController.navigate(Destination.Bus) },
-                            label = { Text(stringResource(R.string.bustimes)) })
+                            label = { Text(stringResource(R.string.bustimes)) },
+                        )
                     }
                 }
             },
@@ -142,7 +146,7 @@ fun MainScreen() {
                 AnimatedVisibility(
                     visible = showSearchFab,
                     enter = fadeIn() + slideInHorizontally { it },
-                    exit = fadeOut() + slideOutHorizontally { it }
+                    exit = fadeOut() + slideOutHorizontally { it },
                 ) {
                     FloatingActionButton(onClick = { navController.navigate(Destination.Search) }) {
                         Icon(Icons.Default.Search, stringResource(R.string.search))
@@ -153,7 +157,7 @@ fun MainScreen() {
         ) { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = Destination.Home
+                startDestination = Destination.Home,
             ) {
                 composable<Destination.Home> {
                     val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
@@ -171,44 +175,45 @@ fun MainScreen() {
                     MapScreen(
                         modifier = Modifier.padding(innerPadding),
                         mapModel = mapModel,
-                            onMarkerSelected = { title, type ->
-                                when (type) {
-                                    MarkerUiType.CLUB -> {
-                                        navController.navigate(
-                                            Destination.Detail(title, DetailType.Club)
-                                        )
-                                    }
+                        onMarkerSelected = { title, type ->
+                            when (type) {
+                                MarkerUiType.CLUB -> {
+                                    navController.navigate(
+                                        Destination.Detail(title, DetailType.Club),
+                                    )
+                                }
 
-                                    MarkerUiType.EVENT_LOCATION -> {
-                                        navController.navigate(Destination.Program)
-                                    }
+                                MarkerUiType.EVENT_LOCATION -> {
+                                    navController.navigate(Destination.Program)
+                                }
 
-                                    MarkerUiType.PLAYGROUND -> {
-                                        navController.navigate(Destination.Program)
-                                    }
+                                MarkerUiType.PLAYGROUND -> {
+                                    navController.navigate(Destination.Program)
+                                }
 
-                                    MarkerUiType.WC -> {
-                                        // Nothing to see here
-                                    }
+                                MarkerUiType.WC -> {
+                                    // Nothing to see here
+                                }
 
-                                    MarkerUiType.FIRST_AID -> {
-                                        // Nothing to see here
-                                    }
+                                MarkerUiType.FIRST_AID -> {
+                                    // Nothing to see here
+                                }
 
-                                    MarkerUiType.BUS_STOP -> {
-                                        navController.navigate(Destination.Bus)
-                                    }
+                                MarkerUiType.BUS_STOP -> {
+                                    navController.navigate(Destination.Bus)
                                 }
                             }
-                        )
+                        },
+                    )
                 }
                 composable<Destination.Detail> { navBackStackEntry ->
                     val detail: Destination.Detail = navBackStackEntry.toRoute()
 
-                    val detailEvent: DetailEvent = when (detail.type) {
-                        DetailType.Club -> DetailEvent.Club(detail.title)
-                        DetailType.Offer -> DetailEvent.Offer(detail.title)
-                    }
+                    val detailEvent: DetailEvent =
+                        when (detail.type) {
+                            DetailType.Club -> DetailEvent.Club(detail.title)
+                            DetailType.Offer -> DetailEvent.Offer(detail.title)
+                        }
                     detailViewModel.take(detailEvent)
                     val model by detailViewModel.models.collectAsStateWithLifecycle()
                     DetailScreen(
@@ -217,9 +222,9 @@ fun MainScreen() {
                         onBackClick = { navController.popBackStack() },
                         onItemClicked = { searchTerm, type ->
                             navController.navigate(
-                                Destination.Detail(searchTerm, type)
+                                Destination.Detail(searchTerm, type),
                             )
-                        }
+                        },
                     )
                 }
                 composable<Destination.Program> {
@@ -247,15 +252,17 @@ fun MainScreen() {
                         searchModel = searchModel,
                         onEvent = { searchViewModel.take(it) },
                         onSearchResultClicked = { item, category ->
-                            //TODO: move navigation into viewmodel
-                            val type = when (category) {
-                                Category.Food,
-                                Category.Drink -> DetailType.Offer
+                            // TODO: move navigation into viewmodel
+                            val type =
+                                when (category) {
+                                    Category.Food,
+                                    Category.Drink,
+                                    -> DetailType.Offer
 
-                                Category.Club -> DetailType.Club
-                            }
+                                    Category.Club -> DetailType.Club
+                                }
                             navController.navigate(
-                                Destination.Detail(item, type)
+                                Destination.Detail(item, type),
                             )
                         },
                         onBackPressed = { navController.popBackStack() },

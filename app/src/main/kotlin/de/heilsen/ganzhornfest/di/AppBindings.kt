@@ -10,5 +10,6 @@ import dev.zacsweers.metro.Provides
 @ContributesTo(AppScope::class)
 interface AppBindings {
     @Provides fun provideApplication(app: GanzhornfestApplication): Application = app
+
     @Provides fun provideContext(app: GanzhornfestApplication): Context = app
 }

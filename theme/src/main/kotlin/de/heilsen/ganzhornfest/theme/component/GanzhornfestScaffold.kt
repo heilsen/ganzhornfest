@@ -32,13 +32,13 @@ fun GanzhornfestScaffold(
             @OptIn(ExperimentalMaterial3Api::class)
             GanzhornfestTopAppBar(
                 title = title,
-                navigationIcon = navigationIcon
+                navigationIcon = navigationIcon,
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues),
-            content = content
+            content = content,
         )
     }
 }
@@ -53,7 +53,7 @@ fun GanzhornfestTopAppBar(
     TopAppBar(
         title = title,
         colors = topAppBarColors,
-        navigationIcon = navigationIcon
+        navigationIcon = navigationIcon,
     )
 }
 
@@ -63,9 +63,11 @@ fun GanzhornfestScaffoldPreview() {
     GanzhornfestTheme {
         GanzhornfestScaffold(
             title = { Text("Title") },
-            navigationIcon = { IconButton(onClick = { /*no-op*/ }) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, "zurück") }
-            }
+            navigationIcon = {
+                IconButton(onClick = { /*no-op*/ }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, "zurück")
+                }
+            },
         ) {
             Text("Content")
         }

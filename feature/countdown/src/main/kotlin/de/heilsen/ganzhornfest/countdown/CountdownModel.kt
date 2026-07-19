@@ -9,5 +9,6 @@ sealed interface CountdownModel {
     ) : CountdownModel
 
     data object During : CountdownModel
+
     data object After : CountdownModel
 }

@@ -23,7 +23,7 @@ import kotlinx.collections.immutable.persistentListOf
 fun VerticalCards(
     @PreviewParameter(SampleProvider::class) messages: ImmutableList<String>,
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit = {}
+    onClick: (String) -> Unit = {},
 ) {
 }
 
@@ -35,14 +35,14 @@ fun HorizontalCards(
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.Start,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
     ) {
         items(messages) { message ->
             Card(
                 modifier = Modifier.wrapContentHeight(Alignment.Top),
-                onClick = {}
+                onClick = {},
             ) {
-                Column() {
+                Column {
                     Text(message, style = MaterialTheme.typography.headlineSmall)
                     Text(message)
                 }

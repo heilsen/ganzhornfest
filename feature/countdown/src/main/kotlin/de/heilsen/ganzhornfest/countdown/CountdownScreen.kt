@@ -14,11 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import de.heilsen.ganzhornfest.countdown.R
 import de.heilsen.ganzhornfest.core.FestivalEdition
+import de.heilsen.ganzhornfest.countdown.R
 
 @Composable
 fun CountdownScreen(
@@ -27,9 +27,10 @@ fun CountdownScreen(
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -43,7 +44,10 @@ fun CountdownScreen(
 }
 
 @Composable
-private fun BeforeContent(model: CountdownModel.Before, onEnterApp: () -> Unit) {
+private fun BeforeContent(
+    model: CountdownModel.Before,
+    onEnterApp: () -> Unit,
+) {
     Text(
         text = "${FestivalEdition.editionNumber}. Ganzhornfest ${FestivalEdition.year}",
         style = MaterialTheme.typography.headlineSmall,
@@ -62,7 +66,10 @@ private fun BeforeContent(model: CountdownModel.Before, onEnterApp: () -> Unit) 
 }
 
 @Composable
-private fun CountdownUnit(value: Long, label: String) {
+private fun CountdownUnit(
+    value: Long,
+    label: String,
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = value.toString().padStart(2, '0'),
@@ -77,7 +84,10 @@ private fun CountdownUnit(value: Long, label: String) {
 }
 
 @Composable
-private fun MessageContent(message: String, onEnterApp: () -> Unit) {
+private fun MessageContent(
+    message: String,
+    onEnterApp: () -> Unit,
+) {
     Text(
         text = "${FestivalEdition.editionNumber}. Ganzhornfest ${FestivalEdition.year}",
         style = MaterialTheme.typography.headlineSmall,

@@ -7,9 +7,9 @@ data class Program(
     val description: String?,
     val start: LocalDateTime,
     val end: LocalDateTime?,
-    val stage: String
+    val stage: String,
 ) {
     val isOpenEnd: Boolean = end != null
     val hasDescription: Boolean = description != null
-    val key: String = name+start
+    val key: String = name + start
 }
