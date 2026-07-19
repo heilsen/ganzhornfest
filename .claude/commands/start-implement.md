@@ -1,5 +1,5 @@
 ---
-description: Start an isolated change in a fresh git worktree off master
+description: Start an isolated change in a fresh git worktree off main
 argument-hint: <type> <slug>
 ---
 
@@ -8,10 +8,10 @@ Start a new isolated change. Type is `$1`. Slug is `$2`.
 Steps:
 
 1. Check `$1` is one of feat, fix, refactor, chore, build, docs. If not, stop and ask.
-2. From the main checkout root, create a worktree and branch off master:
+2. From the main checkout root, create a worktree and branch off main:
 
    ```bash
-   git worktree add -b $1/$2 ../GanzhornfestCompose-$2 master
+   git worktree add -b $1/$2 ../GanzhornfestCompose-$2 main
    ```
 
 3. Bootstrap the worktree so Gradle can configure and build.

@@ -7,14 +7,15 @@ setup. This file only covers how to work here.
 
 ## Workflow
 
-Every change runs in its own git worktree off `master`, so parallel agents never edit
-each other's files.
+Every change runs in its own git worktree off `main`, so parallel agents never edit
+each other's files. Any request to fix, implement, or change something goes through this
+flow. Run `/start-implement` before making the change and `/create-pr` after.
 
 1. `/start-implement <type> <slug>` creates the worktree and branch `<type>/<slug>`, then
    bootstraps it (copies `local.properties`, writes a stub `keystore.properties`).
 2. Make the change inside that worktree.
 3. `/create-pr` runs `./gradlew check`. Only if it passes does it commit, push, and open
-   a draft PR against `master`.
+   a draft PR against `main`.
 
 `type` is one of feat, fix, refactor, chore, build, docs.
 

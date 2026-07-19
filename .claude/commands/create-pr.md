@@ -1,5 +1,5 @@
 ---
-description: Verify with ./gradlew check, then commit and open a draft PR
+description: Verify with ./gradlew check, then commit and open a PR
 ---
 
 Finish the current change and open it for review. Run this from inside the worktree for
@@ -24,10 +24,10 @@ this change.
      ```
 
    - Push the branch.
-   - Open a draft PR against master:
+   - Open a PR against main:
 
      ```bash
-     gh pr create --draft --base master
+     gh pr create --base main
      ```
 
      Keep the title and body terse and human-readable. Same style rules. End the body
