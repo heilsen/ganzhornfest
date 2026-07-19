@@ -54,19 +54,23 @@ fun BusScreen(
                 }
             }
             Text(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .background(MaterialTheme.colorScheme.surface),
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .background(MaterialTheme.colorScheme.surface),
                 textAlign = TextAlign.End,
                 text = "Angaben ohne Gewähr",
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.labelSmall,
             )
         }
     }
 }
 
 @Composable
-private fun BusScreenSuccess(busModel: BusModel.Data, onEvent: (BusEvent) -> Unit) {
+private fun BusScreenSuccess(
+    busModel: BusModel.Data,
+    onEvent: (BusEvent) -> Unit,
+) {
     val destinations = busModel.destinations
     val selectedDestination = busModel.destination
     val selectedDate = busModel.departureDate
@@ -79,38 +83,40 @@ private fun BusScreenSuccess(busModel: BusModel.Data, onEvent: (BusEvent) -> Uni
             { onEvent(BusEvent.ChangeDestination(it)) },
             availableDates,
             selectedDate,
-            { onEvent(BusEvent.ChangeDeparture(it)) }
+            { onEvent(BusEvent.ChangeDeparture(it)) },
         )
         Row(
-            modifier = Modifier
-                .padding(4.dp, 8.dp, 0.dp, 8.dp)
-                .fillMaxWidth()
+            modifier =
+                Modifier
+                    .padding(4.dp, 8.dp, 0.dp, 8.dp)
+                    .fillMaxWidth(),
         ) {
             Text("Verbindungen (ab 19 Uhr)")
             HorizontalDivider(Modifier.align(Alignment.CenterVertically))
         }
         Connections(busModel.connections, selectedDate)
     }
-
 }
 
-
 @Composable
-private fun Connections(connections: List<BusConnection>, selectedDate: LocalDate) {
+private fun Connections(
+    connections: List<BusConnection>,
+    selectedDate: LocalDate,
+) {
     if (connections.isEmpty()) {
         EmptyScreen {
             Text(
                 text = "Bitte die Auswahl oben ändern",
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     } else {
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(
                 count = connections.size,
-                key = { index -> connections[index].key }
+                key = { index -> connections[index].key },
             ) { index ->
                 val busConnection = connections[index]
                 val showDay by remember { derivedStateOf { selectedDate != busConnection.departureAt.date } }
@@ -119,7 +125,6 @@ private fun Connections(connections: List<BusConnection>, selectedDate: LocalDat
         }
     }
 }
-
 
 @Composable
 private fun BusLineSelectionCard(
@@ -131,20 +136,21 @@ private fun BusLineSelectionCard(
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val selectionConfigs: List<SelectionConfig<*>> = listOf(
-        SelectionConfig(
-            selectedItem = selectedDestination,
-            selectedItemLabel = "Nach",
-            items = destinations,
-            onItemSelected = onDestinationSelected
-        ),
-        SelectionConfig(
-            selectedItem = selectedDate,
-            selectedItemLabel = "Abfahrt",
-            items = dates,
-            onItemSelected = onDateSelected
-        ) { formatToLocalDate(it, DateFormat.FULL) }
-    )
+    val selectionConfigs: List<SelectionConfig<*>> =
+        listOf(
+            SelectionConfig(
+                selectedItem = selectedDestination,
+                selectedItemLabel = "Nach",
+                items = destinations,
+                onItemSelected = onDestinationSelected,
+            ),
+            SelectionConfig(
+                selectedItem = selectedDate,
+                selectedItemLabel = "Abfahrt",
+                items = dates,
+                onItemSelected = onDateSelected,
+            ) { formatToLocalDate(it, DateFormat.FULL) },
+        )
     SelectionCard(
         selectionConfigs = selectionConfigs,
         modifier = modifier,
@@ -158,14 +164,15 @@ private fun BusLineSelectionCard(
                 singleLine = true,
                 label = { Text("Von") },
             )
-        }
+        },
     )
 }
 
-
 @PreviewDefault
 @Composable
-fun BusScreenPreview(@PreviewParameter(provider = BusModelPreviewParameterProvider::class) busModel: BusModel) {
+fun BusScreenPreview(
+    @PreviewParameter(provider = BusModelPreviewParameterProvider::class) busModel: BusModel,
+) {
     GanzhornfestTheme {
         BusScreen(busModel)
     }

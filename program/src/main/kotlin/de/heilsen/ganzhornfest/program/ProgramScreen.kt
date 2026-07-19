@@ -33,7 +33,7 @@ fun ProgramScreen(
 ) {
     GanzhornfestScaffold(title = {
         Text(
-            "Programmplan"
+            "Programmplan",
         )
     }, modifier = modifier) {
         Box {
@@ -44,14 +44,13 @@ fun ProgramScreen(
                 }
             }
         }
-
     }
 }
 
 @Composable
 fun ProgramScreenSuccess(
     programModel: ProgramModel.Data,
-    onEvent: (ProgramEvent) -> Unit = {}
+    onEvent: (ProgramEvent) -> Unit = {},
 ) {
     val locations: ImmutableList<String> = programModel.locations
     val selectedLocation: String? = programModel.selectedLocation
@@ -59,20 +58,21 @@ fun ProgramScreenSuccess(
     val selectedDate: LocalDate = programModel.selectedDate
 
     Column(modifier = Modifier.padding(8.dp, 8.dp, 8.dp)) {
-        val selectionConfigs: List<SelectionConfig<*>> = listOf(
-            SelectionConfig(
-                selectedItem = selectedLocation,
-                selectedItemLabel = "Bühne",
-                items = locations,
-                onItemSelected = { onEvent(ProgramEvent.ChangeLocation(it)) }
-            ),
-            SelectionConfig(
-                selectedItem = selectedDate,
-                selectedItemLabel = "Tag",
-                items = dates,
-                onItemSelected = { onEvent(ProgramEvent.ChangeDate(it)) }
-            ) { formatToLocalDate(it, DateFormat.FULL) }
-        )
+        val selectionConfigs: List<SelectionConfig<*>> =
+            listOf(
+                SelectionConfig(
+                    selectedItem = selectedLocation,
+                    selectedItemLabel = "Bühne",
+                    items = locations,
+                    onItemSelected = { onEvent(ProgramEvent.ChangeLocation(it)) },
+                ),
+                SelectionConfig(
+                    selectedItem = selectedDate,
+                    selectedItemLabel = "Tag",
+                    items = dates,
+                    onItemSelected = { onEvent(ProgramEvent.ChangeDate(it)) },
+                ) { formatToLocalDate(it, DateFormat.FULL) },
+            )
         SelectionCard(selectionConfigs)
         Spacer(Modifier.height(8.dp))
         Programs(programModel.programs)
@@ -85,60 +85,62 @@ private fun Programs(programs: List<Program>) {
         EmptyScreen {
             Text(
                 text = "Kein Programm gefunden.\nBitte die Auswahl oben ändern",
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     } else {
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(
                 count = programs.size,
-                key = { index -> programs[index].key }
+                key = { index -> programs[index].key },
             ) { index ->
                 val program = programs[index]
                 Ticket(
                     label = {
                         Text(
                             text = program.stage,
-                            modifier = Modifier.padding(
-                                horizontal = 12.dp,
-                                vertical = 4.dp
-                            ),
-                            style = MaterialTheme.typography.bodyMedium
+                            modifier =
+                                Modifier.padding(
+                                    horizontal = 12.dp,
+                                    vertical = 4.dp,
+                                ),
+                            style = MaterialTheme.typography.bodyMedium,
                         )
                     },
                     header = {
                         Text(
                             text = program.name,
-                            modifier = Modifier.padding(
-                                horizontal = 12.dp,
-                                vertical = 8.dp
-                            ),
-                            style = MaterialTheme.typography.titleLarge
+                            modifier =
+                                Modifier.padding(
+                                    horizontal = 12.dp,
+                                    vertical = 8.dp,
+                                ),
+                            style = MaterialTheme.typography.titleLarge,
                         )
                     },
                     sideBar = {
-                        val eventTime = buildString {
-                            append(formatToLocalTime(program.start, DateFormat.SHORT))
-                            val endTime = program.end
-                            if (endTime != null) {
-                                appendLine()
-                                appendLine("-")
-                                append(formatToLocalTime(endTime, DateFormat.SHORT))
+                        val eventTime =
+                            buildString {
+                                append(formatToLocalTime(program.start, DateFormat.SHORT))
+                                val endTime = program.end
+                                if (endTime != null) {
+                                    appendLine()
+                                    appendLine("-")
+                                    append(formatToLocalTime(endTime, DateFormat.SHORT))
+                                }
                             }
-                        }
                         Text(text = eventTime, textAlign = TextAlign.Center)
                     },
                     description = {
                         val description = program.description ?: return@Ticket
                         Text(
                             text = description,
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
                         )
-                    }
+                    },
                 )
-
             }
         }
     }

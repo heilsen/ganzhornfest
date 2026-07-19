@@ -8,6 +8,8 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.datetime.LocalDate
 
 @ContributesBinding(AppScope::class)
-class FestivalOpeningDays @Inject constructor() : GetOpeningDaysUseCase {
-    override fun invoke(): PersistentList<LocalDate> = FestivalEdition.days.toPersistentList()
-}
+class FestivalOpeningDays
+    @Inject
+    constructor() : GetOpeningDaysUseCase {
+        override fun invoke(): PersistentList<LocalDate> = FestivalEdition.days.toPersistentList()
+    }

@@ -30,7 +30,7 @@ fun DetailScreen(
     modifier: Modifier = Modifier,
 ) {
     Timber.tag("DetailScreen").i("Got model: $model")
-    //TODO: handle DetailModel Loading
+    // TODO: handle DetailModel Loading
     if (model !is DetailModel.Success) return
     GanzhornfestScaffold(
         title = { Text(text = model.title) },
@@ -39,60 +39,63 @@ fun DetailScreen(
             IconButton(onClick = { onBackClick() }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, "zurück")
             }
-        }
+        },
     ) {
         val mapModel = model.mapModel
         MapScreen(
             modifier = Modifier.weight(1f),
             mapModel = mapModel,
             onMarkerSelected = { title, type ->
-                //TODO: implement Details
+                // TODO: implement Details
 //                                println("onMarkerSelected: $title (type: $type)")
 //                                if (type == MarkerUiType.CLUB) {
 //                                    navController.navigate(Destination.Detail(title, type.toString()))
 //                                }
-            }
+            },
         )
         val scrollState = rememberScrollState()
         LazyColumn(
-            modifier = Modifier
-                .scrollable(
-                    state = scrollState,
-                    orientation = Orientation.Vertical
-                )
-                .weight(1f),
+            modifier =
+                Modifier
+                    .scrollable(
+                        state = scrollState,
+                        orientation = Orientation.Vertical,
+                    ).weight(1f),
         ) {
             stickyHeader {
-                val sectionTitle = when (model.type) {
-                    DetailType.Club -> "Angebot"
-                    DetailType.Offer -> "Vereine"
-                }
+                val sectionTitle =
+                    when (model.type) {
+                        DetailType.Club -> "Angebot"
+                        DetailType.Offer -> "Vereine"
+                    }
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .padding(12.dp)
-                        .padding(start = 12.dp) // align text begin with regular items
-                    ,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.primaryContainer)
+                            .padding(12.dp)
+                            .padding(start = 12.dp), // align text begin with regular items
                     text = sectionTitle,
-                    style = MaterialTheme.typography.headlineMedium
+                    style = MaterialTheme.typography.headlineMedium,
                 )
             }
             items(items = model.items, itemContent = { card: String ->
                 Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
                     onClick = {
                         when (model.type) {
                             DetailType.Club -> onItemClicked(card, DetailType.Offer)
                             DetailType.Offer -> onItemClicked(card, DetailType.Club)
                         }
-                    }) {
+                    },
+                ) {
                     Text(
                         modifier = Modifier.padding(16.dp),
                         text = card,
-                        style = MaterialTheme.typography.headlineSmall
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 }
             })

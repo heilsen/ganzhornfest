@@ -39,7 +39,6 @@ import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 import java.text.DateFormat
 import kotlin.time.ExperimentalTime
 
-
 @OptIn(ExperimentalTime::class, ExperimentalMaterial3Api::class)
 @Composable
 fun InfoScreen(modifier: Modifier = Modifier) {
@@ -48,20 +47,22 @@ fun InfoScreen(modifier: Modifier = Modifier) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
 
     Scaffold(
-        modifier = modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier =
+            modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    scrolledContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                ),
+                colors =
+                    TopAppBarDefaults.largeTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        scrolledContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    ),
                 title = {
                     val isExpanded = topAppBarState.collapsedFraction < 0.5f
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.Start,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         Text(
                             style = MaterialTheme.typography.headlineLarge,
@@ -79,58 +80,64 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                 },
                 scrollBehavior = scrollBehavior,
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .padding(top = 12.dp)
-                .padding(horizontal = 8.dp)
-                .verticalScroll(rememberScrollState())
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .padding(top = 12.dp)
+                    .padding(horizontal = 8.dp)
+                    .verticalScroll(rememberScrollState()),
         ) {
             Card(
                 Modifier
                     .padding(8.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
             }
             Card(
                 Modifier
                     .padding(8.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Column(Modifier.padding(16.dp)) {
                     val context = LocalContext.current
                     Text(
                         fontWeight = FontWeight.Bold,
-                        text = localizedDateFormat(
-                            context,
-                            DateFormat.FULL,
-                            FestivalEdition.days[0]
-                        )
+                        text =
+                            localizedDateFormat(
+                                context,
+                                DateFormat.FULL,
+                                FestivalEdition.days[0],
+                            ),
                     )
                     Text(
-                        text = stringResource(R.string.opening_hours_saturday)
-                    )
-                    Text(
-                        fontWeight = FontWeight.Bold,
-                        text = localizedDateFormat(
-                            context, DateFormat.FULL, FestivalEdition.days[1]
-                        )
-                    )
-                    Text(
-                        text = stringResource(R.string.opening_hours_sunday)
+                        text = stringResource(R.string.opening_hours_saturday),
                     )
                     Text(
                         fontWeight = FontWeight.Bold,
-                        text = localizedDateFormat(
-                            context,
-                            DateFormat.FULL,
-                            FestivalEdition.days[2]
-                        )
+                        text =
+                            localizedDateFormat(
+                                context,
+                                DateFormat.FULL,
+                                FestivalEdition.days[1],
+                            ),
                     )
                     Text(
-                        text = stringResource(R.string.opening_hours_monday)
+                        text = stringResource(R.string.opening_hours_sunday),
+                    )
+                    Text(
+                        fontWeight = FontWeight.Bold,
+                        text =
+                            localizedDateFormat(
+                                context,
+                                DateFormat.FULL,
+                                FestivalEdition.days[2],
+                            ),
+                    )
+                    Text(
+                        text = stringResource(R.string.opening_hours_monday),
                     )
                 }
             }
@@ -138,76 +145,82 @@ fun InfoScreen(modifier: Modifier = Modifier) {
             Card(
                 Modifier
                     .padding(8.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Text(
                     modifier = Modifier.padding(16.dp),
-                    text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
-                            appendLine("Neckarsulm")
-                        }
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
-                            appendLine("rund um das Deutschordensschloss,")
-                            append("den umliegenden Gassen und dem Karlsplatz")
-                        }
-                    }
+                    text =
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                                appendLine("Neckarsulm")
+                            }
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
+                                appendLine("rund um das Deutschordensschloss,")
+                                append("den umliegenden Gassen und dem Karlsplatz")
+                            }
+                        },
                 )
             }
             Card(
                 Modifier
                     .padding(8.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Text(
                     modifier = Modifier.padding(16.dp),
-                    text = buildAnnotatedString {
-                        append("39 Neckarsulmer Vereine bieten:"); appendLine()
-                        append("${Typography.bullet}\t\tinternationale und lokale ");
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Speisen")
-                        }
-                        appendLine()
-                        append("${Typography.bullet}\t\tvielfältige ");
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Getränke")
-                        }
-                        append("auswahl")
-                        appendLine()
-                        append("${Typography.bullet}\t\tkünstlerische ")
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Veranstaltungen")
-                        }
-                        appendLine()
-                        append("${Typography.bullet}\t\t")
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Programmpunkte")
-                        }
-                        append(" für Kinder/Jugendliche")
-                    }
+                    text =
+                        buildAnnotatedString {
+                            append("39 Neckarsulmer Vereine bieten:")
+                            appendLine()
+                            append("${Typography.bullet}\t\tinternationale und lokale ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Speisen")
+                            }
+                            appendLine()
+                            append("${Typography.bullet}\t\tvielfältige ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Getränke")
+                            }
+                            append("auswahl")
+                            appendLine()
+                            append("${Typography.bullet}\t\tkünstlerische ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Veranstaltungen")
+                            }
+                            appendLine()
+                            append("${Typography.bullet}\t\t")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Programmpunkte")
+                            }
+                            append(" für Kinder/Jugendliche")
+                        },
                 )
             }
 
             Card(
                 Modifier
                     .padding(8.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Column(Modifier.padding(16.dp)) {
                     Text(
                         buildAnnotatedString {
-                            append("An den Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für Rufauto-Fahrten). Dieser Service wird ermöglicht durch die Stadt Neckarsulm, den HNV und die Busunternehmen FMO, OVR und Zartmann. Die Fahrpläne befinden sich auf den Aushängen an den Haltestellen sowie unter ")
+                            append(
+                                "An den Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für Rufauto-Fahrten). Dieser Service wird ermöglicht durch die Stadt Neckarsulm, den HNV und die Busunternehmen FMO, OVR und Zartmann. Die Fahrpläne befinden sich auf den Aushängen an den Haltestellen sowie unter ",
+                            )
                             withLink(LinkAnnotation.Url("https://www.neckarsulmer-stadtbus.de")) {
                                 withStyle(
                                     SpanStyle(
                                         color = MaterialTheme.colorScheme.onSurface,
-                                        textDecoration = TextDecoration.Underline
-                                    )
+                                        textDecoration = TextDecoration.Underline,
+                                    ),
                                 ) {
                                     append("https://www.neckarsulmer-stadtbus.de")
                                 }
                             }
                             append(".")
-                        })
+                        },
+                    )
                     Spacer(modifier = Modifier.padding(4.dp))
                     Text("Eine Übersicht über die Busrückfahrten vom Ganzhornfest findest Du auch hier in der App.")
                 }
@@ -215,23 +228,24 @@ fun InfoScreen(modifier: Modifier = Modifier) {
             Card(
                 Modifier
                     .padding(4.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Text(
                     modifier = Modifier.padding(16.dp),
-                    text = buildAnnotatedString {
-                        append("Offizielle Informationen auf: ")
-                        withLink(LinkAnnotation.Url("https://www.ganzhornfest.com")) {
-                            withStyle(
-                                SpanStyle(
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    textDecoration = TextDecoration.Underline
-                                )
-                            ) {
-                                append("https://www.ganzhornfest.com")
+                    text =
+                        buildAnnotatedString {
+                            append("Offizielle Informationen auf: ")
+                            withLink(LinkAnnotation.Url("https://www.ganzhornfest.com")) {
+                                withStyle(
+                                    SpanStyle(
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        textDecoration = TextDecoration.Underline,
+                                    ),
+                                ) {
+                                    append("https://www.ganzhornfest.com")
+                                }
                             }
-                        }
-                    }
+                        },
                 )
             }
         }

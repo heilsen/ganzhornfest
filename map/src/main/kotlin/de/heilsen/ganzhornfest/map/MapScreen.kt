@@ -28,38 +28,45 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 
-
 @PreviewLightDark
 @Composable
 fun MapScreen(
     modifier: Modifier = Modifier,
     mapModel: MapModel = MapModel.Loading(),
-    onMarkerSelected: (String, MarkerUiType) -> Unit = { _, _ -> }
+    onMarkerSelected: (String, MarkerUiType) -> Unit = { _, _ -> },
 ) {
     when (mapModel) {
         is MapModel.Data -> {
-            //TODO: center around the club in the details screen
+            // TODO: center around the club in the details screen
             val center = LatLng(49.191669847836216, 9.222756134219502)
-            val cameraPositionState = rememberCameraPositionState {
-                position = CameraPosition.fromLatLngZoom(center, 18f)
-            }
+            val cameraPositionState =
+                rememberCameraPositionState {
+                    position = CameraPosition.fromLatLngZoom(center, 18f)
+                }
             Box(modifier = modifier) {
                 // Google Maps wants to also be able show Points on the Bound in the center, therefore the area must be very small around the center
-                val ganzhornfestArea = LatLngBounds(
-                    LatLng(49.18859845006538, 9.219649084689227), // SW:Bahnhof
-                    LatLng(49.19498798073398, 9.225975728423913) // NE:Frauenkirche
-                )
+                val ganzhornfestArea =
+                    LatLngBounds(
+                        LatLng(49.18859845006538, 9.219649084689227), // SW:Bahnhof
+                        LatLng(49.19498798073398, 9.225975728423913), // NE:Frauenkirche
+                    )
                 GoogleMap(
                     modifier = Modifier.align(Alignment.TopStart),
                     cameraPositionState = cameraPositionState,
-                    contentPadding = if (mapModel.isFullscreen) PaddingValues(bottom = 70.dp) else PaddingValues(
-                        0.dp
-                    ),
-                    properties = MapProperties(
-                        mapType = MapType.HYBRID,
-                        minZoomPreference = 16f,
-                        latLngBoundsForCameraTarget = ganzhornfestArea
-                    )
+                    contentPadding =
+                        if (mapModel.isFullscreen) {
+                            PaddingValues(bottom = 70.dp)
+                        } else {
+                            PaddingValues(
+                                0.dp,
+                            )
+                        },
+                    properties =
+                        MapProperties(
+                            mapType = MapType.HYBRID,
+                            minZoomPreference = 16f,
+                            latLngBoundsForCameraTarget = ganzhornfestArea,
+                        ),
                 ) {
                     for (marker in mapModel.markers) {
                         val markerState = rememberMarkerState(position = marker.latLng)
@@ -70,27 +77,27 @@ fun MapScreen(
                             onInfoWindowClick = {
                                 onMarkerSelected(
                                     marker.title,
-                                    marker.markerUiType
+                                    marker.markerUiType,
                                 )
                             },
-                            onInfoWindowClose = { }
+                            onInfoWindowClose = { },
                         )
                         if (mapModel.showWindowInfo) markerState.showInfoWindow()
                     }
                 }
                 if (mapModel.showLegend) {
                     Legend(
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .align(Alignment.BottomStart)
+                        modifier =
+                            Modifier
+                                .padding(4.dp)
+                                .align(Alignment.BottomStart),
                     )
                 }
             }
-
         }
 
         is MapModel.Loading -> {
-            /*TODO("implement loading")*/
+            // TODO("implement loading")
         }
     }
 }
@@ -100,14 +107,14 @@ fun Legend(modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.small,
-        color = MaterialTheme.colorScheme.surfaceVariant
+        color = MaterialTheme.colorScheme.surfaceVariant,
     ) {
         Column(Modifier.padding(4.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     Modifier
                         .size(8.dp)
-                        .background(Color(0xFFFF08F2))
+                        .background(Color(0xFFFF08F2)),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "Veranstaltungsort", style = MaterialTheme.typography.labelSmall)
@@ -116,7 +123,7 @@ fun Legend(modifier: Modifier = Modifier) {
                 Box(
                     Modifier
                         .size(8.dp)
-                        .background(Color(0xFF9C2CF3))
+                        .background(Color(0xFF9C2CF3)),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "Stand", style = MaterialTheme.typography.labelSmall)
@@ -125,7 +132,7 @@ fun Legend(modifier: Modifier = Modifier) {
                 Box(
                     Modifier
                         .size(8.dp)
-                        .background(Color(0xFFF98A03))
+                        .background(Color(0xFFF98A03)),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "Kinder", style = MaterialTheme.typography.labelSmall)
@@ -134,7 +141,7 @@ fun Legend(modifier: Modifier = Modifier) {
                 Box(
                     Modifier
                         .size(8.dp)
-                        .background(Color(0xFF0092F1))
+                        .background(Color(0xFF0092F1)),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "WC", style = MaterialTheme.typography.labelSmall)
@@ -143,7 +150,7 @@ fun Legend(modifier: Modifier = Modifier) {
                 Box(
                     Modifier
                         .size(8.dp)
-                        .background(Color(0xFFFF0827))
+                        .background(Color(0xFFFF0827)),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "Erste Hilfe", style = MaterialTheme.typography.labelSmall)
@@ -152,13 +159,11 @@ fun Legend(modifier: Modifier = Modifier) {
                 Box(
                     Modifier
                         .size(8.dp)
-                        .background(Color(0xFF3535F3))
+                        .background(Color(0xFF3535F3)),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "Bus", style = MaterialTheme.typography.labelSmall)
             }
         }
-
     }
-
 }

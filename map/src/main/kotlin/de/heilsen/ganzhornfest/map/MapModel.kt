@@ -12,5 +12,7 @@ sealed class MapModel(
         val showWindowInfo: Boolean = false,
     ) : MapModel(isFullscreen)
 
-    data class Loading(override val isFullscreen: Boolean = true) : MapModel(isFullscreen)
+    data class Loading(
+        override val isFullscreen: Boolean = true,
+    ) : MapModel(isFullscreen)
 }

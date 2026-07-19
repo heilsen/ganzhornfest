@@ -9,15 +9,16 @@ import java.text.DateFormat
 @Immutable
 data class BusConnection(
     val busLine: Busline,
-    val departureAt: LocalDateTime
+    val departureAt: LocalDateTime,
 ) {
-    fun formattedDepartureAt(showDay: Boolean) = buildString {
-        if (showDay) {
-            append(dayOfTheWeek(departureAt))
-            append(", ")
+    fun formattedDepartureAt(showDay: Boolean) =
+        buildString {
+            if (showDay) {
+                append(dayOfTheWeek(departureAt))
+                append(", ")
+            }
+            append(formatToLocalTime(departureAt, DateFormat.SHORT))
         }
-        append(formatToLocalTime(departureAt, DateFormat.SHORT))
-    }
 
     val key = "$busLine$departureAt"
 }

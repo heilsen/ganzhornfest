@@ -8,5 +8,5 @@ import kotlinx.collections.immutable.persistentListOf
 data class Busline(
     val line: String,
     val destination: String,
-    val stops: ImmutableList<String> = persistentListOf()
+    val stops: ImmutableList<String> = persistentListOf(),
 )

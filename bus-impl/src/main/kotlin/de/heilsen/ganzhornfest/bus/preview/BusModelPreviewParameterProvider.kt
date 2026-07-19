@@ -6,35 +6,35 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.datetime.LocalDate
 
-
-val day1 = LocalDate(2024,8,31)
-val day2 = LocalDate(2024,9,1)
-val day3 = LocalDate(2024,9,2)
+val day1 = LocalDate(2024, 8, 31)
+val day2 = LocalDate(2024, 9, 1)
+val day3 = LocalDate(2024, 9, 2)
 val days = persistentListOf(day1, day2, day3)
 
-class BusModelPreviewParameterProvider : CollectionPreviewParameterProvider<BusModel>(
-    listOf(
-        BusModel.Data(
-            "Amorbach",
-            persistentListOf("Amorbach", "Dahenfeld", "Neuberg"),
-            day1,
-            days,
-            BusConnectionPreviewParameterProvider().values.toPersistentList()
+class BusModelPreviewParameterProvider :
+    CollectionPreviewParameterProvider<BusModel>(
+        listOf(
+            BusModel.Data(
+                "Amorbach",
+                persistentListOf("Amorbach", "Dahenfeld", "Neuberg"),
+                day1,
+                days,
+                BusConnectionPreviewParameterProvider().values.toPersistentList(),
+            ),
+            BusModel.Data(
+                "Amorbach",
+                persistentListOf("Amorbach", "Dahenfeld", "Neuberg"),
+                day1,
+                persistentListOf(),
+                persistentListOf(),
+            ),
+            BusModel.Data(
+                "",
+                persistentListOf(),
+                day1,
+                persistentListOf(),
+                persistentListOf(),
+            ),
+            BusModel.Loading,
         ),
-        BusModel.Data(
-            "Amorbach",
-            persistentListOf("Amorbach", "Dahenfeld", "Neuberg"),
-            day1,
-            persistentListOf(),
-            persistentListOf()
-        ),
-        BusModel.Data(
-            "",
-            persistentListOf(),
-            day1,
-            persistentListOf(),
-            persistentListOf()
-        ),
-        BusModel.Loading
     )
-)

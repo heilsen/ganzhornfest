@@ -50,15 +50,16 @@ interface EntryPoint {
 @PreviewDefault
 @Composable
 fun SearchScreen(
-    searchModel: SearchModel = SearchModel.Data(
-        "Search Term",
-        persistentListOf(Category.Food, Category.Drink),
-        Category.Food,
-        persistentListOf(
-            SearchModel.Result("Result Header 1", "Result Description 1"),
-            SearchModel.Result("Result Header 2", "")
-        )
-    ),
+    searchModel: SearchModel =
+        SearchModel.Data(
+            "Search Term",
+            persistentListOf(Category.Food, Category.Drink),
+            Category.Food,
+            persistentListOf(
+                SearchModel.Result("Result Header 1", "Result Description 1"),
+                SearchModel.Result("Result Header 2", ""),
+            ),
+        ),
     onEvent: (SearchEvent) -> Unit = {},
     onSearchResultClicked: (String, Category) -> Unit = { _, _ -> },
     onBackPressed: () -> Unit = {},
@@ -104,10 +105,11 @@ fun SearchScreen(
                 placeholder = { Text(resourcesProvider.getString(R.string.empty_search)) },
                 trailingIcon = {
                     Icon(
-                        modifier = Modifier.Companion.clickable {
-                            query = ""
-                            onEvent(SearchEvent.Clear)
-                        },
+                        modifier =
+                            Modifier.Companion.clickable {
+                                query = ""
+                                onEvent(SearchEvent.Clear)
+                            },
                         imageVector = Icons.Default.Clear,
                         contentDescription = resourcesProvider.getString(R.string.clear_search),
                     )
@@ -119,7 +121,7 @@ fun SearchScreen(
                             searchModel,
                             onEvent,
                             onSearchResultClicked,
-                            resourcesProvider
+                            resourcesProvider,
                         )
                     }
 
@@ -135,14 +137,14 @@ fun SearchScreen(
                             searchModel,
                             onEvent,
                             onSearchResultClicked,
-                            resourcesProvider
+                            resourcesProvider,
                         )
                     }
 
                     SearchModel.Loading -> LoadingScreen()
                 }
             }
-        }
+        },
     )
 }
 
@@ -151,36 +153,36 @@ private fun SearchScreenSuccess(
     searchModel: SearchModel.Data,
     onEvent: (SearchEvent) -> Unit,
     onSearchResultClicked: (String, Category) -> Unit,
-    resourcesProvider: ResourcesProvider
+    resourcesProvider: ResourcesProvider,
 ) {
     Column(
         Modifier.Companion
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp)
+            .padding(8.dp),
     ) {
-
-        val selectionConfigs: List<SelectionConfig<*>> = listOf(
-            SelectionConfig(
-                selectedItem = searchModel.selectedCategory,
-                selectedItemLabel = "Kategorie",
-                items = searchModel.categories,
-                onItemSelected = { onEvent(SearchEvent.ChangeCategory(it)) },
-                formatItem = { item ->
-                    when (item) {
-                        Category.Food -> resourcesProvider.getString(R.string.food)
-                        Category.Drink -> resourcesProvider.getString(R.string.drink)
-                        Category.Club -> resourcesProvider.getString(R.string.club)
-                    }
-                }
-            ),
-        )
+        val selectionConfigs: List<SelectionConfig<*>> =
+            listOf(
+                SelectionConfig(
+                    selectedItem = searchModel.selectedCategory,
+                    selectedItemLabel = "Kategorie",
+                    items = searchModel.categories,
+                    onItemSelected = { onEvent(SearchEvent.ChangeCategory(it)) },
+                    formatItem = { item ->
+                        when (item) {
+                            Category.Food -> resourcesProvider.getString(R.string.food)
+                            Category.Drink -> resourcesProvider.getString(R.string.drink)
+                            Category.Club -> resourcesProvider.getString(R.string.club)
+                        }
+                    },
+                ),
+            )
         SelectionCard(selectionConfigs)
         Spacer(Modifier.Companion.height(8.dp))
         LazyVerticalGrid(
             columns = GridCells.Fixed(1),
             horizontalArrangement = Arrangement.Center,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(searchModel.results) { (message, description) ->
                 Card(onClick = {

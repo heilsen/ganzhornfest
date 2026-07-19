@@ -5,16 +5,17 @@ import de.heilsen.ganzhornfest.di.AppComponent
 import de.heilsen.ganzhornfest.di.AppComponentProvider
 import de.heilsen.ganzhornfest.di.appGraph
 import de.heilsen.ganzhornfest.di.getValue
+import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.createGraphFactory
 import timber.log.Timber
-import dev.zacsweers.metro.Inject
 
 interface EntryPoint {
     fun inject(ganzhornfestApplication: GanzhornfestApplication)
 }
 
-class GanzhornfestApplication : Application(), AppComponentProvider {
-
+class GanzhornfestApplication :
+    Application(),
+    AppComponentProvider {
     override val appComponent: AppComponent by lazy {
         createGraphFactory<AppComponent.Factory>().create(this)
     }

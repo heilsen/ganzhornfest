@@ -7,44 +7,47 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
-import dev.zacsweers.metro.Inject
 
-class SearchPresenter @Inject constructor(
-    private val showResults: ShowSearchResultsUseCase,
-) {
-    @Composable
-    fun present(events: Flow<SearchEvent>): SearchModel {
-        var category by remember { mutableStateOf(Category.Club) }
-        var currentQuery by remember { mutableStateOf("") }
+class SearchPresenter
+    @Inject
+    constructor(
+        private val showResults: ShowSearchResultsUseCase,
+    ) {
+        @Composable
+        fun present(events: Flow<SearchEvent>): SearchModel {
+            var category by remember { mutableStateOf(Category.Club) }
+            var currentQuery by remember { mutableStateOf("") }
 
-        LaunchedEffect(Unit) {
-            events.collect { event ->
-                when (event) {
-                    is SearchEvent.Search -> {
-                        currentQuery = event.query
-                    }
+            LaunchedEffect(Unit) {
+                events.collect { event ->
+                    when (event) {
+                        is SearchEvent.Search -> {
+                            currentQuery = event.query
+                        }
 
-                    is SearchEvent.ChangeCategory -> {
-                        category = event.category
-                    }
+                        is SearchEvent.ChangeCategory -> {
+                            category = event.category
+                        }
 
-                    SearchEvent.Clear -> {
-                        currentQuery = ""
-                        category = Category.Club
+                        SearchEvent.Clear -> {
+                            currentQuery = ""
+                            category = Category.Club
+                        }
                     }
                 }
             }
-        }
 
-        return SearchModel.Data(
-            currentQuery,
-            Category.entries.toPersistentList(),
-            selectedCategory = category,
-            showResults(currentQuery, category)
-                .collectAsState(initial = persistentListOf()).value
-        )
+            return SearchModel.Data(
+                currentQuery,
+                Category.entries.toPersistentList(),
+                selectedCategory = category,
+                showResults(currentQuery, category)
+                    .collectAsState(initial = persistentListOf())
+                    .value,
+            )
+        }
     }
-}

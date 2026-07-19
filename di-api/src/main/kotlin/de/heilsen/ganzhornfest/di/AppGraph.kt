@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty
 
 @JvmInline
 value class AppGraph internal constructor(
-    val component: Any
+    val component: Any,
 )
 
 val Context.appGraph: AppGraph
@@ -18,12 +18,11 @@ val Context.appGraph: AppGraph
     }
 
 @Suppress("UNCHECKED_CAST")
-fun <ENTRYPOINT : Any> AppGraph.entryPoint(): ENTRYPOINT =
-    component as? ENTRYPOINT ?: error("entrypoint not found")
+fun <ENTRYPOINT : Any> AppGraph.entryPoint(): ENTRYPOINT = component as? ENTRYPOINT ?: error("entrypoint not found")
 
 inline operator fun <reified ENTRYPOINT : Any> AppGraph.getValue(
     thisRef: Any?,
-    property: KProperty<*>
+    property: KProperty<*>,
 ): ENTRYPOINT = entryPoint()
 
 @Composable

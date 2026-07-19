@@ -20,7 +20,8 @@ interface TimberMultibinding {
 object TimberBindings {
     @Provides
     @ElementsIntoSet
-    fun debugTrees(): Set<@JvmSuppressWildcards Timber.Tree> = buildSet {
-        if (BuildConfig.DEBUG) add(Timber.DebugTree())
-    }
+    fun debugTrees(): Set<@JvmSuppressWildcards Timber.Tree> =
+        buildSet {
+            if (BuildConfig.DEBUG) add(Timber.DebugTree())
+        }
 }

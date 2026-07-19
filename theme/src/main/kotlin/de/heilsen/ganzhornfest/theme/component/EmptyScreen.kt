@@ -18,12 +18,12 @@ fun EmptyScreen(hint: @Composable () -> Unit = {}) {
     Column(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             style = MaterialTheme.typography.titleMedium,
             text = "Keine Daten verfügbar",
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(4.dp))
         hint()

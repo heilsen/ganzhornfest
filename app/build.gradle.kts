@@ -4,6 +4,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.metro)
+    id("ganzhornfest")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
@@ -26,15 +27,17 @@ android {
             localeFilters += setOf("de")
         }
 
-        //TODO: don't read properties in configuration phase
+        // TODO: don't read properties in configuration phase
         val localProperties = readProperties("local.properties")
 
         resValue("string", "google_maps_key", localProperties["google_maps_key"] as String)
     }
 
-    val keystoreProps = rootProject.file("keystore.properties")
-        .takeIf { it.exists() }
-        ?.let { readProperties("keystore.properties") }
+    val keystoreProps =
+        rootProject
+            .file("keystore.properties")
+            .takeIf { it.exists() }
+            ?.let { readProperties("keystore.properties") }
     val signingConfigName = (findProperty("signingConfig") as String?) ?: "release"
     require(signingConfigName in setOf("release", "upload")) {
         "Unknown -PsigningConfig='$signingConfigName'. Use 'release' or 'upload'."
@@ -62,10 +65,11 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles += listOf(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                file("proguard-rules.pro")
-            )
+            proguardFiles +=
+                listOf(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    file("proguard-rules.pro"),
+                )
             signingConfig = signingConfigs.getByName(signingConfigName)
         }
     }
@@ -74,6 +78,9 @@ android {
         buildConfig = true
         resValues = true
     }
+
+    // Required so the java.time usage in :core:datetime-api is desugared into the APK.
+    compileOptions.isCoreLibraryDesugaringEnabled = true
 
     packaging {
         resources {
@@ -101,6 +108,8 @@ kotlin {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
     implementation(project(":presenter-api"))
     implementation(project(":bus-api"))
     implementation(project(":bus-impl"))

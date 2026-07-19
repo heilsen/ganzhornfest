@@ -32,10 +32,12 @@ fun SelectionCard(
     Card(modifier = modifier) {
         Column(Modifier.padding(8.dp)) {
             header()
-            val columnCount = when (LocalConfiguration.current.orientation) {
-                Configuration.ORIENTATION_PORTRAIT -> 1
-                else /*Configuration.ORIENTATION_LANDSCAPE*/ -> 2
-            }
+            val columnCount =
+                when (LocalConfiguration.current.orientation) {
+                    Configuration.ORIENTATION_PORTRAIT -> 1
+                    // else is Configuration.ORIENTATION_LANDSCAPE
+                    else -> 2
+                }
             LazyVerticalGrid(columns = GridCells.Fixed(columnCount), content = {
                 items(selectionConfigs.size) { index ->
                     val selectionConfig: SelectionConfig<*> = selectionConfigs[index]
@@ -68,9 +70,10 @@ fun <T> Selection(
             // The `menuAnchor` modifier must be passed to the text field to handle
             // expanding/collapsing the menu on click. A read-only text field has
             // the anchor type `PrimaryNotEditable`.
-            modifier = Modifier
-                .fillMaxWidth()
-                .menuAnchor(),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(),
             value = formatItem(selectedItem),
             onValueChange = { /*no-op*/ },
             readOnly = true,
@@ -93,9 +96,9 @@ fun <T> Selection(
                         Text(
                             modifier = Modifier.padding(8.dp),
                             text = formatItem(item),
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
                         )
-                    }
+                    },
                 )
             }
         }
@@ -109,4 +112,3 @@ data class SelectionConfig<T>(
     val onItemSelected: (T) -> Unit,
     val formatItem: (T) -> String = Any?::toString,
 )
-

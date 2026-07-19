@@ -23,39 +23,46 @@ import de.heilsen.ganzhornfest.theme.component.ticket.Ticket
 @Composable
 fun BusTicket(
     busConnection: BusConnection,
-    showDay: Boolean
+    showDay: Boolean,
 ) {
     Ticket(
         label = {
             Text(
                 text = "Busfahrt Richtung",
-                modifier = Modifier.padding(
-                    horizontal = 12.dp,
-                    vertical = 4.dp
-                ),
-                style = MaterialTheme.typography.bodyMedium
+                modifier =
+                    Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 4.dp,
+                    ),
+                style = MaterialTheme.typography.bodyMedium,
             )
-        }, header = {
+        },
+        header = {
             Text(
                 text = busConnection.busLine.destination.toUpperCase(Locale.current),
-                modifier = Modifier.padding(
-                    horizontal = 12.dp,
-                    vertical = 8.dp
-                ),
-                style = MaterialTheme.typography.titleLarge
+                modifier =
+                    Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 8.dp,
+                    ),
+                style = MaterialTheme.typography.titleLarge,
             )
-        }, sideBar = {
+        },
+        sideBar = {
             val line = busConnection.busLine.line
             Text(
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(4.dp)
-                    .align(Alignment.CenterHorizontally),
+                modifier =
+                    Modifier
+                        .padding(4.dp)
+                        .align(Alignment.CenterHorizontally),
                 text = line.replace("/", "/\n"),
-                style = MaterialTheme.typography.titleLarge
-                    .copy(lineBreak = LineBreak.Paragraph)
+                style =
+                    MaterialTheme.typography.titleLarge
+                        .copy(lineBreak = LineBreak.Paragraph),
             )
-        }, description = {
+        },
+        description = {
             val stops = busConnection.busLine.stops
             Column {
                 Text(
@@ -64,29 +71,29 @@ fun BusTicket(
                 )
                 Text(
                     text = busConnection.formattedDepartureAt(showDay = showDay),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
             }
             if (stops.isNotEmpty()) {
                 Spacer(modifier = Modifier.weight(1f))
                 Column(
-                    modifier = Modifier.padding(start = 4.dp)
+                    modifier = Modifier.padding(start = 4.dp),
                 ) {
                     Text(
                         text = "über",
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
                     )
                     stops.forEach { stop ->
                         Text(
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             text = stop,
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     }
                 }
             }
-        }
+        },
     )
 }
 
@@ -94,7 +101,7 @@ fun BusTicket(
 @PreviewDefault
 fun BusTicketPreview(
     @PreviewParameter(BusTicketPreviewParameterProvider::class)
-    busConnectionToShowDate: Pair<BusConnection, Boolean>
+    busConnectionToShowDate: Pair<BusConnection, Boolean>,
 ) {
     GanzhornfestTheme {
         val (busConnection, showDay) = busConnectionToShowDate

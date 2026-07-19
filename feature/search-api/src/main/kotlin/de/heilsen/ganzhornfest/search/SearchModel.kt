@@ -10,11 +10,13 @@ sealed interface SearchModel {
         val query: String,
         val categories: ImmutableList<Category>,
         val selectedCategory: Category,
-        val results: PersistentList<Result>
-    ): SearchModel
-    data object Loading: SearchModel
+        val results: PersistentList<Result>,
+    ) : SearchModel
+
+    data object Loading : SearchModel
 
     data class Result(
-        val header: String, val description: String
+        val header: String,
+        val description: String,
     )
 }

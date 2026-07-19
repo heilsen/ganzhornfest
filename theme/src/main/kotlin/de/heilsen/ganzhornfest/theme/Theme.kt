@@ -14,34 +14,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
-private fun shapes() = Shapes(
-    extraSmall = RoundedCornerShape(4.0.dp),
-    small = RoundedCornerShape(8.0.dp),
-    medium = RoundedCornerShape(8.0.dp),
-    large = RoundedCornerShape(16.0.dp),
-    extraLarge = RoundedCornerShape(28.0.dp)
-)
+private fun shapes() =
+    Shapes(
+        extraSmall = RoundedCornerShape(4.0.dp),
+        small = RoundedCornerShape(8.0.dp),
+        medium = RoundedCornerShape(8.0.dp),
+        large = RoundedCornerShape(16.0.dp),
+        extraLarge = RoundedCornerShape(28.0.dp),
+    )
 
 @Composable
 fun GanzhornfestTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val dynamic = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val colorScheme: ColorScheme = if (dynamic) {
-        val context = LocalContext.current
-        if (darkTheme) {
-            dynamicDarkColorScheme(context)
+    val colorScheme: ColorScheme =
+        if (dynamic) {
+            val context = LocalContext.current
+            if (darkTheme) {
+                dynamicDarkColorScheme(context)
+            } else {
+                dynamicLightColorScheme(context)
+            }
         } else {
-            dynamicLightColorScheme(context)
+            if (darkTheme) {
+                darkColorScheme()
+            } else {
+                lightColorScheme()
+            }
         }
-    } else {
-        if (darkTheme) {
-            darkColorScheme()
-        } else {
-            lightColorScheme()
-        }
-    }
 
     MaterialTheme(
         colorScheme = colorScheme,

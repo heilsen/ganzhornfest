@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface ShowSearchResultsUseCase {
     operator fun invoke(
         searchTerm: String,
-        category: Category
+        category: Category,
     ): Flow<PersistentList<SearchModel.Result>>
 }

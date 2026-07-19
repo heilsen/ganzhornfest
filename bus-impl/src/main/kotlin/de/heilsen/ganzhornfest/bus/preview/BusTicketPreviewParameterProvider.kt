@@ -9,7 +9,7 @@ class BusTicketPreviewParameterProvider : PreviewParameterProvider<Pair<BusConne
             val busConnections = BusConnectionPreviewParameterProvider().values
             return sequenceOf(
                 true,
-                false
+                false,
             ).flatMap { connection -> busConnections.map { it to connection } }
         }
 }

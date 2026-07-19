@@ -23,5 +23,8 @@ sealed interface Destination {
     data object Bus : Destination
 
     @Serializable
-    data class Detail(val title: String, val type: DetailType) : Destination
+    data class Detail(
+        val title: String,
+        val type: DetailType,
+    ) : Destination
 }

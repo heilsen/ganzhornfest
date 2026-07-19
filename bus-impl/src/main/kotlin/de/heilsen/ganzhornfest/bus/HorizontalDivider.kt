@@ -19,10 +19,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HorizontalDivider(modifier: Modifier = Modifier) {
     Spacer(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp)
-            .height(1.dp)
-            .background(MaterialTheme.colorScheme.onSurface)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .height(1.dp)
+                .background(MaterialTheme.colorScheme.onSurface),
     )
 }
