@@ -13,12 +13,13 @@ import dev.zacsweers.metro.Provides
 object DatabaseBindings {
     @Provides
     fun database(application: Application): GanzhornfestDb {
-        val driver = AndroidSqliteDriver(
-            schema = GanzhornfestDb.Schema,
-            context = application,
-            name = "ganzhornfest.db",
-            useNoBackupDirectory = true
-        )
+        val driver =
+            AndroidSqliteDriver(
+                schema = GanzhornfestDb.Schema,
+                context = application,
+                name = "ganzhornfest.db",
+                useNoBackupDirectory = true,
+            )
         return GanzhornfestDb(driver)
     }
 }

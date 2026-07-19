@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class MoleculeViewModel<Event, Model> : ViewModel() {
-
     private val scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main)
 
     // Events have a capacity large enough to handle simultaneous UI events, but

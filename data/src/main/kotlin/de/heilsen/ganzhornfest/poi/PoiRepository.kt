@@ -4,25 +4,31 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import de.heilsen.ganzhornfest.database.GanzhornfestDb
 import de.heilsen.ganzhornfest.database.Poi
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import dev.zacsweers.metro.Inject
 
-class PoiRepository @Inject constructor(
-    private val ganzhornfestDb: GanzhornfestDb
-) {
-    fun getAll(): Flow<List<Poi>> {
-        return ganzhornfestDb.poiQueries.selectClubs().asFlow().mapToList(Dispatchers.IO)
+class PoiRepository
+    @Inject
+    constructor(
+        private val ganzhornfestDb: GanzhornfestDb,
+    ) {
+        fun getAll(): Flow<List<Poi>> =
+            ganzhornfestDb.poiQueries
+                .selectClubs()
+                .asFlow()
+                .mapToList(Dispatchers.IO)
+
+        fun selectByName(name: String): Flow<List<Poi>> =
+            ganzhornfestDb.poiQueries
+                .selectClubByName(name)
+                .asFlow()
+                .mapToList(Dispatchers.IO)
+
+        fun getStages(): Flow<List<String>> =
+            ganzhornfestDb
+                .poiQueries
+                .selectStages(mapper = { _, name, _ -> name })
+                .asFlow()
+                .mapToList(Dispatchers.IO)
     }
-
-    fun selectByName(name: String): Flow<List<Poi>> {
-        return ganzhornfestDb.poiQueries.selectClubByName(name).asFlow().mapToList(Dispatchers.IO)
-    }
-
-    fun getStages(): Flow<List<String>> = ganzhornfestDb
-        .poiQueries
-        .selectStages(mapper = { _, name, _ -> name })
-        .asFlow()
-        .mapToList(Dispatchers.IO)
-}
-

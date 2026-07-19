@@ -29,28 +29,30 @@ fun Ticket(
 ) {
     Card(
         modifier = modifier,
-        shape = TicketShape(25f)
+        shape = TicketShape(25f),
     ) {
         Row(
-            modifier = Modifier
-                .padding(horizontal = 32.dp, vertical = 20.dp)
-                .border(BorderStroke(2.dp, backgroundColor))
+            modifier =
+                Modifier
+                    .padding(horizontal = 32.dp, vertical = 20.dp)
+                    .border(BorderStroke(2.dp, backgroundColor)),
         ) {
             Column(
-                modifier = Modifier
-                    .weight(0.755f)
-                    .border(BorderStroke(2.dp, backgroundColor)),
+                modifier =
+                    Modifier
+                        .weight(0.755f)
+                        .border(BorderStroke(2.dp, backgroundColor)),
             ) {
                 label()
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     contentColor = MaterialTheme.colorScheme.surfaceVariant,
                     color = contentColorFor(MaterialTheme.colorScheme.surfaceVariant),
-                    content = header
+                    content = header,
                 )
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                    content = description
+                    content = description,
                 )
             }
             Column(
@@ -58,7 +60,7 @@ fun Ticket(
                     .align(Alignment.CenterVertically)
                     .weight(0.25f),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                content = sideBar
+                content = sideBar,
             )
         }
     }

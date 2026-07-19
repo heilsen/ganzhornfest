@@ -1,0 +1,17 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{kt,kts}]
+# ktlint rule config.
+# Composables are PascalCase by design, so the function-naming rule must ignore them.
+ktlint_function_naming_ignore_when_annotated_with = Composable
+# The filename rule forces file renames to match a single top level class.
+# We keep the existing file names and leave this off.
+ktlint_standard_filename = disabled

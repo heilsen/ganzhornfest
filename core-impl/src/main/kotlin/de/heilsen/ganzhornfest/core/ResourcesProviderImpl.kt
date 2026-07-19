@@ -7,6 +7,12 @@ import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 
 @ContributesBinding(AppScope::class)
-class ResourcesProviderImpl @Inject constructor(private val context: Context): ResourcesProvider {
-    override fun getString(@StringRes id: Int): String = context.resources.getString(id)
-}
+class ResourcesProviderImpl
+    @Inject
+    constructor(
+        private val context: Context,
+    ) : ResourcesProvider {
+        override fun getString(
+            @StringRes id: Int,
+        ): String = context.resources.getString(id)
+    }

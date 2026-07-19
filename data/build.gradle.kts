@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.metro)
+    id("ganzhornfest")
 }
 
 android {
@@ -16,4 +17,3 @@ dependencies {
     implementation(libs.javax.inject)
     implementation(libs.sqldelight.coroutines.extensions)
 }
-

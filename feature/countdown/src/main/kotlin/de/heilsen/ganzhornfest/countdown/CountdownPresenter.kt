@@ -18,28 +18,34 @@ import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
-class CountdownPresenter @Inject constructor(
-    private val countdownUseCase: CountdownUseCase,
-) {
-    @Composable
-    fun present(events: Flow<Unit>): CountdownModel {
-        val timeZone = remember { TimeZone.of("Europe/Berlin") }
-        val festivalStart = remember { FestivalEdition.days.first().atStartOfDayIn(timeZone) }
-        val festivalEnd = remember {
-            FestivalEdition.days.last().plus(1, DateTimeUnit.DAY).atStartOfDayIn(timeZone)
-        }
+class CountdownPresenter
+    @Inject
+    constructor(
+        private val countdownUseCase: CountdownUseCase,
+    ) {
+        @Composable
+        fun present(events: Flow<Unit>): CountdownModel {
+            val timeZone = remember { TimeZone.of("Europe/Berlin") }
+            val festivalStart = remember { FestivalEdition.days.first().atStartOfDayIn(timeZone) }
+            val festivalEnd =
+                remember {
+                    FestivalEdition.days
+                        .last()
+                        .plus(1, DateTimeUnit.DAY)
+                        .atStartOfDayIn(timeZone)
+                }
 
-        var model by remember {
-            mutableStateOf(countdownUseCase(festivalStart, festivalEnd, Clock.System.now()))
-        }
-
-        LaunchedEffect(Unit) {
-            while (true) {
-                delay(1_000)
-                model = countdownUseCase(festivalStart, festivalEnd, Clock.System.now())
+            var model by remember {
+                mutableStateOf(countdownUseCase(festivalStart, festivalEnd, Clock.System.now()))
             }
-        }
 
-        return model
+            LaunchedEffect(Unit) {
+                while (true) {
+                    delay(1_000)
+                    model = countdownUseCase(festivalStart, festivalEnd, Clock.System.now())
+                }
+            }
+
+            return model
+        }
     }
-}

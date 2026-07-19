@@ -2,15 +2,14 @@ package de.heilsen.ganzhornfest.search
 
 import androidx.compose.runtime.Composable
 import de.heilsen.ganzhornfest.core.MoleculeViewModel
-import kotlinx.coroutines.flow.Flow
 import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
 
-class SearchViewModel @Inject constructor(
-    private val searchPresenter: SearchPresenter
-): MoleculeViewModel<SearchEvent, SearchModel>() {
-
-    @Composable
-    override fun models(events: Flow<SearchEvent>): SearchModel {
-        return searchPresenter.present(events)
+class SearchViewModel
+    @Inject
+    constructor(
+        private val searchPresenter: SearchPresenter,
+    ) : MoleculeViewModel<SearchEvent, SearchModel>() {
+        @Composable
+        override fun models(events: Flow<SearchEvent>): SearchModel = searchPresenter.present(events)
     }
-}
