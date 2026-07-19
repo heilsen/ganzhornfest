@@ -24,10 +24,10 @@ this change.
      ```
 
    - Push the branch.
-   - Open a draft PR against master:
+   - Open a draft PR against main:
 
      ```bash
-     gh pr create --draft --base master
+     gh pr create --draft --base main
      ```
 
      Keep the title and body terse and human-readable. Same style rules. End the body
