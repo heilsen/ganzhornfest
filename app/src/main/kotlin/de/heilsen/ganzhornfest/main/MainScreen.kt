@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -158,6 +159,10 @@ fun MainScreen() {
             NavHost(
                 navController = navController,
                 startDestination = Destination.Home,
+                modifier =
+                    Modifier
+                        .padding(innerPadding)
+                        .consumeWindowInsets(innerPadding),
             ) {
                 composable<Destination.Home> {
                     val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
@@ -173,7 +178,6 @@ fun MainScreen() {
                 composable<Destination.Map> {
                     val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
                     MapScreen(
-                        modifier = Modifier.padding(innerPadding),
                         mapModel = mapModel,
                         onMarkerSelected = { title, type ->
                             when (type) {
@@ -217,7 +221,6 @@ fun MainScreen() {
                     detailViewModel.take(detailEvent)
                     val model by detailViewModel.models.collectAsStateWithLifecycle()
                     DetailScreen(
-                        modifier = Modifier.padding(innerPadding),
                         model = model,
                         onBackClick = { navController.popBackStack() },
                         onItemClicked = { searchTerm, type ->
@@ -232,18 +235,16 @@ fun MainScreen() {
                     ProgramScreen(
                         programModel,
                         onEvent = programViewModel::take,
-                        modifier = Modifier.padding(innerPadding),
                     )
                 }
                 composable<Destination.Info> {
-                    InfoScreen(modifier = Modifier.padding(innerPadding))
+                    InfoScreen()
                 }
                 composable<Destination.Bus> {
                     val busModel by busViewModel.models.collectAsStateWithLifecycle()
                     BusScreen(
                         busModel,
                         onEvent = busViewModel::take,
-                        modifier = Modifier.padding(innerPadding),
                     )
                 }
                 composable<Destination.Search> {
@@ -266,7 +267,6 @@ fun MainScreen() {
                             )
                         },
                         onBackPressed = { navController.popBackStack() },
-                        modifier = Modifier.padding(innerPadding),
                     )
                 }
             }
