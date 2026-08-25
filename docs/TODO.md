@@ -39,11 +39,11 @@
 
 - [ ] Finish Info and Program screen polish
   - Replace hardcoded counts/text in `InfoScreen` with DB-backed values and string resources
-  - Remove or fill the empty `Card` in `InfoScreen`
+  - [x] Remove or fill the empty `Card` in `InfoScreen`
   - Rework the `ProgramScreen` into a timetable-style layout
 
 - [ ] Consider small product additions
-  - Instagram deep link
+  - [x] Instagram deep link
   - In-app review prompt
 
 ## Architecture And Data
