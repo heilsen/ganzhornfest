@@ -14,6 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
+// P4 reworks this component, see docs/plans/04-loading-error-states.md
+@Suppress("ComposeModifierMissing")
 fun EmptyScreen(hint: @Composable () -> Unit = {}) {
     Column(
         Modifier.fillMaxSize(),

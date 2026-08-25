@@ -45,6 +45,8 @@ fun GanzhornfestScaffold(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+// P6 edge-to-edge owns this file, see docs/plans/06-edge-to-edge.md
+@Suppress("ComposeModifierMissing", "ComposeParameterOrder")
 fun GanzhornfestTopAppBar(
     topAppBarColors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
     title: @Composable () -> Unit,
@@ -59,6 +61,8 @@ fun GanzhornfestTopAppBar(
 
 @PreviewDefault
 @Composable
+// P6 edge-to-edge owns this file, see docs/plans/06-edge-to-edge.md
+@Suppress("ComposeModifierMissing")
 fun GanzhornfestScaffoldPreview() {
     GanzhornfestTheme {
         GanzhornfestScaffold(
