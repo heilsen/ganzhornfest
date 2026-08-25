@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -19,7 +19,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Write local.properties
         run: echo "google_maps_key=${{ secrets.GOOGLE_MAPS_KEY }}" > local.properties
-      - run: ./gradlew check --stacktrace
+      - run: ./gradlew assembleDebug check --stacktrace
       - name: Upload reports
         if: failure()
         uses: actions/upload-artifact@v4
