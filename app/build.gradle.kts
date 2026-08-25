@@ -143,8 +143,6 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.google.maps.compose)
 
-    lintChecks(libs.compose.lint.checks)
-
     testImplementation(libs.kotest.runner.junit5)
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("reflect"))

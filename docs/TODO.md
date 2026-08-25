@@ -73,9 +73,15 @@
   - Add UI tests for navigation paths such as Search -> Detail and Map -> Detail
 
 - [ ] Add CI and static analysis
-  - Add a CI pipeline for assemble, test, lint, and schema verification
-  - Add Detekt and Ktlint
-  - Enable Compose lint checks and address the findings
+  - Add a CI pipeline for assemble, test, lint, and schema verification (done)
+  - Add Ktlint (done, wired via the `ganzhornfest` convention plugin)
+  - Enable Compose lint checks and address the findings (done, applied globally via the
+    `ganzhornfest` convention plugin)
+  - Add Detekt. Blocked: the last stable release (1.23.8) targets AGP 8.8.1 / Gradle
+    8.12.1 / Kotlin 2.0.21, well behind this repo's AGP 9.2.0 / Gradle 9.4.1 / Kotlin
+    2.2.20. The maintained line moved to plugin id `dev.detekt` and only exists as
+    `2.0.0-alpha.x`, which has had Gradle configuration-cache serialization failures.
+    Revisit once a stable `dev.detekt` release lands.
 
 - [ ] Improve build and repo hygiene
   - Stop reading `local.properties` during Gradle configuration
