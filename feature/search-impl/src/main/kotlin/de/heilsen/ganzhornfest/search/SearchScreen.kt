@@ -49,6 +49,8 @@ interface EntryPoint {
 @OptIn(ExperimentalMaterial3Api::class)
 @PreviewDefault
 @Composable
+// P2 rewrites this screen, see docs/plans/02-search-ux.md
+@Suppress("ComposeParameterOrder")
 fun SearchScreen(
     searchModel: SearchModel =
         SearchModel.Data(

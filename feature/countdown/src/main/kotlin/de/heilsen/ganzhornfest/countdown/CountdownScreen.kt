@@ -23,9 +23,10 @@ import de.heilsen.ganzhornfest.countdown.R
 @Composable
 fun CountdownScreen(
     model: CountdownModel,
+    modifier: Modifier = Modifier,
     onEnterApp: () -> Unit,
 ) {
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Surface(modifier = modifier.fillMaxSize()) {
         Column(
             modifier =
                 Modifier
@@ -48,20 +49,22 @@ private fun BeforeContent(
     model: CountdownModel.Before,
     onEnterApp: () -> Unit,
 ) {
-    Text(
-        text = "${FestivalEdition.editionNumber}. Ganzhornfest ${FestivalEdition.year}",
-        style = MaterialTheme.typography.headlineSmall,
-    )
-    Spacer(modifier = Modifier.height(32.dp))
-    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        CountdownUnit(model.days, stringResource(R.string.countdown_unit_days))
-        CountdownUnit(model.hours, stringResource(R.string.countdown_unit_hours))
-        CountdownUnit(model.minutes, stringResource(R.string.countdown_unit_minutes))
-        CountdownUnit(model.seconds, stringResource(R.string.countdown_unit_seconds))
-    }
-    Spacer(modifier = Modifier.height(32.dp))
-    Button(onClick = onEnterApp) {
-        Text(stringResource(R.string.countdown_cta))
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = "${FestivalEdition.editionNumber}. Ganzhornfest ${FestivalEdition.year}",
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            CountdownUnit(model.days, stringResource(R.string.countdown_unit_days))
+            CountdownUnit(model.hours, stringResource(R.string.countdown_unit_hours))
+            CountdownUnit(model.minutes, stringResource(R.string.countdown_unit_minutes))
+            CountdownUnit(model.seconds, stringResource(R.string.countdown_unit_seconds))
+        }
+        Spacer(modifier = Modifier.height(32.dp))
+        Button(onClick = onEnterApp) {
+            Text(stringResource(R.string.countdown_cta))
+        }
     }
 }
 
@@ -88,18 +91,20 @@ private fun MessageContent(
     message: String,
     onEnterApp: () -> Unit,
 ) {
-    Text(
-        text = "${FestivalEdition.editionNumber}. Ganzhornfest ${FestivalEdition.year}",
-        style = MaterialTheme.typography.headlineSmall,
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    Text(
-        text = message,
-        style = MaterialTheme.typography.headlineMedium,
-        fontWeight = FontWeight.Bold,
-    )
-    Spacer(modifier = Modifier.height(32.dp))
-    Button(onClick = onEnterApp) {
-        Text(stringResource(R.string.countdown_cta))
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = "${FestivalEdition.editionNumber}. Ganzhornfest ${FestivalEdition.year}",
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = message,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+        Button(onClick = onEnterApp) {
+            Text(stringResource(R.string.countdown_cta))
+        }
     }
 }
