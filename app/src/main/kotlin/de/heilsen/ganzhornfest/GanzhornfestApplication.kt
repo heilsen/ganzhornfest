@@ -5,6 +5,7 @@ import de.heilsen.ganzhornfest.di.AppComponent
 import de.heilsen.ganzhornfest.di.AppComponentProvider
 import de.heilsen.ganzhornfest.di.appGraph
 import de.heilsen.ganzhornfest.di.getValue
+import de.heilsen.ganzhornfest.map.initializeMapsRenderer
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.createGraphFactory
 import timber.log.Timber
@@ -28,5 +29,6 @@ class GanzhornfestApplication :
         val entrypoint: EntryPoint by appGraph
         entrypoint.inject(this)
         Timber.plant(*timberTrees.toTypedArray())
+        initializeMapsRenderer(this)
     }
 }
