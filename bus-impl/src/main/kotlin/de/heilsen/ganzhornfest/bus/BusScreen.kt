@@ -37,6 +37,9 @@ import de.heilsen.ganzhornfest.bus.api.R as ApiR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+// P4 (docs/plans/04-loading-error-states.md) and P5 (docs/plans/05-bus-opening-hours.md)
+// both own bus-impl/**.
+@Suppress("ComposeParameterOrder")
 fun BusScreen(
     busModel: BusModel,
     onEvent: (BusEvent) -> Unit = {},

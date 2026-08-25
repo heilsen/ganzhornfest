@@ -21,6 +21,9 @@ import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 import de.heilsen.ganzhornfest.theme.component.ticket.Ticket
 
 @Composable
+// P4 (docs/plans/04-loading-error-states.md) and P5 (docs/plans/05-bus-opening-hours.md)
+// both own bus-impl/**.
+@Suppress("ComposeModifierMissing")
 fun BusTicket(
     busConnection: BusConnection,
     showDay: Boolean,
