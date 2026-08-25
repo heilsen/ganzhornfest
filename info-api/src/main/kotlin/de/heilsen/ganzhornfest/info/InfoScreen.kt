@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -95,6 +96,10 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     .padding(8.dp)
                     .fillMaxWidth(),
             ) {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = stringResource(R.string.sunday_shopping),
+                )
             }
             Card(
                 Modifier
@@ -166,11 +171,12 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     .padding(8.dp)
                     .fillMaxWidth(),
             ) {
+                val clubsIntro = stringResource(R.string.clubs_intro)
                 Text(
                     modifier = Modifier.padding(16.dp),
                     text =
                         buildAnnotatedString {
-                            append("39 Neckarsulmer Vereine bieten:")
+                            append(clubsIntro)
                             appendLine()
                             append("${Typography.bullet}\t\tinternationale und lokale ")
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -230,26 +236,73 @@ fun InfoScreen(modifier: Modifier = Modifier) {
                     .padding(4.dp)
                     .fillMaxWidth(),
             ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text =
-                        buildAnnotatedString {
-                            append("Offizielle Informationen auf: ")
-                            withLink(LinkAnnotation.Url("https://www.ganzhornfest.com")) {
-                                withStyle(
-                                    SpanStyle(
-                                        color = MaterialTheme.colorScheme.onSurface,
-                                        textDecoration = TextDecoration.Underline,
-                                    ),
-                                ) {
-                                    append("https://www.ganzhornfest.com")
+                val linkStyle =
+                    SpanStyle(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textDecoration = TextDecoration.Underline,
+                    )
+                val websiteLabel = stringResource(R.string.official_website_label)
+                val website = stringResource(R.string.official_website)
+                val websiteUrl = stringResource(R.string.official_website_url)
+                val instagramLabel = stringResource(R.string.instagram)
+                val facebookLabel = stringResource(R.string.facebook)
+                val profile = stringResource(R.string.profile)
+                val hashtag = stringResource(R.string.hashtag)
+                val instagramUrl = stringResource(R.string.instagram_url)
+                val instagramHashtagUrl = stringResource(R.string.instagram_hashtag_url)
+                val facebookUrl = stringResource(R.string.facebook_url)
+                val facebookHashtagUrl = stringResource(R.string.facebook_hashtag_url)
+                Column(Modifier.padding(16.dp)) {
+                    Text(
+                        text = stringResource(R.string.official_info_title),
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(
+                        text =
+                            officialInfoItem(websiteLabel) {
+                                withLink(LinkAnnotation.Url(websiteUrl)) {
+                                    withStyle(linkStyle) { append(website) }
                                 }
-                            }
-                        },
-                )
+                            },
+                    )
+                    Text(
+                        text =
+                            officialInfoItem(instagramLabel) {
+                                withLink(LinkAnnotation.Url(instagramUrl)) {
+                                    withStyle(linkStyle) { append(profile) }
+                                }
+                                append("  ")
+                                withLink(LinkAnnotation.Url(instagramHashtagUrl)) {
+                                    withStyle(linkStyle) { append(hashtag) }
+                                }
+                            },
+                    )
+                    Text(
+                        text =
+                            officialInfoItem(facebookLabel) {
+                                withLink(LinkAnnotation.Url(facebookUrl)) {
+                                    withStyle(linkStyle) { append(profile) }
+                                }
+                                append("  ")
+                                withLink(LinkAnnotation.Url(facebookHashtagUrl)) {
+                                    withStyle(linkStyle) { append(hashtag) }
+                                }
+                            },
+                    )
+                }
             }
         }
     }
+}
+
+private fun officialInfoItem(
+    label: String,
+    links: AnnotatedString.Builder.() -> Unit,
+) = buildAnnotatedString {
+    append("${Typography.bullet}\t\t")
+    append(label)
+    append(": ")
+    links()
 }
 
 @PreviewDefault

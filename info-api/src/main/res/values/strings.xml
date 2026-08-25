@@ -5,4 +5,18 @@
     <string name="opening_hours_saturday">16:00 - 01:00 Uhr</string>
     <string name="opening_hours_sunday">11:00 - 00:00 Uhr</string>
     <string name="opening_hours_monday">11:00 - 01:00 Uhr</string>
+    <string name="clubs_intro">rund 35 Neckarsulmer Vereine bieten:</string>
+    <string name="sunday_shopping">Verkaufsoffener Sonntag am 06.09. von 12:00 - 17:00 Uhr.</string>
+    <string name="official_info_title">Offizielle Informationen:</string>
+    <string name="official_website_label">Webseite</string>
+    <string name="official_website">ganzhornfest.com</string>
+    <string name="official_website_url">https://www.ganzhornfest.com</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="profile">Profil</string>
+    <string name="hashtag">#ganzhornfest</string>
+    <string name="instagram_url">https://www.instagram.com/ganzhornfest.neckarsulm/</string>
+    <string name="instagram_hashtag_url">https://www.instagram.com/explore/tags/ganzhornfest/</string>
+    <string name="facebook_url">https://www.facebook.com/ganzhornfest.neckarsulm/</string>
+    <string name="facebook_hashtag_url">https://www.facebook.com/hashtag/ganzhornfest</string>
 </resources>
