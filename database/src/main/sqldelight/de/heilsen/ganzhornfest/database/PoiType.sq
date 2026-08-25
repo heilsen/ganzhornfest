@@ -6,3 +6,4 @@ INSERT INTO poiType VALUES(3,'playground');
 INSERT INTO poiType VALUES(4,'wc');
 INSERT INTO poiType VALUES(5,'first aid');
 INSERT INTO poiType VALUES(6,'busstop');
+INSERT INTO poiType VALUES(7,'attraction');
