@@ -18,8 +18,8 @@ android {
         applicationId = "de.heilsen.ganzhornfest"
         minSdk = 24
         targetSdk = 37
-        versionCode = 202601
-        versionName = "2026.1.1"
+        versionCode = 202602
+        versionName = "2026.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         androidResources {
