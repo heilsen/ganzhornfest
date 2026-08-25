@@ -36,6 +36,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import de.heilsen.ganzhornfest.BuildConfig
 import de.heilsen.ganzhornfest.R
 import de.heilsen.ganzhornfest.bus.BusScreen
 import de.heilsen.ganzhornfest.bus.BusViewModel
@@ -81,12 +82,6 @@ fun MainScreen() {
             navBackStackEntry?.destination?.hasRoute<Destination.Home>() == false
         }
     }
-    val showSearchFab by remember {
-        derivedStateOf {
-            navBackStackEntry?.destination?.hasRoute<Destination.Search>() == false &&
-                navBackStackEntry?.destination?.hasRoute<Destination.Home>() == false
-        }
-    }
 
     val entryPoint: EntryPoint by rememberAppGraph()
     val busViewModel: BusViewModel = entryPoint.busViewModel
@@ -95,6 +90,12 @@ fun MainScreen() {
     val searchViewModel: SearchViewModel = entryPoint.searchViewModel
     val detailViewModel: DetailViewModel = entryPoint.detailViewModel
     val countdownViewModel: CountdownViewModel = entryPoint.countdownViewModel
+    val showSearchFab by remember {
+        derivedStateOf {
+            navBackStackEntry?.destination?.hasRoute<Destination.Search>() == false &&
+                navBackStackEntry?.destination?.hasRoute<Destination.Home>() == false
+        }
+    }
 
     GanzhornfestTheme {
         Scaffold(
@@ -179,6 +180,8 @@ fun MainScreen() {
                     val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
                     MapScreen(
                         mapModel = mapModel,
+                        onEvent = mapViewModel::onEvent,
+                        showPinEditorToggle = BuildConfig.DEBUG,
                         onMarkerSelected = { title, type ->
                             when (type) {
                                 MarkerUiType.CLUB -> {
@@ -193,6 +196,10 @@ fun MainScreen() {
 
                                 MarkerUiType.PLAYGROUND -> {
                                     navController.navigate(Destination.Program)
+                                }
+
+                                MarkerUiType.ATTRACTION -> {
+                                    // No detail screen. Tombola is not a club menu.
                                 }
 
                                 MarkerUiType.WC -> {

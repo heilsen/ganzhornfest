@@ -35,7 +35,32 @@ class ClubCoordinatesRepository
                     mapper = { name, lat, lng -> MarkerDTO(name, "club", LatLng(lat, lng)) },
                 ).asFlow()
                 .mapToList(Dispatchers.IO)
+
+        fun getClubPins(): Flow<List<ClubPinRow>> =
+            ganzhornfestDb.poiCoordinateQueries
+                .selectClubPins(
+                    mapper = { poiId, name, coordinateId, lat, lng ->
+                        ClubPinRow(poiId, name, coordinateId, lat, lng)
+                    },
+                ).asFlow()
+                .mapToList(Dispatchers.IO)
+
+        fun updateCoordinate(
+            id: Long,
+            lat: Double,
+            lng: Double,
+        ) {
+            ganzhornfestDb.coordinateQueries.updateLatLng(lat, lng, id)
+        }
     }
+
+data class ClubPinRow(
+    val poiId: Long,
+    val name: String,
+    val coordinateId: Long?,
+    val lat: Double?,
+    val lng: Double?,
+)
 
 data class MarkerDTO(
     val name: String,
