@@ -10,6 +10,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -39,6 +40,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.core.ResourcesProvider
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
@@ -236,13 +239,32 @@ private fun SearchResults(
                 )
             }
         } else {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 items(searchModel.results) { result ->
-                    Card(onClick = { onSearchResultClicked(result.header, result.category) }) {
-                        Column(Modifier.padding(8.dp)) {
-                            Text(result.header, style = MaterialTheme.typography.headlineSmall)
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = { onSearchResultClicked(result.header, result.category) },
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
+                        ) {
+                            Text(
+                                result.header,
+                                style = MaterialTheme.typography.titleMedium,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
                             if (result.description.isNotEmpty()) {
-                                Text(result.description)
+                                Text(
+                                    result.description,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontStyle = FontStyle.Italic,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
                             }
                             if (result.clubs.isNotEmpty()) {
                                 Text(
@@ -251,6 +273,7 @@ private fun SearchResults(
                                         resourcesProvider.getString(R.string.several_clubs),
                                     ),
                                     style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                             }
                         }

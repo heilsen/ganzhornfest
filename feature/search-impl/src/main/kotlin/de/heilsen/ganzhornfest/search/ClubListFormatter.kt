@@ -6,5 +6,9 @@ fun formatClubList(
     maxNamedClubs: Int = 2,
 ): String {
     val names = clubs.split(',').map { it.trim() }.filter { it.isNotEmpty() }
-    return if (names.size > maxNamedClubs) manyClubsLabel else clubs
+    return when {
+        names.isEmpty() -> clubs
+        names.size > maxNamedClubs -> manyClubsLabel
+        else -> names.joinToString(", ")
+    }
 }
