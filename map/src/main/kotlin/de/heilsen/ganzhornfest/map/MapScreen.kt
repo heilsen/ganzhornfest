@@ -28,14 +28,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
-import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
@@ -45,6 +43,7 @@ import com.google.maps.android.compose.rememberMarkerState
 fun MapScreen(
     modifier: Modifier = Modifier,
     mapModel: MapModel = MapModel.Loading(),
+    highlightedTitles: Set<String>? = null,
     onMarkerSelected: (String, MarkerUiType) -> Unit = { _, _ -> },
     onEvent: (MapEvent) -> Unit = {},
     showPinEditorToggle: Boolean = false,
@@ -85,6 +84,21 @@ fun MapScreen(
                     }
                 cameraPositionState.move(update)
             }
+            LaunchedEffect(highlightedTitles, mapModel.markers) {
+                val titles = highlightedTitles ?: return@LaunchedEffect
+                if (titles.isEmpty() || pinEditor != null) return@LaunchedEffect
+                val targets = mapModel.markers.filter { it.title in titles }
+                if (targets.isEmpty()) return@LaunchedEffect
+                val update =
+                    if (targets.size == 1) {
+                        CameraUpdateFactory.newLatLngZoom(targets.first().latLng, 18f)
+                    } else {
+                        val bounds = LatLngBounds.Builder()
+                        targets.forEach { bounds.include(it.latLng) }
+                        CameraUpdateFactory.newLatLngBounds(bounds.build(), 160)
+                    }
+                cameraPositionState.animate(update)
+            }
             Column(modifier = modifier.fillMaxSize()) {
                 if (showPinEditorToggle && pinEditor == null) {
                     Row(
@@ -107,12 +121,10 @@ fun MapScreen(
                             LatLng(49.18859845006538, 9.219649084689227),
                             LatLng(49.19498798073398, 9.225975728423913),
                         )
+                    var labeledTitle by remember { mutableStateOf<String?>(null) }
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
                         cameraPositionState = cameraPositionState,
-                        googleMapOptionsFactory = {
-                            GoogleMapOptions().liteMode(!mapModel.isFullscreen)
-                        },
                         contentPadding =
                             if (mapModel.isFullscreen) {
                                 PaddingValues(top = 72.dp, bottom = 8.dp)
@@ -125,29 +137,22 @@ fun MapScreen(
                                 minZoomPreference = 16f,
                                 latLngBoundsForCameraTarget = ganzhornfestArea,
                             ),
-                        uiSettings =
-                            if (mapModel.isFullscreen) {
-                                MapUiSettings()
-                            } else {
-                                MapUiSettings(
-                                    compassEnabled = false,
-                                    indoorLevelPickerEnabled = false,
-                                    mapToolbarEnabled = false,
-                                    zoomControlsEnabled = false,
-                                    zoomGesturesEnabled = false,
-                                    scrollGesturesEnabled = false,
-                                    tiltGesturesEnabled = false,
-                                    rotationGesturesEnabled = false,
-                                    scrollGesturesEnabledDuringRotateOrZoom = false,
-                                )
-                            },
+                        onMapClick = { labeledTitle = null },
                     ) {
                         for (marker in mapModel.markers) {
                             val markerState = rememberMarkerState(position = marker.latLng)
+                            val emphasis = resolvePinEmphasis(marker.title, highlightedTitles)
                             Marker(
                                 state = markerState,
                                 title = marker.title,
-                                icon = PinBitmapFactory.icon(marker.markerUiType, PinEmphasis.Default),
+                                icon = PinBitmapFactory.icon(marker.markerUiType, emphasis),
+                                alpha = if (emphasis == PinEmphasis.Dimmed) 0.35f else 1f,
+                                zIndex =
+                                    when (emphasis) {
+                                        PinEmphasis.Highlighted -> 2f
+                                        PinEmphasis.Default -> if (marker.markerUiType.isActionable()) 1f else 0f
+                                        PinEmphasis.Dimmed -> 0f
+                                    },
                                 onClick = {
                                     if (pinEditor != null) {
                                         val pin =
@@ -159,21 +164,16 @@ fun MapScreen(
                                             selectedCoordinateId = pin.coordinateId
                                         }
                                         true
+                                    } else if (marker.markerUiType.isActionable()) {
+                                        labeledTitle = null
+                                        onMarkerSelected(marker.title, marker.markerUiType)
+                                        true
                                     } else {
-                                        false
+                                        labeledTitle = marker.title
+                                        true
                                     }
                                 },
-                                onInfoWindowClick = {
-                                    if (pinEditor == null) {
-                                        onMarkerSelected(
-                                            marker.title,
-                                            marker.markerUiType,
-                                        )
-                                    }
-                                },
-                                onInfoWindowClose = { },
                             )
-                            if (mapModel.showWindowInfo) markerState.showInfoWindow()
                         }
                     }
                     if (pinEditor != null) {
@@ -186,6 +186,23 @@ fun MapScreen(
                                     .padding(4.dp)
                                     .align(Alignment.BottomStart),
                         )
+                    }
+                    if (labeledTitle != null && pinEditor == null) {
+                        Surface(
+                            modifier =
+                                Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .padding(bottom = 48.dp, start = 8.dp, end = 8.dp),
+                            shape = MaterialTheme.shapes.small,
+                            color = MaterialTheme.colorScheme.surface,
+                            shadowElevation = 4.dp,
+                        ) {
+                            Text(
+                                text = labeledTitle!!,
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                style = MaterialTheme.typography.titleSmall,
+                            )
+                        }
                     }
                 }
                 if (pinEditor != null) {
