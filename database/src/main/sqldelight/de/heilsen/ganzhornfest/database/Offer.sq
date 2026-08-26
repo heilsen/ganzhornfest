@@ -251,16 +251,6 @@ SELECT * FROM offer WHERE typeId = 2;
 selectAllOthers:
 SELECT * FROM offer WHERE typeId = 3;
 
-selectDrinkByName:
-SELECT * FROM offer
-WHERE typeId = 1
-AND (name LIKE '%' || :name || '%' OR description LIKE '%' || :name || '%');
-
-selectFoodByName:
-SELECT * FROM offer
-WHERE typeId = 2
-AND (name LIKE '%' || :name || '%' OR description LIKE '%' || :name || '%');
-
 selectOthersByName:
 SELECT * FROM offer
 WHERE typeId = 3

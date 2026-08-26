@@ -2,6 +2,7 @@ package de.heilsen.ganzhornfest.search
 
 import de.heilsen.ganzhornfest.core.ConfigurationProvider
 import de.heilsen.ganzhornfest.core.germanAlphaComparator
+import de.heilsen.ganzhornfest.database.Offer
 import de.heilsen.ganzhornfest.offer.data.OfferRepository
 import de.heilsen.ganzhornfest.poi.PoiRepository
 import dev.zacsweers.metro.AppScope
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.util.Locale
 
 @ContributesBinding(AppScope::class)
 class ShowSearchResultsUseCaseImpl
@@ -34,7 +36,12 @@ class ShowSearchResultsUseCaseImpl
 
             if (categories.isEmpty()) return flowOf(persistentListOf())
 
-            return combine(categories.map { category -> resultsForCategory(searchTerm, category) }) { resultsByCategory ->
+            val locale = configurationProvider.getLocale()
+            val normalizedTerm = searchTerm.normalizedForSearch(locale)
+
+            return combine(
+                categories.map { category -> resultsForCategory(category, normalizedTerm, locale) },
+            ) { resultsByCategory ->
                 resultsByCategory
                     .flatMap { it }
                     .sortedWith(compareBy(germanAlphaComparator(), SearchModel.Result::header))
@@ -43,48 +50,46 @@ class ShowSearchResultsUseCaseImpl
         }
 
         private fun resultsForCategory(
-            searchTerm: String,
             category: Category,
+            normalizedTerm: String,
+            locale: Locale,
         ): Flow<List<SearchModel.Result>> =
             when (category) {
-                Category.Food -> {
-                    if (searchTerm.isEmpty()) {
-                        offerRepository.getAllFood()
-                    } else {
-                        offerRepository.selectFoodByName(searchTerm)
-                    }.map { list ->
-                        list.map { item ->
-                            SearchModel.Result(
-                                item.name,
-                                item.description ?: "",
-                                Category.Food,
-                            )
-                        }
+                Category.Food ->
+                    offerRepository.getAllFood().map { list ->
+                        list
+                            .filter { item -> item.matches(normalizedTerm, locale) }
+                            .map { item -> SearchModel.Result(item.name, item.description ?: "", Category.Food) }
                     }
-                }
 
-                Category.Drink -> {
-                    if (searchTerm.isEmpty()) {
-                        offerRepository.getAllDrinks()
-                    } else {
-                        offerRepository.selectDrinkByName(searchTerm)
-                    }.map { list ->
-                        list.map { item ->
-                            SearchModel.Result(
-                                item.name,
-                                item.description ?: "",
-                                Category.Drink,
-                            )
-                        }
+                Category.Drink ->
+                    offerRepository.getAllDrinks().map { list ->
+                        list
+                            .filter { item -> item.matches(normalizedTerm, locale) }
+                            .map { item -> SearchModel.Result(item.name, item.description ?: "", Category.Drink) }
                     }
-                }
 
-                Category.Club -> {
-                    if (searchTerm.isEmpty()) {
-                        poiRepository.getAll()
-                    } else {
-                        poiRepository.selectByName(searchTerm)
-                    }.map { list -> list.map { item -> SearchModel.Result(item.name, "", Category.Club) } }
-                }
+                Category.Club ->
+                    poiRepository.getAll().map { list ->
+                        list
+                            .filter { item -> item.name.normalizedForSearch(locale).contains(normalizedTerm) }
+                            .map { item -> SearchModel.Result(item.name, "", Category.Club) }
+                    }
             }
+
+        private fun Offer.matches(
+            normalizedTerm: String,
+            locale: Locale,
+        ): Boolean =
+            name.normalizedForSearch(locale).contains(normalizedTerm) ||
+                description?.normalizedForSearch(locale)?.contains(normalizedTerm) == true
     }
+
+// Folds German umlauts and ß to their ASCII digraph so "u"/"ue" also match "ü" and so on.
+// SQLite's own LOWER()/LIKE only case-fold ASCII, which is why this runs in Kotlin instead.
+private fun String.normalizedForSearch(locale: Locale): String =
+    lowercase(locale)
+        .replace("ü", "ue")
+        .replace("ö", "oe")
+        .replace("ä", "ae")
+        .replace("ß", "ss")

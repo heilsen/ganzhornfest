@@ -22,29 +22,27 @@ class ShowSearchResultsUseCaseTest :
                 every { getAllFood() } returns
                     flowOf(
                         listOf(
-                            Offer(1, 0, "eins", null),
-                            Offer(2, 0, "zwei", "ein Essen"),
+                            Offer(1, 0, "Apfelküchle", null),
+                            Offer(2, 0, "Pommes", "mit Mayo"),
                         ),
                     )
-                every { selectFoodByName(any()) } returns flowOf(listOf(Offer(1, 0, "eins", null)))
                 every { getAllDrinks() } returns
                     flowOf(
                         listOf(
-                            Offer(1, 1, "eins", null),
-                            Offer(2, 1, "zwei", "ein alkoholisches Getränk"),
-                        ),
-                    )
-                every { selectDrinkByName(any()) } returns
-                    flowOf(
-                        listOf(
-                            Offer(2, 1, "zwei", "ein alkoholisches Getränk"),
+                            Offer(1, 1, "Weißbier", null),
+                            Offer(2, 1, "Cola", "ein alkoholfreies Getränk"),
                         ),
                     )
             }
         val poiRepository =
             mockk<PoiRepository> {
-                every { getAll() } returns flowOf(listOf(Poi(1, "eins", 0), Poi(2, "zwei", 0)))
-                every { selectByName(any()) } returns flowOf(listOf(Poi(1, "eins", 0)))
+                every { getAll() } returns
+                    flowOf(
+                        listOf(
+                            Poi(1, "Sängerbund", 0),
+                            Poi(2, "Sportverein", 0),
+                        ),
+                    )
             }
         val configurationProvider: ConfigurationProvider =
             mockk {
@@ -68,38 +66,83 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("", persistentSetOf(Category.Food)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("eins", "", Category.Food),
-                            SearchModel.Result("zwei", "ein Essen", Category.Food),
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                            SearchModel.Result("Pommes", "mit Mayo", Category.Food),
                         )
                     awaitComplete()
                 }
             }
-            it("returns filtered drinks when category is Drink and query is not empty") {
-                showSearchResults("foobar", persistentSetOf(Category.Drink)).test {
+            it("returns filtered drinks when category is Drink and query matches the description") {
+                showSearchResults("alkoholfrei", persistentSetOf(Category.Drink)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("zwei", "ein alkoholisches Getränk", Category.Drink),
+                            SearchModel.Result("Cola", "ein alkoholfreies Getränk", Category.Drink),
                         )
                     awaitComplete()
                 }
             }
-            it("returns filtered clubs when category is Club and query is not empty") {
-                showSearchResults("foobar", persistentSetOf(Category.Club)).test {
+            it("returns filtered clubs when category is Club and query matches the name") {
+                showSearchResults("sport", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("eins", "", Category.Club),
+                            SearchModel.Result("Sportverein", "", Category.Club),
                         )
                     awaitComplete()
                 }
             }
             it("merges and sorts results across multiple selected categories") {
-                showSearchResults("", persistentSetOf(Category.Food, Category.Drink)).test {
+                showSearchResults("", persistentSetOf(Category.Food, Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("eins", "", Category.Food),
-                            SearchModel.Result("eins", "", Category.Drink),
-                            SearchModel.Result("zwei", "ein Essen", Category.Food),
-                            SearchModel.Result("zwei", "ein alkoholisches Getränk", Category.Drink),
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                            SearchModel.Result("Pommes", "mit Mayo", Category.Food),
+                            SearchModel.Result("Sängerbund", "", Category.Club),
+                            SearchModel.Result("Sportverein", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches an umlaut word when searching its ASCII digraph 'ue'") {
+                showSearchResults("ue", persistentSetOf(Category.Food)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches an umlaut word when searching the bare vowel 'u'") {
+                showSearchResults("u", persistentSetOf(Category.Food)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches an umlaut word when searching the umlaut character 'ü' itself") {
+                showSearchResults("ü", persistentSetOf(Category.Food)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("folds ß to 'ss' so 'weiss' matches 'Weißbier'") {
+                showSearchResults("weiss", persistentSetOf(Category.Drink)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Weißbier", "", Category.Drink),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("folds ä to 'ae' so 'saenger' matches 'Sängerbund'") {
+                showSearchResults("saenger", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Sängerbund", "", Category.Club),
                         )
                     awaitComplete()
                 }

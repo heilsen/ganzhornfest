@@ -19,21 +19,9 @@ class OfferRepository
                 .asFlow()
                 .mapToList(Dispatchers.IO)
 
-        fun selectFoodByName(name: String): Flow<List<Offer>> =
-            ganzhornfestDb.offerQueries
-                .selectFoodByName(name)
-                .asFlow()
-                .mapToList(Dispatchers.IO)
-
         fun getAllDrinks(): Flow<List<Offer>> =
             ganzhornfestDb.offerQueries
                 .selectAllDrinks()
-                .asFlow()
-                .mapToList(Dispatchers.IO)
-
-        fun selectDrinkByName(name: String): Flow<List<Offer>> =
-            ganzhornfestDb.offerQueries
-                .selectDrinkByName(name)
                 .asFlow()
                 .mapToList(Dispatchers.IO)
 
