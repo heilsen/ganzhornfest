@@ -1,7 +1,6 @@
 package de.heilsen.ganzhornfest.search
 
 import app.cash.turbine.test
-import de.heilsen.ganzhornfest.core.ConfigurationProvider
 import de.heilsen.ganzhornfest.database.Offer
 import de.heilsen.ganzhornfest.database.Poi
 import de.heilsen.ganzhornfest.offer.data.OfferRepository
@@ -12,7 +11,6 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.flowOf
-import java.util.Locale
 
 class ShowSearchResultsUseCaseTest :
     DescribeSpec({
@@ -42,18 +40,20 @@ class ShowSearchResultsUseCaseTest :
             }
         val poiRepository =
             mockk<PoiRepository> {
-                every { getAll() } returns flowOf(listOf(Poi(1, "eins", 0), Poi(2, "zwei", 0)))
+                every { getAll() } returns
+                    flowOf(
+                        listOf(
+                            Poi(1, "SC Amorbach", 0),
+                            Poi(2, "Sängerbund 1830", 0),
+                            Poi(3, "Samstagsverein", 0),
+                        ),
+                    )
                 every { selectByName(any()) } returns flowOf(listOf(Poi(1, "eins", 0)))
-            }
-        val configurationProvider: ConfigurationProvider =
-            mockk {
-                every { getLocale() } returns Locale.GERMAN
             }
         val showSearchResults: ShowSearchResultsUseCase =
             ShowSearchResultsUseCaseImpl(
                 offerRepository,
                 poiRepository,
-                configurationProvider,
             )
 
         describe("showSearchResults") {
@@ -81,6 +81,17 @@ class ShowSearchResultsUseCaseTest :
                     awaitItem() shouldBe
                         persistentListOf(
                             SearchModel.Result("eins", ""),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("sorts ae umlaut as a") {
+                showSearchResults("", Category.Club).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Samstagsverein", ""),
+                            SearchModel.Result("Sängerbund 1830", ""),
+                            SearchModel.Result("SC Amorbach", ""),
                         )
                     awaitComplete()
                 }

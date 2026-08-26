@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.map
 
 import com.google.android.gms.maps.model.LatLng
+import de.heilsen.ganzhornfest.core.germanAlphaComparator
 import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
@@ -28,7 +29,7 @@ class GetClubPinsUseCase
                                     null
                                 },
                         )
-                    }.sortedBy { it.chipLabel }
+                    }.sortedWith(compareBy(germanAlphaComparator(), ClubPin::chipLabel))
                     .toPersistentList()
             }
     }
