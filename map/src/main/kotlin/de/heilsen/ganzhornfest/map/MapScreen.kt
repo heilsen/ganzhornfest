@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
@@ -47,6 +48,7 @@ fun MapScreen(
     onMarkerSelected: (String, MarkerUiType) -> Unit = { _, _ -> },
     onEvent: (MapEvent) -> Unit = {},
     showPinEditorToggle: Boolean = false,
+    mapBottomPadding: Dp = 8.dp,
 ) {
     when (mapModel) {
         is MapModel.Data -> {
@@ -126,11 +128,10 @@ fun MapScreen(
                         modifier = Modifier.fillMaxSize(),
                         cameraPositionState = cameraPositionState,
                         contentPadding =
-                            if (mapModel.isFullscreen) {
-                                PaddingValues(top = 72.dp, bottom = 8.dp)
-                            } else {
-                                PaddingValues(0.dp)
-                            },
+                            PaddingValues(
+                                top = if (mapModel.isFullscreen) 72.dp else 0.dp,
+                                bottom = mapBottomPadding,
+                            ),
                         properties =
                             MapProperties(
                                 mapType = MapType.HYBRID,
@@ -182,9 +183,15 @@ fun MapScreen(
                     if (mapModel.showLegend && pinEditor == null) {
                         Legend(
                             modifier =
-                                Modifier
-                                    .padding(4.dp)
-                                    .align(Alignment.BottomStart),
+                                if (highlightedTitles != null) {
+                                    Modifier
+                                        .align(Alignment.TopStart)
+                                        .padding(top = 80.dp, start = 4.dp)
+                                } else {
+                                    Modifier
+                                        .padding(4.dp)
+                                        .align(Alignment.BottomStart)
+                                },
                         )
                     }
                     if (labeledTitle != null && pinEditor == null) {
@@ -192,7 +199,11 @@ fun MapScreen(
                             modifier =
                                 Modifier
                                     .align(Alignment.BottomCenter)
-                                    .padding(bottom = 48.dp, start = 8.dp, end = 8.dp),
+                                    .padding(
+                                        bottom = mapBottomPadding + 8.dp,
+                                        start = 8.dp,
+                                        end = 8.dp,
+                                    ),
                             shape = MaterialTheme.shapes.small,
                             color = MaterialTheme.colorScheme.surface,
                             shadowElevation = 4.dp,

@@ -132,7 +132,7 @@ fun MainScreen() {
                             label = { Text(stringResource(R.string.info)) },
                         )
                         NavigationBarItem(
-                            currentDestination?.hasRoute<Destination.Map>() ?: false,
+                            isMapSurface,
                             icon = {
                                 Icon(Icons.Default.LocationOn, stringResource(R.string.map))
                             },
@@ -308,11 +308,13 @@ private fun MapDetailOverlay(
         },
     ) { sheetPadding ->
         Box(Modifier.fillMaxSize()) {
+            val mapBottomPadding = if (isDetail) 128.dp else 8.dp
             MapScreen(
                 mapModel = mapModel,
                 highlightedTitles = highlightTitles,
                 onEvent = mapViewModel::onEvent,
                 showPinEditorToggle = BuildConfig.DEBUG && !isDetail,
+                mapBottomPadding = mapBottomPadding,
                 onMarkerSelected = { title, type ->
                     when (type) {
                         MarkerUiType.CLUB -> {
