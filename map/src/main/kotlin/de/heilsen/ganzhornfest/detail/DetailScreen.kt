@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.theme.component.GanzhornfestScaffold
 import timber.log.Timber
 
@@ -29,12 +28,11 @@ fun DetailScreen(
     onBackClick: () -> Unit,
     onItemClicked: (String, DetailType) -> Unit,
     modifier: Modifier = Modifier,
+    title: String = (model as? DetailModel.Success)?.title.orEmpty(),
 ) {
     Timber.tag("DetailScreen").i("Got model: $model")
-    // TODO: handle DetailModel Loading
-    if (model !is DetailModel.Success) return
     GanzhornfestScaffold(
-        title = { Text(text = model.title) },
+        title = { Text(text = title) },
         modifier = modifier,
         navigationIcon = {
             IconButton(onClick = { onBackClick() }) {
@@ -42,18 +40,7 @@ fun DetailScreen(
             }
         },
     ) {
-        val mapModel = model.mapModel
-        MapScreen(
-            modifier = Modifier.weight(1f),
-            mapModel = mapModel,
-            onMarkerSelected = { title, type ->
-                // TODO: implement Details
-//                                println("onMarkerSelected: $title (type: $type)")
-//                                if (type == MarkerUiType.CLUB) {
-//                                    navController.navigate(Destination.Detail(title, type.toString()))
-//                                }
-            },
-        )
+        if (model !is DetailModel.Success) return@GanzhornfestScaffold
         val scrollState = rememberScrollState()
         LazyColumn(
             modifier =

@@ -1,7 +1,9 @@
 package de.heilsen.ganzhornfest.detail
 
 import androidx.annotation.Keep
-import de.heilsen.ganzhornfest.map.MapModel
+import kotlinx.collections.immutable.ImmutableSet
+import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toPersistentSet
 
 sealed interface DetailModel {
     data object Loading : DetailModel
@@ -9,17 +11,22 @@ sealed interface DetailModel {
     data class Success(
         val title: String,
         val type: DetailType,
-        val mapModel: MapModel,
         val items: List<DetailItem>,
     ) : DetailModel
 }
+
+fun DetailModel.Success.highlightTitles(): ImmutableSet<String> =
+    when (type) {
+        DetailType.Club -> persistentSetOf(title)
+        DetailType.Offer -> items.map { it.name }.toPersistentSet()
+    }
 
 data class DetailItem(
     val name: String,
     val description: String? = null,
 )
 
-@Keep // needed because it is part of a serializable Navigation destination
+@Keep
 enum class DetailType {
     Club,
     Offer,
