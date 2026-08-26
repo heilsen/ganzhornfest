@@ -122,14 +122,14 @@ fun PinEditorPanel(
     if (showCopyHelp) {
         AlertDialog(
             onDismissRequest = { showCopyHelp = false },
-            title = { Text("Koordinaten-SQL kopiert") },
+            title = { Text("Koordinaten kopiert") },
             text = {
                 Text(
-                    "Zwei Blöcke in der Zwischenablage.\n\n" +
-                        "1. INSERT → Coordinate.sq. Das ist die Initialdaten " +
-                        "für Neuinstallationen. Passende INSERT-Zeilen ersetzen.\n\n" +
-                        "2. UPDATE → migrations/3.sqm, ans Ende. Braucht ihr für Leute, " +
-                        "die 2026.1.1 schon installiert haben. Ohne das behalten die die alten Pins.",
+                    "Zwischenablage enthält INSERT/UPDATE-Vorlagen mit id, lat und lng.\n\n" +
+                        "Trage die Werte in app/src/main/assets/festival/data.json " +
+                        "unter coordinates ein.\n\n" +
+                        "Erhöhe dataVersion in " +
+                        "app/src/main/assets/festival/manifest.json.",
                 )
             },
             confirmButton = {

@@ -6,6 +6,7 @@ import de.heilsen.ganzhornfest.di.AppComponentProvider
 import de.heilsen.ganzhornfest.di.appGraph
 import de.heilsen.ganzhornfest.di.getValue
 import de.heilsen.ganzhornfest.map.initializeMapsRenderer
+import de.heilsen.ganzhornfest.seed.FestivalDataSeeder
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.createGraphFactory
 import timber.log.Timber
@@ -24,11 +25,15 @@ class GanzhornfestApplication :
     @Inject
     lateinit var timberTrees: Set<@JvmSuppressWildcards Timber.Tree>
 
+    @Inject
+    lateinit var festivalDataSeeder: FestivalDataSeeder
+
     override fun onCreate() {
         super.onCreate()
         val entrypoint: EntryPoint by appGraph
         entrypoint.inject(this)
         Timber.plant(*timberTrees.toTypedArray())
+        festivalDataSeeder.seedIfNeeded()
         initializeMapsRenderer(this)
     }
 }
