@@ -10,4 +10,12 @@ sealed interface SearchEvent {
     ) : SearchEvent
 
     data object Clear : SearchEvent
+
+    data class SetExpanded(
+        val expanded: Boolean,
+    ) : SearchEvent
+
+    data object OpenResult : SearchEvent
+
+    data object UiReady : SearchEvent
 }

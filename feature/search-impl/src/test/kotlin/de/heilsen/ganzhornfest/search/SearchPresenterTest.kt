@@ -50,5 +50,87 @@ class SearchPresenterTest :
 
                 verify(exactly = 0) { showResults.invoke("b", persistentSetOf(Category.Club)) }
             }
+
+            it("keeps the query when the overlay stays expanded") {
+                val showResults = mockk<ShowSearchResultsUseCase>()
+                every { showResults("", persistentSetOf(Category.Club)) } returns flowOf(persistentListOf())
+                every { showResults("grill", persistentSetOf(Category.Club)) } returns
+                    flowOf(persistentListOf())
+                val presenter = SearchPresenter(showResults)
+                val events = MutableSharedFlow<SearchEvent>(extraBufferCapacity = 20)
+
+                runTest {
+                    moleculeFlow(RecompositionMode.Immediate) { presenter.present(events) }.test {
+                        events.emit(SearchEvent.Search("grill"))
+                        events.emit(SearchEvent.SetExpanded(true))
+                        runCurrent()
+
+                        val model = expectMostRecentItem() as SearchModel.Data
+                        model.query shouldBe "grill"
+                        model.expanded shouldBe true
+
+                        cancelAndIgnoreRemainingEvents()
+                    }
+                }
+            }
+
+            it("keeps the session when SearchBar tears down after opening a result") {
+                val showResults = mockk<ShowSearchResultsUseCase>()
+                every { showResults("", persistentSetOf(Category.Club)) } returns flowOf(persistentListOf())
+                every { showResults("grill", persistentSetOf(Category.Club)) } returns
+                    flowOf(persistentListOf())
+                val presenter = SearchPresenter(showResults)
+                val events = MutableSharedFlow<SearchEvent>(extraBufferCapacity = 20)
+
+                runTest {
+                    moleculeFlow(RecompositionMode.Immediate) { presenter.present(events) }.test {
+                        events.emit(SearchEvent.Search("grill"))
+                        events.emit(SearchEvent.SetExpanded(true))
+                        events.emit(SearchEvent.OpenResult)
+                        events.emit(SearchEvent.Search(""))
+                        events.emit(SearchEvent.SetExpanded(false))
+                        runCurrent()
+
+                        val afterTeardown = expectMostRecentItem() as SearchModel.Data
+                        afterTeardown.query shouldBe "grill"
+                        afterTeardown.expanded shouldBe true
+
+                        events.emit(SearchEvent.UiReady)
+                        events.emit(SearchEvent.SetExpanded(false))
+                        runCurrent()
+
+                        val afterDismiss = expectMostRecentItem() as SearchModel.Data
+                        afterDismiss.query shouldBe "grill"
+                        afterDismiss.expanded shouldBe false
+
+                        cancelAndIgnoreRemainingEvents()
+                    }
+                }
+            }
+
+            it("collapses and clears the query on Clear") {
+                val showResults = mockk<ShowSearchResultsUseCase>()
+                every { showResults("", persistentSetOf(Category.Club)) } returns flowOf(persistentListOf())
+                every { showResults("grill", persistentSetOf(Category.Club)) } returns
+                    flowOf(persistentListOf())
+                val presenter = SearchPresenter(showResults)
+                val events = MutableSharedFlow<SearchEvent>(extraBufferCapacity = 20)
+
+                runTest {
+                    moleculeFlow(RecompositionMode.Immediate) { presenter.present(events) }.test {
+                        events.emit(SearchEvent.Search("grill"))
+                        events.emit(SearchEvent.SetExpanded(true))
+                        runCurrent()
+                        events.emit(SearchEvent.Clear)
+                        runCurrent()
+
+                        val model = expectMostRecentItem() as SearchModel.Data
+                        model.query shouldBe ""
+                        model.expanded shouldBe false
+
+                        cancelAndIgnoreRemainingEvents()
+                    }
+                }
+            }
         }
     })

@@ -30,6 +30,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -80,17 +81,21 @@ fun MapSearchBar(
     val resourcesProvider = entryPoint.resourcesProvider
     val context = LocalContext.current
 
-    var expanded by remember { mutableStateOf(false) }
+    val restoredQuery = (searchModel as? SearchModel.Data)?.query.orEmpty()
+    val restoredExpanded = (searchModel as? SearchModel.Data)?.expanded == true
+    // Local copies so typing stays snappy. The presenter model is the source of truth across
+    // Map leaving composition (search result -> detail -> back). remember resets then.
+    var expanded by remember { mutableStateOf(restoredExpanded) }
+    var query by remember { mutableStateOf(restoredQuery) }
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    BackHandler(enabled = expanded) { expanded = false }
+    LaunchedEffect(Unit) { onEvent(SearchEvent.UiReady) }
 
-    // Driven locally rather than from searchModel.query: events round-trip through the
-    // presenter's MutableSharedFlow and a separate collecting coroutine, so the model's query
-    // lags a recomposition behind each keystroke. Feeding that lag back into the text field's
-    // own value desyncs its internal edit buffer and snaps the cursor backward.
-    var query by remember { mutableStateOf("") }
+    BackHandler(enabled = expanded) {
+        expanded = false
+        onEvent(SearchEvent.SetExpanded(false))
+    }
 
     val speechRecognizerAvailable =
         remember {
@@ -105,6 +110,7 @@ fun MapSearchBar(
                     query = spoken
                     onEvent(SearchEvent.Search(spoken))
                     expanded = true
+                    onEvent(SearchEvent.SetExpanded(true))
                 }
         }
 
@@ -120,7 +126,10 @@ fun MapSearchBar(
                 },
                 onSearch = { keyboardController?.hide() },
                 expanded = expanded,
-                onExpandedChange = { expanded = it },
+                onExpandedChange = {
+                    expanded = it
+                    onEvent(SearchEvent.SetExpanded(it))
+                },
                 placeholder = { Text(resourcesProvider.getString(R.string.empty_search)) },
                 leadingIcon = {
                     if (expanded) {
@@ -180,11 +189,22 @@ fun MapSearchBar(
             )
         },
         expanded = expanded,
-        onExpandedChange = { expanded = it },
+        onExpandedChange = {
+            expanded = it
+            onEvent(SearchEvent.SetExpanded(it))
+        },
     ) {
         when (searchModel) {
             is SearchModel.Data -> {
-                SearchResults(searchModel, onEvent, onSearchResultClicked, resourcesProvider)
+                SearchResults(
+                    searchModel,
+                    onEvent,
+                    onSearchResultClicked = { header, category ->
+                        onEvent(SearchEvent.OpenResult)
+                        onSearchResultClicked(header, category)
+                    },
+                    resourcesProvider,
+                )
             }
 
             SearchModel.Loading -> LoadingScreen()

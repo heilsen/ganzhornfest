@@ -29,11 +29,14 @@ class SearchPresenter
         fun present(events: Flow<SearchEvent>): SearchModel {
             var selectedCategories by remember { mutableStateOf(persistentSetOf(Category.Club)) }
             var currentQuery by remember { mutableStateOf("") }
+            var expanded by remember { mutableStateOf(false) }
+            var suppressTeardown by remember { mutableStateOf(false) }
 
             LaunchedEffect(Unit) {
                 events.collect { event ->
                     when (event) {
                         is SearchEvent.Search -> {
+                            if (suppressTeardown && event.query.isEmpty()) return@collect
                             currentQuery = event.query
                         }
 
@@ -47,8 +50,24 @@ class SearchPresenter
                         }
 
                         SearchEvent.Clear -> {
+                            suppressTeardown = false
                             currentQuery = ""
+                            expanded = false
                             selectedCategories = persistentSetOf(Category.Club)
+                        }
+
+                        is SearchEvent.SetExpanded -> {
+                            if (suppressTeardown && !event.expanded) return@collect
+                            expanded = event.expanded
+                        }
+
+                        SearchEvent.OpenResult -> {
+                            expanded = true
+                            suppressTeardown = true
+                        }
+
+                        SearchEvent.UiReady -> {
+                            suppressTeardown = false
                         }
                     }
                 }
@@ -66,6 +85,7 @@ class SearchPresenter
                 Category.entries.toPersistentList(),
                 selectedCategories = selectedCategories,
                 results = results,
+                expanded = expanded,
             )
         }
     }
