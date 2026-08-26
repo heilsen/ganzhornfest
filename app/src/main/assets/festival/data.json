@@ -1,0 +1,4094 @@
+{
+  "poiTypes": [
+    {
+      "id": 1,
+      "name": "club"
+    },
+    {
+      "id": 2,
+      "name": "event location"
+    },
+    {
+      "id": 3,
+      "name": "playground"
+    },
+    {
+      "id": 4,
+      "name": "wc"
+    },
+    {
+      "id": 5,
+      "name": "first aid"
+    },
+    {
+      "id": 6,
+      "name": "busstop"
+    },
+    {
+      "id": 7,
+      "name": "attraction"
+    }
+  ],
+  "offerTypes": [
+    {
+      "id": 1,
+      "type": "food"
+    },
+    {
+      "id": 2,
+      "type": "drink"
+    },
+    {
+      "id": 3,
+      "type": "other"
+    }
+  ],
+  "coordinates": [
+    {
+      "id": 1,
+      "lat": 49.19229,
+      "lng": 9.223065
+    },
+    {
+      "id": 2,
+      "lat": 49.1918618229,
+      "lng": 9.2223076522
+    },
+    {
+      "id": 3,
+      "lat": 49.19184142914957,
+      "lng": 9.222886705276846
+    },
+    {
+      "id": 4,
+      "lat": 49.1917682619,
+      "lng": 9.2228571698
+    },
+    {
+      "id": 5,
+      "lat": 49.192017344538655,
+      "lng": 9.223581047412216
+    },
+    {
+      "id": 6,
+      "lat": 49.192071,
+      "lng": 9.223429
+    },
+    {
+      "id": 7,
+      "lat": 49.1919359773807,
+      "lng": 9.222372388558824
+    },
+    {
+      "id": 8,
+      "lat": 49.19136370429802,
+      "lng": 9.222749775748882
+    },
+    {
+      "id": 9,
+      "lat": 49.191996898838106,
+      "lng": 9.22363958911459
+    },
+    {
+      "id": 10,
+      "lat": 49.191498584000534,
+      "lng": 9.223502855477038
+    },
+    {
+      "id": 11,
+      "lat": 49.19124891276346,
+      "lng": 9.222497072870754
+    },
+    {
+      "id": 12,
+      "lat": 49.191041035849395,
+      "lng": 9.221881203305495
+    },
+    {
+      "id": 13,
+      "lat": 49.191703814498716,
+      "lng": 9.222323759797904
+    },
+    {
+      "id": 14,
+      "lat": 49.19145330365419,
+      "lng": 9.22258392018903
+    },
+    {
+      "id": 15,
+      "lat": 49.19179496952707,
+      "lng": 9.222756829866352
+    },
+    {
+      "id": 16,
+      "lat": 49.19142549457064,
+      "lng": 9.22271289537569
+    },
+    {
+      "id": 17,
+      "lat": 49.19211203412572,
+      "lng": 9.223205117898559
+    },
+    {
+      "id": 18,
+      "lat": 49.1920489300407,
+      "lng": 9.222999258356943
+    },
+    {
+      "id": 19,
+      "lat": 49.191281425544524,
+      "lng": 9.221891688942677
+    },
+    {
+      "id": 20,
+      "lat": 49.19159502204772,
+      "lng": 9.225308627870255
+    },
+    {
+      "id": 21,
+      "lat": 49.19232568592092,
+      "lng": 9.222822306866227
+    },
+    {
+      "id": 22,
+      "lat": 49.191655497352215,
+      "lng": 9.225240231538699
+    },
+    {
+      "id": 23,
+      "lat": 49.19211290946941,
+      "lng": 9.222634233585946
+    },
+    {
+      "id": 24,
+      "lat": 49.19212868547598,
+      "lng": 9.222743533604229
+    },
+    {
+      "id": 25,
+      "lat": 49.19212693258642,
+      "lng": 9.22294805203739
+    },
+    {
+      "id": 26,
+      "lat": 49.191690094043516,
+      "lng": 9.222884474956672
+    },
+    {
+      "id": 27,
+      "lat": 49.19198351916715,
+      "lng": 9.222961954432682
+    },
+    {
+      "id": 28,
+      "lat": 49.19155237194477,
+      "lng": 9.223354067029362
+    },
+    {
+      "id": 29,
+      "lat": 49.191447197234815,
+      "lng": 9.223359431449081
+    },
+    {
+      "id": 30,
+      "lat": 49.191768269192515,
+      "lng": 9.22282562457668
+    },
+    {
+      "id": 31,
+      "lat": 49.19140994768234,
+      "lng": 9.222557650226472
+    },
+    {
+      "id": 32,
+      "lat": 49.19115489742246,
+      "lng": 9.222539423696976
+    },
+    {
+      "id": 33,
+      "lat": 49.19158581948299,
+      "lng": 9.222647710715735
+    },
+    {
+      "id": 34,
+      "lat": 49.1916508240202,
+      "lng": 9.2219982869581
+    },
+    {
+      "id": 35,
+      "lat": 49.19140942708238,
+      "lng": 9.223499270700708
+    },
+    {
+      "id": 36,
+      "lat": 49.1918351950839,
+      "lng": 9.222635772802375
+    },
+    {
+      "id": 37,
+      "lat": 49.191358395001124,
+      "lng": 9.223710518471952
+    },
+    {
+      "id": 38,
+      "lat": 49.191459439412654,
+      "lng": 9.223586766706731
+    },
+    {
+      "id": 39,
+      "lat": 49.19130359366048,
+      "lng": 9.22261319563104
+    },
+    {
+      "id": 40,
+      "lat": 49.191470809982654,
+      "lng": 9.223032484926764
+    },
+    {
+      "id": 41,
+      "lat": 49.19187853486221,
+      "lng": 9.222738993611221
+    },
+    {
+      "id": 42,
+      "lat": 49.191642467180756,
+      "lng": 9.222679337044205
+    },
+    {
+      "id": 43,
+      "lat": 49.19206004263777,
+      "lng": 9.223478149219199
+    },
+    {
+      "id": 44,
+      "lat": 49.191525170335666,
+      "lng": 9.223440837745734
+    },
+    {
+      "id": 45,
+      "lat": 49.19167663922689,
+      "lng": 9.22293956215638
+    },
+    {
+      "id": 46,
+      "lat": 49.19091444474729,
+      "lng": 9.222027469786271
+    },
+    {
+      "id": 47,
+      "lat": 49.19156942808262,
+      "lng": 9.22273528406468
+    },
+    {
+      "id": 48,
+      "lat": 49.191250042104485,
+      "lng": 9.222475407152384
+    },
+    {
+      "id": 101,
+      "lat": 49.19200394089596,
+      "lng": 9.222555635879958
+    },
+    {
+      "id": 102,
+      "lat": 49.19143832776017,
+      "lng": 9.222148070053013
+    },
+    {
+      "id": 103,
+      "lat": 49.19101216478182,
+      "lng": 9.221981467413741
+    },
+    {
+      "id": 104,
+      "lat": 49.19170892366334,
+      "lng": 9.224982649382552
+    },
+    {
+      "id": 105,
+      "lat": 49.19183155943441,
+      "lng": 9.223400914399141
+    },
+    {
+      "id": 201,
+      "lat": 49.19241734714888,
+      "lng": 9.223234820756566
+    },
+    {
+      "id": 202,
+      "lat": 49.19178999604575,
+      "lng": 9.223367430164025
+    },
+    {
+      "id": 301,
+      "lat": 49.192595264795735,
+      "lng": 9.222860530237364
+    },
+    {
+      "id": 302,
+      "lat": 49.19136646661002,
+      "lng": 9.221844848363384
+    },
+    {
+      "id": 303,
+      "lat": 49.19089328542159,
+      "lng": 9.222328458172843
+    },
+    {
+      "id": 304,
+      "lat": 49.19126039636819,
+      "lng": 9.223029442854944
+    },
+    {
+      "id": 401,
+      "lat": 49.19252401081673,
+      "lng": 9.223093532805361
+    },
+    {
+      "id": 501,
+      "lat": 49.19391457288916,
+      "lng": 9.22731505779961
+    },
+    {
+      "id": 49,
+      "lat": 49.19188,
+      "lng": 9.22291
+    },
+    {
+      "id": 50,
+      "lat": 49.1919,
+      "lng": 9.22335
+    },
+    {
+      "id": 51,
+      "lat": 49.1915351253,
+      "lng": 9.2226016894
+    }
+  ],
+  "pois": [
+    {
+      "id": 1,
+      "name": "Arbeiter-Samariter-Bund",
+      "typeId": 1
+    },
+    {
+      "id": 2,
+      "name": "DLRG",
+      "typeId": 1
+    },
+    {
+      "id": 3,
+      "name": "Downtownboys",
+      "typeId": 1
+    },
+    {
+      "id": 4,
+      "name": "DRK Ortsverein",
+      "typeId": 1
+    },
+    {
+      "id": 5,
+      "name": "Förderverein der Feuerwehr NSU",
+      "typeId": 1
+    },
+    {
+      "id": 6,
+      "name": "Georgspfadfinder",
+      "typeId": 1
+    },
+    {
+      "id": 7,
+      "name": "Gesangsverein Lassallia",
+      "typeId": 1
+    },
+    {
+      "id": 9,
+      "name": "Internationales Gremium",
+      "typeId": 1
+    },
+    {
+      "id": 10,
+      "name": "JES Kirche",
+      "typeId": 1
+    },
+    {
+      "id": 11,
+      "name": "Jugendfarm",
+      "typeId": 1
+    },
+    {
+      "id": 12,
+      "name": "Junge Union Stadtverband",
+      "typeId": 1
+    },
+    {
+      "id": 14,
+      "name": "Kiwanis Club",
+      "typeId": 1
+    },
+    {
+      "id": 15,
+      "name": "Kolping Blasorchester",
+      "typeId": 1
+    },
+    {
+      "id": 16,
+      "name": "Kolpingsfamilie",
+      "typeId": 1
+    },
+    {
+      "id": 17,
+      "name": "Kolpingjugend",
+      "typeId": 1
+    },
+    {
+      "id": 18,
+      "name": "Kreatief - Kultur im Unterland",
+      "typeId": 1
+    },
+    {
+      "id": 20,
+      "name": "MGV Concordia 1855",
+      "typeId": 1
+    },
+    {
+      "id": 22,
+      "name": "Sängerbund 1830",
+      "typeId": 1
+    },
+    {
+      "id": 23,
+      "name": "SC Amorbach",
+      "typeId": 1
+    },
+    {
+      "id": 24,
+      "name": "Schützengilde",
+      "typeId": 1
+    },
+    {
+      "id": 25,
+      "name": "SPD Ortsverein",
+      "typeId": 1
+    },
+    {
+      "id": 27,
+      "name": "Sport-Union Neckarsulm - Fußball",
+      "typeId": 1
+    },
+    {
+      "id": 28,
+      "name": "Sport-Union Neckarsulm - Handball",
+      "typeId": 1
+    },
+    {
+      "id": 29,
+      "name": "Sport-Union Neckarsulm - Kanu",
+      "typeId": 1
+    },
+    {
+      "id": 31,
+      "name": "Sport-Union Neckarsulm - Tischtennis",
+      "typeId": 1
+    },
+    {
+      "id": 32,
+      "name": "Stone Heads",
+      "typeId": 1
+    },
+    {
+      "id": 34,
+      "name": "Walhai / Cheerleader",
+      "typeId": 1
+    },
+    {
+      "id": 35,
+      "name": "TC Sulmtal",
+      "typeId": 1
+    },
+    {
+      "id": 36,
+      "name": "Türkspor Neckarsulm 1969",
+      "typeId": 1
+    },
+    {
+      "id": 37,
+      "name": "Trabzonspor Taraftarlar Birliği",
+      "typeId": 1
+    },
+    {
+      "id": 38,
+      "name": "UFC",
+      "typeId": 1
+    },
+    {
+      "id": 39,
+      "name": "Weinbauverein",
+      "typeId": 1
+    },
+    {
+      "id": 40,
+      "name": "Sport-Union Neckarsulm - Rugby",
+      "typeId": 1
+    },
+    {
+      "id": 42,
+      "name": "Grüne / B90",
+      "typeId": 1
+    },
+    {
+      "id": 43,
+      "name": "Blumentombola",
+      "typeId": 7
+    },
+    {
+      "id": 101,
+      "name": "Hauptbühne Museumsplatz",
+      "typeId": 2
+    },
+    {
+      "id": 102,
+      "name": "Bühne Karlsplatz",
+      "typeId": 2
+    },
+    {
+      "id": 104,
+      "name": "Karlsplatz",
+      "typeId": 2
+    },
+    {
+      "id": 106,
+      "name": "Quergasse",
+      "typeId": 2
+    },
+    {
+      "id": 201,
+      "name": "Karussell",
+      "typeId": 7
+    },
+    {
+      "id": 202,
+      "name": "Kinder-Flohmarkt",
+      "typeId": 7
+    },
+    {
+      "id": 301,
+      "name": "WC",
+      "typeId": 4
+    },
+    {
+      "id": 401,
+      "name": "Erste-Hilfe (ASB)",
+      "typeId": 5
+    },
+    {
+      "id": 501,
+      "name": "ZOB (Ballei)",
+      "typeId": 6
+    }
+  ],
+  "poiCoordinates": [
+    {
+      "id": null,
+      "poiId": 1,
+      "coordinateId": 1
+    },
+    {
+      "id": null,
+      "poiId": 2,
+      "coordinateId": 2
+    },
+    {
+      "id": null,
+      "poiId": 2,
+      "coordinateId": 42
+    },
+    {
+      "id": null,
+      "poiId": 3,
+      "coordinateId": 4
+    },
+    {
+      "id": null,
+      "poiId": 4,
+      "coordinateId": 3
+    },
+    {
+      "id": null,
+      "poiId": 5,
+      "coordinateId": 5
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "coordinateId": 43
+    },
+    {
+      "id": null,
+      "poiId": 7,
+      "coordinateId": 7
+    },
+    {
+      "id": null,
+      "poiId": 9,
+      "coordinateId": 9
+    },
+    {
+      "id": null,
+      "poiId": 10,
+      "coordinateId": 44
+    },
+    {
+      "id": null,
+      "poiId": 11,
+      "coordinateId": 45
+    },
+    {
+      "id": null,
+      "poiId": 11,
+      "coordinateId": 46
+    },
+    {
+      "id": null,
+      "poiId": 12,
+      "coordinateId": 13
+    },
+    {
+      "id": null,
+      "poiId": 14,
+      "coordinateId": 15
+    },
+    {
+      "id": null,
+      "poiId": 15,
+      "coordinateId": 16
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "coordinateId": 17
+    },
+    {
+      "id": null,
+      "poiId": 17,
+      "coordinateId": 18
+    },
+    {
+      "id": null,
+      "poiId": 18,
+      "coordinateId": 19
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "coordinateId": 21
+    },
+    {
+      "id": null,
+      "poiId": 22,
+      "coordinateId": 23
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "coordinateId": 24
+    },
+    {
+      "id": null,
+      "poiId": 24,
+      "coordinateId": 47
+    },
+    {
+      "id": null,
+      "poiId": 25,
+      "coordinateId": 27
+    },
+    {
+      "id": null,
+      "poiId": 27,
+      "coordinateId": 29
+    },
+    {
+      "id": null,
+      "poiId": 28,
+      "coordinateId": 30
+    },
+    {
+      "id": null,
+      "poiId": 29,
+      "coordinateId": 31
+    },
+    {
+      "id": null,
+      "poiId": 31,
+      "coordinateId": 51
+    },
+    {
+      "id": null,
+      "poiId": 32,
+      "coordinateId": 34
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "coordinateId": 36
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "coordinateId": 37
+    },
+    {
+      "id": null,
+      "poiId": 36,
+      "coordinateId": 48
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "coordinateId": 32
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "coordinateId": 40
+    },
+    {
+      "id": null,
+      "poiId": 39,
+      "coordinateId": 41
+    },
+    {
+      "id": null,
+      "poiId": 40,
+      "coordinateId": 39
+    },
+    {
+      "id": null,
+      "poiId": 42,
+      "coordinateId": 49
+    },
+    {
+      "id": null,
+      "poiId": 43,
+      "coordinateId": 50
+    },
+    {
+      "id": null,
+      "poiId": 101,
+      "coordinateId": 101
+    },
+    {
+      "id": null,
+      "poiId": 102,
+      "coordinateId": 102
+    },
+    {
+      "id": null,
+      "poiId": 104,
+      "coordinateId": 103
+    },
+    {
+      "id": null,
+      "poiId": 201,
+      "coordinateId": 201
+    },
+    {
+      "id": null,
+      "poiId": 202,
+      "coordinateId": 202
+    },
+    {
+      "id": null,
+      "poiId": 301,
+      "coordinateId": 301
+    },
+    {
+      "id": null,
+      "poiId": 301,
+      "coordinateId": 302
+    },
+    {
+      "id": null,
+      "poiId": 301,
+      "coordinateId": 303
+    },
+    {
+      "id": null,
+      "poiId": 301,
+      "coordinateId": 304
+    },
+    {
+      "id": null,
+      "poiId": 401,
+      "coordinateId": 401
+    },
+    {
+      "id": null,
+      "poiId": 501,
+      "coordinateId": 501
+    }
+  ],
+  "offers": [
+    {
+      "id": 1,
+      "typeId": 1,
+      "name": "Bier",
+      "description": null
+    },
+    {
+      "id": 2,
+      "typeId": 1,
+      "name": "Cocktails",
+      "description": "mit Alkohol"
+    },
+    {
+      "id": 3,
+      "typeId": 1,
+      "name": "Apfelschorle",
+      "description": null
+    },
+    {
+      "id": 4,
+      "typeId": 1,
+      "name": "Sprite",
+      "description": null
+    },
+    {
+      "id": 5,
+      "typeId": 1,
+      "name": "Bionade",
+      "description": "Limonade"
+    },
+    {
+      "id": 6,
+      "typeId": 1,
+      "name": "alkoholfreie Getränke",
+      "description": "Softdrinks: Limonade, Cola, Spezi, ..."
+    },
+    {
+      "id": 7,
+      "typeId": 1,
+      "name": "Hefeweizen",
+      "description": "Bier"
+    },
+    {
+      "id": 8,
+      "typeId": 1,
+      "name": "Ayran",
+      "description": "türkisches Joghurt-Getränk"
+    },
+    {
+      "id": 10,
+      "typeId": 1,
+      "name": "Aperol Spritz",
+      "description": null
+    },
+    {
+      "id": 11,
+      "typeId": 1,
+      "name": "Chilly Willi",
+      "description": null
+    },
+    {
+      "id": 12,
+      "typeId": 1,
+      "name": "Cocktails",
+      "description": "alkoholfrei"
+    },
+    {
+      "id": 13,
+      "typeId": 1,
+      "name": "Cola",
+      "description": null
+    },
+    {
+      "id": 15,
+      "typeId": 1,
+      "name": "Cuba Libre",
+      "description": null
+    },
+    {
+      "id": 16,
+      "typeId": 1,
+      "name": "Export",
+      "description": "Bier"
+    },
+    {
+      "id": 17,
+      "typeId": 1,
+      "name": "Fanta",
+      "description": "Limonade"
+    },
+    {
+      "id": 18,
+      "typeId": 1,
+      "name": "Gazos",
+      "description": "türkische Limonade"
+    },
+    {
+      "id": 22,
+      "typeId": 1,
+      "name": "Helga",
+      "description": null
+    },
+    {
+      "id": 23,
+      "typeId": 1,
+      "name": "Hugo",
+      "description": null
+    },
+    {
+      "id": 25,
+      "typeId": 1,
+      "name": "Joster",
+      "description": null
+    },
+    {
+      "id": 26,
+      "typeId": 1,
+      "name": "Kaffee",
+      "description": null
+    },
+    {
+      "id": 28,
+      "typeId": 1,
+      "name": "Kölsch",
+      "description": "Bier"
+    },
+    {
+      "id": 31,
+      "typeId": 1,
+      "name": "Lockstädter",
+      "description": null
+    },
+    {
+      "id": 33,
+      "typeId": 1,
+      "name": "Longdrink",
+      "description": null
+    },
+    {
+      "id": 34,
+      "typeId": 1,
+      "name": "Metaxa",
+      "description": null
+    },
+    {
+      "id": 35,
+      "typeId": 1,
+      "name": "Mixgetränke",
+      "description": null
+    },
+    {
+      "id": 37,
+      "typeId": 1,
+      "name": "Orangensaft",
+      "description": null
+    },
+    {
+      "id": 38,
+      "typeId": 1,
+      "name": "Ouzo",
+      "description": null
+    },
+    {
+      "id": 39,
+      "typeId": 1,
+      "name": "Pfefferminzlikör",
+      "description": null
+    },
+    {
+      "id": 41,
+      "typeId": 1,
+      "name": "Prinz Alte Himbeere",
+      "description": "österreichische Traditionsbrennerei"
+    },
+    {
+      "id": 42,
+      "typeId": 1,
+      "name": "Prinz Alte Marielle",
+      "description": "österreichische Traditionsbrennerei"
+    },
+    {
+      "id": 43,
+      "typeId": 1,
+      "name": "Radler",
+      "description": null
+    },
+    {
+      "id": 44,
+      "typeId": 1,
+      "name": "Raki",
+      "description": null
+    },
+    {
+      "id": 45,
+      "typeId": 1,
+      "name": "Schnaps",
+      "description": null
+    },
+    {
+      "id": 47,
+      "typeId": 1,
+      "name": "Secco",
+      "description": null
+    },
+    {
+      "id": 48,
+      "typeId": 1,
+      "name": "Sekt",
+      "description": null
+    },
+    {
+      "id": 49,
+      "typeId": 1,
+      "name": "Sinalco",
+      "description": null
+    },
+    {
+      "id": 50,
+      "typeId": 1,
+      "name": "Slush",
+      "description": null
+    },
+    {
+      "id": 51,
+      "typeId": 1,
+      "name": "Sommerschorle",
+      "description": null
+    },
+    {
+      "id": 52,
+      "typeId": 1,
+      "name": "Sprudel",
+      "description": "Mineralwasser"
+    },
+    {
+      "id": 53,
+      "typeId": 1,
+      "name": "Limonade",
+      "description": "Süßer Sprudel"
+    },
+    {
+      "id": 54,
+      "typeId": 1,
+      "name": "Erdbeer Margarita",
+      "description": null
+    },
+    {
+      "id": 55,
+      "typeId": 1,
+      "name": "Tee",
+      "description": null
+    },
+    {
+      "id": 56,
+      "typeId": 1,
+      "name": "Tequilla",
+      "description": null
+    },
+    {
+      "id": 57,
+      "typeId": 1,
+      "name": "Traubensaft",
+      "description": null
+    },
+    {
+      "id": 60,
+      "typeId": 1,
+      "name": "Tee",
+      "description": "türkisch"
+    },
+    {
+      "id": 62,
+      "typeId": 1,
+      "name": "Wasser",
+      "description": null
+    },
+    {
+      "id": 63,
+      "typeId": 1,
+      "name": "Wein",
+      "description": null
+    },
+    {
+      "id": 64,
+      "typeId": 1,
+      "name": "Weinbergpfirsichlikör",
+      "description": null
+    },
+    {
+      "id": 65,
+      "typeId": 1,
+      "name": "Weinschorle",
+      "description": null
+    },
+    {
+      "id": 66,
+      "typeId": 1,
+      "name": "Wodka-Ahoi",
+      "description": null
+    },
+    {
+      "id": 68,
+      "typeId": 1,
+      "name": "Gin Tonic",
+      "description": null
+    },
+    {
+      "id": 74,
+      "typeId": 1,
+      "name": "Liköre",
+      "description": null
+    },
+    {
+      "id": 75,
+      "typeId": 1,
+      "name": "Helles",
+      "description": "Bier"
+    },
+    {
+      "id": 76,
+      "typeId": 1,
+      "name": "Bier (alkoholfrei)",
+      "description": null
+    },
+    {
+      "id": 77,
+      "typeId": 1,
+      "name": "Spezi",
+      "description": "MezzoMix"
+    },
+    {
+      "id": 79,
+      "typeId": 1,
+      "name": "Saftschorle",
+      "description": null
+    },
+    {
+      "id": 80,
+      "typeId": 1,
+      "name": "Aperol",
+      "description": null
+    },
+    {
+      "id": 81,
+      "typeId": 1,
+      "name": "Lillet",
+      "description": null
+    },
+    {
+      "id": 82,
+      "typeId": 1,
+      "name": "Fassbier",
+      "description": null
+    },
+    {
+      "id": 83,
+      "typeId": 1,
+      "name": "Ramazzotti",
+      "description": null
+    },
+    {
+      "id": 84,
+      "typeId": 1,
+      "name": "Jägermeister",
+      "description": null
+    },
+    {
+      "id": 85,
+      "typeId": 1,
+      "name": "Apfelsaft",
+      "description": null
+    },
+    {
+      "id": 86,
+      "typeId": 1,
+      "name": "Bubble-Tea",
+      "description": null
+    },
+    {
+      "id": 87,
+      "typeId": 1,
+      "name": "Bosnische Getränke",
+      "description": null
+    },
+    {
+      "id": 88,
+      "typeId": 1,
+      "name": "Saft",
+      "description": null
+    },
+    {
+      "id": 101,
+      "typeId": 2,
+      "name": "Linsen & Spätzle",
+      "description": "Mit Saitenwürstle"
+    },
+    {
+      "id": 102,
+      "typeId": 2,
+      "name": "Apfelküchle",
+      "description": "Mit Zimt/Zucker und Vanillesoße"
+    },
+    {
+      "id": 103,
+      "typeId": 2,
+      "name": "Steak",
+      "description": "Mit Zwiebel"
+    },
+    {
+      "id": 104,
+      "typeId": 2,
+      "name": "Currywurst",
+      "description": "mit hausgemachter Soße"
+    },
+    {
+      "id": 105,
+      "typeId": 2,
+      "name": "Bratwurst",
+      "description": null
+    },
+    {
+      "id": 106,
+      "typeId": 2,
+      "name": "Pommes frites",
+      "description": null
+    },
+    {
+      "id": 107,
+      "typeId": 2,
+      "name": "Kesselgulasch",
+      "description": null
+    },
+    {
+      "id": 108,
+      "typeId": 2,
+      "name": "Ungarische Paprikawürste",
+      "description": null
+    },
+    {
+      "id": 109,
+      "typeId": 2,
+      "name": "Pizza",
+      "description": null
+    },
+    {
+      "id": 110,
+      "typeId": 2,
+      "name": "Salciccia",
+      "description": null
+    },
+    {
+      "id": 111,
+      "typeId": 2,
+      "name": "Arancino",
+      "description": null
+    },
+    {
+      "id": 112,
+      "typeId": 2,
+      "name": "Lasagne al forno",
+      "description": null
+    },
+    {
+      "id": 113,
+      "typeId": 2,
+      "name": "Spaghetti aglio olio e Peperoncino",
+      "description": "Nur mit Vorbestellung"
+    },
+    {
+      "id": 114,
+      "typeId": 2,
+      "name": "Antipasto all italiana",
+      "description": null
+    },
+    {
+      "id": 115,
+      "typeId": 2,
+      "name": "Kuchen",
+      "description": null
+    },
+    {
+      "id": 116,
+      "typeId": 2,
+      "name": "Crêpes",
+      "description": "Süß und pikant"
+    },
+    {
+      "id": 117,
+      "typeId": 2,
+      "name": "Geräucherte Forellen",
+      "description": "Mit Kartoffelsalat"
+    },
+    {
+      "id": 118,
+      "typeId": 2,
+      "name": "Lachsbröchten",
+      "description": null
+    },
+    {
+      "id": 119,
+      "typeId": 2,
+      "name": "Aalbrötchen",
+      "description": null
+    },
+    {
+      "id": 120,
+      "typeId": 2,
+      "name": "Shrimps",
+      "description": "Mit Soße"
+    },
+    {
+      "id": 121,
+      "typeId": 2,
+      "name": "Neckarsulmer Rädle",
+      "description": null
+    },
+    {
+      "id": 122,
+      "typeId": 2,
+      "name": "Schnitzel",
+      "description": "Mit Kartoffelsalat oder Brot"
+    },
+    {
+      "id": 123,
+      "typeId": 2,
+      "name": "Wurst vom Sud",
+      "description": null
+    },
+    {
+      "id": 124,
+      "typeId": 2,
+      "name": "Rauchfleisch-Kräuterkäsbrot",
+      "description": null
+    },
+    {
+      "id": 125,
+      "typeId": 2,
+      "name": "Wurstsalat",
+      "description": null
+    },
+    {
+      "id": 126,
+      "typeId": 2,
+      "name": "Gefüllter Hals mit Spätzle + Kartoffelsalat",
+      "description": null
+    },
+    {
+      "id": 127,
+      "typeId": 2,
+      "name": "Schälrippchen",
+      "description": "Mit Brot"
+    },
+    {
+      "id": 128,
+      "typeId": 2,
+      "name": "Hacksteak",
+      "description": "im Brötchen"
+    },
+    {
+      "id": 129,
+      "typeId": 2,
+      "name": "Kartoffelsalat",
+      "description": null
+    },
+    {
+      "id": 130,
+      "typeId": 2,
+      "name": "Zwiebelkuchen",
+      "description": null
+    },
+    {
+      "id": 131,
+      "typeId": 2,
+      "name": "Saitenwurst",
+      "description": "Mit Brötchen"
+    },
+    {
+      "id": 132,
+      "typeId": 2,
+      "name": "Souvlaki",
+      "description": "Spieß mit Brötchen"
+    },
+    {
+      "id": 133,
+      "typeId": 2,
+      "name": "Maultaschen",
+      "description": null
+    },
+    {
+      "id": 134,
+      "typeId": 2,
+      "name": "Bratwurstschnecken",
+      "description": null
+    },
+    {
+      "id": 135,
+      "typeId": 2,
+      "name": "Fleischkäse",
+      "description": "mit Kartoffelsalat"
+    },
+    {
+      "id": 136,
+      "typeId": 2,
+      "name": "Ganzhornteller",
+      "description": null
+    },
+    {
+      "id": 137,
+      "typeId": 2,
+      "name": "Langos",
+      "description": null
+    },
+    {
+      "id": 138,
+      "typeId": 2,
+      "name": "Flammkuchen",
+      "description": null
+    },
+    {
+      "id": 139,
+      "typeId": 2,
+      "name": "Baguettes",
+      "description": null
+    },
+    {
+      "id": 140,
+      "typeId": 2,
+      "name": "Schupfnudeln",
+      "description": null
+    },
+    {
+      "id": 141,
+      "typeId": 2,
+      "name": "Sauerkraut",
+      "description": null
+    },
+    {
+      "id": 142,
+      "typeId": 2,
+      "name": "Blutwurst",
+      "description": null
+    },
+    {
+      "id": 143,
+      "typeId": 2,
+      "name": "Leberwurst",
+      "description": null
+    },
+    {
+      "id": 144,
+      "typeId": 2,
+      "name": "Besentoast",
+      "description": null
+    },
+    {
+      "id": 145,
+      "typeId": 2,
+      "name": "Käsebrot",
+      "description": null
+    },
+    {
+      "id": 146,
+      "typeId": 2,
+      "name": "Rauchfleischbrot",
+      "description": null
+    },
+    {
+      "id": 147,
+      "typeId": 2,
+      "name": "Käsewürfel",
+      "description": null
+    },
+    {
+      "id": 148,
+      "typeId": 2,
+      "name": "Waffeln",
+      "description": null
+    },
+    {
+      "id": 149,
+      "typeId": 2,
+      "name": "Zuckerwatte",
+      "description": null
+    },
+    {
+      "id": 150,
+      "typeId": 2,
+      "name": "Bratwürste mit Kartoffelsalat",
+      "description": "Nur Montag"
+    },
+    {
+      "id": 151,
+      "typeId": 2,
+      "name": "Burger",
+      "description": null
+    },
+    {
+      "id": 152,
+      "typeId": 2,
+      "name": "Baguette mit Lachs",
+      "description": null
+    },
+    {
+      "id": 153,
+      "typeId": 2,
+      "name": "Tapas-Teller",
+      "description": null
+    },
+    {
+      "id": 154,
+      "typeId": 2,
+      "name": "Oliven",
+      "description": null
+    },
+    {
+      "id": 155,
+      "typeId": 2,
+      "name": "Weißwürste",
+      "description": "Nur Sonntag"
+    },
+    {
+      "id": 156,
+      "typeId": 2,
+      "name": "Kartoffelpuffer",
+      "description": null
+    },
+    {
+      "id": 157,
+      "typeId": 2,
+      "name": "Maiskolben",
+      "description": null
+    },
+    {
+      "id": 158,
+      "typeId": 2,
+      "name": "Überbackene Seele",
+      "description": null
+    },
+    {
+      "id": 159,
+      "typeId": 2,
+      "name": "Überbackene Hörner",
+      "description": null
+    },
+    {
+      "id": 160,
+      "typeId": 2,
+      "name": "Country-Potatoes (Kartoffelspalten)",
+      "description": "mit Dip"
+    },
+    {
+      "id": 161,
+      "typeId": 2,
+      "name": "Raclette",
+      "description": null
+    },
+    {
+      "id": 162,
+      "typeId": 2,
+      "name": "Gebrannte Mandeln",
+      "description": null
+    },
+    {
+      "id": 163,
+      "typeId": 2,
+      "name": "Gebrannte Erdnüsse",
+      "description": null
+    },
+    {
+      "id": 164,
+      "typeId": 2,
+      "name": "Magenbrot",
+      "description": null
+    },
+    {
+      "id": 165,
+      "typeId": 2,
+      "name": "Popcorn",
+      "description": null
+    },
+    {
+      "id": 166,
+      "typeId": 2,
+      "name": "Sonstige Süßigkeiten",
+      "description": null
+    },
+    {
+      "id": 167,
+      "typeId": 2,
+      "name": "Thai Suppe",
+      "description": null
+    },
+    {
+      "id": 168,
+      "typeId": 2,
+      "name": "Bigos",
+      "description": "Polnischer Eintopf"
+    },
+    {
+      "id": 169,
+      "typeId": 2,
+      "name": "Piroschki",
+      "description": "Russische gefüllte Teigtaschen"
+    },
+    {
+      "id": 170,
+      "typeId": 2,
+      "name": "Hähnchen",
+      "description": null
+    },
+    {
+      "id": 171,
+      "typeId": 2,
+      "name": "Bogenwurst",
+      "description": null
+    },
+    {
+      "id": 172,
+      "typeId": 2,
+      "name": "Calamaris",
+      "description": null
+    },
+    {
+      "id": 173,
+      "typeId": 2,
+      "name": "Snacks",
+      "description": null
+    },
+    {
+      "id": 174,
+      "typeId": 2,
+      "name": "Seelen mit Schinken und Käse überbacken (Spitzdappen)",
+      "description": null
+    },
+    {
+      "id": 175,
+      "typeId": 2,
+      "name": "Germknödel",
+      "description": null
+    },
+    {
+      "id": 176,
+      "typeId": 2,
+      "name": "Kässpätzle",
+      "description": null
+    },
+    {
+      "id": 178,
+      "typeId": 2,
+      "name": "Döner Kebab",
+      "description": null
+    },
+    {
+      "id": 179,
+      "typeId": 2,
+      "name": "Pfannkuchen",
+      "description": null
+    },
+    {
+      "id": 180,
+      "typeId": 2,
+      "name": "Köfte",
+      "description": "verschiedene Sorten"
+    },
+    {
+      "id": 181,
+      "typeId": 2,
+      "name": "Türkische Fleisch-Grillspezialitäten",
+      "description": null
+    },
+    {
+      "id": 182,
+      "typeId": 2,
+      "name": "Börek",
+      "description": null
+    },
+    {
+      "id": 183,
+      "typeId": 2,
+      "name": "Türkische Süßspeisen aus Blätterteig",
+      "description": null
+    },
+    {
+      "id": 184,
+      "typeId": 2,
+      "name": "Eis",
+      "description": null
+    },
+    {
+      "id": 185,
+      "typeId": 2,
+      "name": "Gefüllter Blätterteig",
+      "description": null
+    },
+    {
+      "id": 186,
+      "typeId": 2,
+      "name": "Su-Börek",
+      "description": null
+    },
+    {
+      "id": 187,
+      "typeId": 2,
+      "name": "Sarma",
+      "description": "Gefüllte Weinblätter"
+    },
+    {
+      "id": 188,
+      "typeId": 2,
+      "name": "Salate",
+      "description": null
+    },
+    {
+      "id": 189,
+      "typeId": 2,
+      "name": "Muffins",
+      "description": null
+    },
+    {
+      "id": 190,
+      "typeId": 2,
+      "name": "Putenwiener",
+      "description": null
+    },
+    {
+      "id": 191,
+      "typeId": 2,
+      "name": "Soguk Mezze",
+      "description": "Mediterrane-Platte"
+    },
+    {
+      "id": 192,
+      "typeId": 2,
+      "name": "Sac Kavurma",
+      "description": "Hirtenpfanne"
+    },
+    {
+      "id": 193,
+      "typeId": 2,
+      "name": "Tantuni",
+      "description": "Teigrolle mit einer Fleisch- und Gemüsefüllung"
+    },
+    {
+      "id": 194,
+      "typeId": 2,
+      "name": "Manti",
+      "description": "Türkische Teigtasche mit Joghurtsoße"
+    },
+    {
+      "id": 195,
+      "typeId": 2,
+      "name": "Icli Köfte",
+      "description": "Mit Hackfleisch gefüllte Bulgurklöße"
+    },
+    {
+      "id": 196,
+      "typeId": 2,
+      "name": "Chicken-Nuggets",
+      "description": null
+    },
+    {
+      "id": 197,
+      "typeId": 2,
+      "name": "Süßkartoffelchips",
+      "description": "mit Kräuterdips"
+    },
+    {
+      "id": 198,
+      "typeId": 2,
+      "name": "Vegane Currywurst",
+      "description": "mit Vollkornbrot"
+    },
+    {
+      "id": 199,
+      "typeId": 2,
+      "name": "Veganer Hot Dog",
+      "description": null
+    },
+    {
+      "id": 200,
+      "typeId": 2,
+      "name": "Weizenwrap",
+      "description": "mit gegrilltem Gemüse"
+    },
+    {
+      "id": 201,
+      "typeId": 2,
+      "name": "Penne Arrabiata",
+      "description": null
+    },
+    {
+      "id": 202,
+      "typeId": 2,
+      "name": "Calzoni fritti",
+      "description": null
+    },
+    {
+      "id": 203,
+      "typeId": 2,
+      "name": "Copolline",
+      "description": null
+    },
+    {
+      "id": 204,
+      "typeId": 2,
+      "name": "Cannoli Siciliani",
+      "description": null
+    },
+    {
+      "id": 205,
+      "typeId": 2,
+      "name": "Frühlingsrolle",
+      "description": null
+    },
+    {
+      "id": 206,
+      "typeId": 2,
+      "name": "Panini",
+      "description": null
+    },
+    {
+      "id": 207,
+      "typeId": 2,
+      "name": "Nachos",
+      "description": "mit Käse überbacken"
+    },
+    {
+      "id": 208,
+      "typeId": 2,
+      "name": "Pasta (vegan)",
+      "description": null
+    },
+    {
+      "id": 209,
+      "typeId": 2,
+      "name": "Piadina romana",
+      "description": null
+    },
+    {
+      "id": 210,
+      "typeId": 2,
+      "name": "Ungarische Spezialitäten",
+      "description": "In Gläsern und Tuben"
+    },
+    {
+      "id": 211,
+      "typeId": 2,
+      "name": "Ungarisches Paprikapulver",
+      "description": "Süß oder Scharf"
+    },
+    {
+      "id": 212,
+      "typeId": 2,
+      "name": "Mittagstisch",
+      "description": "nur Montag mittag"
+    },
+    {
+      "id": 213,
+      "typeId": 2,
+      "name": "Feuerseele",
+      "description": null
+    },
+    {
+      "id": 214,
+      "typeId": 2,
+      "name": "Rumänische Speisen",
+      "description": null
+    },
+    {
+      "id": 215,
+      "typeId": 2,
+      "name": "Syrische Speisen",
+      "description": null
+    },
+    {
+      "id": 216,
+      "typeId": 2,
+      "name": "Gebäck",
+      "description": null
+    },
+    {
+      "id": 217,
+      "typeId": 2,
+      "name": "Wengertweck",
+      "description": "vegetarisch oder mit Salzfleisch"
+    },
+    {
+      "id": 218,
+      "typeId": 2,
+      "name": "Blut- und Leberwurst",
+      "description": "mit Kraut"
+    },
+    {
+      "id": 219,
+      "typeId": 2,
+      "name": "Salzfleisch",
+      "description": "mit Kraut/Brot"
+    },
+    {
+      "id": 220,
+      "typeId": 2,
+      "name": "Belegte Brote",
+      "description": "Käse oder Rauchfleisch"
+    },
+    {
+      "id": 221,
+      "typeId": 2,
+      "name": "Wildbratwurst",
+      "description": null
+    },
+    {
+      "id": 222,
+      "typeId": 2,
+      "name": "Brötchen",
+      "description": null
+    },
+    {
+      "id": 223,
+      "typeId": 2,
+      "name": "Fingerfood",
+      "description": null
+    },
+    {
+      "id": 224,
+      "typeId": 2,
+      "name": "Ciabatta Salsiccia",
+      "description": null
+    },
+    {
+      "id": 225,
+      "typeId": 2,
+      "name": "Ciabatta Tomaten-Mozzarella",
+      "description": null
+    },
+    {
+      "id": 226,
+      "typeId": 2,
+      "name": "Wedges",
+      "description": null
+    },
+    {
+      "id": 227,
+      "typeId": 2,
+      "name": "Fleischkäsbrötchen",
+      "description": null
+    },
+    {
+      "id": 228,
+      "typeId": 2,
+      "name": "Geschnetzeltes",
+      "description": "mit Spätzle"
+    },
+    {
+      "id": 229,
+      "typeId": 2,
+      "name": "Gegrillte Sandwiches",
+      "description": "mit Pommes"
+    },
+    {
+      "id": 230,
+      "typeId": 2,
+      "name": "Bubble Waffeln",
+      "description": null
+    },
+    {
+      "id": 231,
+      "typeId": 2,
+      "name": "Geschnetzeltes/türkische Wurst im Brot",
+      "description": null
+    },
+    {
+      "id": 232,
+      "typeId": 2,
+      "name": "Rindswurst",
+      "description": null
+    },
+    {
+      "id": 233,
+      "typeId": 2,
+      "name": "½-Meter-Bratwurst",
+      "description": null
+    },
+    {
+      "id": 234,
+      "typeId": 2,
+      "name": "Griechischer Salat",
+      "description": "mit Brot"
+    },
+    {
+      "id": 235,
+      "typeId": 2,
+      "name": "Bosnische Speisen",
+      "description": null
+    },
+    {
+      "id": 236,
+      "typeId": 2,
+      "name": "Schnitzelbrötchen",
+      "description": null
+    },
+    {
+      "id": 237,
+      "typeId": 2,
+      "name": "Maultaschenburger",
+      "description": null
+    },
+    {
+      "id": 238,
+      "typeId": 2,
+      "name": "Toast",
+      "description": "auch vegetarisch"
+    },
+    {
+      "id": 239,
+      "typeId": 2,
+      "name": "Türkische Frikadelle",
+      "description": null
+    },
+    {
+      "id": 240,
+      "typeId": 2,
+      "name": "Sucuk",
+      "description": null
+    },
+    {
+      "id": 241,
+      "typeId": 2,
+      "name": "Lahmacun",
+      "description": null
+    },
+    {
+      "id": 242,
+      "typeId": 2,
+      "name": "Dürüm",
+      "description": null
+    },
+    {
+      "id": 301,
+      "typeId": 3,
+      "name": "Schnappfalle",
+      "description": null
+    },
+    {
+      "id": 302,
+      "typeId": 3,
+      "name": "Spielangebote",
+      "description": null
+    },
+    {
+      "id": 303,
+      "typeId": 3,
+      "name": "Schminken",
+      "description": null
+    },
+    {
+      "id": 304,
+      "typeId": 3,
+      "name": "Glücksrad",
+      "description": null
+    },
+    {
+      "id": 305,
+      "typeId": 3,
+      "name": "Ponyreiten",
+      "description": null
+    },
+    {
+      "id": 306,
+      "typeId": 3,
+      "name": "Kinderspiele",
+      "description": null
+    },
+    {
+      "id": 307,
+      "typeId": 3,
+      "name": "Losbude",
+      "description": null
+    },
+    {
+      "id": 308,
+      "typeId": 3,
+      "name": "Wurfwand",
+      "description": null
+    },
+    {
+      "id": 309,
+      "typeId": 3,
+      "name": "Schießbudenstand",
+      "description": null
+    },
+    {
+      "id": 310,
+      "typeId": 3,
+      "name": "Tombola",
+      "description": null
+    }
+  ],
+  "offerAliases": [
+    {
+      "id": null,
+      "offerId": 1,
+      "alias": "Becks"
+    },
+    {
+      "id": null,
+      "offerId": 1,
+      "alias": "Becks Gold"
+    },
+    {
+      "id": null,
+      "offerId": 1,
+      "alias": "Kellerpils"
+    },
+    {
+      "id": null,
+      "offerId": 1,
+      "alias": "Pils"
+    },
+    {
+      "id": null,
+      "offerId": 1,
+      "alias": "verschiedene Biere"
+    },
+    {
+      "id": null,
+      "offerId": 75,
+      "alias": "Wulle Vollbier Hell"
+    },
+    {
+      "id": null,
+      "offerId": 7,
+      "alias": "Gutmann Hefeweizen"
+    },
+    {
+      "id": null,
+      "offerId": 13,
+      "alias": "Cola Light"
+    },
+    {
+      "id": null,
+      "offerId": 13,
+      "alias": "Jackie-Cola"
+    },
+    {
+      "id": null,
+      "offerId": 81,
+      "alias": "Lillet Berry"
+    },
+    {
+      "id": null,
+      "offerId": 33,
+      "alias": "Longdrink-Pitcher"
+    },
+    {
+      "id": null,
+      "offerId": 79,
+      "alias": "Traubensaftschorle"
+    },
+    {
+      "id": null,
+      "offerId": 45,
+      "alias": "Kräuterschnaps"
+    },
+    {
+      "id": null,
+      "offerId": 45,
+      "alias": "Schnaps (Rumänisch)"
+    },
+    {
+      "id": null,
+      "offerId": 45,
+      "alias": "Schnapsmeter"
+    },
+    {
+      "id": null,
+      "offerId": 47,
+      "alias": "Trauben Secco"
+    },
+    {
+      "id": null,
+      "offerId": 63,
+      "alias": "Griechischer Wein"
+    },
+    {
+      "id": null,
+      "offerId": 63,
+      "alias": "Neuer Wein"
+    },
+    {
+      "id": null,
+      "offerId": 63,
+      "alias": "Wein (Rumänisch)"
+    },
+    {
+      "id": null,
+      "offerId": 155,
+      "alias": "Weißwürste mit frischen Brezel"
+    },
+    {
+      "id": null,
+      "offerId": 1,
+      "alias": "Gerstensaft"
+    },
+    {
+      "id": null,
+      "offerId": 7,
+      "alias": "Weizenbier"
+    },
+    {
+      "id": null,
+      "offerId": 7,
+      "alias": "Weizen"
+    },
+    {
+      "id": null,
+      "offerId": 12,
+      "alias": "alkoholfreie Cocktails"
+    },
+    {
+      "id": null,
+      "offerId": 45,
+      "alias": "Obstler"
+    },
+    {
+      "id": null,
+      "offerId": 63,
+      "alias": "Federweisser"
+    },
+    {
+      "id": null,
+      "offerId": 79,
+      "alias": "Apfelsaftschorle"
+    },
+    {
+      "id": null,
+      "offerId": 62,
+      "alias": "Mineralwasser"
+    },
+    {
+      "id": null,
+      "offerId": 62,
+      "alias": "stilles Wasser"
+    },
+    {
+      "id": null,
+      "offerId": 52,
+      "alias": "Wasser mit Kohlensäure"
+    },
+    {
+      "id": null,
+      "offerId": 53,
+      "alias": "Limo"
+    },
+    {
+      "id": null,
+      "offerId": 48,
+      "alias": "Schampus"
+    },
+    {
+      "id": null,
+      "offerId": 43,
+      "alias": "Alsterwasser"
+    },
+    {
+      "id": null,
+      "offerId": 50,
+      "alias": "Slush Eis"
+    },
+    {
+      "id": null,
+      "offerId": 50,
+      "alias": "Slushie"
+    },
+    {
+      "id": null,
+      "offerId": 76,
+      "alias": "alkoholfreies Bier"
+    },
+    {
+      "id": null,
+      "offerId": 76,
+      "alias": "alkoholfrei Bier"
+    },
+    {
+      "id": null,
+      "offerId": 105,
+      "alias": "Grillwurst"
+    },
+    {
+      "id": null,
+      "offerId": 105,
+      "alias": "Rostbratwurst"
+    },
+    {
+      "id": null,
+      "offerId": 105,
+      "alias": "Bratwurscht"
+    },
+    {
+      "id": null,
+      "offerId": 106,
+      "alias": "Pommes"
+    },
+    {
+      "id": null,
+      "offerId": 106,
+      "alias": "Fritten"
+    },
+    {
+      "id": null,
+      "offerId": 104,
+      "alias": "Curry Wurst"
+    },
+    {
+      "id": null,
+      "offerId": 178,
+      "alias": "Döner"
+    },
+    {
+      "id": null,
+      "offerId": 178,
+      "alias": "Kebab"
+    },
+    {
+      "id": null,
+      "offerId": 170,
+      "alias": "Hühnchen"
+    },
+    {
+      "id": null,
+      "offerId": 170,
+      "alias": "Grillhähnchen"
+    },
+    {
+      "id": null,
+      "offerId": 128,
+      "alias": "Fleischküchle"
+    },
+    {
+      "id": null,
+      "offerId": 133,
+      "alias": "Maultäschle"
+    },
+    {
+      "id": null,
+      "offerId": 133,
+      "alias": "Schwabenravioli"
+    },
+    {
+      "id": null,
+      "offerId": 125,
+      "alias": "Wurschtsalat"
+    },
+    {
+      "id": null,
+      "offerId": 101,
+      "alias": "Linsen mit Spätzle"
+    },
+    {
+      "id": null,
+      "offerId": 140,
+      "alias": "Bubespitzle"
+    },
+    {
+      "id": null,
+      "offerId": 137,
+      "alias": "Langosch"
+    },
+    {
+      "id": null,
+      "offerId": 215,
+      "alias": "Syrisches Essen"
+    },
+    {
+      "id": null,
+      "offerId": 223,
+      "alias": "Finger Food"
+    },
+    {
+      "id": null,
+      "offerId": 116,
+      "alias": "Crepes"
+    },
+    {
+      "id": null,
+      "offerId": 102,
+      "alias": "Apfelkiachla"
+    },
+    {
+      "id": null,
+      "offerId": 227,
+      "alias": "Fleischkäse Brötchen"
+    },
+    {
+      "id": null,
+      "offerId": 135,
+      "alias": "Leberkäse"
+    },
+    {
+      "id": null,
+      "offerId": 218,
+      "alias": "Blutwurst"
+    },
+    {
+      "id": null,
+      "offerId": 218,
+      "alias": "Leberwurst"
+    },
+    {
+      "id": null,
+      "offerId": 232,
+      "alias": "Rinderwurst"
+    },
+    {
+      "id": null,
+      "offerId": 230,
+      "alias": "Bubble Waffles"
+    },
+    {
+      "id": null,
+      "offerId": 226,
+      "alias": "Kartoffelecken"
+    },
+    {
+      "id": null,
+      "offerId": 226,
+      "alias": "Kartoffelspalten"
+    },
+    {
+      "id": null,
+      "offerId": 208,
+      "alias": "vegane Pasta"
+    },
+    {
+      "id": null,
+      "offerId": 212,
+      "alias": "Mittagsmenü"
+    },
+    {
+      "id": null,
+      "offerId": 212,
+      "alias": "Tagesgericht"
+    },
+    {
+      "id": null,
+      "offerId": 183,
+      "alias": "Baklava"
+    },
+    {
+      "id": null,
+      "offerId": 181,
+      "alias": "Kebab"
+    }
+  ],
+  "clubOffers": [
+    {
+      "id": null,
+      "poiId": 1,
+      "offerId": 101
+    },
+    {
+      "id": null,
+      "poiId": 1,
+      "offerId": 102
+    },
+    {
+      "id": null,
+      "poiId": 1,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 1,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 1,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 1,
+      "offerId": 26
+    },
+    {
+      "id": null,
+      "poiId": 2,
+      "offerId": 2
+    },
+    {
+      "id": null,
+      "poiId": 2,
+      "offerId": 12
+    },
+    {
+      "id": null,
+      "poiId": 2,
+      "offerId": 48
+    },
+    {
+      "id": null,
+      "poiId": 2,
+      "offerId": 35
+    },
+    {
+      "id": null,
+      "poiId": 2,
+      "offerId": 301
+    },
+    {
+      "id": null,
+      "poiId": 3,
+      "offerId": 233
+    },
+    {
+      "id": null,
+      "poiId": 3,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 3,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 3,
+      "offerId": 2
+    },
+    {
+      "id": null,
+      "poiId": 4,
+      "offerId": 116
+    },
+    {
+      "id": null,
+      "poiId": 5,
+      "offerId": 226
+    },
+    {
+      "id": null,
+      "poiId": 5,
+      "offerId": 125
+    },
+    {
+      "id": null,
+      "poiId": 5,
+      "offerId": 65
+    },
+    {
+      "id": null,
+      "poiId": 5,
+      "offerId": 79
+    },
+    {
+      "id": null,
+      "poiId": 5,
+      "offerId": 52
+    },
+    {
+      "id": null,
+      "poiId": 5,
+      "offerId": 45
+    },
+    {
+      "id": null,
+      "poiId": 5,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 109
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 121
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 48
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 13
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 3
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 52
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 53
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 26
+    },
+    {
+      "id": null,
+      "poiId": 6,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 42,
+      "offerId": 234
+    },
+    {
+      "id": null,
+      "poiId": 42,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 42,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 7,
+      "offerId": 103
+    },
+    {
+      "id": null,
+      "poiId": 7,
+      "offerId": 128
+    },
+    {
+      "id": null,
+      "poiId": 7,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 7,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 7,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 7,
+      "offerId": 65
+    },
+    {
+      "id": null,
+      "poiId": 7,
+      "offerId": 43
+    },
+    {
+      "id": null,
+      "poiId": 9,
+      "offerId": 215
+    },
+    {
+      "id": null,
+      "poiId": 9,
+      "offerId": 235
+    },
+    {
+      "id": null,
+      "poiId": 9,
+      "offerId": 87
+    },
+    {
+      "id": null,
+      "poiId": 9,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 9,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 10,
+      "offerId": 26
+    },
+    {
+      "id": null,
+      "poiId": 10,
+      "offerId": 216
+    },
+    {
+      "id": null,
+      "poiId": 10,
+      "offerId": 115
+    },
+    {
+      "id": null,
+      "poiId": 11,
+      "offerId": 137
+    },
+    {
+      "id": null,
+      "poiId": 12,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 12,
+      "offerId": 2
+    },
+    {
+      "id": null,
+      "poiId": 12,
+      "offerId": 33
+    },
+    {
+      "id": null,
+      "poiId": 12,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 12,
+      "offerId": 45
+    },
+    {
+      "id": null,
+      "poiId": 14,
+      "offerId": 138
+    },
+    {
+      "id": null,
+      "poiId": 14,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 14,
+      "offerId": 65
+    },
+    {
+      "id": null,
+      "poiId": 14,
+      "offerId": 52
+    },
+    {
+      "id": null,
+      "poiId": 15,
+      "offerId": 139
+    },
+    {
+      "id": null,
+      "poiId": 15,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 15,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 15,
+      "offerId": 2
+    },
+    {
+      "id": null,
+      "poiId": 15,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 15,
+      "offerId": 50
+    },
+    {
+      "id": null,
+      "poiId": 17,
+      "offerId": 148
+    },
+    {
+      "id": null,
+      "poiId": 17,
+      "offerId": 149
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 140
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 217
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 218
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 219
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 48
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 26
+    },
+    {
+      "id": null,
+      "poiId": 16,
+      "offerId": 115
+    },
+    {
+      "id": null,
+      "poiId": 18,
+      "offerId": 208
+    },
+    {
+      "id": null,
+      "poiId": 18,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 18,
+      "offerId": 16
+    },
+    {
+      "id": null,
+      "poiId": 18,
+      "offerId": 7
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 133
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 135
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 227
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 125
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 228
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 7
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 76
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 35
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 62
+    },
+    {
+      "id": null,
+      "poiId": 20,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 22,
+      "offerId": 170
+    },
+    {
+      "id": null,
+      "poiId": 22,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 22,
+      "offerId": 62
+    },
+    {
+      "id": null,
+      "poiId": 22,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 22,
+      "offerId": 48
+    },
+    {
+      "id": null,
+      "poiId": 22,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 22,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "offerId": 75
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "offerId": 7
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "offerId": 170
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "offerId": 106
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "offerId": 105
+    },
+    {
+      "id": null,
+      "poiId": 23,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 24,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 24,
+      "offerId": 62
+    },
+    {
+      "id": null,
+      "poiId": 24,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 24,
+      "offerId": 236
+    },
+    {
+      "id": null,
+      "poiId": 24,
+      "offerId": 176
+    },
+    {
+      "id": null,
+      "poiId": 24,
+      "offerId": 309
+    },
+    {
+      "id": null,
+      "poiId": 25,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 25,
+      "offerId": 65
+    },
+    {
+      "id": null,
+      "poiId": 25,
+      "offerId": 51
+    },
+    {
+      "id": null,
+      "poiId": 25,
+      "offerId": 62
+    },
+    {
+      "id": null,
+      "poiId": 25,
+      "offerId": 50
+    },
+    {
+      "id": null,
+      "poiId": 25,
+      "offerId": 223
+    },
+    {
+      "id": null,
+      "poiId": 27,
+      "offerId": 82
+    },
+    {
+      "id": null,
+      "poiId": 27,
+      "offerId": 43
+    },
+    {
+      "id": null,
+      "poiId": 27,
+      "offerId": 83
+    },
+    {
+      "id": null,
+      "poiId": 27,
+      "offerId": 84
+    },
+    {
+      "id": null,
+      "poiId": 27,
+      "offerId": 45
+    },
+    {
+      "id": null,
+      "poiId": 28,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 28,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 28,
+      "offerId": 10
+    },
+    {
+      "id": null,
+      "poiId": 28,
+      "offerId": 237
+    },
+    {
+      "id": null,
+      "poiId": 28,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 29,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 29,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 29,
+      "offerId": 161
+    },
+    {
+      "id": null,
+      "poiId": 40,
+      "offerId": 52
+    },
+    {
+      "id": null,
+      "poiId": 40,
+      "offerId": 53
+    },
+    {
+      "id": null,
+      "poiId": 40,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 40,
+      "offerId": 7
+    },
+    {
+      "id": null,
+      "poiId": 40,
+      "offerId": 39
+    },
+    {
+      "id": null,
+      "poiId": 40,
+      "offerId": 238
+    },
+    {
+      "id": null,
+      "poiId": 40,
+      "offerId": 106
+    },
+    {
+      "id": null,
+      "poiId": 31,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 31,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 31,
+      "offerId": 33
+    },
+    {
+      "id": null,
+      "poiId": 31,
+      "offerId": 45
+    },
+    {
+      "id": null,
+      "poiId": 32,
+      "offerId": 7
+    },
+    {
+      "id": null,
+      "poiId": 32,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 32,
+      "offerId": 65
+    },
+    {
+      "id": null,
+      "poiId": 32,
+      "offerId": 48
+    },
+    {
+      "id": null,
+      "poiId": 32,
+      "offerId": 85
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 7
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 43
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 62
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 45
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 2
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 48
+    },
+    {
+      "id": null,
+      "poiId": 34,
+      "offerId": 176
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 16
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 7
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 2
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 10
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 45
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 105
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 104
+    },
+    {
+      "id": null,
+      "poiId": 35,
+      "offerId": 155
+    },
+    {
+      "id": null,
+      "poiId": 36,
+      "offerId": 86
+    },
+    {
+      "id": null,
+      "poiId": 36,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 36,
+      "offerId": 55
+    },
+    {
+      "id": null,
+      "poiId": 36,
+      "offerId": 106
+    },
+    {
+      "id": null,
+      "poiId": 36,
+      "offerId": 231
+    },
+    {
+      "id": null,
+      "poiId": 36,
+      "offerId": 178
+    },
+    {
+      "id": null,
+      "poiId": 36,
+      "offerId": 230
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 62
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 26
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 55
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 239
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 232
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 240
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 178
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 241
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 242
+    },
+    {
+      "id": null,
+      "poiId": 37,
+      "offerId": 212
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 52
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 6
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 1
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 48
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 35
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 54
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 82
+    },
+    {
+      "id": null,
+      "poiId": 38,
+      "offerId": 43
+    },
+    {
+      "id": null,
+      "poiId": 39,
+      "offerId": 63
+    },
+    {
+      "id": null,
+      "poiId": 39,
+      "offerId": 48
+    },
+    {
+      "id": null,
+      "poiId": 39,
+      "offerId": 88
+    },
+    {
+      "id": null,
+      "poiId": 39,
+      "offerId": 51
+    },
+    {
+      "id": null,
+      "poiId": 39,
+      "offerId": 62
+    },
+    {
+      "id": null,
+      "poiId": 39,
+      "offerId": 53
+    }
+  ],
+  "busLines": [
+    {
+      "id": 1,
+      "busLine": "91",
+      "stops": "Amorbach",
+      "destination": "Dahenfeld"
+    },
+    {
+      "id": 2,
+      "busLine": "624",
+      "stops": "Plattenwald-Amorbach",
+      "destination": "Dahenfeld"
+    },
+    {
+      "id": 3,
+      "busLine": "691",
+      "stops": "Amorbach",
+      "destination": "Plattenwald"
+    },
+    {
+      "id": 4,
+      "busLine": "Sonderbus",
+      "stops": "Amorbach",
+      "destination": "Dahenfeld"
+    },
+    {
+      "id": 5,
+      "busLine": "N20",
+      "stops": "Viktorshöhe",
+      "destination": "Dahenfeld"
+    },
+    {
+      "id": 6,
+      "busLine": "92",
+      "stops": null,
+      "destination": "Neuberg"
+    },
+    {
+      "id": 7,
+      "busLine": "Sonderbus",
+      "stops": null,
+      "destination": "Neuberg"
+    },
+    {
+      "id": 8,
+      "busLine": "695",
+      "stops": null,
+      "destination": "Obereisesheim"
+    },
+    {
+      "id": 9,
+      "busLine": "94/694",
+      "stops": null,
+      "destination": "Obereisesheim"
+    },
+    {
+      "id": 10,
+      "busLine": "Sonderbus",
+      "stops": null,
+      "destination": "Obereisesheim"
+    },
+    {
+      "id": 11,
+      "busLine": "91/692",
+      "stops": "Amorbach",
+      "destination": "Dahenfeld"
+    },
+    {
+      "id": 12,
+      "busLine": "694",
+      "stops": null,
+      "destination": "Obereisesheim"
+    },
+    {
+      "id": 13,
+      "busLine": "94",
+      "stops": null,
+      "destination": "Obereisesheim"
+    }
+  ],
+  "busConnections": [
+    {
+      "id": null,
+      "busLineId": 11,
+      "departure": "09-07T19:18"
+    },
+    {
+      "id": null,
+      "busLineId": 11,
+      "departure": "09-07T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 11,
+      "departure": "09-07T22:48"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-05T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-05T20:48"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-05T21:48"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-05T22:48"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-05T23:42"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-06T19:03"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-06T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-06T20:20"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-06T21:18"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-06T22:18"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-07T19:20"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-07T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-07T20:18"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-07T21:03"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-07T22:27"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-07T23:07"
+    },
+    {
+      "id": null,
+      "busLineId": 12,
+      "departure": "09-07T23:42"
+    },
+    {
+      "id": null,
+      "busLineId": 13,
+      "departure": "09-07T19:03"
+    },
+    {
+      "id": null,
+      "busLineId": 13,
+      "departure": "09-07T19:33"
+    },
+    {
+      "id": null,
+      "busLineId": 13,
+      "departure": "09-07T21:48"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-05T19:33"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-05T23:18"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-06T01:31"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-06T19:33"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-06T21:12"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-06T23:33"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-07T19:33"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-07T20:48"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-07T21:48"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-07T23:48"
+    },
+    {
+      "id": null,
+      "busLineId": 2,
+      "departure": "09-08T01:31"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-05T20:18"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-05T21:18"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-05T22:18"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-06T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-06T20:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-06T21:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-06T22:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-07T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-07T20:18"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-07T20:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-07T21:18"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-07T21:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-07T22:18"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-07T22:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-07T23:18"
+    },
+    {
+      "id": null,
+      "busLineId": 5,
+      "departure": "09-06T01:31"
+    },
+    {
+      "id": null,
+      "busLineId": 5,
+      "departure": "09-06T23:33"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-05T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-06T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-06T20:48"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-06T21:48"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-06T22:48"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-07T19:03"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-07T19:48"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-07T20:48"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-07T21:48"
+    },
+    {
+      "id": null,
+      "busLineId": 6,
+      "departure": "09-07T22:48"
+    },
+    {
+      "id": null,
+      "busLineId": 8,
+      "departure": "09-07T19:36"
+    },
+    {
+      "id": null,
+      "busLineId": 8,
+      "departure": "09-07T20:36"
+    },
+    {
+      "id": null,
+      "busLineId": 8,
+      "departure": "09-07T21:36"
+    }
+  ],
+  "programs": [
+    {
+      "id": 1,
+      "name": "Eröffnung des Festes",
+      "description": null,
+      "start": "09-05T16:00",
+      "end": null,
+      "poiId": 101
+    },
+    {
+      "id": 2,
+      "name": "MV Obereisesheim",
+      "description": null,
+      "start": "09-05T16:00",
+      "end": "09-05T18:00",
+      "poiId": 101
+    },
+    {
+      "id": 3,
+      "name": "SUN Hotsteppers",
+      "description": null,
+      "start": "09-05T18:40",
+      "end": "09-05T19:00",
+      "poiId": 101
+    },
+    {
+      "id": 4,
+      "name": "MGV Dahenfeld",
+      "description": null,
+      "start": "09-05T20:00",
+      "end": "09-05T23:00",
+      "poiId": 101
+    },
+    {
+      "id": 5,
+      "name": "Grungetime",
+      "description": "Grunge",
+      "start": "09-05T19:00",
+      "end": "09-05T20:00",
+      "poiId": 102
+    },
+    {
+      "id": 6,
+      "name": "Soul Connection",
+      "description": "Soul & Funk",
+      "start": "09-05T20:15",
+      "end": "09-06T00:00",
+      "poiId": 102
+    },
+    {
+      "id": 7,
+      "name": "Ponyreiten",
+      "description": "Jugendfarm",
+      "start": "09-05T16:00",
+      "end": "09-05T18:00",
+      "poiId": 104
+    },
+    {
+      "id": 8,
+      "name": "Kinderflohmarkt",
+      "description": "auf den ausgewiesenen Flächen",
+      "start": "09-05T16:00",
+      "end": "09-05T20:00",
+      "poiId": 106
+    },
+    {
+      "id": 9,
+      "name": "Paulo Simoes",
+      "description": null,
+      "start": "09-06T16:00",
+      "end": "09-06T17:00",
+      "poiId": 101
+    },
+    {
+      "id": 10,
+      "name": "Neckar-Valley-Dancers",
+      "description": null,
+      "start": "09-06T17:00",
+      "end": "09-06T17:30",
+      "poiId": 101
+    },
+    {
+      "id": 11,
+      "name": "Paulo Simoes",
+      "description": null,
+      "start": "09-06T17:30",
+      "end": "09-06T18:30",
+      "poiId": 101
+    },
+    {
+      "id": 12,
+      "name": "Reservisten Big Band Baden-Württemberg",
+      "description": null,
+      "start": "09-06T20:00",
+      "end": "09-06T23:00",
+      "poiId": 101
+    },
+    {
+      "id": 13,
+      "name": "Ökumenischer Gottesdienst",
+      "description": "bei schlechtem Wetter in der St. Dionysius Kirche",
+      "start": "09-06T10:15",
+      "end": null,
+      "poiId": 102
+    },
+    {
+      "id": 14,
+      "name": "Dreams Instead",
+      "description": "Pop & Rock",
+      "start": "09-06T19:00",
+      "end": "09-06T20:00",
+      "poiId": 102
+    },
+    {
+      "id": 15,
+      "name": "Rockzylla",
+      "description": "Rock",
+      "start": "09-06T20:15",
+      "end": "09-06T23:00",
+      "poiId": 102
+    },
+    {
+      "id": 16,
+      "name": "Ponyreiten",
+      "description": "Jugendfarm",
+      "start": "09-06T12:00",
+      "end": "09-06T17:00",
+      "poiId": 104
+    },
+    {
+      "id": 17,
+      "name": "Kinderflohmarkt",
+      "description": "auf den ausgewiesenen Flächen",
+      "start": "09-06T11:00",
+      "end": "09-06T18:00",
+      "poiId": 106
+    },
+    {
+      "id": 18,
+      "name": "SUN Hotsteppers",
+      "description": null,
+      "start": "09-07T18:40",
+      "end": "09-07T19:00",
+      "poiId": 101
+    },
+    {
+      "id": 19,
+      "name": "Metro Jazz Community Band",
+      "description": null,
+      "start": "09-07T20:00",
+      "end": "09-07T23:00",
+      "poiId": 101
+    },
+    {
+      "id": 20,
+      "name": "Frühstücks-Chörle",
+      "description": "Offener Popchor",
+      "start": "09-07T19:00",
+      "end": "09-07T19:30",
+      "poiId": 102
+    },
+    {
+      "id": 21,
+      "name": "Kreatief",
+      "description": "Ensemble \"Festgefahren\"",
+      "start": "09-07T19:45",
+      "end": "09-07T20:30",
+      "poiId": 102
+    },
+    {
+      "id": 22,
+      "name": "Small Circle",
+      "description": "Akustikpop",
+      "start": "09-07T20:45",
+      "end": "09-07T22:00",
+      "poiId": 102
+    }
+  ]
+}

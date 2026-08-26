@@ -21,32 +21,32 @@ notice changes.
 
 Opening hours are editorial and not derivable from the dates.
 
-## 3. SQLDelight seed (fresh installs)
+## 3. JSON seed (all installs)
 
-Edit the `.sq` files. Do not patch generated artifacts.
+Edit the assets in `app/src/main/assets/festival/`.
 
-- `Poi.sq` — clubs, stages, playgrounds, WC, first aid, bus stop
-- `Offer.sq` — add newly named food/drink/other rows. Keep unused old rows unless you
-  want them gone from search. If two offers are the same item, fold the extra name into
-  `OfferAlias.sq` instead of keeping a duplicate row.
-- `OfferAlias.sq` — German synonyms, regionalisms, and folded duplicate names. Search
-  inner-joins `clubOffer`, so an offer nobody sells is invisible regardless of aliases.
-- `ClubOffer.sq` — rebuild the club-to-offer join from the flyer plus website. PDF wins
-  on conflict.
-- `Program.sq` — stage program rows with ISO timestamps (`2026-09-05T16:00:00+02:00`)
-- `Coordinate.sq` / `PoiCoordinate.sq` — map pins. Starting guesses are fine. Refine
-  with the debug pin editor.
+- `manifest.json`: `year`, `timezone`, and `dataVersion`. Bump `dataVersion` whenever
+  content changes.
+- `data.json`: `poiTypes`, `offerTypes`, `coordinates`, `pois`, `poiCoordinates`,
+  `offers`, `offerAliases`, `clubOffers`, `busLines`, `busConnections`, `programs`.
 
-## 4. SQLDelight migration (existing installs)
+If two offers are the same item, fold the extra name into `offerAliases` instead of
+keeping a duplicate offer row. Search inner-joins `clubOffer`, so an offer nobody
+sells is invisible regardless of aliases.
 
-Add `database/src/main/sqldelight/migrations/<n>.sqm`. Fresh installs never re-read
-`.sq` into an already created `ganzhornfest.db`. Anyone who opened last year's app
-only sees new content if a migration writes it.
+Times in JSON are year-less, like `"09-05T16:00"`. The seeder fills year and timezone
+from the manifest.
 
-Keep `.sq` inserts and the new `.sqm` identical. Do not edit earlier migrations.
-Do not turn on `verifyMigrations`. The empty `databases/1.db` snapshot is intentional.
-Schema changes such as a new `offerAlias` table belong in the next `migrations/N.sqm`.
-`OfferAlias.sq` itself only runs on a fresh install.
+On app start the seeder compares `dataVersion` to `seedMeta`. If the asset is newer,
+it wipes content tables and reloads JSON. Fresh installs and upgrades both go through
+this path. Do not put content `INSERT`s in `.sq` or `.sqm` files.
+
+## 4. Schema-only changes
+
+Schema still lives in the `.sq` files. Add a new
+`database/src/main/sqldelight/migrations/<n>.sqm` when the schema changes. Do not edit
+`1.sqm`, `2.sqm`, `3.sqm`, or `4.sqm`. Do not turn on `verifyMigrations`. The empty
+`databases/1.db` snapshot is intentional. `5.sqm` creates `seedMeta`.
 
 ## 5. Pin editor (debug builds)
 
@@ -56,7 +56,8 @@ On the map, **Standorte korrigieren** (debug only):
 2. Pan so the crosshair sits on the stand.
 3. **Position übernehmen** writes the live DB.
 4. **SQL kopieren** puts `UPDATE coordinate …` statements on the clipboard.
-5. Paste those into `Coordinate.sq` and the new `.sqm`.
+5. Copy those lat/lng values into `data.json` `coordinates` (and `poiCoordinates` if a
+   pin is new). Bump `dataVersion`.
 
 ## 6. Version
 
@@ -70,4 +71,4 @@ Bump `versionCode` / `versionName` in `app/build.gradle.kts`.
 
 Then a debug install: search (new clubs present, dropped clubs gone), program all
 three days, map vs flyer. Upgrade-install from the previous Play build to prove the
-new migration.
+seeder reloads after the `seedMeta` migration.

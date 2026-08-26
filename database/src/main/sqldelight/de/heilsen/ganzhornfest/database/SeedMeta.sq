@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS seedMeta (
+    id INTEGER PRIMARY KEY NOT NULL,
+    dataVersion INTEGER NOT NULL
+);
+
+currentVersion:
+SELECT dataVersion FROM seedMeta WHERE id = 1;
+
+setVersion:
+INSERT OR REPLACE INTO seedMeta(id, dataVersion) VALUES (1, :version);
