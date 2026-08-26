@@ -44,8 +44,6 @@ INSERT INTO clubOffer VALUES(NULL,6,6);
 INSERT INTO clubOffer VALUES(NULL,42,234);
 INSERT INTO clubOffer VALUES(NULL,42,6);
 INSERT INTO clubOffer VALUES(NULL,42,1);
-INSERT INTO clubOffer VALUES(NULL,42,62);
-INSERT INTO clubOffer VALUES(NULL,42,65);
 -- 08 Lassallia
 INSERT INTO clubOffer VALUES(NULL,7,103);
 INSERT INTO clubOffer VALUES(NULL,7,128);
@@ -250,11 +248,13 @@ SELECT offer.name, offer.description
 FROM clubOffer
 INNER JOIN poi ON clubOffer.poiId = poi.id
 INNER JOIN offer ON offer.id = clubOffer.offerId
-WHERE poi.name LIKE '%' || :name || '%';
+WHERE poi.name LIKE '%' || :name || '%'
+ORDER BY offer.name COLLATE NOCASE;
 
 selectClubsByOfferName:
 SELECT DISTINCT poi.name
 FROM poi
 INNER JOIN clubOffer ON clubOffer.poiId = poi.id
 INNER JOIN offer ON offer.id = clubOffer.offerId
-WHERE offer.name LIKE '%' || :name || '%';
+WHERE offer.name LIKE '%' || :name || '%'
+ORDER BY poi.name COLLATE NOCASE;
