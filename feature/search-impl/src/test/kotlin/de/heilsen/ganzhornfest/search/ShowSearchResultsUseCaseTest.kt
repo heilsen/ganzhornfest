@@ -43,6 +43,7 @@ class ShowSearchResultsUseCaseTest :
                             Poi(2, "Sportverein", 0),
                             Poi(3, "Arbeiter-Samariter-Bund", 0),
                             Poi(4, "Förderverein der Feuerwehr NSU", 0),
+                            Poi(5, "Sport-Union Neckarsulm - Tischtennis", 0),
                         ),
                     )
             }
@@ -87,6 +88,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("sport", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
+                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
                             SearchModel.Result("Sportverein", "", Category.Club),
                         )
                     awaitComplete()
@@ -101,6 +103,7 @@ class ShowSearchResultsUseCaseTest :
                             SearchModel.Result("Förderverein der Feuerwehr NSU", "", Category.Club),
                             SearchModel.Result("Pommes", "mit Mayo", Category.Food),
                             SearchModel.Result("Sängerbund", "", Category.Club),
+                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
                             SearchModel.Result("Sportverein", "", Category.Club),
                         )
                     awaitComplete()
@@ -174,6 +177,24 @@ class ShowSearchResultsUseCaseTest :
                     awaitItem() shouldBe
                         persistentListOf(
                             SearchModel.Result("Förderverein der Feuerwehr NSU", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches each word of a multi-word query independently, by acronym or substring") {
+                showSearchResults("sun tennis", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches a multi-word query across an offer's name and description") {
+                showSearchResults("cola alkoholfrei", persistentSetOf(Category.Drink)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Cola", "ein alkoholfreies Getränk", Category.Drink),
                         )
                     awaitComplete()
                 }

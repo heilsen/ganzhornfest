@@ -37,10 +37,10 @@ class ShowSearchResultsUseCaseImpl
             if (categories.isEmpty()) return flowOf(persistentListOf())
 
             val locale = configurationProvider.getLocale()
-            val normalizedTerm = searchTerm.normalizedForSearch(locale)
+            val queryTokens = searchTerm.normalizedForSearch(locale).tokens()
 
             return combine(
-                categories.map { category -> resultsForCategory(category, normalizedTerm, locale) },
+                categories.map { category -> resultsForCategory(category, queryTokens, locale) },
             ) { resultsByCategory ->
                 resultsByCategory
                     .flatMap { it }
@@ -51,38 +51,41 @@ class ShowSearchResultsUseCaseImpl
 
         private fun resultsForCategory(
             category: Category,
-            normalizedTerm: String,
+            queryTokens: List<String>,
             locale: Locale,
         ): Flow<List<SearchModel.Result>> =
             when (category) {
                 Category.Food ->
                     offerRepository.getAllFood().map { list ->
                         list
-                            .filter { item -> item.matches(normalizedTerm, locale) }
+                            .filter { item -> item.matches(queryTokens, locale) }
                             .map { item -> SearchModel.Result(item.name, item.description ?: "", Category.Food) }
                     }
 
                 Category.Drink ->
                     offerRepository.getAllDrinks().map { list ->
                         list
-                            .filter { item -> item.matches(normalizedTerm, locale) }
+                            .filter { item -> item.matches(queryTokens, locale) }
                             .map { item -> SearchModel.Result(item.name, item.description ?: "", Category.Drink) }
                     }
 
                 Category.Club ->
                     poiRepository.getAll().map { list ->
                         list
-                            .filter { item -> item.name.matchesSearch(normalizedTerm, locale) }
+                            .filter { item -> queryTokens.all { token -> item.name.matchesSearch(token, locale) } }
                             .map { item -> SearchModel.Result(item.name, "", Category.Club) }
                     }
             }
 
+        // Each word of the query is matched independently, so "sun tennis" also finds
+        // "Sport-Union Neckarsulm - Tischtennis": "sun" via its acronym, "tennis" by substring.
         private fun Offer.matches(
-            normalizedTerm: String,
+            queryTokens: List<String>,
             locale: Locale,
         ): Boolean =
-            name.matchesSearch(normalizedTerm, locale) ||
-                description?.matchesSearch(normalizedTerm, locale) == true
+            queryTokens.all { token ->
+                name.matchesSearch(token, locale) || description?.matchesSearch(token, locale) == true
+            }
     }
 
 // Folds German umlauts and ß to their ASCII digraph so "u"/"ue" also match "ü" and so on.
@@ -93,6 +96,8 @@ private fun String.normalizedForSearch(locale: Locale): String =
         .replace("ö", "oe")
         .replace("ä", "ae")
         .replace("ß", "ss")
+
+private fun String.tokens(): List<String> = split(Regex("\\s+")).filter { it.isNotEmpty() }
 
 // Matches by substring or by the initials of each word, so "ASB" also finds
 // "Arbeiter-Samariter-Bund".
