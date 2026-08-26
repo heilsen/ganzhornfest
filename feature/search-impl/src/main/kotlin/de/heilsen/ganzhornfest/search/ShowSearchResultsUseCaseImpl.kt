@@ -72,7 +72,7 @@ class ShowSearchResultsUseCaseImpl
                 Category.Club ->
                     poiRepository.getAll().map { list ->
                         list
-                            .filter { item -> item.name.normalizedForSearch(locale).contains(normalizedTerm) }
+                            .filter { item -> item.name.matchesSearch(normalizedTerm, locale) }
                             .map { item -> SearchModel.Result(item.name, "", Category.Club) }
                     }
             }
@@ -81,8 +81,8 @@ class ShowSearchResultsUseCaseImpl
             normalizedTerm: String,
             locale: Locale,
         ): Boolean =
-            name.normalizedForSearch(locale).contains(normalizedTerm) ||
-                description?.normalizedForSearch(locale)?.contains(normalizedTerm) == true
+            name.matchesSearch(normalizedTerm, locale) ||
+                description?.matchesSearch(normalizedTerm, locale) == true
     }
 
 // Folds German umlauts and ß to their ASCII digraph so "u"/"ue" also match "ü" and so on.
@@ -93,3 +93,18 @@ private fun String.normalizedForSearch(locale: Locale): String =
         .replace("ö", "oe")
         .replace("ä", "ae")
         .replace("ß", "ss")
+
+// Matches by substring or by the initials of each word, so "ASB" also finds
+// "Arbeiter-Samariter-Bund".
+private fun String.matchesSearch(
+    normalizedTerm: String,
+    locale: Locale,
+): Boolean {
+    val normalized = normalizedForSearch(locale)
+    return normalized.contains(normalizedTerm) || normalized.initials().startsWith(normalizedTerm)
+}
+
+private fun String.initials(): String =
+    split(Regex("[^\\p{L}]+"))
+        .filter { it.isNotEmpty() }
+        .joinToString("") { word -> word.first().toString() }

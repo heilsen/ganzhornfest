@@ -41,6 +41,7 @@ class ShowSearchResultsUseCaseTest :
                         listOf(
                             Poi(1, "Sängerbund", 0),
                             Poi(2, "Sportverein", 0),
+                            Poi(3, "Arbeiter-Samariter-Bund", 0),
                         ),
                     )
             }
@@ -95,6 +96,7 @@ class ShowSearchResultsUseCaseTest :
                     awaitItem() shouldBe
                         persistentListOf(
                             SearchModel.Result("Apfelküchle", "", Category.Food),
+                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
                             SearchModel.Result("Pommes", "mit Mayo", Category.Food),
                             SearchModel.Result("Sängerbund", "", Category.Club),
                             SearchModel.Result("Sportverein", "", Category.Club),
@@ -143,6 +145,24 @@ class ShowSearchResultsUseCaseTest :
                     awaitItem() shouldBe
                         persistentListOf(
                             SearchModel.Result("Sängerbund", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches a club by the initials of its hyphenated name") {
+                showSearchResults("ASB", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches a club by a partial acronym while typing") {
+                showSearchResults("AS", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
                         )
                     awaitComplete()
                 }
