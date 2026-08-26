@@ -39,13 +39,11 @@ internal fun clubPinsToSql(pins: List<ClubPin>): String {
             )}, lng = ${formatCoord(latLng.longitude)} WHERE id = $id;"
         }
     return """
-            |-- 1) Neuinstallation: passende INSERT-Zeilen ersetzen in
-            |-- database/src/main/sqldelight/de/heilsen/ganzhornfest/database/Coordinate.sq
+            |-- app/src/main/assets/festival/data.json, Key coordinates
+            |-- Danach dataVersion in app/src/main/assets/festival/manifest.json erhöhen.
             |$inserts
             |
-            |-- 2) Bestehende Apps: ans Ende anhängen von
-            |-- database/src/main/sqldelight/migrations/3.sqm
-            |-- UPDATE wirkt auch für die neuen IDs 49/50, wenn der INSERT darüber schon lief.
+            |-- Dieselben Werte als UPDATE (IDs zur Kontrolle):
             |$updates
         """.trimMargin()
 }

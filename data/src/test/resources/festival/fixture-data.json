@@ -1,0 +1,104 @@
+{
+  "poiTypes": [
+    {
+      "id": 1,
+      "name": "club"
+    },
+    {
+      "id": 2,
+      "name": "event location"
+    },
+    {
+      "id": 7,
+      "name": "attraction"
+    }
+  ],
+  "offerTypes": [
+    {
+      "id": 1,
+      "type": "food"
+    },
+    {
+      "id": 2,
+      "type": "drink"
+    },
+    {
+      "id": 3,
+      "type": "other"
+    }
+  ],
+  "coordinates": [
+    {
+      "id": 1,
+      "lat": 49.19229,
+      "lng": 9.223065
+    }
+  ],
+  "pois": [
+    {
+      "id": 1,
+      "name": "Arbeiter-Samariter-Bund",
+      "typeId": 1
+    },
+    {
+      "id": 101,
+      "name": "Hauptbühne Museumsplatz",
+      "typeId": 2
+    }
+  ],
+  "poiCoordinates": [
+    {
+      "id": null,
+      "poiId": 1,
+      "coordinateId": 1
+    }
+  ],
+  "offers": [
+    {
+      "id": 1,
+      "typeId": 1,
+      "name": "Bier",
+      "description": null
+    }
+  ],
+  "clubOffers": [
+    {
+      "id": null,
+      "poiId": 1,
+      "offerId": 1
+    }
+  ],
+  "busLines": [
+    {
+      "id": 1,
+      "busLine": "91",
+      "stops": "Amorbach",
+      "destination": "Dahenfeld"
+    }
+  ],
+  "busConnections": [
+    {
+      "id": null,
+      "busLineId": 1,
+      "departure": "09-07T19:18"
+    }
+  ],
+  "programs": [
+    {
+      "id": 1,
+      "name": "Eröffnung des Festes",
+      "description": null,
+      "start": "09-05T16:00",
+      "end": null,
+      "poiId": 101
+    },
+    {
+      "id": 2,
+      "name": "MV Obereisesheim",
+      "description": null,
+      "start": "09-05T16:00",
+      "end": "09-05T18:00",
+      "poiId": 101
+    }
+  ]
+}

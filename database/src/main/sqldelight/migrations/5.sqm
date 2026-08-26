@@ -1,6 +1,1 @@
--- Add grill and 1/2-Meter-Bratwurst search aliases
-INSERT INTO offerAlias VALUES(NULL,233,'1/2-Meter-Bratwurst');
-INSERT INTO offerAlias VALUES(NULL,233,'Grillwurst');
-INSERT INTO offerAlias VALUES(NULL,104,'Grillwurst');
-INSERT INTO offerAlias VALUES(NULL,103,'grill');
-INSERT INTO offerAlias VALUES(NULL,128,'grill');
+CREATE TABLE IF NOT EXISTS seedMeta (id INTEGER PRIMARY KEY NOT NULL, dataVersion INTEGER NOT NULL);

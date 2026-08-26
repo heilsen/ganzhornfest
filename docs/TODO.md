@@ -51,7 +51,6 @@
   - Add explicit foreign keys where missing
   - Add indexes for frequent lookups used by search and other list/detail flows
   - Add migration tests for SQLDelight
-  - Consider moving large seed data into a format that is easier to diff and update yearly
 
 - [ ] Improve info/statistics queries
   - Add the missing count queries needed for `InfoScreen` instead of manually maintained numbers

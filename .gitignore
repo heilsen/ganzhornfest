@@ -10,5 +10,5 @@ captures/
 .cxx
 /app/release
 build/
-assets/
+/assets/
 .worktrees/
