@@ -73,7 +73,11 @@ fun MapSearchBar(
 
     BackHandler(enabled = expanded) { expanded = false }
 
-    val query = if (searchModel is SearchModel.Data) searchModel.query else ""
+    // Driven locally rather than from searchModel.query: events round-trip through the
+    // presenter's MutableSharedFlow and a separate collecting coroutine, so the model's query
+    // lags a recomposition behind each keystroke. Feeding that lag back into the text field's
+    // own value desyncs its internal edit buffer and snaps the cursor backward.
+    var query by remember { mutableStateOf("") }
 
     SearchBar(
         modifier = modifier,
@@ -81,7 +85,10 @@ fun MapSearchBar(
             SearchBarDefaults.InputField(
                 modifier = Modifier.focusRequester(focusRequester),
                 query = query,
-                onQueryChange = { onEvent(SearchEvent.Search(it)) },
+                onQueryChange = {
+                    query = it
+                    onEvent(SearchEvent.Search(it))
+                },
                 onSearch = { keyboardController?.hide() },
                 expanded = expanded,
                 onExpandedChange = { expanded = it },
@@ -90,6 +97,7 @@ fun MapSearchBar(
                     if (expanded) {
                         IconButton(onClick = {
                             expanded = false
+                            query = ""
                             onEvent(SearchEvent.Clear)
                         }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "zurück")
@@ -101,6 +109,7 @@ fun MapSearchBar(
                 trailingIcon = {
                     if (query.isNotEmpty()) {
                         IconButton(onClick = {
+                            query = ""
                             onEvent(SearchEvent.Search(""))
                             focusRequester.requestFocus()
                         }) {
