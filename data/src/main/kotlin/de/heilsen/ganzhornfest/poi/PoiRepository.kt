@@ -19,12 +19,6 @@ class PoiRepository
                 .asFlow()
                 .mapToList(Dispatchers.IO)
 
-        fun selectByName(name: String): Flow<List<Poi>> =
-            ganzhornfestDb.poiQueries
-                .selectClubByName(name)
-                .asFlow()
-                .mapToList(Dispatchers.IO)
-
         fun getStages(): Flow<List<String>> =
             ganzhornfestDb
                 .poiQueries

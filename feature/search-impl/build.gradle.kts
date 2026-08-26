@@ -12,6 +12,10 @@ android {
 
     testOptions {
         unitTests {
+            // SearchPresenterTest composes a real @Composable presenter via Molecule, which
+            // pulls in androidx.compose.runtime's Trace calls. Those hit unmocked Android SDK
+            // stubs on the plain JVM unit test classpath without this.
+            isReturnDefaultValues = true
             all { test ->
                 test.useJUnitPlatform()
             }
@@ -44,4 +48,5 @@ dependencies {
     testImplementation(libs.kotest.runner.junit5)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

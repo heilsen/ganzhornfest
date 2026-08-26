@@ -11,9 +11,6 @@ sealed interface Destination {
     data object Map : Destination
 
     @Serializable
-    data object Search : Destination
-
-    @Serializable
     data object Program : Destination
 
     @Serializable

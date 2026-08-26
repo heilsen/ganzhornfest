@@ -71,12 +71,25 @@ fun MapScreen(
                 val target = pinEditor?.selected?.latLng ?: return@LaunchedEffect
                 cameraPositionState.animate(CameraUpdateFactory.newLatLngZoom(target, 19f))
             }
+            LaunchedEffect(mapModel.markers) {
+                if (mapModel.isFullscreen || mapModel.markers.isEmpty() || pinEditor != null) return@LaunchedEffect
+                val update =
+                    if (mapModel.markers.size == 1) {
+                        CameraUpdateFactory.newLatLngZoom(mapModel.markers.first().latLng, 18f)
+                    } else {
+                        val bounds = LatLngBounds.Builder()
+                        mapModel.markers.forEach { bounds.include(it.latLng) }
+                        CameraUpdateFactory.newLatLngBounds(bounds.build(), 100)
+                    }
+                cameraPositionState.move(update)
+            }
             Column(modifier = modifier.fillMaxSize()) {
                 if (showPinEditorToggle && pinEditor == null) {
                     Row(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
+                                .padding(top = if (mapModel.isFullscreen) 72.dp else 0.dp)
                                 .padding(horizontal = 8.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -95,7 +108,12 @@ fun MapScreen(
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
                         cameraPositionState = cameraPositionState,
-                        contentPadding = PaddingValues(bottom = 8.dp),
+                        contentPadding =
+                            if (mapModel.isFullscreen) {
+                                PaddingValues(top = 72.dp, bottom = 8.dp)
+                            } else {
+                                PaddingValues(0.dp)
+                            },
                         properties =
                             MapProperties(
                                 mapType = MapType.HYBRID,

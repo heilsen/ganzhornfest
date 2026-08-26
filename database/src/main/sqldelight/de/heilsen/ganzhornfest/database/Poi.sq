@@ -61,6 +61,3 @@ SELECT * FROM poi WHERE typeId = 2;
 
 countClubs:
 SELECT count(*) FROM poi WHERE typeId = 1;
-
-selectClubByName:
-SELECT * FROM poi WHERE typeId = 1 AND name LIKE '%' || :name || '%';

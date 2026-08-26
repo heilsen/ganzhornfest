@@ -5,7 +5,7 @@ sealed interface SearchEvent {
         val query: String,
     ) : SearchEvent
 
-    data class ChangeCategory(
+    data class ToggleCategory(
         val category: Category,
     ) : SearchEvent
 

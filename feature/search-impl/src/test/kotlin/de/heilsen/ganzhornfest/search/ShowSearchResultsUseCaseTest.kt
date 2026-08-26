@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.search
 
 import app.cash.turbine.test
+import de.heilsen.ganzhornfest.core.ConfigurationProvider
 import de.heilsen.ganzhornfest.database.Offer
 import de.heilsen.ganzhornfest.database.Poi
 import de.heilsen.ganzhornfest.offer.data.OfferRepository
@@ -10,7 +11,9 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.coroutines.flow.flowOf
+import java.util.Locale
 
 class ShowSearchResultsUseCaseTest :
     DescribeSpec({
@@ -19,22 +22,15 @@ class ShowSearchResultsUseCaseTest :
                 every { getAllFood() } returns
                     flowOf(
                         listOf(
-                            Offer(1, 0, "eins", null),
-                            Offer(2, 0, "zwei", "ein Essen"),
+                            Offer(1, 0, "Apfelküchle", null),
+                            Offer(2, 0, "Pommes", "mit Mayo"),
                         ),
                     )
-                every { selectFoodByName(any()) } returns flowOf(listOf(Offer(1, 0, "eins", null)))
                 every { getAllDrinks() } returns
                     flowOf(
                         listOf(
-                            Offer(1, 1, "eins", null),
-                            Offer(2, 1, "zwei", "ein alkoholisches Getränk"),
-                        ),
-                    )
-                every { selectDrinkByName(any()) } returns
-                    flowOf(
-                        listOf(
-                            Offer(2, 1, "zwei", "ein alkoholisches Getränk"),
+                            Offer(1, 1, "Weißbier", null),
+                            Offer(2, 1, "Cola", "ein alkoholfreies Getränk"),
                         ),
                     )
             }
@@ -43,55 +39,190 @@ class ShowSearchResultsUseCaseTest :
                 every { getAll() } returns
                     flowOf(
                         listOf(
-                            Poi(1, "SC Amorbach", 0),
-                            Poi(2, "Sängerbund 1830", 0),
-                            Poi(3, "Samstagsverein", 0),
+                            Poi(1, "Sängerbund", 0),
+                            Poi(2, "Sportverein", 0),
+                            Poi(3, "Arbeiter-Samariter-Bund", 0),
+                            Poi(4, "Förderverein der Feuerwehr NSU", 0),
+                            Poi(5, "Sport-Union Neckarsulm - Tischtennis", 0),
                         ),
                     )
-                every { selectByName(any()) } returns flowOf(listOf(Poi(1, "eins", 0)))
+            }
+        val configurationProvider: ConfigurationProvider =
+            mockk {
+                every { getLocale() } returns Locale.GERMAN
             }
         val showSearchResults: ShowSearchResultsUseCase =
             ShowSearchResultsUseCaseImpl(
                 offerRepository,
                 poiRepository,
+                configurationProvider,
             )
 
         describe("showSearchResults") {
+            it("returns an empty list when no category is selected") {
+                showSearchResults("", persistentSetOf()).test {
+                    awaitItem() shouldBe persistentListOf()
+                    awaitComplete()
+                }
+            }
             it("returns food when category is Food and query is empty") {
-                showSearchResults("", Category.Food).test {
+                showSearchResults("", persistentSetOf(Category.Food)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("eins", ""),
-                            SearchModel.Result("zwei", "ein Essen"),
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                            SearchModel.Result("Pommes", "mit Mayo", Category.Food),
                         )
                     awaitComplete()
                 }
             }
-            it("returns filtered drinks when category is Drink and query is not empty") {
-                showSearchResults("foobar", Category.Drink).test {
+            it("returns filtered drinks when category is Drink and query matches the description") {
+                showSearchResults("alkoholfrei", persistentSetOf(Category.Drink)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("zwei", "ein alkoholisches Getränk"),
+                            SearchModel.Result("Cola", "ein alkoholfreies Getränk", Category.Drink),
                         )
                     awaitComplete()
                 }
             }
-            it("returns filtered clubs when category is Club and query is not empty") {
-                showSearchResults("foobar", Category.Club).test {
+            it("returns filtered clubs when category is Club and query matches the name") {
+                showSearchResults("sport", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("eins", ""),
+                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
+                            SearchModel.Result("Sportverein", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("merges and sorts results across multiple selected categories") {
+                showSearchResults("", persistentSetOf(Category.Food, Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
+                            SearchModel.Result("Förderverein der Feuerwehr NSU", "", Category.Club),
+                            SearchModel.Result("Pommes", "mit Mayo", Category.Food),
+                            SearchModel.Result("Sängerbund", "", Category.Club),
+                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
+                            SearchModel.Result("Sportverein", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches an umlaut word when searching its ASCII digraph 'ue'") {
+                showSearchResults("ue", persistentSetOf(Category.Food)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches an umlaut word when searching the bare vowel 'u'") {
+                showSearchResults("u", persistentSetOf(Category.Food)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches an umlaut word when searching the umlaut character 'ü' itself") {
+                showSearchResults("ü", persistentSetOf(Category.Food)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("folds ß to 'ss' so 'weiss' matches 'Weißbier'") {
+                showSearchResults("weiss", persistentSetOf(Category.Drink)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Weißbier", "", Category.Drink),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("folds ä to 'ae' so 'saenger' matches 'Sängerbund'") {
+                showSearchResults("saenger", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Sängerbund", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches a club by the initials of its hyphenated name") {
+                showSearchResults("ASB", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches a club by a partial acronym while typing") {
+                showSearchResults("AS", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches a club by the initials of a name compounded onto 'verein'") {
+                showSearchResults("FV", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Förderverein der Feuerwehr NSU", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches each word of a multi-word query independently, by acronym or substring") {
+                showSearchResults("sun tennis", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches a multi-word query across an offer's name and description") {
+                showSearchResults("cola alkoholfrei", persistentSetOf(Category.Drink)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Cola", "ein alkoholfreies Getränk", Category.Drink),
                         )
                     awaitComplete()
                 }
             }
             it("sorts ae umlaut as a") {
-                showSearchResults("", Category.Club).test {
+                val umlautPoiRepository =
+                    mockk<PoiRepository> {
+                        every { getAll() } returns
+                            flowOf(
+                                listOf(
+                                    Poi(1, "SC Amorbach", 0),
+                                    Poi(2, "Sängerbund 1830", 0),
+                                    Poi(3, "Samstagsverein", 0),
+                                ),
+                            )
+                    }
+                val umlautShowSearchResults: ShowSearchResultsUseCase =
+                    ShowSearchResultsUseCaseImpl(
+                        offerRepository,
+                        umlautPoiRepository,
+                        configurationProvider,
+                    )
+                umlautShowSearchResults("", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Samstagsverein", ""),
-                            SearchModel.Result("Sängerbund 1830", ""),
-                            SearchModel.Result("SC Amorbach", ""),
+                            SearchModel.Result("Samstagsverein", "", Category.Club),
+                            SearchModel.Result("Sängerbund 1830", "", Category.Club),
+                            SearchModel.Result("SC Amorbach", "", Category.Club),
                         )
                     awaitComplete()
                 }
