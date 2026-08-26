@@ -1,49 +1,47 @@
 # CLAUDE.md
 
-Guidance for Claude Code working in this repository.
-
-See `README.md` for architecture, module layout, DI, navigation, and the SQLDelight
-setup. This file only covers how to work here.
+How to work in this repository. Architecture, modules, DI, navigation, and
+SQLDelight live in `README.md`.
 
 ## Workflow
 
-Every change runs in its own git worktree off `main`, so parallel agents never edit
-each other's files. Any request to fix, implement, or change something goes through this
-flow. Run `/start-implement` before making the change and `/create-pr` after.
+Isolate each change in a git worktree off `main` so parallel agents do not share
+a working tree. Prefer the host's worktree tool when it has one.
 
-1. `/start-implement <type> <slug>` creates the worktree and branch `<type>/<slug>`, then
-   bootstraps it (copies `local.properties`, writes a stub `keystore.properties`).
-2. Make the change inside that worktree.
-3. `/create-pr` runs `./gradlew check`. Only if it passes does it commit, push, and open
-   a draft PR against `main`.
+Branch as `<type>/<slug>`. Type is one of feat, fix, refactor, chore, build,
+docs.
 
-`type` is one of feat, fix, refactor, chore, build, docs.
+Copy `local.properties` into the worktree. Gradle reads `google_maps_key` at
+configuration time and fails without it. Do not copy `keystore.properties`.
+`./gradlew check` never signs.
+
+When the change is ready, run `./gradlew check`, then commit, push, and open a
+PR against `main`.
 
 ## Verification
 
-`./gradlew check` is the single gate. It runs unit tests, android lint, and ktlint.
+`./gradlew check` is the single gate. It runs unit tests, android lint, and
+ktlint.
 
-- `local.properties` with `google_maps_key` is required. A missing key breaks Gradle at
-  configuration time, not build time.
-- Run `./gradlew ktlintFormat` to auto fix formatting.
-- Never commit or open a PR when `check` is red.
+```bash
+./gradlew check
+./gradlew ktlintFormat
+```
 
 ## Conventions
 
-- Prefer small, module-local changes. Call out anything that touches DI, navigation, app
-  startup, or DB schema. Those are cross-cutting.
-- Match the existing patterns in the module you touch. Do not introduce a new style for a
-  single screen.
-- When changing persisted data, edit the SQLDelight `.sq` schema and migrations. Do not
-  patch generated artifacts.
-- `docs/TODO.md` is the canonical backlog. Check it before proposing changes that might
-  already be tracked or deferred.
-- Inspect a module's `build.gradle.kts` before editing it.
+- Prefer small, module-local changes. Call out anything that touches DI,
+  navigation, app startup, or DB schema.
+- Match the existing patterns in the module you touch.
+- When changing persisted data, edit the SQLDelight `.sq` schema and migrations.
+  Do not patch generated artifacts.
+- `docs/TODO.md` is the canonical backlog. Check it before proposing work that
+  might already be tracked.
 
 ## Testing
 
-Coverage is light. For logic changes add or extend tests where the module already has
-test dependencies (`kotest`, `mockk`, `turbine`).
+Coverage is light. For logic changes add or extend tests where the module
+already has test dependencies (`kotest`, `mockk`, `turbine`).
 
 ## Writing style
 
