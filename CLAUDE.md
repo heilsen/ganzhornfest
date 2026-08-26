@@ -15,7 +15,9 @@ flow. Run `/start-implement` before making the change and `/create-pr` after.
    bootstraps it (copies `local.properties`, writes a stub `keystore.properties`).
 2. Make the change inside that worktree.
 3. `/create-pr` runs `./gradlew check`. Only if it passes does it commit, push, and open
-   a draft PR against `main`.
+   a draft PR against `main`. The GitHub CLI account must be `SebastianHeil`.
+   `gh` on this machine also has `sebokopter`. Do not create or merge PRs as that
+   account.
 
 `type` is one of feat, fix, refactor, chore, build, docs.
 
