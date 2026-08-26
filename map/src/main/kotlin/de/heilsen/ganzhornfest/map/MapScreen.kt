@@ -71,6 +71,18 @@ fun MapScreen(
                 val target = pinEditor?.selected?.latLng ?: return@LaunchedEffect
                 cameraPositionState.animate(CameraUpdateFactory.newLatLngZoom(target, 19f))
             }
+            LaunchedEffect(mapModel.markers) {
+                if (mapModel.isFullscreen || mapModel.markers.isEmpty() || pinEditor != null) return@LaunchedEffect
+                val update =
+                    if (mapModel.markers.size == 1) {
+                        CameraUpdateFactory.newLatLngZoom(mapModel.markers.first().latLng, 18f)
+                    } else {
+                        val bounds = LatLngBounds.Builder()
+                        mapModel.markers.forEach { bounds.include(it.latLng) }
+                        CameraUpdateFactory.newLatLngBounds(bounds.build(), 100)
+                    }
+                cameraPositionState.move(update)
+            }
             Column(modifier = modifier.fillMaxSize()) {
                 if (showPinEditorToggle && pinEditor == null) {
                     Row(
