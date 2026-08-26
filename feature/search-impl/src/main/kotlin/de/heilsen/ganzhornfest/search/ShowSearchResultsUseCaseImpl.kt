@@ -1,6 +1,6 @@
 package de.heilsen.ganzhornfest.search
 
-import de.heilsen.ganzhornfest.core.ConfigurationProvider
+import de.heilsen.ganzhornfest.core.germanAlphaComparator
 import de.heilsen.ganzhornfest.offer.data.OfferRepository
 import de.heilsen.ganzhornfest.poi.PoiRepository
 import dev.zacsweers.metro.AppScope
@@ -18,7 +18,6 @@ class ShowSearchResultsUseCaseImpl
     constructor(
         private val offerRepository: OfferRepository,
         private val poiRepository: PoiRepository,
-        private val configurationProvider: ConfigurationProvider,
     ) : ShowSearchResultsUseCase {
         override operator fun invoke(
             searchTerm: String,
@@ -69,7 +68,7 @@ class ShowSearchResultsUseCaseImpl
 
             return resultFlow.map { resultList ->
                 resultList
-                    .sortedBy { result -> result.header.lowercase(configurationProvider.getLocale()) }
+                    .sortedWith(compareBy(germanAlphaComparator(), SearchModel.Result::header))
                     .toPersistentList()
             }
         }

@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.detail
 
 import de.heilsen.ganzhornfest.club.data.ClubRepository
+import de.heilsen.ganzhornfest.core.germanAlphaComparator
 import de.heilsen.ganzhornfest.map.ClubCoordinatesRepository
 import de.heilsen.ganzhornfest.map.MapModel
 import de.heilsen.ganzhornfest.map.MarkerUi
@@ -39,9 +40,10 @@ class GetClubDetailUseCase
                             showWindowInfo = true,
                         ),
                     items =
-                        offers.map { (name, description) ->
-                            DetailItem(name, description)
-                        },
+                        offers
+                            .map { (name, description) ->
+                                DetailItem(name, description)
+                            }.sortedWith(compareBy(germanAlphaComparator(), DetailItem::name)),
                 )
             }
         }
