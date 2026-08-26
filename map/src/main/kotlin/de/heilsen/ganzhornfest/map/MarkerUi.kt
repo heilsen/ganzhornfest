@@ -17,6 +17,7 @@ val MarkerUi.icon: BitmapDescriptor
                 MarkerUiType.CLUB -> BitmapDescriptorFactory.HUE_VIOLET
                 MarkerUiType.EVENT_LOCATION -> BitmapDescriptorFactory.HUE_MAGENTA
                 MarkerUiType.PLAYGROUND -> BitmapDescriptorFactory.HUE_ORANGE
+                MarkerUiType.ATTRACTION -> BitmapDescriptorFactory.HUE_GREEN
                 MarkerUiType.WC -> BitmapDescriptorFactory.HUE_AZURE
                 MarkerUiType.FIRST_AID -> BitmapDescriptorFactory.HUE_RED
                 MarkerUiType.BUS_STOP -> BitmapDescriptorFactory.HUE_BLUE

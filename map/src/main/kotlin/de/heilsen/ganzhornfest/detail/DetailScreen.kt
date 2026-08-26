@@ -3,6 +3,7 @@ package de.heilsen.ganzhornfest.detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -79,7 +80,7 @@ fun DetailScreen(
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
-            items(items = model.items, itemContent = { card: String ->
+            items(items = model.items, itemContent = { item ->
                 Card(
                     modifier =
                         Modifier
@@ -87,16 +88,24 @@ fun DetailScreen(
                             .padding(8.dp),
                     onClick = {
                         when (model.type) {
-                            DetailType.Club -> onItemClicked(card, DetailType.Offer)
-                            DetailType.Offer -> onItemClicked(card, DetailType.Club)
+                            DetailType.Club -> onItemClicked(item.name, DetailType.Offer)
+                            DetailType.Offer -> onItemClicked(item.name, DetailType.Club)
                         }
                     },
                 ) {
-                    Text(
-                        modifier = Modifier.padding(16.dp),
-                        text = card,
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            text = item.name,
+                            style = MaterialTheme.typography.headlineSmall,
+                        )
+                        val description = item.description
+                        if (!description.isNullOrBlank()) {
+                            Text(
+                                text = description,
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+                    }
                 }
             })
         }

@@ -2,14 +2,13 @@ CREATE TABLE IF NOT EXISTS offer (id INTEGER PRIMARY KEY NOT NULL, typeId INTEGE
 
 -- drinks
 INSERT INTO offer VALUES(1,1,'Bier',NULL);
-INSERT INTO offer VALUES(2,1,'Cocktails',NULL);
+INSERT INTO offer VALUES(2,1,'Cocktails','mit Alkohol');
 INSERT INTO offer VALUES(3,1,'Apfelschorle',NULL);
 INSERT INTO offer VALUES(4,1,'Sprite',NULL);
 INSERT INTO offer VALUES(5,1,'Bionade','Limonade');
 INSERT INTO offer VALUES(6,1,'alkoholfreie Getränke','Softdrinks: Limonade, Cola, Spezi, ...');
 INSERT INTO offer VALUES(7,1,'Hefeweizen','Bier');
 INSERT INTO offer VALUES(8,1,'Ayran','türkisches Joghurt-Getränk');
-INSERT INTO offer VALUES(9,1,'Altenmünster','Bier');
 INSERT INTO offer VALUES(10,1,'Aperol Spritz',NULL);
 INSERT INTO offer VALUES(11,1,'Chilly Willi',NULL);
 INSERT INTO offer VALUES(12,1,'Cocktails','alkoholfrei');
@@ -69,7 +68,6 @@ INSERT INTO offer VALUES(66,1,'Wodka-Ahoi',NULL);
 INSERT INTO offer VALUES(67,1,'Wulle Vollbier Hell','Bier');
 INSERT INTO offer VALUES(68,1,'Gin Tonic',NULL);
 INSERT INTO offer VALUES(69,1,'Becks Gold','Bier');
-INSERT INTO offer VALUES(70,1,'Afri Cola',NULL);
 INSERT INTO offer VALUES(72,1,'Wein (Rumänisch)',NULL);
 INSERT INTO offer VALUES(73,1,'Schnaps (Rumänisch)',NULL);
 INSERT INTO offer VALUES(74,1,'Liköre',NULL);
@@ -80,6 +78,13 @@ INSERT INTO offer VALUES(78,1,'Becks','Bier');
 INSERT INTO offer VALUES(79,1,'Saftschorle',NULL);
 INSERT INTO offer VALUES(80,1,'Aperol',NULL);
 INSERT INTO offer VALUES(81,1,'Lillet',NULL);
+INSERT INTO offer VALUES(82,1,'Fassbier',NULL);
+INSERT INTO offer VALUES(83,1,'Ramazzotti',NULL);
+INSERT INTO offer VALUES(84,1,'Jägermeister',NULL);
+INSERT INTO offer VALUES(85,1,'Apfelsaft',NULL);
+INSERT INTO offer VALUES(86,1,'Bubble-Tea',NULL);
+INSERT INTO offer VALUES(87,1,'Bosnische Getränke',NULL);
+INSERT INTO offer VALUES(88,1,'Saft',NULL);
 
 -- food
 INSERT INTO offer VALUES(101, 2, 'Linsen & Spätzle','Mit Saitenwürstle');
@@ -214,6 +219,16 @@ INSERT INTO offer VALUES(229, 2, 'Gegrillte Sandwitches','mit Pommes');
 INSERT INTO offer VALUES(230, 2, 'Bubble Waffeln', NULL);
 INSERT INTO offer VALUES(231, 2, 'Geschnetzeltes/türkische Wurst im Brot', NULL);
 INSERT INTO offer VALUES(232, 2, 'Rindswurst', NULL);
+INSERT INTO offer VALUES(233, 2, '½-Meter-Bratwurst', NULL);
+INSERT INTO offer VALUES(234, 2, 'Griechischer Salat', 'mit Brot');
+INSERT INTO offer VALUES(235, 2, 'Bosnische Speisen', NULL);
+INSERT INTO offer VALUES(236, 2, 'Schnitzelbrötchen', NULL);
+INSERT INTO offer VALUES(237, 2, 'Maultaschenburger', NULL);
+INSERT INTO offer VALUES(238, 2, 'Toast', 'auch vegetarisch');
+INSERT INTO offer VALUES(239, 2, 'Türkische Frikadelle', NULL);
+INSERT INTO offer VALUES(240, 2, 'Sucuk', NULL);
+INSERT INTO offer VALUES(241, 2, 'Lahmacun', NULL);
+INSERT INTO offer VALUES(242, 2, 'Dürüm', NULL);
 
 -- others
 INSERT INTO offer VALUES(301, 3, 'Schnappfalle', NULL);
@@ -225,6 +240,7 @@ INSERT INTO offer VALUES(306, 3, 'Kinderspiele', NULL);
 INSERT INTO offer VALUES(307, 3, 'Losbude', NULL);
 INSERT INTO offer VALUES(308, 3, 'Wurfwand', NULL);
 INSERT INTO offer VALUES(309, 3, 'Schießbudenstand', NULL);
+INSERT INTO offer VALUES(310, 3, 'Tombola', NULL);
 
 selectAllDrinks:
 SELECT * FROM offer WHERE typeId = 1;

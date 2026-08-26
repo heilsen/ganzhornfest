@@ -10,9 +10,14 @@ sealed interface DetailModel {
         val title: String,
         val type: DetailType,
         val mapModel: MapModel,
-        val items: List<String>,
+        val items: List<DetailItem>,
     ) : DetailModel
 }
+
+data class DetailItem(
+    val name: String,
+    val description: String? = null,
+)
 
 @Keep // needed because it is part of a serializable Navigation destination
 enum class DetailType {

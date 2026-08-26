@@ -16,19 +16,21 @@ class GetMarkersUseCase
                 .getPoiCoordinates()
                 .map { markerList ->
                     markerList
-                        .map { (name, type, latLng) ->
+                        .mapNotNull { (name, type, latLng) ->
+                            val markerUiType =
+                                when (type) {
+                                    "club" -> MarkerUiType.CLUB
+                                    "event location" -> MarkerUiType.EVENT_LOCATION
+                                    "playground" -> MarkerUiType.PLAYGROUND
+                                    "attraction" -> MarkerUiType.ATTRACTION
+                                    "wc" -> MarkerUiType.WC
+                                    "first aid" -> MarkerUiType.FIRST_AID
+                                    "busstop" -> MarkerUiType.BUS_STOP
+                                    else -> null
+                                } ?: return@mapNotNull null
                             MarkerUi(
                                 title = name,
-                                markerUiType =
-                                    when (type) {
-                                        "club" -> MarkerUiType.CLUB
-                                        "event location" -> MarkerUiType.EVENT_LOCATION
-                                        "playground" -> MarkerUiType.PLAYGROUND
-                                        "wc" -> MarkerUiType.WC
-                                        "first aid" -> MarkerUiType.FIRST_AID
-                                        "busstop" -> MarkerUiType.BUS_STOP
-                                        else -> error("markerUiType='$type' is not a known marker type")
-                                    },
+                                markerUiType = markerUiType,
                                 latLng = latLng,
                             )
                         }.toPersistentSet()

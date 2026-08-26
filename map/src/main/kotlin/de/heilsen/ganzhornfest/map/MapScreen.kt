@@ -6,18 +6,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -34,63 +44,130 @@ fun MapScreen(
     modifier: Modifier = Modifier,
     mapModel: MapModel = MapModel.Loading(),
     onMarkerSelected: (String, MarkerUiType) -> Unit = { _, _ -> },
+    onEvent: (MapEvent) -> Unit = {},
+    showPinEditorToggle: Boolean = false,
 ) {
     when (mapModel) {
         is MapModel.Data -> {
-            // TODO: center around the club in the details screen
+            var editorOpen by remember { mutableStateOf(false) }
+            var selectedPoiId by remember { mutableStateOf<Long?>(null) }
+            var selectedCoordinateId by remember { mutableStateOf<Long?>(null) }
+            val selectedPin =
+                mapModel.pins.firstOrNull { pin ->
+                    pin.poiId == selectedPoiId && pin.coordinateId == selectedCoordinateId
+                } ?: mapModel.pins.firstOrNull()
+            val pinEditor =
+                if (editorOpen) {
+                    PinEditorModel(pins = mapModel.pins, selected = selectedPin)
+                } else {
+                    null
+                }
             val center = LatLng(49.191669847836216, 9.222756134219502)
             val cameraPositionState =
                 rememberCameraPositionState {
                     position = CameraPosition.fromLatLngZoom(center, 18f)
                 }
-            Box(modifier = modifier) {
-                // Google Maps wants to also be able show Points on the Bound in the center, therefore the area must be very small around the center
-                val ganzhornfestArea =
-                    LatLngBounds(
-                        LatLng(49.18859845006538, 9.219649084689227), // SW:Bahnhof
-                        LatLng(49.19498798073398, 9.225975728423913), // NE:Frauenkirche
-                    )
-                GoogleMap(
-                    modifier = Modifier.align(Alignment.TopStart),
-                    cameraPositionState = cameraPositionState,
-                    contentPadding =
-                        if (mapModel.isFullscreen) {
-                            PaddingValues(bottom = 70.dp)
-                        } else {
-                            PaddingValues(
-                                0.dp,
-                            )
-                        },
-                    properties =
-                        MapProperties(
-                            mapType = MapType.HYBRID,
-                            minZoomPreference = 16f,
-                            latLngBoundsForCameraTarget = ganzhornfestArea,
-                        ),
-                ) {
-                    for (marker in mapModel.markers) {
-                        val markerState = rememberMarkerState(position = marker.latLng)
-                        Marker(
-                            state = markerState,
-                            title = marker.title,
-                            icon = marker.icon,
-                            onInfoWindowClick = {
-                                onMarkerSelected(
-                                    marker.title,
-                                    marker.markerUiType,
-                                )
-                            },
-                            onInfoWindowClose = { },
-                        )
-                        if (mapModel.showWindowInfo) markerState.showInfoWindow()
-                    }
-                }
-                if (mapModel.showLegend) {
-                    Legend(
+            LaunchedEffect(pinEditor?.selected?.poiId, pinEditor?.selected?.coordinateId) {
+                val target = pinEditor?.selected?.latLng ?: return@LaunchedEffect
+                cameraPositionState.animate(CameraUpdateFactory.newLatLngZoom(target, 19f))
+            }
+            Column(modifier = modifier.fillMaxSize()) {
+                if (showPinEditorToggle && pinEditor == null) {
+                    Row(
                         modifier =
                             Modifier
-                                .padding(4.dp)
-                                .align(Alignment.BottomStart),
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp, vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Spacer(Modifier.weight(1f))
+                        Button(onClick = { editorOpen = true }) {
+                            Text("Standorte korrigieren")
+                        }
+                    }
+                }
+                Box(Modifier.weight(1f).fillMaxWidth()) {
+                    val ganzhornfestArea =
+                        LatLngBounds(
+                            LatLng(49.18859845006538, 9.219649084689227),
+                            LatLng(49.19498798073398, 9.225975728423913),
+                        )
+                    GoogleMap(
+                        modifier = Modifier.fillMaxSize(),
+                        cameraPositionState = cameraPositionState,
+                        contentPadding = PaddingValues(bottom = 8.dp),
+                        properties =
+                            MapProperties(
+                                mapType = MapType.HYBRID,
+                                minZoomPreference = 16f,
+                                latLngBoundsForCameraTarget = ganzhornfestArea,
+                            ),
+                    ) {
+                        for (marker in mapModel.markers) {
+                            val markerState = rememberMarkerState(position = marker.latLng)
+                            Marker(
+                                state = markerState,
+                                title = marker.title,
+                                icon = marker.icon,
+                                onClick = {
+                                    if (pinEditor != null) {
+                                        val pin =
+                                            mapModel.pins.firstOrNull { candidate ->
+                                                candidate.latLng == marker.latLng
+                                            }
+                                        if (pin != null) {
+                                            selectedPoiId = pin.poiId
+                                            selectedCoordinateId = pin.coordinateId
+                                        }
+                                        true
+                                    } else {
+                                        false
+                                    }
+                                },
+                                onInfoWindowClick = {
+                                    if (pinEditor == null) {
+                                        onMarkerSelected(
+                                            marker.title,
+                                            marker.markerUiType,
+                                        )
+                                    }
+                                },
+                                onInfoWindowClose = { },
+                            )
+                            if (mapModel.showWindowInfo) markerState.showInfoWindow()
+                        }
+                    }
+                    if (pinEditor != null) {
+                        Crosshair(modifier = Modifier.align(Alignment.Center))
+                    }
+                    if (mapModel.showLegend && pinEditor == null) {
+                        Legend(
+                            modifier =
+                                Modifier
+                                    .padding(4.dp)
+                                    .align(Alignment.BottomStart),
+                        )
+                    }
+                }
+                if (pinEditor != null) {
+                    PinEditorPanel(
+                        pinEditor = pinEditor,
+                        previewLatLng = cameraPositionState.position.target,
+                        onSelectPin = { pin ->
+                            selectedPoiId = pin.poiId
+                            selectedCoordinateId = pin.coordinateId
+                        },
+                        onApply = { coordinateId ->
+                            val target = cameraPositionState.position.target
+                            onEvent(
+                                MapEvent.ApplyLatLng(
+                                    coordinateId,
+                                    target.latitude,
+                                    target.longitude,
+                                ),
+                            )
+                        },
+                        onClose = { editorOpen = false },
                     )
                 }
             }
@@ -99,6 +176,24 @@ fun MapScreen(
         is MapModel.Loading -> {
             // TODO("implement loading")
         }
+    }
+}
+
+@Composable
+private fun Crosshair(modifier: Modifier = Modifier) {
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        Box(
+            Modifier
+                .width(24.dp)
+                .height(2.dp)
+                .background(Color.White),
+        )
+        Box(
+            Modifier
+                .width(2.dp)
+                .height(24.dp)
+                .background(Color.White),
+        )
     }
 }
 
@@ -132,10 +227,10 @@ fun Legend(modifier: Modifier = Modifier) {
                 Box(
                     Modifier
                         .size(8.dp)
-                        .background(Color(0xFFF98A03)),
+                        .background(Color(0xFF00C853)),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Kinder", style = MaterialTheme.typography.labelSmall)
+                Text(text = "Attraktion", style = MaterialTheme.typography.labelSmall)
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(

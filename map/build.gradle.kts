@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.google.maps.compose)
 
+    implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.datetime)
 
