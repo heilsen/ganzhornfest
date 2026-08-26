@@ -147,7 +147,7 @@ fun MapScreen(
                             Marker(
                                 state = markerState,
                                 title = marker.title,
-                                icon = marker.icon,
+                                icon = PinBitmapFactory.icon(marker.markerUiType, PinEmphasis.Default),
                                 onClick = {
                                     if (pinEditor != null) {
                                         val pin =
