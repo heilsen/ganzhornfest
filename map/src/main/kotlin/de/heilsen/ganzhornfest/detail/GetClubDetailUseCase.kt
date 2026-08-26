@@ -38,7 +38,10 @@ class GetClubDetailUseCase
                             showLegend = false,
                             showWindowInfo = true,
                         ),
-                    items = offers,
+                    items =
+                        offers.map { (name, description) ->
+                            DetailItem(name, description)
+                        },
                 )
             }
         }

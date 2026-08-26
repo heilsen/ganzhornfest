@@ -41,7 +41,7 @@ class GetOfferDetailUseCase
                             showLegend = false,
                             showWindowInfo = true,
                         ),
-                    items = clubs,
+                    items = clubs.map { DetailItem(it) },
                 )
             }
         }

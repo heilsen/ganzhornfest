@@ -457,3 +457,5 @@ UPDATE coordinate SET lat = 49.1925952648, lng = 9.2228605302 WHERE id = 301;
 UPDATE coordinate SET lat = 49.1908932854, lng = 9.2223284582 WHERE id = 303;
 -- ZOB (Ballei)
 UPDATE coordinate SET lat = 49.1939145729, lng = 9.2273150578 WHERE id = 501;
+
+UPDATE offer SET description = 'mit Alkohol' WHERE id = 2;

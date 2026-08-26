@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS offer (id INTEGER PRIMARY KEY NOT NULL, typeId INTEGE
 
 -- drinks
 INSERT INTO offer VALUES(1,1,'Bier',NULL);
-INSERT INTO offer VALUES(2,1,'Cocktails',NULL);
+INSERT INTO offer VALUES(2,1,'Cocktails','mit Alkohol');
 INSERT INTO offer VALUES(3,1,'Apfelschorle',NULL);
 INSERT INTO offer VALUES(4,1,'Sprite',NULL);
 INSERT INTO offer VALUES(5,1,'Bionade','Limonade');

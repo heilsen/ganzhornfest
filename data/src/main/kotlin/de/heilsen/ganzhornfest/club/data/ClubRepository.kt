@@ -12,10 +12,12 @@ class ClubRepository
     constructor(
         private val ganzhornfestDb: GanzhornfestDb,
     ) {
-        fun getOffersByClub(clubName: String): Flow<List<String>> =
+        fun getOffersByClub(clubName: String): Flow<List<Pair<String, String?>>> =
             ganzhornfestDb.clubOfferQueries
-                .selectOffersByClubName(clubName)
-                .asFlow()
+                .selectOffersByClubName(
+                    clubName,
+                    mapper = { name, description -> name to description },
+                ).asFlow()
                 .mapToList(Dispatchers.IO)
 
         fun getClubsByOffer(offerName: String): Flow<List<String>> =
