@@ -20,7 +20,6 @@
 ## UX And Feature Work
 
 - [ ] Improve detail and map flows
-  - Allow the map to center on the selected club when entered from detail/search
   - Finish detail-to-detail navigation from related items using IDs
   - Replace the temporary placeholder in `DetailScreen` map interactions
 
