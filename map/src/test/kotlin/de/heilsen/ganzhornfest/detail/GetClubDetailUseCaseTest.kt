@@ -8,27 +8,28 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 
-class GetClubDetailUseCaseTest : StringSpec({
-    "returns offers without a map model" {
-        val clubRepository =
-            mockk<ClubRepository> {
-                every { getOffersByClub("Sängerbund") } returns
-                    flowOf(listOf("Bier" to "vom Fass", "Cola" to null))
-            }
-        val useCase = GetClubDetailUseCase(clubRepository)
+class GetClubDetailUseCaseTest :
+    StringSpec({
+        "returns offers without a map model" {
+            val clubRepository =
+                mockk<ClubRepository> {
+                    every { getOffersByClub("Sängerbund") } returns
+                        flowOf(listOf("Bier" to "vom Fass", "Cola" to null))
+                }
+            val useCase = GetClubDetailUseCase(clubRepository)
 
-        useCase("Sängerbund").test {
-            awaitItem() shouldBe
-                DetailModel.Success(
-                    title = "Sängerbund",
-                    type = DetailType.Club,
-                    items =
-                        listOf(
-                            DetailItem("Bier", "vom Fass"),
-                            DetailItem("Cola", null),
-                        ),
-                )
-            awaitComplete()
+            useCase("Sängerbund").test {
+                awaitItem() shouldBe
+                    DetailModel.Success(
+                        title = "Sängerbund",
+                        type = DetailType.Club,
+                        items =
+                            listOf(
+                                DetailItem("Bier", "vom Fass"),
+                                DetailItem("Cola", null),
+                            ),
+                    )
+                awaitComplete()
+            }
         }
-    }
-})
+    })
