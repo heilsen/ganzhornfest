@@ -28,12 +28,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
@@ -108,6 +110,9 @@ fun MapScreen(
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
                         cameraPositionState = cameraPositionState,
+                        googleMapOptionsFactory = {
+                            GoogleMapOptions().liteMode(!mapModel.isFullscreen)
+                        },
                         contentPadding =
                             if (mapModel.isFullscreen) {
                                 PaddingValues(top = 72.dp, bottom = 8.dp)
@@ -120,6 +125,22 @@ fun MapScreen(
                                 minZoomPreference = 16f,
                                 latLngBoundsForCameraTarget = ganzhornfestArea,
                             ),
+                        uiSettings =
+                            if (mapModel.isFullscreen) {
+                                MapUiSettings()
+                            } else {
+                                MapUiSettings(
+                                    compassEnabled = false,
+                                    indoorLevelPickerEnabled = false,
+                                    mapToolbarEnabled = false,
+                                    zoomControlsEnabled = false,
+                                    zoomGesturesEnabled = false,
+                                    scrollGesturesEnabled = false,
+                                    tiltGesturesEnabled = false,
+                                    rotationGesturesEnabled = false,
+                                    scrollGesturesEnabledDuringRotateOrZoom = false,
+                                )
+                            },
                     ) {
                         for (marker in mapModel.markers) {
                             val markerState = rememberMarkerState(position = marker.latLng)
