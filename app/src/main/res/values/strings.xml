@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Ganzhornfest</string>
-    <string name="search">Suche</string>
     <string name="map">Karte</string>
     <string name="program">Programm</string>
     <string name="info">Info</string>

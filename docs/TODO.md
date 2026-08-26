@@ -19,14 +19,6 @@
 
 ## UX And Feature Work
 
-- [ ] Modernize the search screen
-  - Replace the deprecated Material 3 `SearchBar` overload
-  - Stop rendering `SearchScreenSuccess` twice
-  - Replace the dropdown category picker with multi-select `FilterChip`s
-  - Add query debouncing before hitting the database
-  - Replace `LazyVerticalGrid(GridCells.Fixed(1))` with a `LazyColumn`
-  - Add clearer empty-results and keyboard handling polish
-
 - [ ] Improve detail and map flows
   - Allow the map to center on the selected club when entered from detail/search
   - Finish detail-to-detail navigation from related items using IDs

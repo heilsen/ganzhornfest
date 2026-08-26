@@ -77,6 +77,7 @@ fun MapScreen(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
+                                .padding(top = if (mapModel.isFullscreen) 72.dp else 0.dp)
                                 .padding(horizontal = 8.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -95,7 +96,12 @@ fun MapScreen(
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
                         cameraPositionState = cameraPositionState,
-                        contentPadding = PaddingValues(bottom = 8.dp),
+                        contentPadding =
+                            if (mapModel.isFullscreen) {
+                                PaddingValues(top = 72.dp, bottom = 8.dp)
+                            } else {
+                                PaddingValues(0.dp)
+                            },
                         properties =
                             MapProperties(
                                 mapType = MapType.HYBRID,

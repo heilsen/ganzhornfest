@@ -4,17 +4,14 @@ import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -56,7 +54,7 @@ import de.heilsen.ganzhornfest.navigation.Destination
 import de.heilsen.ganzhornfest.program.ProgramScreen
 import de.heilsen.ganzhornfest.program.ProgramViewModel
 import de.heilsen.ganzhornfest.search.Category
-import de.heilsen.ganzhornfest.search.SearchScreen
+import de.heilsen.ganzhornfest.search.MapSearchBar
 import de.heilsen.ganzhornfest.search.SearchViewModel
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 
@@ -90,12 +88,6 @@ fun MainScreen() {
     val searchViewModel: SearchViewModel = entryPoint.searchViewModel
     val detailViewModel: DetailViewModel = entryPoint.detailViewModel
     val countdownViewModel: CountdownViewModel = entryPoint.countdownViewModel
-    val showSearchFab by remember {
-        derivedStateOf {
-            navBackStackEntry?.destination?.hasRoute<Destination.Search>() == false &&
-                navBackStackEntry?.destination?.hasRoute<Destination.Home>() == false
-        }
-    }
 
     GanzhornfestTheme {
         Scaffold(
@@ -111,7 +103,13 @@ fun MainScreen() {
                             icon = {
                                 Icon(Icons.Default.Info, stringResource(R.string.info))
                             },
-                            onClick = { navController.navigate(Destination.Info) },
+                            onClick = {
+                                navController.navigate(Destination.Info) {
+                                    popUpTo(Destination.Map) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                             label = { Text(stringResource(R.string.info)) },
                         )
                         NavigationBarItem(
@@ -119,7 +117,13 @@ fun MainScreen() {
                             icon = {
                                 Icon(Icons.Default.LocationOn, stringResource(R.string.map))
                             },
-                            onClick = { navController.navigate(Destination.Map) },
+                            onClick = {
+                                navController.navigate(Destination.Map) {
+                                    popUpTo(Destination.Map) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                             label = { Text(stringResource(R.string.map)) },
                         )
                         NavigationBarItem(
@@ -127,7 +131,13 @@ fun MainScreen() {
                             icon = {
                                 Icon(Icons.Default.DateRange, stringResource(R.string.program))
                             },
-                            onClick = { navController.navigate(Destination.Program) },
+                            onClick = {
+                                navController.navigate(Destination.Program) {
+                                    popUpTo(Destination.Map) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                             label = { Text(stringResource(R.string.program)) },
                         )
                         NavigationBarItem(
@@ -138,24 +148,18 @@ fun MainScreen() {
                                     stringResource(R.string.bustimes),
                                 )
                             },
-                            onClick = { navController.navigate(Destination.Bus) },
+                            onClick = {
+                                navController.navigate(Destination.Bus) {
+                                    popUpTo(Destination.Map) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                             label = { Text(stringResource(R.string.bustimes)) },
                         )
                     }
                 }
             },
-            floatingActionButton = {
-                AnimatedVisibility(
-                    visible = showSearchFab,
-                    enter = fadeIn() + slideInHorizontally { it },
-                    exit = fadeOut() + slideOutHorizontally { it },
-                ) {
-                    FloatingActionButton(onClick = { navController.navigate(Destination.Search) }) {
-                        Icon(Icons.Default.Search, stringResource(R.string.search))
-                    }
-                }
-            },
-            floatingActionButtonPosition = FabPosition.End,
         ) { innerPadding ->
             NavHost(
                 navController = navController,
@@ -178,44 +182,52 @@ fun MainScreen() {
                 }
                 composable<Destination.Map> {
                     val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
-                    MapScreen(
-                        mapModel = mapModel,
-                        onEvent = mapViewModel::onEvent,
-                        showPinEditorToggle = BuildConfig.DEBUG,
-                        onMarkerSelected = { title, type ->
-                            when (type) {
-                                MarkerUiType.CLUB -> {
-                                    navController.navigate(
-                                        Destination.Detail(title, DetailType.Club),
-                                    )
+                    val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
+                    Box(Modifier.fillMaxSize()) {
+                        MapScreen(
+                            mapModel = mapModel,
+                            onEvent = mapViewModel::onEvent,
+                            showPinEditorToggle = BuildConfig.DEBUG,
+                            onMarkerSelected = { title, type ->
+                                when (type) {
+                                    MarkerUiType.CLUB -> {
+                                        navController.navigate(Destination.Detail(title, DetailType.Club))
+                                    }
+                                    MarkerUiType.EVENT_LOCATION -> {
+                                        navController.navigate(Destination.Program)
+                                    }
+                                    MarkerUiType.PLAYGROUND -> {
+                                        navController.navigate(Destination.Program)
+                                    }
+                                    MarkerUiType.ATTRACTION -> { /* No detail screen. Tombola is not a club menu. */ }
+                                    MarkerUiType.WC -> { }
+                                    MarkerUiType.FIRST_AID -> { }
+                                    MarkerUiType.BUS_STOP -> {
+                                        navController.navigate(Destination.Bus)
+                                    }
                                 }
+                            },
+                        )
+                        MapSearchBar(
+                            searchModel = searchModel,
+                            onEvent = { searchViewModel.take(it) },
+                            onSearchResultClicked = { item, category ->
+                                // TODO: move navigation into viewmodel
+                                val type =
+                                    when (category) {
+                                        Category.Food,
+                                        Category.Drink,
+                                        -> DetailType.Offer
 
-                                MarkerUiType.EVENT_LOCATION -> {
-                                    navController.navigate(Destination.Program)
-                                }
-
-                                MarkerUiType.PLAYGROUND -> {
-                                    navController.navigate(Destination.Program)
-                                }
-
-                                MarkerUiType.ATTRACTION -> {
-                                    // No detail screen. Tombola is not a club menu.
-                                }
-
-                                MarkerUiType.WC -> {
-                                    // Nothing to see here
-                                }
-
-                                MarkerUiType.FIRST_AID -> {
-                                    // Nothing to see here
-                                }
-
-                                MarkerUiType.BUS_STOP -> {
-                                    navController.navigate(Destination.Bus)
-                                }
-                            }
-                        },
-                    )
+                                        Category.Club -> DetailType.Club
+                                    }
+                                navController.navigate(
+                                    Destination.Detail(item, type),
+                                )
+                            },
+                            modifier = Modifier.align(Alignment.TopCenter),
+                        )
+                    }
                 }
                 composable<Destination.Detail> { navBackStackEntry ->
                     val detail: Destination.Detail = navBackStackEntry.toRoute()
@@ -252,28 +264,6 @@ fun MainScreen() {
                     BusScreen(
                         busModel,
                         onEvent = busViewModel::take,
-                    )
-                }
-                composable<Destination.Search> {
-                    val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
-                    SearchScreen(
-                        searchModel = searchModel,
-                        onEvent = { searchViewModel.take(it) },
-                        onSearchResultClicked = { item, category ->
-                            // TODO: move navigation into viewmodel
-                            val type =
-                                when (category) {
-                                    Category.Food,
-                                    Category.Drink,
-                                    -> DetailType.Offer
-
-                                    Category.Club -> DetailType.Club
-                                }
-                            navController.navigate(
-                                Destination.Detail(item, type),
-                            )
-                        },
-                        onBackPressed = { navController.popBackStack() },
                     )
                 }
             }
