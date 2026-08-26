@@ -12,6 +12,7 @@ sealed interface SearchModel {
         val categories: ImmutableList<Category>,
         val selectedCategories: PersistentSet<Category>,
         val results: PersistentList<Result>,
+        val expanded: Boolean = false,
     ) : SearchModel
 
     data object Loading : SearchModel

@@ -11,7 +11,10 @@ class ClubListFormatterTest :
             formatClubList("ASB", many) shouldBe "ASB"
         }
         it("keeps two club names") {
-            formatClubList("ASB,DLRG", many) shouldBe "ASB,DLRG"
+            formatClubList("ASB,DLRG", many) shouldBe "ASB, DLRG"
+        }
+        it("normalizes spacing between two club names") {
+            formatClubList("ASB, DLRG", many) shouldBe "ASB, DLRG"
         }
         it("replaces three or more names with the many-clubs label") {
             formatClubList("ASB,DLRG,SUN", many) shouldBe many
