@@ -245,7 +245,13 @@ private fun SearchResults(
                                 Text(result.description)
                             }
                             if (result.clubs.isNotEmpty()) {
-                                Text(result.clubs, style = MaterialTheme.typography.bodySmall)
+                                Text(
+                                    formatClubList(
+                                        result.clubs,
+                                        resourcesProvider.getString(R.string.several_clubs),
+                                    ),
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
                             }
                         }
                     }
