@@ -20,5 +20,6 @@ sealed interface SearchModel {
         val header: String,
         val description: String,
         val category: Category,
+        val clubs: String = "",
     )
 }

@@ -27,7 +27,10 @@ Edit the `.sq` files. Do not patch generated artifacts.
 
 - `Poi.sq` — clubs, stages, playgrounds, WC, first aid, bus stop
 - `Offer.sq` — add newly named food/drink/other rows. Keep unused old rows unless you
-  want them gone from search.
+  want them gone from search. If two offers are the same item, fold the extra name into
+  `OfferAlias.sq` instead of keeping a duplicate row.
+- `OfferAlias.sq` — German synonyms, regionalisms, and folded duplicate names. Search
+  inner-joins `clubOffer`, so an offer nobody sells is invisible regardless of aliases.
 - `ClubOffer.sq` — rebuild the club-to-offer join from the flyer plus website. PDF wins
   on conflict.
 - `Program.sq` — stage program rows with ISO timestamps (`2026-09-05T16:00:00+02:00`)
@@ -40,8 +43,10 @@ Add `database/src/main/sqldelight/migrations/<n>.sqm`. Fresh installs never re-r
 `.sq` into an already created `ganzhornfest.db`. Anyone who opened last year's app
 only sees new content if a migration writes it.
 
-Keep `.sq` inserts and the new `.sqm` identical. Do not edit `1.sqm` or `2.sqm`.
+Keep `.sq` inserts and the new `.sqm` identical. Do not edit earlier migrations.
 Do not turn on `verifyMigrations`. The empty `databases/1.db` snapshot is intentional.
+Schema changes such as a new `offerAlias` table belong in the next `migrations/N.sqm`.
+`OfferAlias.sq` itself only runs on a fresh install.
 
 ## 5. Pin editor (debug builds)
 

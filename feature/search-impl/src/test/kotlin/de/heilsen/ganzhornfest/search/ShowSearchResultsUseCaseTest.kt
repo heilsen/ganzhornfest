@@ -2,9 +2,10 @@ package de.heilsen.ganzhornfest.search
 
 import app.cash.turbine.test
 import de.heilsen.ganzhornfest.core.ConfigurationProvider
-import de.heilsen.ganzhornfest.database.Offer
+import de.heilsen.ganzhornfest.database.OfferAlias
 import de.heilsen.ganzhornfest.database.Poi
 import de.heilsen.ganzhornfest.offer.data.OfferRepository
+import de.heilsen.ganzhornfest.offer.data.OfferSearchResult
 import de.heilsen.ganzhornfest.poi.PoiRepository
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -22,17 +23,18 @@ class ShowSearchResultsUseCaseTest :
                 every { getAllFood() } returns
                     flowOf(
                         listOf(
-                            Offer(1, 0, "Apfelküchle", null),
-                            Offer(2, 0, "Pommes", "mit Mayo"),
+                            OfferSearchResult(1, "Apfelküchle", null, ""),
+                            OfferSearchResult(2, "Pommes", "mit Mayo", ""),
                         ),
                     )
                 every { getAllDrinks() } returns
                     flowOf(
                         listOf(
-                            Offer(1, 1, "Weißbier", null),
-                            Offer(2, 1, "Cola", "ein alkoholfreies Getränk"),
+                            OfferSearchResult(1, "Weißbier", null, ""),
+                            OfferSearchResult(2, "Cola", "ein alkoholfreies Getränk", ""),
                         ),
                     )
+                every { getAliases() } returns flowOf(emptyList())
             }
         val poiRepository =
             mockk<PoiRepository> {
@@ -195,6 +197,50 @@ class ShowSearchResultsUseCaseTest :
                     awaitItem() shouldBe
                         persistentListOf(
                             SearchModel.Result("Cola", "ein alkoholfreies Getränk", Category.Drink),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches an offer via a German synonym alias") {
+                val aliasOfferRepository =
+                    mockk<OfferRepository> {
+                        every { getAllFood() } returns
+                            flowOf(listOf(OfferSearchResult(105, "Bratwurst", null, "ASB")))
+                        every { getAliases() } returns
+                            flowOf(listOf(OfferAlias(1, 105, "Grillwurst")))
+                    }
+                val aliasShowSearchResults: ShowSearchResultsUseCase =
+                    ShowSearchResultsUseCaseImpl(
+                        aliasOfferRepository,
+                        poiRepository,
+                        configurationProvider,
+                    )
+                aliasShowSearchResults("Grillwurst", persistentSetOf(Category.Food)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Bratwurst", "", Category.Food, "ASB"),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("strips spoken German phrasing before matching an alias") {
+                val aliasOfferRepository =
+                    mockk<OfferRepository> {
+                        every { getAllFood() } returns
+                            flowOf(listOf(OfferSearchResult(105, "Bratwurst", null, "ASB")))
+                        every { getAliases() } returns
+                            flowOf(listOf(OfferAlias(1, 105, "Grillwurst")))
+                    }
+                val aliasShowSearchResults: ShowSearchResultsUseCase =
+                    ShowSearchResultsUseCaseImpl(
+                        aliasOfferRepository,
+                        poiRepository,
+                        configurationProvider,
+                    )
+                aliasShowSearchResults("Wo gibt es eine Grillwurst?", persistentSetOf(Category.Food)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Bratwurst", "", Category.Food, "ASB"),
                         )
                     awaitComplete()
                 }
