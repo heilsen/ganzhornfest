@@ -21,7 +21,7 @@
 
 - [ ] Improve detail and map flows
   - Finish detail-to-detail navigation from related items using IDs
-  - Replace the temporary placeholder in `DetailScreen` map interactions
+  - [x] Replace the temporary placeholder in `DetailScreen` map interactions (detail is a sheet on the live map)
 
 - [ ] Polish map presentation and performance
   - Revisit the default `HYBRID` map type for the main festival map
