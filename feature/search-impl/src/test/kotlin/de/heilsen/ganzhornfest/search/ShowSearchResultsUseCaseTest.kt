@@ -42,6 +42,7 @@ class ShowSearchResultsUseCaseTest :
                             Poi(1, "Sängerbund", 0),
                             Poi(2, "Sportverein", 0),
                             Poi(3, "Arbeiter-Samariter-Bund", 0),
+                            Poi(4, "Förderverein der Feuerwehr NSU", 0),
                         ),
                     )
             }
@@ -97,6 +98,7 @@ class ShowSearchResultsUseCaseTest :
                         persistentListOf(
                             SearchModel.Result("Apfelküchle", "", Category.Food),
                             SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
+                            SearchModel.Result("Förderverein der Feuerwehr NSU", "", Category.Club),
                             SearchModel.Result("Pommes", "mit Mayo", Category.Food),
                             SearchModel.Result("Sängerbund", "", Category.Club),
                             SearchModel.Result("Sportverein", "", Category.Club),
@@ -163,6 +165,15 @@ class ShowSearchResultsUseCaseTest :
                     awaitItem() shouldBe
                         persistentListOf(
                             SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
+                        )
+                    awaitComplete()
+                }
+            }
+            it("matches a club by the initials of a name compounded onto 'verein'") {
+                showSearchResults("FV", persistentSetOf(Category.Club)).test {
+                    awaitItem() shouldBe
+                        persistentListOf(
+                            SearchModel.Result("Förderverein der Feuerwehr NSU", "", Category.Club),
                         )
                     awaitComplete()
                 }

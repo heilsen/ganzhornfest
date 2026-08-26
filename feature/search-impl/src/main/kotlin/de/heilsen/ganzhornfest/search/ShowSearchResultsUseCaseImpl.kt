@@ -104,7 +104,10 @@ private fun String.matchesSearch(
     return normalized.contains(normalizedTerm) || normalized.initials().startsWith(normalizedTerm)
 }
 
+// German club names are conventionally compounded onto "verein" without a separator
+// (Sportverein, Förderverein, Ortsverein), so that suffix counts as its own word too.
 private fun String.initials(): String =
-    split(Regex("[^\\p{L}]+"))
+    replace(Regex("(?<=\\p{L})verein"), " verein")
+        .split(Regex("[^\\p{L}]+"))
         .filter { it.isNotEmpty() }
         .joinToString("") { word -> word.first().toString() }
