@@ -10,4 +10,5 @@
     <string name="no_category_selected">Wähle mindestens eine Kategorie aus</string>
     <string name="no_results_for_query">Keine Treffer für diese Suche</string>
     <string name="no_results">Keine Einträge vorhanden</string>
+    <string name="several_clubs">mehrere Vereine</string>
 </resources>
