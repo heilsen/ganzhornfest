@@ -27,8 +27,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -259,10 +261,18 @@ private fun MapDetailOverlay(
     val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
     val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
     val detailModel by detailViewModel.models.collectAsStateWithLifecycle()
-    val highlightTitles: Set<String>? =
-        (detailModel as? DetailModel.Success)
-            ?.takeIf { isDetail }
-            ?.highlightTitles()
+    var lastSuccess by remember { mutableStateOf<DetailModel.Success?>(null) }
+    val success = detailModel as? DetailModel.Success
+    if (success != null) {
+        lastSuccess = success
+    }
+    LaunchedEffect(isDetail) {
+        if (!isDetail) {
+            lastSuccess = null
+        }
+    }
+    val shownSuccess = lastSuccess.takeIf { isDetail }
+    val highlightTitles: Set<String>? = shownSuccess?.highlightTitles()
 
     val isDetailState = rememberUpdatedState(isDetail)
     val sheetState =
@@ -298,7 +308,7 @@ private fun MapDetailOverlay(
         sheetContent = {
             if (isDetail) {
                 DetailScreen(
-                    model = detailModel,
+                    model = shownSuccess ?: detailModel,
                     onBackClick = { navController.popBackStack() },
                     onItemClicked = { searchTerm, type ->
                         navController.navigate(Destination.Detail(searchTerm, type))

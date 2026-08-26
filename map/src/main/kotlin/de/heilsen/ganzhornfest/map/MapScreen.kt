@@ -60,11 +60,16 @@ fun MapScreen(
                     pin.poiId == selectedPoiId && pin.coordinateId == selectedCoordinateId
                 } ?: mapModel.pins.firstOrNull()
             val pinEditor =
-                if (editorOpen) {
+                if (editorOpen && showPinEditorToggle) {
                     PinEditorModel(pins = mapModel.pins, selected = selectedPin)
                 } else {
                     null
                 }
+            LaunchedEffect(showPinEditorToggle) {
+                if (!showPinEditorToggle) {
+                    editorOpen = false
+                }
+            }
             val center = LatLng(49.191669847836216, 9.222756134219502)
             val cameraPositionState =
                 rememberCameraPositionState {
