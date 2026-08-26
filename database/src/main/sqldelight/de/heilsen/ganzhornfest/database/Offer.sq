@@ -13,38 +13,27 @@ INSERT INTO offer VALUES(10,1,'Aperol Spritz',NULL);
 INSERT INTO offer VALUES(11,1,'Chilly Willi',NULL);
 INSERT INTO offer VALUES(12,1,'Cocktails','alkoholfrei');
 INSERT INTO offer VALUES(13,1,'Cola',NULL);
-INSERT INTO offer VALUES(14,1,'Cola Light',NULL);
 INSERT INTO offer VALUES(15,1,'Cuba Libre',NULL);
 INSERT INTO offer VALUES(16,1,'Export','Bier');
 INSERT INTO offer VALUES(17,1,'Fanta','Limonade');
 INSERT INTO offer VALUES(18,1,'Gazos','türkische Limonade');
-INSERT INTO offer VALUES(19,1,'Griechischer Wein',NULL);
-INSERT INTO offer VALUES(20,1,'Gutmann Hefeweizen','Bier');
 INSERT INTO offer VALUES(22,1,'Helga',NULL);
 INSERT INTO offer VALUES(23,1,'Hugo',NULL);
-INSERT INTO offer VALUES(24,1,'Jackie-Cola',NULL);
 INSERT INTO offer VALUES(25,1,'Joster',NULL);
 INSERT INTO offer VALUES(26,1,'Kaffee',NULL);
-INSERT INTO offer VALUES(27,1,'Kellerpils','Bier');
 INSERT INTO offer VALUES(28,1,'Kölsch','Bier');
-INSERT INTO offer VALUES(29,1,'Kräuterschnaps',NULL);
-INSERT INTO offer VALUES(30,1,'Lillet Berry',NULL);
 INSERT INTO offer VALUES(31,1,'Lockstädter',NULL);
-INSERT INTO offer VALUES(32,1,'Longdrink-Pitcher',NULL);
 INSERT INTO offer VALUES(33,1,'Longdrink',NULL);
 INSERT INTO offer VALUES(34,1,'Metaxa',NULL);
 INSERT INTO offer VALUES(35,1,'Mixgetränke',NULL);
-INSERT INTO offer VALUES(36,1,'Neuer Wein',NULL);
 INSERT INTO offer VALUES(37,1,'Orangensaft',NULL);
 INSERT INTO offer VALUES(38,1,'Ouzo',NULL);
 INSERT INTO offer VALUES(39,1,'Pfefferminzlikör',NULL);
-INSERT INTO offer VALUES(40,1,'Pils','Bier');
 INSERT INTO offer VALUES(41,1,'Prinz Alte Himbeere','österreichische Traditionsbrennerei');
 INSERT INTO offer VALUES(42,1,'Prinz Alte Marielle','österreichische Traditionsbrennerei');
 INSERT INTO offer VALUES(43,1,'Radler',NULL);
 INSERT INTO offer VALUES(44,1,'Raki',NULL);
 INSERT INTO offer VALUES(45,1,'Schnaps',NULL);
-INSERT INTO offer VALUES(46,1,'Schnapsmeter',NULL);
 INSERT INTO offer VALUES(47,1,'Secco',NULL);
 INSERT INTO offer VALUES(48,1,'Sekt',NULL);
 INSERT INTO offer VALUES(49,1,'Sinalco',NULL);
@@ -56,25 +45,17 @@ INSERT INTO offer VALUES(54,1,'Erdbeer Margarita',NULL);
 INSERT INTO offer VALUES(55,1,'Tee',NULL);
 INSERT INTO offer VALUES(56,1,'Tequilla',NULL);
 INSERT INTO offer VALUES(57,1,'Traubensaft',NULL);
-INSERT INTO offer VALUES(58,1,'Traubensaftschorle',NULL);
-INSERT INTO offer VALUES(59,1,'Trauben Secco',NULL);
 INSERT INTO offer VALUES(60,1,'Tee','türkisch');
-INSERT INTO offer VALUES(61,1,'verschiedene Biere',NULL);
 INSERT INTO offer VALUES(62,1,'Wasser',NULL);
 INSERT INTO offer VALUES(63,1,'Wein',NULL);
 INSERT INTO offer VALUES(64,1,'Weinbergpfirsichlikör',NULL);
 INSERT INTO offer VALUES(65,1,'Weinschorle',NULL);
 INSERT INTO offer VALUES(66,1,'Wodka-Ahoi',NULL);
-INSERT INTO offer VALUES(67,1,'Wulle Vollbier Hell','Bier');
 INSERT INTO offer VALUES(68,1,'Gin Tonic',NULL);
-INSERT INTO offer VALUES(69,1,'Becks Gold','Bier');
-INSERT INTO offer VALUES(72,1,'Wein (Rumänisch)',NULL);
-INSERT INTO offer VALUES(73,1,'Schnaps (Rumänisch)',NULL);
 INSERT INTO offer VALUES(74,1,'Liköre',NULL);
 INSERT INTO offer VALUES(75,1,'Helles','Bier');
 INSERT INTO offer VALUES(76,1,'Bier (alkoholfrei)',NULL);
 INSERT INTO offer VALUES(77,1,'Spezi','MezzoMix');
-INSERT INTO offer VALUES(78,1,'Becks','Bier');
 INSERT INTO offer VALUES(79,1,'Saftschorle',NULL);
 INSERT INTO offer VALUES(80,1,'Aperol',NULL);
 INSERT INTO offer VALUES(81,1,'Lillet',NULL);
@@ -163,7 +144,6 @@ INSERT INTO offer VALUES(173, 2, 'Snacks',NULL);
 INSERT INTO offer VALUES(174, 2, 'Seelen mit Schinken und Käse überbacken (Spitzdappen)',NULL);
 INSERT INTO offer VALUES(175, 2, 'Germknödel',NULL);
 INSERT INTO offer VALUES(176, 2, 'Kässpätzle',NULL);
-INSERT INTO offer VALUES(177, 2, 'Weißwürste mit frischen Brezel','Sonntag');
 INSERT INTO offer VALUES(178, 2, 'Döner Kebab',NULL);
 INSERT INTO offer VALUES(179, 2, 'Pfannkuchen',NULL);
 INSERT INTO offer VALUES(180, 2, 'Köfte','verschiedene Sorten');
@@ -215,7 +195,7 @@ INSERT INTO offer VALUES(225, 2, 'Ciabatta Tomaten-Mozzarella',NULL);
 INSERT INTO offer VALUES(226, 2, 'Wedges',NULL);
 INSERT INTO offer VALUES(227, 2, 'Fleischkäsbrötchen',NULL);
 INSERT INTO offer VALUES(228, 2, 'Geschnetzeltes','mit Spätzle');
-INSERT INTO offer VALUES(229, 2, 'Gegrillte Sandwitches','mit Pommes');
+INSERT INTO offer VALUES(229, 2, 'Gegrillte Sandwiches','mit Pommes');
 INSERT INTO offer VALUES(230, 2, 'Bubble Waffeln', NULL);
 INSERT INTO offer VALUES(231, 2, 'Geschnetzeltes/türkische Wurst im Brot', NULL);
 INSERT INTO offer VALUES(232, 2, 'Rindswurst', NULL);
@@ -243,10 +223,20 @@ INSERT INTO offer VALUES(309, 3, 'Schießbudenstand', NULL);
 INSERT INTO offer VALUES(310, 3, 'Tombola', NULL);
 
 selectAllDrinks:
-SELECT * FROM offer WHERE typeId = 1;
+SELECT offer.id, offer.name, offer.description, group_concat(DISTINCT poi.name) AS clubs
+FROM offer
+JOIN clubOffer ON clubOffer.offerId = offer.id
+JOIN poi ON poi.id = clubOffer.poiId
+WHERE offer.typeId = 1
+GROUP BY offer.id;
 
 selectAllFood:
-SELECT * FROM offer WHERE typeId = 2;
+SELECT offer.id, offer.name, offer.description, group_concat(DISTINCT poi.name) AS clubs
+FROM offer
+JOIN clubOffer ON clubOffer.offerId = offer.id
+JOIN poi ON poi.id = clubOffer.poiId
+WHERE offer.typeId = 2
+GROUP BY offer.id;
 
 selectAllOthers:
 SELECT * FROM offer WHERE typeId = 3;

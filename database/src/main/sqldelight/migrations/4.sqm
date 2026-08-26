@@ -1,0 +1,87 @@
+-- Add offerAlias table for German synonym search
+CREATE TABLE IF NOT EXISTS offerAlias (id INTEGER PRIMARY KEY AUTOINCREMENT, offerId INTEGER NOT NULL, alias TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS idx_offerAlias_alias ON offerAlias(alias);
+
+-- folded duplicates: offers removed from the catalog because no club sells them,
+-- kept searchable as synonyms of the offer that replaces them
+INSERT INTO offerAlias VALUES(NULL,1,'Becks');
+INSERT INTO offerAlias VALUES(NULL,1,'Becks Gold');
+INSERT INTO offerAlias VALUES(NULL,1,'Kellerpils');
+INSERT INTO offerAlias VALUES(NULL,1,'Pils');
+INSERT INTO offerAlias VALUES(NULL,1,'verschiedene Biere');
+INSERT INTO offerAlias VALUES(NULL,75,'Wulle Vollbier Hell');
+INSERT INTO offerAlias VALUES(NULL,7,'Gutmann Hefeweizen');
+INSERT INTO offerAlias VALUES(NULL,13,'Cola Light');
+INSERT INTO offerAlias VALUES(NULL,13,'Jackie-Cola');
+INSERT INTO offerAlias VALUES(NULL,81,'Lillet Berry');
+INSERT INTO offerAlias VALUES(NULL,33,'Longdrink-Pitcher');
+INSERT INTO offerAlias VALUES(NULL,79,'Traubensaftschorle');
+INSERT INTO offerAlias VALUES(NULL,45,'Kräuterschnaps');
+INSERT INTO offerAlias VALUES(NULL,45,'Schnaps (Rumänisch)');
+INSERT INTO offerAlias VALUES(NULL,45,'Schnapsmeter');
+INSERT INTO offerAlias VALUES(NULL,47,'Trauben Secco');
+INSERT INTO offerAlias VALUES(NULL,63,'Griechischer Wein');
+INSERT INTO offerAlias VALUES(NULL,63,'Neuer Wein');
+INSERT INTO offerAlias VALUES(NULL,63,'Wein (Rumänisch)');
+INSERT INTO offerAlias VALUES(NULL,155,'Weißwürste mit frischen Brezel');
+
+-- drink synonyms, regionalisms, and common phrasings
+INSERT INTO offerAlias VALUES(NULL,1,'Gerstensaft');
+INSERT INTO offerAlias VALUES(NULL,7,'Weizenbier');
+INSERT INTO offerAlias VALUES(NULL,7,'Weizen');
+INSERT INTO offerAlias VALUES(NULL,12,'alkoholfreie Cocktails');
+INSERT INTO offerAlias VALUES(NULL,45,'Obstler');
+INSERT INTO offerAlias VALUES(NULL,63,'Federweisser');
+INSERT INTO offerAlias VALUES(NULL,79,'Apfelsaftschorle');
+INSERT INTO offerAlias VALUES(NULL,62,'Mineralwasser');
+INSERT INTO offerAlias VALUES(NULL,62,'stilles Wasser');
+INSERT INTO offerAlias VALUES(NULL,52,'Wasser mit Kohlensäure');
+INSERT INTO offerAlias VALUES(NULL,53,'Limo');
+INSERT INTO offerAlias VALUES(NULL,48,'Schampus');
+INSERT INTO offerAlias VALUES(NULL,43,'Alsterwasser');
+INSERT INTO offerAlias VALUES(NULL,50,'Slush Eis');
+INSERT INTO offerAlias VALUES(NULL,50,'Slushie');
+INSERT INTO offerAlias VALUES(NULL,76,'alkoholfreies Bier');
+INSERT INTO offerAlias VALUES(NULL,76,'alkoholfrei Bier');
+
+-- food synonyms, regionalisms, and common phrasings
+INSERT INTO offerAlias VALUES(NULL,105,'Grillwurst');
+INSERT INTO offerAlias VALUES(NULL,105,'Rostbratwurst');
+INSERT INTO offerAlias VALUES(NULL,105,'Bratwurscht');
+INSERT INTO offerAlias VALUES(NULL,106,'Pommes');
+INSERT INTO offerAlias VALUES(NULL,106,'Fritten');
+INSERT INTO offerAlias VALUES(NULL,104,'Curry Wurst');
+INSERT INTO offerAlias VALUES(NULL,178,'Döner');
+INSERT INTO offerAlias VALUES(NULL,178,'Kebab');
+INSERT INTO offerAlias VALUES(NULL,170,'Hühnchen');
+INSERT INTO offerAlias VALUES(NULL,170,'Grillhähnchen');
+INSERT INTO offerAlias VALUES(NULL,128,'Fleischküchle');
+INSERT INTO offerAlias VALUES(NULL,133,'Maultäschle');
+INSERT INTO offerAlias VALUES(NULL,133,'Schwabenravioli');
+INSERT INTO offerAlias VALUES(NULL,125,'Wurschtsalat');
+INSERT INTO offerAlias VALUES(NULL,101,'Linsen mit Spätzle');
+INSERT INTO offerAlias VALUES(NULL,140,'Bubespitzle');
+INSERT INTO offerAlias VALUES(NULL,137,'Langosch');
+INSERT INTO offerAlias VALUES(NULL,215,'Syrisches Essen');
+INSERT INTO offerAlias VALUES(NULL,223,'Finger Food');
+INSERT INTO offerAlias VALUES(NULL,116,'Crepes');
+INSERT INTO offerAlias VALUES(NULL,102,'Apfelkiachla');
+INSERT INTO offerAlias VALUES(NULL,227,'Fleischkäse Brötchen');
+INSERT INTO offerAlias VALUES(NULL,135,'Leberkäse');
+INSERT INTO offerAlias VALUES(NULL,218,'Blutwurst');
+INSERT INTO offerAlias VALUES(NULL,218,'Leberwurst');
+INSERT INTO offerAlias VALUES(NULL,232,'Rinderwurst');
+INSERT INTO offerAlias VALUES(NULL,230,'Bubble Waffles');
+INSERT INTO offerAlias VALUES(NULL,226,'Kartoffelecken');
+INSERT INTO offerAlias VALUES(NULL,226,'Kartoffelspalten');
+INSERT INTO offerAlias VALUES(NULL,208,'vegane Pasta');
+INSERT INTO offerAlias VALUES(NULL,212,'Mittagsmenü');
+INSERT INTO offerAlias VALUES(NULL,212,'Tagesgericht');
+INSERT INTO offerAlias VALUES(NULL,183,'Baklava');
+INSERT INTO offerAlias VALUES(NULL,181,'Kebab');
+
+-- fix typo on a currently sold offer
+UPDATE offer SET name = 'Gegrillte Sandwiches' WHERE id = 229;
+
+-- remove offers with no selling club, now covered as aliases above
+DELETE FROM offer WHERE id IN (78,69,27,40,67,61,20,14,24,30,32,58,29,73,46,59,19,36,72,177);

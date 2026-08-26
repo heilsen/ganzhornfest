@@ -1,6 +1,11 @@
 package de.heilsen.ganzhornfest.search
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.speech.RecognizerIntent
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,9 +33,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.core.ResourcesProvider
@@ -41,6 +49,7 @@ import de.heilsen.ganzhornfest.theme.component.EmptyScreen
 import de.heilsen.ganzhornfest.theme.component.LoadingScreen
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
+import timber.log.Timber
 
 interface EntryPoint {
     val resourcesProvider: ResourcesProvider
@@ -66,6 +75,7 @@ fun MapSearchBar(
 ) {
     val entryPoint: EntryPoint by rememberAppGraph()
     val resourcesProvider = entryPoint.resourcesProvider
+    val context = LocalContext.current
 
     var expanded by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
@@ -78,6 +88,22 @@ fun MapSearchBar(
     // lags a recomposition behind each keystroke. Feeding that lag back into the text field's
     // own value desyncs its internal edit buffer and snaps the cursor backward.
     var query by remember { mutableStateOf("") }
+
+    val speechRecognizerAvailable =
+        remember {
+            Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).resolveActivity(context.packageManager) != null
+        }
+    val speechLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.data
+                ?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                ?.firstOrNull()
+                ?.let { spoken ->
+                    query = spoken
+                    onEvent(SearchEvent.Search(spoken))
+                    expanded = true
+                }
+        }
 
     SearchBar(
         modifier = modifier,
@@ -107,16 +133,44 @@ fun MapSearchBar(
                     }
                 },
                 trailingIcon = {
-                    if (query.isNotEmpty()) {
-                        IconButton(onClick = {
-                            query = ""
-                            onEvent(SearchEvent.Search(""))
-                            focusRequester.requestFocus()
-                        }) {
-                            Icon(
-                                Icons.Default.Clear,
-                                contentDescription = resourcesProvider.getString(R.string.clear_search),
-                            )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (speechRecognizerAvailable) {
+                            IconButton(onClick = {
+                                val intent =
+                                    Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                                        putExtra(
+                                            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                                            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,
+                                        )
+                                        putExtra(RecognizerIntent.EXTRA_LANGUAGE, "de-DE")
+                                        putExtra(
+                                            RecognizerIntent.EXTRA_PROMPT,
+                                            resourcesProvider.getString(R.string.voice_search_prompt),
+                                        )
+                                    }
+                                try {
+                                    speechLauncher.launch(intent)
+                                } catch (e: ActivityNotFoundException) {
+                                    Timber.tag("MapSearchBar").w(e, "No speech recognizer available")
+                                }
+                            }) {
+                                Icon(
+                                    Icons.Default.Mic,
+                                    contentDescription = resourcesProvider.getString(R.string.voice_search),
+                                )
+                            }
+                        }
+                        if (query.isNotEmpty()) {
+                            IconButton(onClick = {
+                                query = ""
+                                onEvent(SearchEvent.Search(""))
+                                focusRequester.requestFocus()
+                            }) {
+                                Icon(
+                                    Icons.Default.Clear,
+                                    contentDescription = resourcesProvider.getString(R.string.clear_search),
+                                )
+                            }
                         }
                     }
                 },
@@ -187,7 +241,12 @@ private fun SearchResults(
                     Card(onClick = { onSearchResultClicked(result.header, result.category) }) {
                         Column(Modifier.padding(8.dp)) {
                             Text(result.header, style = MaterialTheme.typography.headlineSmall)
-                            Text(result.description)
+                            if (result.description.isNotEmpty()) {
+                                Text(result.description)
+                            }
+                            if (result.clubs.isNotEmpty()) {
+                                Text(result.clubs, style = MaterialTheme.typography.bodySmall)
+                            }
                         }
                     }
                 }

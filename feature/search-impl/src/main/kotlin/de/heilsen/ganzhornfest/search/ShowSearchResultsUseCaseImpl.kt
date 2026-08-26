@@ -2,8 +2,9 @@ package de.heilsen.ganzhornfest.search
 
 import de.heilsen.ganzhornfest.core.ConfigurationProvider
 import de.heilsen.ganzhornfest.core.germanAlphaComparator
-import de.heilsen.ganzhornfest.database.Offer
+import de.heilsen.ganzhornfest.database.OfferAlias
 import de.heilsen.ganzhornfest.offer.data.OfferRepository
+import de.heilsen.ganzhornfest.offer.data.OfferSearchResult
 import de.heilsen.ganzhornfest.poi.PoiRepository
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
@@ -37,10 +38,11 @@ class ShowSearchResultsUseCaseImpl
             if (categories.isEmpty()) return flowOf(persistentListOf())
 
             val locale = configurationProvider.getLocale()
-            val queryTokens = searchTerm.normalizedForSearch(locale).tokens()
+            val queryTokens = GermanQueryNormalizer.normalize(searchTerm).normalizedForSearch(locale).tokens()
+            val aliasesFlow = offerRepository.getAliases()
 
             return combine(
-                categories.map { category -> resultsForCategory(category, queryTokens, locale) },
+                categories.map { category -> resultsForCategory(category, queryTokens, locale, aliasesFlow) },
             ) { resultsByCategory ->
                 resultsByCategory
                     .flatMap { it }
@@ -53,20 +55,27 @@ class ShowSearchResultsUseCaseImpl
             category: Category,
             queryTokens: List<String>,
             locale: Locale,
+            aliasesFlow: Flow<List<OfferAlias>>,
         ): Flow<List<SearchModel.Result>> =
             when (category) {
                 Category.Food ->
-                    offerRepository.getAllFood().map { list ->
+                    combine(offerRepository.getAllFood(), aliasesFlow) { list, aliases ->
+                        val aliasesByOffer = aliases.groupBy({ it.offerId }, { it.alias })
                         list
-                            .filter { item -> item.matches(queryTokens, locale) }
-                            .map { item -> SearchModel.Result(item.name, item.description ?: "", Category.Food) }
+                            .filter { item -> item.matches(queryTokens, locale, aliasesByOffer[item.id].orEmpty()) }
+                            .map { item ->
+                                SearchModel.Result(item.name, item.description ?: "", Category.Food, item.clubs)
+                            }
                     }
 
                 Category.Drink ->
-                    offerRepository.getAllDrinks().map { list ->
+                    combine(offerRepository.getAllDrinks(), aliasesFlow) { list, aliases ->
+                        val aliasesByOffer = aliases.groupBy({ it.offerId }, { it.alias })
                         list
-                            .filter { item -> item.matches(queryTokens, locale) }
-                            .map { item -> SearchModel.Result(item.name, item.description ?: "", Category.Drink) }
+                            .filter { item -> item.matches(queryTokens, locale, aliasesByOffer[item.id].orEmpty()) }
+                            .map { item ->
+                                SearchModel.Result(item.name, item.description ?: "", Category.Drink, item.clubs)
+                            }
                     }
 
                 Category.Club ->
@@ -79,12 +88,15 @@ class ShowSearchResultsUseCaseImpl
 
         // Each word of the query is matched independently, so "sun tennis" also finds
         // "Sport-Union Neckarsulm - Tischtennis": "sun" via its acronym, "tennis" by substring.
-        private fun Offer.matches(
+        private fun OfferSearchResult.matches(
             queryTokens: List<String>,
             locale: Locale,
+            aliases: List<String>,
         ): Boolean =
             queryTokens.all { token ->
-                name.matchesSearch(token, locale) || description?.matchesSearch(token, locale) == true
+                name.matchesSearch(token, locale) ||
+                    description?.matchesSearch(token, locale) == true ||
+                    aliases.any { alias -> alias.matchesSearch(token, locale) }
             }
     }
 
