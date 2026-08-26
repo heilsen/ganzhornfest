@@ -12,23 +12,33 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -41,9 +51,11 @@ import de.heilsen.ganzhornfest.bus.BusViewModel
 import de.heilsen.ganzhornfest.countdown.CountdownScreen
 import de.heilsen.ganzhornfest.countdown.CountdownViewModel
 import de.heilsen.ganzhornfest.detail.DetailEvent
+import de.heilsen.ganzhornfest.detail.DetailModel
 import de.heilsen.ganzhornfest.detail.DetailScreen
 import de.heilsen.ganzhornfest.detail.DetailType
 import de.heilsen.ganzhornfest.detail.DetailViewModel
+import de.heilsen.ganzhornfest.detail.highlightTitles
 import de.heilsen.ganzhornfest.di.getValue
 import de.heilsen.ganzhornfest.di.rememberAppGraph
 import de.heilsen.ganzhornfest.info.InfoScreen
@@ -78,6 +90,13 @@ fun MainScreen() {
     val showBottomBar by remember {
         derivedStateOf {
             navBackStackEntry?.destination?.hasRoute<Destination.Home>() == false
+        }
+    }
+    val isMapSurface by remember {
+        derivedStateOf {
+            val dest = navBackStackEntry?.destination
+            dest?.hasRoute<Destination.Map>() == true ||
+                dest?.hasRoute<Destination.Detail>() == true
         }
     }
 
@@ -161,111 +180,171 @@ fun MainScreen() {
                 }
             },
         ) { innerPadding ->
-            NavHost(
-                navController = navController,
-                startDestination = Destination.Home,
-                modifier =
-                    Modifier
-                        .padding(innerPadding)
-                        .consumeWindowInsets(innerPadding),
+            Box(
+                Modifier
+                    .padding(innerPadding)
+                    .consumeWindowInsets(innerPadding)
+                    .fillMaxSize(),
             ) {
-                composable<Destination.Home> {
-                    val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
-                    CountdownScreen(
-                        model = countdownModel,
-                        onEnterApp = {
-                            navController.navigate(Destination.Map) {
-                                popUpTo(Destination.Home) { inclusive = true }
-                            }
-                        },
-                    )
-                }
-                composable<Destination.Map> {
-                    val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
-                    val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
-                    Box(Modifier.fillMaxSize()) {
-                        MapScreen(
-                            mapModel = mapModel,
-                            onEvent = mapViewModel::onEvent,
-                            showPinEditorToggle = BuildConfig.DEBUG,
-                            onMarkerSelected = { title, type ->
-                                when (type) {
-                                    MarkerUiType.CLUB -> {
-                                        navController.navigate(Destination.Detail(title, DetailType.Club))
-                                    }
-                                    MarkerUiType.EVENT_LOCATION -> {
-                                        navController.navigate(Destination.Program)
-                                    }
-                                    MarkerUiType.PLAYGROUND -> {
-                                        navController.navigate(Destination.Program)
-                                    }
-                                    MarkerUiType.ATTRACTION -> { /* No detail screen. Tombola is not a club menu. */ }
-                                    MarkerUiType.WC -> { }
-                                    MarkerUiType.FIRST_AID -> { }
-                                    MarkerUiType.BUS_STOP -> {
-                                        navController.navigate(Destination.Bus)
-                                    }
+                NavHost(
+                    navController = navController,
+                    startDestination = Destination.Home,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    composable<Destination.Home> {
+                        val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
+                        CountdownScreen(
+                            model = countdownModel,
+                            onEnterApp = {
+                                navController.navigate(Destination.Map) {
+                                    popUpTo(Destination.Home) { inclusive = true }
                                 }
                             },
                         )
-                        MapSearchBar(
-                            searchModel = searchModel,
-                            onEvent = { searchViewModel.take(it) },
-                            onSearchResultClicked = { item, category ->
-                                // TODO: move navigation into viewmodel
-                                val type =
-                                    when (category) {
-                                        Category.Food,
-                                        Category.Drink,
-                                        -> DetailType.Offer
-
-                                        Category.Club -> DetailType.Club
-                                    }
-                                navController.navigate(
-                                    Destination.Detail(item, type),
-                                )
-                            },
-                            modifier = Modifier.align(Alignment.TopCenter),
+                    }
+                    composable<Destination.Map> {
+                        // UI lives in the map overlay. Keep this destination for back stack.
+                    }
+                    composable<Destination.Detail> { navBackStackEntry ->
+                        val detail: Destination.Detail = navBackStackEntry.toRoute()
+                        val detailEvent: DetailEvent =
+                            when (detail.type) {
+                                DetailType.Club -> DetailEvent.Club(detail.title)
+                                DetailType.Offer -> DetailEvent.Offer(detail.title)
+                            }
+                        detailViewModel.take(detailEvent)
+                    }
+                    composable<Destination.Program> {
+                        val programModel by programViewModel.models.collectAsStateWithLifecycle()
+                        ProgramScreen(
+                            programModel,
+                            onEvent = programViewModel::take,
+                        )
+                    }
+                    composable<Destination.Info> {
+                        InfoScreen()
+                    }
+                    composable<Destination.Bus> {
+                        val busModel by busViewModel.models.collectAsStateWithLifecycle()
+                        BusScreen(
+                            busModel,
+                            onEvent = busViewModel::take,
                         )
                     }
                 }
-                composable<Destination.Detail> { navBackStackEntry ->
-                    val detail: Destination.Detail = navBackStackEntry.toRoute()
 
-                    val detailEvent: DetailEvent =
-                        when (detail.type) {
-                            DetailType.Club -> DetailEvent.Club(detail.title)
-                            DetailType.Offer -> DetailEvent.Offer(detail.title)
+                if (isMapSurface) {
+                    MapDetailOverlay(
+                        mapViewModel = mapViewModel,
+                        searchViewModel = searchViewModel,
+                        detailViewModel = detailViewModel,
+                        navController = navController,
+                        isDetail = currentDestination?.hasRoute<Destination.Detail>() == true,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MapDetailOverlay(
+    mapViewModel: MapViewModel,
+    searchViewModel: SearchViewModel,
+    detailViewModel: DetailViewModel,
+    navController: NavHostController,
+    isDetail: Boolean,
+) {
+    val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
+    val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
+    val detailModel by detailViewModel.models.collectAsStateWithLifecycle()
+    val highlightTitles: Set<String>? =
+        (detailModel as? DetailModel.Success)
+            ?.takeIf { isDetail }
+            ?.highlightTitles()
+
+    val isDetailState = rememberUpdatedState(isDetail)
+    val sheetState =
+        rememberStandardBottomSheetState(
+            skipHiddenState = false,
+            initialValue = if (isDetail) SheetValue.PartiallyExpanded else SheetValue.Hidden,
+            // rememberSaveable keys on this lambda. A new instance would reset the sheet.
+            confirmValueChange =
+                remember {
+                    { value: SheetValue ->
+                        if (value == SheetValue.Hidden && isDetailState.value) {
+                            navController.popBackStack()
                         }
-                    detailViewModel.take(detailEvent)
-                    val model by detailViewModel.models.collectAsStateWithLifecycle()
-                    DetailScreen(
-                        model = model,
-                        onBackClick = { navController.popBackStack() },
-                        onItemClicked = { searchTerm, type ->
-                            navController.navigate(
-                                Destination.Detail(searchTerm, type),
-                            )
-                        },
-                    )
-                }
-                composable<Destination.Program> {
-                    val programModel by programViewModel.models.collectAsStateWithLifecycle()
-                    ProgramScreen(
-                        programModel,
-                        onEvent = programViewModel::take,
-                    )
-                }
-                composable<Destination.Info> {
-                    InfoScreen()
-                }
-                composable<Destination.Bus> {
-                    val busModel by busViewModel.models.collectAsStateWithLifecycle()
-                    BusScreen(
-                        busModel,
-                        onEvent = busViewModel::take,
-                    )
-                }
+                        true
+                    }
+                },
+        )
+    val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
+    LaunchedEffect(isDetail, (detailModel as? DetailModel.Success)?.title) {
+        if (isDetail) {
+            sheetState.partialExpand()
+        } else {
+            sheetState.hide()
+        }
+    }
+    val sheetExpanded = sheetState.currentValue == SheetValue.Expanded
+
+    BottomSheetScaffold(
+        modifier = Modifier.fillMaxSize(),
+        scaffoldState = scaffoldState,
+        sheetPeekHeight = 128.dp,
+        sheetDragHandle = { BottomSheetDefaults.DragHandle() },
+        sheetContent = {
+            if (isDetail) {
+                DetailScreen(
+                    model = detailModel,
+                    onBackClick = { navController.popBackStack() },
+                    onItemClicked = { searchTerm, type ->
+                        navController.navigate(Destination.Detail(searchTerm, type))
+                    },
+                )
+            }
+        },
+    ) { sheetPadding ->
+        Box(Modifier.fillMaxSize()) {
+            MapScreen(
+                mapModel = mapModel,
+                highlightedTitles = highlightTitles,
+                onEvent = mapViewModel::onEvent,
+                showPinEditorToggle = BuildConfig.DEBUG && !isDetail,
+                onMarkerSelected = { title, type ->
+                    when (type) {
+                        MarkerUiType.CLUB -> {
+                            navController.navigate(Destination.Detail(title, DetailType.Club))
+                        }
+                        MarkerUiType.EVENT_LOCATION,
+                        MarkerUiType.PLAYGROUND,
+                        -> navController.navigate(Destination.Program)
+                        MarkerUiType.BUS_STOP -> navController.navigate(Destination.Bus)
+                        MarkerUiType.ATTRACTION,
+                        MarkerUiType.WC,
+                        MarkerUiType.FIRST_AID,
+                        -> { }
+                    }
+                },
+            )
+            if (!sheetExpanded) {
+                MapSearchBar(
+                    searchModel = searchModel,
+                    onEvent = { searchViewModel.take(it) },
+                    onSearchResultClicked = { item, category ->
+                        val type =
+                            when (category) {
+                                Category.Food,
+                                Category.Drink,
+                                -> DetailType.Offer
+                                Category.Club -> DetailType.Club
+                            }
+                        navController.navigate(Destination.Detail(item, type))
+                    },
+                    modifier = Modifier.align(Alignment.TopCenter),
+                )
             }
         }
     }
