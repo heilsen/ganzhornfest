@@ -246,7 +246,7 @@ INSERT INTO clubOffer VALUES(NULL,39,62);
 INSERT INTO clubOffer VALUES(NULL,39,53);
 
 selectOffersByClubName:
-SELECT offer.name
+SELECT offer.name, offer.description
 FROM clubOffer
 INNER JOIN poi ON clubOffer.poiId = poi.id
 INNER JOIN offer ON offer.id = clubOffer.offerId
