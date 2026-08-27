@@ -16,8 +16,8 @@ Update the opening hours for each day:
 - `opening_hours_sunday`
 - `opening_hours_monday`
 
-Also update `clubs_intro` if the club count changes, and `sunday_shopping` if that
-notice changes.
+Also update `sunday_shopping` if that notice changes. Club count on Info is
+`count(*)` of POIs with type club.
 
 Opening hours are editorial and not derivable from the dates.
 

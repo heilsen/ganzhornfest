@@ -2,6 +2,7 @@ package de.heilsen.ganzhornfest.poi
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOne
 import de.heilsen.ganzhornfest.database.GanzhornfestDb
 import de.heilsen.ganzhornfest.database.Poi
 import dev.zacsweers.metro.Inject
@@ -18,6 +19,12 @@ class PoiRepository
                 .selectClubs()
                 .asFlow()
                 .mapToList(Dispatchers.IO)
+
+        fun countClubs(): Flow<Long> =
+            ganzhornfestDb.poiQueries
+                .countClubs()
+                .asFlow()
+                .mapToOne(Dispatchers.IO)
 
         fun getStages(): Flow<List<String>> =
             ganzhornfestDb

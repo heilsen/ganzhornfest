@@ -10,6 +10,7 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toInstant
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Instant
@@ -71,6 +72,10 @@ fun formatToLocalDateTime(
         dateFormat,
         timeFormat,
     )
+
+fun formatToLocalWeekdayDate(localDate: LocalDate): String =
+    SimpleDateFormat("EE, dd.MM.", Locale.getDefault())
+        .format(localDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds())
 
 fun dayOfTheWeek(localDate: LocalDateTime): String = dayOfTheWeek(localDate.date)
 

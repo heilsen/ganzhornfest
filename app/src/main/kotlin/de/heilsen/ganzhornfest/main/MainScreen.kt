@@ -3,7 +3,10 @@ package de.heilsen.ganzhornfest.main
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +14,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.DirectionsBus
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
@@ -36,9 +46,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -68,6 +77,7 @@ import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.map.MapViewModel
 import de.heilsen.ganzhornfest.map.MarkerUiType
 import de.heilsen.ganzhornfest.navigation.Destination
+import de.heilsen.ganzhornfest.poi.PoiRepository
 import de.heilsen.ganzhornfest.program.ProgramEvent
 import de.heilsen.ganzhornfest.program.ProgramScreen
 import de.heilsen.ganzhornfest.program.ProgramViewModel
@@ -87,6 +97,7 @@ interface EntryPoint {
     val mapViewModel: MapViewModel
     val searchViewModel: SearchViewModel
     val detailViewModel: DetailViewModel
+    val poiRepository: PoiRepository
 }
 
 @Preview(name = "Light Mode")
@@ -114,15 +125,33 @@ fun MainScreen() {
     // Same reason. A fresh instance per recomposition would lose the model the sheet reads,
     // since the detail event is only pushed when the route changes.
     val detailViewModel: DetailViewModel = remember { entryPoint.detailViewModel }
+    val poiRepository: PoiRepository = entryPoint.poiRepository
+    val clubCount by poiRepository.countClubs().collectAsStateWithLifecycle(initialValue = 0L)
+    val isInfo = currentDestination?.hasRoute<Destination.Info>() == true
 
     GanzhornfestTheme {
         Scaffold(
             bottomBar = {
-                NavigationBar {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    tonalElevation = 0.dp,
+                ) {
+                    val wine = MaterialTheme.colorScheme.primary
+                    val itemColors =
+                        NavigationBarItemDefaults.colors(
+                            selectedIconColor = wine,
+                            selectedTextColor = wine,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                        )
                     NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Info>() ?: false,
+                        isInfo,
                         icon = {
-                            Icon(Icons.Default.Info, stringResource(R.string.info))
+                            Icon(
+                                imageVector = if (isInfo) Icons.Filled.Info else Icons.Outlined.Info,
+                                contentDescription = stringResource(R.string.info),
+                            )
                         },
                         onClick = {
                             navController.navigate(Destination.Info) {
@@ -132,11 +161,15 @@ fun MainScreen() {
                             }
                         },
                         label = { Text(stringResource(R.string.info)) },
+                        colors = itemColors,
                     )
                     NavigationBarItem(
                         isMapSurface,
                         icon = {
-                            Icon(Icons.Default.LocationOn, stringResource(R.string.map))
+                            Icon(
+                                imageVector = if (isMapSurface) Icons.Filled.LocationOn else Icons.Outlined.LocationOn,
+                                contentDescription = stringResource(R.string.map),
+                            )
                         },
                         onClick = {
                             // Detail sits on the map surface, so this tab is already
@@ -149,11 +182,16 @@ fun MainScreen() {
                             }
                         },
                         label = { Text(stringResource(R.string.map)) },
+                        colors = itemColors,
                     )
+                    val programSelected = currentDestination?.hasRoute<Destination.Program>() ?: false
                     NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Program>() ?: false,
+                        programSelected,
                         icon = {
-                            Icon(Icons.Default.DateRange, stringResource(R.string.program))
+                            Icon(
+                                imageVector = if (programSelected) Icons.Filled.DateRange else Icons.Outlined.DateRange,
+                                contentDescription = stringResource(R.string.program),
+                            )
                         },
                         onClick = {
                             navController.navigate(Destination.Program()) {
@@ -163,13 +201,15 @@ fun MainScreen() {
                             }
                         },
                         label = { Text(stringResource(R.string.program)) },
+                        colors = itemColors,
                     )
+                    val busSelected = currentDestination?.hasRoute<Destination.Bus>() ?: false
                     NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Bus>() ?: false,
+                        busSelected,
                         icon = {
                             Icon(
-                                ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
-                                stringResource(R.string.bustimes),
+                                imageVector = if (busSelected) Icons.Filled.DirectionsBus else Icons.Outlined.DirectionsBus,
+                                contentDescription = stringResource(R.string.bustimes),
                             )
                         },
                         onClick = {
@@ -180,14 +220,29 @@ fun MainScreen() {
                             }
                         },
                         label = { Text(stringResource(R.string.bustimes)) },
+                        colors = itemColors,
                     )
                 }
             },
         ) { innerPadding ->
+            val layoutDirection = LocalLayoutDirection.current
+            // Info draws a collapsing hero image under the status bar, so it skips the top
+            // inset that every other route takes from the Scaffold.
+            val hostPadding =
+                if (isInfo) {
+                    PaddingValues(
+                        start = innerPadding.calculateStartPadding(layoutDirection),
+                        top = 0.dp,
+                        end = innerPadding.calculateEndPadding(layoutDirection),
+                        bottom = innerPadding.calculateBottomPadding(),
+                    )
+                } else {
+                    innerPadding
+                }
             Box(
                 Modifier
-                    .padding(innerPadding)
-                    .consumeWindowInsets(innerPadding)
+                    .padding(hostPadding)
+                    .consumeWindowInsets(hostPadding)
                     .fillMaxSize(),
             ) {
                 NavHost(
@@ -223,7 +278,7 @@ fun MainScreen() {
                         )
                     }
                     composable<Destination.Info> {
-                        InfoScreen()
+                        InfoScreen(clubCount = clubCount.toInt())
                     }
                     composable<Destination.Bus> {
                         val busModel by busViewModel.models.collectAsStateWithLifecycle()

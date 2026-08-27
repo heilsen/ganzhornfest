@@ -31,6 +31,7 @@ import de.heilsen.ganzhornfest.theme.component.GanzhornfestScaffold
 import de.heilsen.ganzhornfest.theme.component.LoadingScreen
 import de.heilsen.ganzhornfest.theme.component.SelectionCard
 import de.heilsen.ganzhornfest.theme.component.SelectionConfig
+import de.heilsen.ganzhornfest.theme.component.selectionTextFieldColors
 import kotlinx.datetime.LocalDate
 import java.text.DateFormat
 import de.heilsen.ganzhornfest.bus.api.R as ApiR
@@ -166,6 +167,7 @@ private fun BusLineSelectionCard(
                 readOnly = true,
                 singleLine = true,
                 label = { Text("Von") },
+                colors = selectionTextFieldColors(),
             )
         },
     )

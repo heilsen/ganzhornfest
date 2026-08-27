@@ -2,12 +2,19 @@
 <resources>
     <string name="ganzhornfest_with_year">Ganzhornfest %1$d</string>
     <string name="ganzhornfest_official_name">%1$d. Herbstfest der Neckarsulmer Vereine</string>
-    <string name="opening_hours_saturday">16:00 - 01:00 Uhr</string>
-    <string name="opening_hours_sunday">11:00 - 00:00 Uhr</string>
-    <string name="opening_hours_monday">11:00 - 01:00 Uhr</string>
-    <string name="clubs_intro">rund 35 Neckarsulmer Vereine bieten:</string>
-    <string name="sunday_shopping">Verkaufsoffener Sonntag am 06.09. von 12:00 - 17:00 Uhr.</string>
-    <string name="official_info_title">Offizielle Informationen:</string>
+    <string name="info_hero_content_description">Altes Rathaus Neckarsulm</string>
+    <string name="location_title">Neckarsulm</string>
+    <string name="location_body">rund um das Deutschordensschloss, den umliegenden Gassen und dem Karlsplatz</string>
+    <string name="opening_hours_saturday">16:00 - 01:00</string>
+    <string name="opening_hours_sunday">11:00 - 00:00</string>
+    <string name="opening_hours_monday">11:00 - 01:00</string>
+    <plurals name="clubs_intro">
+        <item quantity="one">%d Neckarsulmer Verein bietet</item>
+        <item quantity="other">%d Neckarsulmer Vereine bieten</item>
+    </plurals>
+    <string name="sunday_shopping">Verkaufsoffener Sonntag\n06.09. von 12:00 - 17:00 Uhr.</string>
+    <string name="bus_title">Kostenloser Bus</string>
+    <string name="official_info_title">Offizielle Informationen</string>
     <string name="official_website_label">Webseite</string>
     <string name="official_website">ganzhornfest.com</string>
     <string name="official_website_url">https://www.ganzhornfest.com</string>

@@ -145,6 +145,7 @@ dependencies {
     implementation(libs.bundles.androidx)
 
     implementation(libs.bundles.androidx.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
     debugImplementation(libs.bundles.androidx.compose.debug)
 
     implementation(libs.play.services.maps)

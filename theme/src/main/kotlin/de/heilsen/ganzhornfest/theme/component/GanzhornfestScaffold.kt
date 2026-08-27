@@ -8,6 +8,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -15,8 +16,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.theme.GanzhornfestSans
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 
 @Composable
@@ -48,12 +51,28 @@ fun GanzhornfestScaffold(
 // P6 edge-to-edge owns this file, see docs/plans/06-edge-to-edge.md
 @Suppress("ComposeModifierMissing", "ComposeParameterOrder")
 fun GanzhornfestTopAppBar(
-    topAppBarColors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+    topAppBarColors: TopAppBarColors =
+        TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            scrolledContainerColor = MaterialTheme.colorScheme.surface,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+            navigationIconContentColor = MaterialTheme.colorScheme.primary,
+            actionIconContentColor = MaterialTheme.colorScheme.primary,
+        ),
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
 ) {
     TopAppBar(
-        title = title,
+        title = {
+            CompositionLocalProvider(
+                LocalTextStyle provides
+                    MaterialTheme.typography.titleLarge.copy(
+                        fontFamily = GanzhornfestSans,
+                        color = MaterialTheme.colorScheme.primary,
+                    ),
+                content = title,
+            )
+        },
         colors = topAppBarColors,
         navigationIcon = navigationIcon,
     )
