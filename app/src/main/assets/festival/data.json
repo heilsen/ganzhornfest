@@ -2330,6 +2330,16 @@
     },
     {
       "id": null,
+      "offerId": 233,
+      "alias": "1/2-Meter-Bratwurst"
+    },
+    {
+      "id": null,
+      "offerId": 233,
+      "alias": "Grillwurst"
+    },
+    {
+      "id": null,
       "offerId": 106,
       "alias": "Pommes"
     },
@@ -2342,6 +2352,21 @@
       "id": null,
       "offerId": 104,
       "alias": "Curry Wurst"
+    },
+    {
+      "id": null,
+      "offerId": 104,
+      "alias": "Grillwurst"
+    },
+    {
+      "id": null,
+      "offerId": 103,
+      "alias": "grill"
+    },
+    {
+      "id": null,
+      "offerId": 128,
+      "alias": "grill"
     },
     {
       "id": null,

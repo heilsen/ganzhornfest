@@ -106,7 +106,8 @@ fun MainScreen() {
     val busViewModel: BusViewModel = entryPoint.busViewModel
     val programViewModel: ProgramViewModel = entryPoint.programViewModel
     val mapViewModel: MapViewModel = entryPoint.mapViewModel
-    val searchViewModel: SearchViewModel = entryPoint.searchViewModel
+    // Unscoped Metro injection. Remember so the search session survives Map leaving composition.
+    val searchViewModel = remember { entryPoint.searchViewModel }
     val detailViewModel: DetailViewModel = entryPoint.detailViewModel
     val countdownViewModel: CountdownViewModel = entryPoint.countdownViewModel
 
