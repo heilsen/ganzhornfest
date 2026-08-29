@@ -11,7 +11,6 @@ sealed class MapModel(
         val markers: ImmutableSet<MarkerUi>,
         override val isFullscreen: Boolean = true,
         val showLegend: Boolean = true,
-        val showWindowInfo: Boolean = false,
         val pins: ImmutableList<ClubPin> = persistentListOf(),
     ) : MapModel(isFullscreen)
 

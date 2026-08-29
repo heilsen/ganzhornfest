@@ -19,4 +19,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.foundation.android)
+    // api so isSidePanelLayout callers do not each need the adaptive artifact.
+    api(libs.androidx.compose.material3.adaptive)
 }

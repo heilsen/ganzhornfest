@@ -106,6 +106,9 @@ android {
             }
         }
     }
+
+    // So unit tests can read the shipped seed data straight off the classpath.
+    sourceSets.getByName("test").resources.srcDir("src/main/assets")
 }
 
 kotlin {

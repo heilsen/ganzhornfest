@@ -9,6 +9,15 @@ android {
     namespace = "de.heilsen.ganzhornfest.map"
     compileSdk = 37
     defaultConfig.minSdk = 24
+
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+            all { test ->
+                test.useJUnitPlatform()
+            }
+        }
+    }
 }
 
 kotlin.jvmToolchain(21)
@@ -38,4 +47,9 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    testImplementation(libs.kotest.runner.junit5)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

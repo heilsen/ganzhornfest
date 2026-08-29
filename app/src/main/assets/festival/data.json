@@ -573,7 +573,22 @@
     },
     {
       "id": 301,
-      "name": "WC",
+      "name": "WC (Engelgasse)",
+      "typeId": 4
+    },
+    {
+      "id": 302,
+      "name": "WC (Stadtmauer)",
+      "typeId": 4
+    },
+    {
+      "id": 303,
+      "name": "WC (Urbanstraße)",
+      "typeId": 4
+    },
+    {
+      "id": 304,
+      "name": "WC (Schindlerstraße)",
       "typeId": 4
     },
     {
@@ -800,26 +815,6 @@
     },
     {
       "id": null,
-      "poiId": 301,
-      "coordinateId": 301
-    },
-    {
-      "id": null,
-      "poiId": 301,
-      "coordinateId": 302
-    },
-    {
-      "id": null,
-      "poiId": 301,
-      "coordinateId": 303
-    },
-    {
-      "id": null,
-      "poiId": 301,
-      "coordinateId": 304
-    },
-    {
-      "id": null,
       "poiId": 401,
       "coordinateId": 401
     },
@@ -827,6 +822,26 @@
       "id": null,
       "poiId": 501,
       "coordinateId": 501
+    },
+    {
+      "id": null,
+      "poiId": 301,
+      "coordinateId": 301
+    },
+    {
+      "id": null,
+      "poiId": 302,
+      "coordinateId": 302
+    },
+    {
+      "id": null,
+      "poiId": 303,
+      "coordinateId": 303
+    },
+    {
+      "id": null,
+      "poiId": 304,
+      "coordinateId": 304
     }
   ],
   "offers": [

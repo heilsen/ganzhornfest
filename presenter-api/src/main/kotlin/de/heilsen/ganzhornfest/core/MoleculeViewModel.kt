@@ -16,7 +16,10 @@ abstract class MoleculeViewModel<Event, Model> : ViewModel() {
 
     // Events have a capacity large enough to handle simultaneous UI events, but
     // small enough to surface issues if they get backed up for some reason.
-    private val events = MutableSharedFlow<Event>(extraBufferCapacity = 20)
+    // replay = 1 because the molecule subscribes asynchronously on first access to models.
+    // An event taken before that would otherwise be dropped. The molecule subscribes once
+    // per instance, so the replayed event is delivered once, not on every resubscribe.
+    private val events = MutableSharedFlow<Event>(replay = 1, extraBufferCapacity = 20)
 
     val models: StateFlow<Model> by lazy(LazyThreadSafetyMode.NONE) {
         scope.launchMolecule(mode = RecompositionMode.ContextClock) {
