@@ -1,10 +1,12 @@
 package de.heilsen.ganzhornfest.bus
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import de.heilsen.ganzhornfest.core.CrashReporter
 import de.heilsen.ganzhornfest.core.GetOpeningDaysUseCase
 import de.heilsen.ganzhornfest.core.SelectDefaultDateUseCase
 import dev.zacsweers.metro.Inject
@@ -25,6 +27,7 @@ class BusPresenter
         private val getDepartures: GetBusConnectionsUseCase,
         selectDefaultDate: SelectDefaultDateUseCase,
         getOpeningDays: GetOpeningDaysUseCase,
+        private val crashReporter: CrashReporter,
     ) {
         private var destination: String by mutableStateOf("Amorbach")
         private val destinations: PersistentList<String> = persistentListOf("Amorbach", "Dahenfeld", "Neuberg", "Obereisesheim")
@@ -41,6 +44,9 @@ class BusPresenter
                 BusEvent.Init -> {
                     // no-op
                 }
+            }
+            LaunchedEffect(destination) {
+                crashReporter.setCustomKey("bus_destination", destination)
             }
             val start = departureDate.atTime(19, 0)
             val end = departureDate.plus(1, DateTimeUnit.DAY).atTime(3, 0)

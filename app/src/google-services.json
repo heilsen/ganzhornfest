@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "463768225748",
+    "project_id": "heilsen-ganzhornfest",
+    "storage_bucket": "heilsen-ganzhornfest.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463768225748:android:687d9c6e22e805a7ebf841",
+        "android_client_info": {
+          "package_name": "de.heilsen.ganzhornfest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe9XcSjoWOop0Ng_7iK4crMo6O79HgkwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463768225748:android:3843d9ee208fafc0ebf841",
+        "android_client_info": {
+          "package_name": "de.heilsen.ganzhornfest.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe9XcSjoWOop0Ng_7iK4crMo6O79HgkwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
