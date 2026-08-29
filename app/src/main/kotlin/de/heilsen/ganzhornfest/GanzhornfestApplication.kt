@@ -1,6 +1,8 @@
 package de.heilsen.ganzhornfest
 
 import android.app.Application
+import de.heilsen.ganzhornfest.core.CrashReporter
+import de.heilsen.ganzhornfest.database.GanzhornfestDb
 import de.heilsen.ganzhornfest.di.AppComponent
 import de.heilsen.ganzhornfest.di.AppComponentProvider
 import de.heilsen.ganzhornfest.di.appGraph
@@ -28,11 +30,15 @@ class GanzhornfestApplication :
     @Inject
     lateinit var festivalDataSeeder: FestivalDataSeeder
 
+    @Inject
+    lateinit var crashReporter: CrashReporter
+
     override fun onCreate() {
         super.onCreate()
         val entrypoint: EntryPoint by appGraph
         entrypoint.inject(this)
         Timber.plant(*timberTrees.toTypedArray())
+        crashReporter.setCustomKey("db_schema_version", GanzhornfestDb.Schema.version.toString())
         festivalDataSeeder.seedIfNeeded()
         initializeMapsRenderer(this)
     }
