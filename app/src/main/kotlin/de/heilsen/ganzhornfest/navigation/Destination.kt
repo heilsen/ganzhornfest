@@ -5,9 +5,6 @@ import kotlinx.serialization.Serializable
 
 sealed interface Destination {
     @Serializable
-    data object Home : Destination
-
-    @Serializable
     data object Map : Destination
 
     @Serializable
