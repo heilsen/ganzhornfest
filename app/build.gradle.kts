@@ -128,7 +128,6 @@ dependencies {
     implementation(project(":info-api"))
     implementation(project(":map"))
     implementation(project(":program"))
-    implementation(project(":feature:countdown"))
     implementation(project(":theme"))
 
     implementation(libs.javax.inject)

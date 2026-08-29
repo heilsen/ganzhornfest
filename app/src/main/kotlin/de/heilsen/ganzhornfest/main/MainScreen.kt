@@ -1,9 +1,6 @@
 package de.heilsen.ganzhornfest.main
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +15,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,8 +34,6 @@ import de.heilsen.ganzhornfest.BuildConfig
 import de.heilsen.ganzhornfest.R
 import de.heilsen.ganzhornfest.bus.BusScreen
 import de.heilsen.ganzhornfest.bus.BusViewModel
-import de.heilsen.ganzhornfest.countdown.CountdownScreen
-import de.heilsen.ganzhornfest.countdown.CountdownViewModel
 import de.heilsen.ganzhornfest.detail.DetailEvent
 import de.heilsen.ganzhornfest.detail.DetailScreen
 import de.heilsen.ganzhornfest.detail.DetailType
@@ -64,7 +58,6 @@ interface EntryPoint {
     val mapViewModel: MapViewModel
     val searchViewModel: SearchViewModel
     val detailViewModel: DetailViewModel
-    val countdownViewModel: CountdownViewModel
 }
 
 @Preview(name = "Light Mode")
@@ -75,12 +68,6 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val showBottomBar by remember {
-        derivedStateOf {
-            navBackStackEntry?.destination?.hasRoute<Destination.Home>() == false
-        }
-    }
-
     val entryPoint: EntryPoint by rememberAppGraph()
     val busViewModel: BusViewModel = entryPoint.busViewModel
     val programViewModel: ProgramViewModel = entryPoint.programViewModel
@@ -88,99 +75,81 @@ fun MainScreen() {
     // Unscoped Metro injection. Remember so the search session survives Map leaving composition.
     val searchViewModel = remember { entryPoint.searchViewModel }
     val detailViewModel: DetailViewModel = entryPoint.detailViewModel
-    val countdownViewModel: CountdownViewModel = entryPoint.countdownViewModel
 
     GanzhornfestTheme {
         Scaffold(
             bottomBar = {
-                AnimatedVisibility(
-                    visible = showBottomBar,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
-                ) {
-                    NavigationBar {
-                        NavigationBarItem(
-                            currentDestination?.hasRoute<Destination.Info>() ?: false,
-                            icon = {
-                                Icon(Icons.Default.Info, stringResource(R.string.info))
-                            },
-                            onClick = {
-                                navController.navigate(Destination.Info) {
-                                    popUpTo(Destination.Map) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            label = { Text(stringResource(R.string.info)) },
-                        )
-                        NavigationBarItem(
-                            currentDestination?.hasRoute<Destination.Map>() ?: false,
-                            icon = {
-                                Icon(Icons.Default.LocationOn, stringResource(R.string.map))
-                            },
-                            onClick = {
-                                navController.navigate(Destination.Map) {
-                                    popUpTo(Destination.Map) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            label = { Text(stringResource(R.string.map)) },
-                        )
-                        NavigationBarItem(
-                            currentDestination?.hasRoute<Destination.Program>() ?: false,
-                            icon = {
-                                Icon(Icons.Default.DateRange, stringResource(R.string.program))
-                            },
-                            onClick = {
-                                navController.navigate(Destination.Program) {
-                                    popUpTo(Destination.Map) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            label = { Text(stringResource(R.string.program)) },
-                        )
-                        NavigationBarItem(
-                            currentDestination?.hasRoute<Destination.Bus>() ?: false,
-                            icon = {
-                                Icon(
-                                    ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
-                                    stringResource(R.string.bustimes),
-                                )
-                            },
-                            onClick = {
-                                navController.navigate(Destination.Bus) {
-                                    popUpTo(Destination.Map) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            label = { Text(stringResource(R.string.bustimes)) },
-                        )
-                    }
+                NavigationBar {
+                    NavigationBarItem(
+                        currentDestination?.hasRoute<Destination.Info>() ?: false,
+                        icon = {
+                            Icon(Icons.Default.Info, stringResource(R.string.info))
+                        },
+                        onClick = {
+                            navController.navigate(Destination.Info) {
+                                popUpTo(Destination.Map) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        label = { Text(stringResource(R.string.info)) },
+                    )
+                    NavigationBarItem(
+                        currentDestination?.hasRoute<Destination.Map>() ?: false,
+                        icon = {
+                            Icon(Icons.Default.LocationOn, stringResource(R.string.map))
+                        },
+                        onClick = {
+                            navController.navigate(Destination.Map) {
+                                popUpTo(Destination.Map) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        label = { Text(stringResource(R.string.map)) },
+                    )
+                    NavigationBarItem(
+                        currentDestination?.hasRoute<Destination.Program>() ?: false,
+                        icon = {
+                            Icon(Icons.Default.DateRange, stringResource(R.string.program))
+                        },
+                        onClick = {
+                            navController.navigate(Destination.Program) {
+                                popUpTo(Destination.Map) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        label = { Text(stringResource(R.string.program)) },
+                    )
+                    NavigationBarItem(
+                        currentDestination?.hasRoute<Destination.Bus>() ?: false,
+                        icon = {
+                            Icon(
+                                ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
+                                stringResource(R.string.bustimes),
+                            )
+                        },
+                        onClick = {
+                            navController.navigate(Destination.Bus) {
+                                popUpTo(Destination.Map) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        label = { Text(stringResource(R.string.bustimes)) },
+                    )
                 }
             },
         ) { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = Destination.Home,
+                startDestination = Destination.Map,
                 modifier =
                     Modifier
                         .padding(innerPadding)
                         .consumeWindowInsets(innerPadding),
             ) {
-                composable<Destination.Home> {
-                    val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
-                    CountdownScreen(
-                        model = countdownModel,
-                        onEnterApp = {
-                            navController.navigate(Destination.Map) {
-                                popUpTo(Destination.Home) { inclusive = true }
-                            }
-                        },
-                    )
-                }
                 composable<Destination.Map> {
                     val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
                     val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
