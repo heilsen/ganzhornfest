@@ -58,8 +58,8 @@
   - Add indexes for frequent lookups used by search and other list/detail flows
   - Add migration tests for SQLDelight
 
-- [ ] Improve info/statistics queries
-  - Add the missing count queries needed for `InfoScreen` instead of manually maintained numbers
+- [x] Improve info/statistics queries
+  - [x] Add the missing count queries needed for `InfoScreen` instead of manually maintained numbers
 
 ## Quality, Tooling, And Release
 
