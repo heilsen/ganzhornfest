@@ -84,7 +84,6 @@
   - Rewrite the README to describe the current Kotlin/Compose/SQLDelight app instead of the old Ionic/Cordova stack
 
 - [ ] Improve release readiness and privacy
-  - Add crash reporting with explicit privacy handling
   - Standardize logging and avoid sensitive logs in release builds
 
 - [ ] Finish resource, accessibility, and preview coverage

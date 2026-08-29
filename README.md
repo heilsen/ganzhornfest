@@ -33,7 +33,6 @@ The app provides festival information in German, including:
 - `:map` - map and detail flows
 - `:program` - festival program feature
 - `:bus-api`, `:bus-impl` - bus feature
-- `:feature:countdown` - countdown feature, the cleanest module template
 - `:feature:search-api`, `:feature:search-impl` - search feature
 - `:info-api` - info screen surface
 - `:di-api` - DI scopes and component access helpers
@@ -86,7 +85,7 @@ Metro (`dev.zacsweers.metro`), a compiler plugin DI framework. Not Dagger, Hilt,
 
 ### Adding A Feature
 
-`:feature:countdown` is the cleanest template. A feature module usually holds:
+`:feature:search-api` and `:feature:search-impl` are the cleanest template. A feature module usually holds:
 
 - a `Model` sealed interface
 - a `UseCase` with a unit test

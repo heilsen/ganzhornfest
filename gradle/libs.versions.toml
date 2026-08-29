@@ -16,7 +16,10 @@ compose-lint-checks = "1.4.2"
 compose-ui-tooling = "1.8.3"
 desugar-jdk-libs = "2.1.5"
 espresso-core = "3.7.0"
+firebase-bom = "34.18.0"
+firebase-crashlytics-plugin = "3.0.8"
 google-maps-compose = "6.7.1"
+google-services = "4.5.0"
 junit-version = "4.13.2"
 kotest-runner-junit5 = "5.9.1"
 kotlin-plugin = "2.2.20"
@@ -37,6 +40,8 @@ turbine = "1.2.1"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-plugin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-plugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-plugin" }
 metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
@@ -66,6 +71,8 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-ui-tooling" }
 compose-lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "compose-lint-checks" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "google-maps-compose" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 junit = { group = "junit", name = "junit", version.ref = "junit-version" }

@@ -1,9 +1,6 @@
 package de.heilsen.ganzhornfest.main
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
@@ -57,8 +54,6 @@ import de.heilsen.ganzhornfest.BuildConfig
 import de.heilsen.ganzhornfest.R
 import de.heilsen.ganzhornfest.bus.BusScreen
 import de.heilsen.ganzhornfest.bus.BusViewModel
-import de.heilsen.ganzhornfest.countdown.CountdownScreen
-import de.heilsen.ganzhornfest.countdown.CountdownViewModel
 import de.heilsen.ganzhornfest.detail.DetailEvent
 import de.heilsen.ganzhornfest.detail.DetailModel
 import de.heilsen.ganzhornfest.detail.DetailScreen
@@ -91,7 +86,6 @@ interface EntryPoint {
     val mapViewModel: MapViewModel
     val searchViewModel: SearchViewModel
     val detailViewModel: DetailViewModel
-    val countdownViewModel: CountdownViewModel
 }
 
 @Preview(name = "Light Mode")
@@ -102,11 +96,6 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val showBottomBar by remember {
-        derivedStateOf {
-            navBackStackEntry?.destination?.hasRoute<Destination.Home>() == false
-        }
-    }
     val isMapSurface by remember {
         derivedStateOf {
             val dest = navBackStackEntry?.destination
@@ -124,80 +113,73 @@ fun MainScreen() {
     // Same reason. A fresh instance per recomposition would lose the model the sheet reads,
     // since the detail event is only pushed when the route changes.
     val detailViewModel: DetailViewModel = remember { entryPoint.detailViewModel }
-    val countdownViewModel: CountdownViewModel = entryPoint.countdownViewModel
 
     GanzhornfestTheme {
         Scaffold(
             bottomBar = {
-                AnimatedVisibility(
-                    visible = showBottomBar,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
-                ) {
-                    NavigationBar {
-                        NavigationBarItem(
-                            currentDestination?.hasRoute<Destination.Info>() ?: false,
-                            icon = {
-                                Icon(Icons.Default.Info, stringResource(R.string.info))
-                            },
-                            onClick = {
-                                navController.navigate(Destination.Info) {
-                                    popUpTo(Destination.Map) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            label = { Text(stringResource(R.string.info)) },
-                        )
-                        NavigationBarItem(
-                            isMapSurface,
-                            icon = {
-                                Icon(Icons.Default.LocationOn, stringResource(R.string.map))
-                            },
-                            onClick = {
-                                // Detail sits on the map surface, so this tab is already
-                                // selected while a detail is open. Tapping it means "back to
-                                // the plain map". Restoring state here would put the saved
-                                // detail, or whatever was pushed on top of it, straight back.
-                                navController.navigate(Destination.Map) {
-                                    popUpTo(Destination.Map)
-                                    launchSingleTop = true
-                                }
-                            },
-                            label = { Text(stringResource(R.string.map)) },
-                        )
-                        NavigationBarItem(
-                            currentDestination?.hasRoute<Destination.Program>() ?: false,
-                            icon = {
-                                Icon(Icons.Default.DateRange, stringResource(R.string.program))
-                            },
-                            onClick = {
-                                navController.navigate(Destination.Program) {
-                                    popUpTo(Destination.Map) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            label = { Text(stringResource(R.string.program)) },
-                        )
-                        NavigationBarItem(
-                            currentDestination?.hasRoute<Destination.Bus>() ?: false,
-                            icon = {
-                                Icon(
-                                    ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
-                                    stringResource(R.string.bustimes),
-                                )
-                            },
-                            onClick = {
-                                navController.navigate(Destination.Bus) {
-                                    popUpTo(Destination.Map) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            label = { Text(stringResource(R.string.bustimes)) },
-                        )
-                    }
+                NavigationBar {
+                    NavigationBarItem(
+                        currentDestination?.hasRoute<Destination.Info>() ?: false,
+                        icon = {
+                            Icon(Icons.Default.Info, stringResource(R.string.info))
+                        },
+                        onClick = {
+                            navController.navigate(Destination.Info) {
+                                popUpTo(Destination.Map) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        label = { Text(stringResource(R.string.info)) },
+                    )
+                    NavigationBarItem(
+                        isMapSurface,
+                        icon = {
+                            Icon(Icons.Default.LocationOn, stringResource(R.string.map))
+                        },
+                        onClick = {
+                            // Detail sits on the map surface, so this tab is already
+                            // selected while a detail is open. Tapping it means "back to
+                            // the plain map". Restoring state here would put the saved
+                            // detail, or whatever was pushed on top of it, straight back.
+                            navController.navigate(Destination.Map) {
+                                popUpTo(Destination.Map)
+                                launchSingleTop = true
+                            }
+                        },
+                        label = { Text(stringResource(R.string.map)) },
+                    )
+                    NavigationBarItem(
+                        currentDestination?.hasRoute<Destination.Program>() ?: false,
+                        icon = {
+                            Icon(Icons.Default.DateRange, stringResource(R.string.program))
+                        },
+                        onClick = {
+                            navController.navigate(Destination.Program) {
+                                popUpTo(Destination.Map) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        label = { Text(stringResource(R.string.program)) },
+                    )
+                    NavigationBarItem(
+                        currentDestination?.hasRoute<Destination.Bus>() ?: false,
+                        icon = {
+                            Icon(
+                                ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
+                                stringResource(R.string.bustimes),
+                            )
+                        },
+                        onClick = {
+                            navController.navigate(Destination.Bus) {
+                                popUpTo(Destination.Map) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        label = { Text(stringResource(R.string.bustimes)) },
+                    )
                 }
             },
         ) { innerPadding ->
@@ -209,20 +191,9 @@ fun MainScreen() {
             ) {
                 NavHost(
                     navController = navController,
-                    startDestination = Destination.Home,
+                    startDestination = Destination.Map,
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    composable<Destination.Home> {
-                        val countdownModel by countdownViewModel.models.collectAsStateWithLifecycle()
-                        CountdownScreen(
-                            model = countdownModel,
-                            onEnterApp = {
-                                navController.navigate(Destination.Map) {
-                                    popUpTo(Destination.Home) { inclusive = true }
-                                }
-                            },
-                        )
-                    }
                     composable<Destination.Map> {
                         // UI lives in the map overlay. Keep this destination for back stack.
                     }
