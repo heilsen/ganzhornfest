@@ -8,7 +8,9 @@ sealed interface Destination {
     data object Map : Destination
 
     @Serializable
-    data object Program : Destination
+    data class Program(
+        val stage: String? = null,
+    ) : Destination
 
     @Serializable
     data object Info : Destination

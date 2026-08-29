@@ -20,24 +20,7 @@ import kotlin.time.Instant
 class FestivalDataIntegrityTest :
     StringSpec({
         "every foreign key in the shipped seed data resolves" {
-            val classLoader = checkNotNull(FestivalDataIntegrityTest::class.java.classLoader)
-            val manifest =
-                Json { ignoreUnknownKeys = true }
-                    .decodeFromStream<Manifest>(
-                        checkNotNull(classLoader.getResourceAsStream("festival/manifest.json")),
-                    )
-            val json =
-                Json {
-                    ignoreUnknownKeys = true
-                    serializersModule =
-                        SerializersModule {
-                            contextual(Instant::class, FestivalInstantSerializer(manifest.year, manifest.timezone))
-                        }
-                }
-            val data =
-                json.decodeFromStream<FestivalData>(
-                    checkNotNull(classLoader.getResourceAsStream("festival/data.json")),
-                )
+            val data = loadFestivalData()
 
             val poiTypeIds = data.poiTypes.map { it.id }.toSet()
             val offerTypeIds = data.offerTypes.map { it.id }.toSet()
@@ -79,4 +62,37 @@ class FestivalDataIntegrityTest :
 
             problems shouldBe emptyList()
         }
+
+        // The stage marker to Programmplan deep link matches an EVENT_LOCATION marker title
+        // against a "Bühne" dropdown entry by exact string. GetMarkersUseCase tags a marker
+        // EVENT_LOCATION by the poiType name "event location". Poi.sq selectStages fills that
+        // dropdown from poi rows with the hardcoded typeId = 2. Renumber the seed and stage
+        // markers silently stop matching dropdown entries, with no compile error.
+        "stage pois keep the type id and name that map markers and selectStages both depend on" {
+            val data = loadFestivalData()
+
+            val eventLocation = data.poiTypes.single { it.name == "event location" }
+
+            eventLocation.id shouldBe 2L
+        }
     })
+
+private fun loadFestivalData(): FestivalData {
+    val classLoader = checkNotNull(FestivalDataIntegrityTest::class.java.classLoader)
+    val manifest =
+        Json { ignoreUnknownKeys = true }
+            .decodeFromStream<Manifest>(
+                checkNotNull(classLoader.getResourceAsStream("festival/manifest.json")),
+            )
+    val json =
+        Json {
+            ignoreUnknownKeys = true
+            serializersModule =
+                SerializersModule {
+                    contextual(Instant::class, FestivalInstantSerializer(manifest.year, manifest.timezone))
+                }
+        }
+    return json.decodeFromStream(
+        checkNotNull(classLoader.getResourceAsStream("festival/data.json")),
+    )
+}

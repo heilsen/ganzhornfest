@@ -68,6 +68,7 @@ import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.map.MapViewModel
 import de.heilsen.ganzhornfest.map.MarkerUiType
 import de.heilsen.ganzhornfest.navigation.Destination
+import de.heilsen.ganzhornfest.program.ProgramEvent
 import de.heilsen.ganzhornfest.program.ProgramScreen
 import de.heilsen.ganzhornfest.program.ProgramViewModel
 import de.heilsen.ganzhornfest.search.Category
@@ -155,7 +156,7 @@ fun MainScreen() {
                             Icon(Icons.Default.DateRange, stringResource(R.string.program))
                         },
                         onClick = {
-                            navController.navigate(Destination.Program) {
+                            navController.navigate(Destination.Program()) {
                                 popUpTo(Destination.Map) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
@@ -210,7 +211,11 @@ fun MainScreen() {
                             detailViewModel.take(detailEvent)
                         }
                     }
-                    composable<Destination.Program> {
+                    composable<Destination.Program> { navBackStackEntry ->
+                        val route: Destination.Program = navBackStackEntry.toRoute()
+                        LaunchedEffect(programViewModel, route.stage) {
+                            route.stage?.let { programViewModel.take(ProgramEvent.ChangeLocation(it)) }
+                        }
                         val programModel by programViewModel.models.collectAsStateWithLifecycle()
                         ProgramScreen(
                             programModel,
@@ -422,7 +427,7 @@ private fun MapPane(
                     }
                     MarkerUiType.EVENT_LOCATION,
                     MarkerUiType.PLAYGROUND,
-                    -> navController.navigate(Destination.Program)
+                    -> navController.navigate(Destination.Program(title))
                     MarkerUiType.BUS_STOP -> navController.navigate(Destination.Bus)
                     MarkerUiType.ATTRACTION,
                     MarkerUiType.WC,
