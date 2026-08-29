@@ -2,10 +2,12 @@ package de.heilsen.ganzhornfest.map
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,7 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -37,7 +41,18 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.maps.android.compose.rememberMarkerState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
+import de.heilsen.ganzhornfest.theme.isSidePanelLayout
+import kotlinx.collections.immutable.ImmutableSet
+import kotlinx.collections.immutable.toPersistentSet
+import android.graphics.Color as AndroidColor
+
+// Wide enough for the Standort dropdown and the apply row without crowding the map.
+private val EDITOR_PANE_WIDTH = 360.dp
+
+// Small enough that the tap target stays close to the dot you see. A wider pin covers
+// neighbouring stands, which sit a median 11m apart.
+private val PIN_DIAMETER = 16.dp
 
 @PreviewLightDark
 @Composable
@@ -49,10 +64,12 @@ fun MapScreen(
     onEvent: (MapEvent) -> Unit = {},
     showPinEditorToggle: Boolean = false,
     mapBottomPadding: Dp = 8.dp,
+    // Hoisted so the host can hide chrome that would otherwise sit over the editor panel.
+    pinEditorOpen: Boolean = false,
+    onPinEditorOpenChange: (Boolean) -> Unit = {},
 ) {
     when (mapModel) {
         is MapModel.Data -> {
-            var editorOpen by remember { mutableStateOf(false) }
             var selectedPoiId by remember { mutableStateOf<Long?>(null) }
             var selectedCoordinateId by remember { mutableStateOf<Long?>(null) }
             val selectedPin =
@@ -60,14 +77,14 @@ fun MapScreen(
                     pin.poiId == selectedPoiId && pin.coordinateId == selectedCoordinateId
                 } ?: mapModel.pins.firstOrNull()
             val pinEditor =
-                if (editorOpen && showPinEditorToggle) {
+                if (pinEditorOpen && showPinEditorToggle) {
                     PinEditorModel(pins = mapModel.pins, selected = selectedPin)
                 } else {
                     null
                 }
             LaunchedEffect(showPinEditorToggle) {
                 if (!showPinEditorToggle) {
-                    editorOpen = false
+                    onPinEditorOpenChange(false)
                 }
             }
             val center = LatLng(49.191669847836216, 9.222756134219502)
@@ -78,18 +95,6 @@ fun MapScreen(
             LaunchedEffect(pinEditor?.selected?.poiId, pinEditor?.selected?.coordinateId) {
                 val target = pinEditor?.selected?.latLng ?: return@LaunchedEffect
                 cameraPositionState.animate(CameraUpdateFactory.newLatLngZoom(target, 19f))
-            }
-            LaunchedEffect(mapModel.markers) {
-                if (mapModel.isFullscreen || mapModel.markers.isEmpty() || pinEditor != null) return@LaunchedEffect
-                val update =
-                    if (mapModel.markers.size == 1) {
-                        CameraUpdateFactory.newLatLngZoom(mapModel.markers.first().latLng, 18f)
-                    } else {
-                        val bounds = LatLngBounds.Builder()
-                        mapModel.markers.forEach { bounds.include(it.latLng) }
-                        CameraUpdateFactory.newLatLngBounds(bounds.build(), 100)
-                    }
-                cameraPositionState.move(update)
             }
             LaunchedEffect(highlightedTitles, mapModel.markers) {
                 val titles = highlightedTitles ?: return@LaunchedEffect
@@ -106,57 +111,104 @@ fun MapScreen(
                     }
                 cameraPositionState.animate(update)
             }
-            Column(modifier = modifier.fillMaxSize()) {
-                if (showPinEditorToggle && pinEditor == null) {
-                    Row(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = if (mapModel.isFullscreen) 72.dp else 0.dp)
-                                .padding(horizontal = 8.dp, vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Spacer(Modifier.weight(1f))
-                        Button(onClick = { editorOpen = true }) {
-                            Text("Standorte korrigieren")
-                        }
+            // The editor panel needs about 260dp, which a short window cannot spare under the
+            // map. A wide window has room beside it either way.
+            val sidePanel = isSidePanelLayout()
+
+            MapEditorLayout(
+                sideBySide = sidePanel,
+                showPanel = pinEditor != null,
+                modifier = modifier,
+                panel = { panelModifier ->
+                    if (pinEditor != null) {
+                        PinEditorPanel(
+                            pinEditor = pinEditor,
+                            previewLatLng = cameraPositionState.position.target,
+                            onSelectPin = { pin ->
+                                selectedPoiId = pin.poiId
+                                selectedCoordinateId = pin.coordinateId
+                            },
+                            onApply = { coordinateId ->
+                                val target = cameraPositionState.position.target
+                                onEvent(
+                                    MapEvent.ApplyLatLng(
+                                        coordinateId,
+                                        target.latitude,
+                                        target.longitude,
+                                    ),
+                                )
+                            },
+                            onClose = { onPinEditorOpenChange(false) },
+                            modifier = panelModifier,
+                        )
                     }
-                }
-                Box(Modifier.weight(1f).fillMaxWidth()) {
+                },
+            ) { mapModifier ->
+                Box(mapModifier) {
                     val ganzhornfestArea =
                         LatLngBounds(
                             LatLng(49.18859845006538, 9.219649084689227),
                             LatLng(49.19498798073398, 9.225975728423913),
                         )
-                    var labeledTitle by remember { mutableStateOf<String?>(null) }
+                    // The only marker whose info window is open, identified by its LatLng since
+                    // a club with two stands, such as DLRG, has two markers under one title.
+                    var openInfoMarker by remember { mutableStateOf<LatLng?>(null) }
+                    LaunchedEffect(highlightedTitles, mapModel.markers) {
+                        val titles = highlightedTitles
+                        openInfoMarker =
+                            if (titles == null) {
+                                null
+                            } else {
+                                // Only auto-open when exactly one marker matches. Several markers
+                                // sharing a highlighted title (an offer's clubs, a club with two
+                                // stands) stay unopened instead of racing for the one window.
+                                mapModel.markers.singleOrNull { it.title in titles }?.latLng
+                            }
+                    }
+                    val pinSizePx = with(LocalDensity.current) { PIN_DIAMETER.roundToPx() }
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
                         cameraPositionState = cameraPositionState,
+                        // Maps centres the camera target in the non-padded region, but the
+                        // crosshair is drawn at the geometric centre. Any padding would offset
+                        // the applied coordinate from what the crosshair points at.
                         contentPadding =
-                            PaddingValues(
-                                top = if (mapModel.isFullscreen) 72.dp else 0.dp,
-                                bottom = mapBottomPadding,
-                            ),
+                            if (pinEditor != null) {
+                                PaddingValues(0.dp)
+                            } else {
+                                PaddingValues(
+                                    top = if (mapModel.isFullscreen) 72.dp else 0.dp,
+                                    bottom = mapBottomPadding,
+                                )
+                            },
                         properties =
                             MapProperties(
                                 mapType = MapType.HYBRID,
                                 minZoomPreference = 16f,
                                 latLngBoundsForCameraTarget = ganzhornfestArea,
                             ),
-                        onMapClick = { labeledTitle = null },
+                        onMapClick = { openInfoMarker = null },
                     ) {
                         for (marker in mapModel.markers) {
-                            val markerState = rememberMarkerState(position = marker.latLng)
+                            val markerState = rememberUpdatedMarkerState(position = marker.latLng)
                             val emphasis = resolvePinEmphasis(marker.title, highlightedTitles)
+                            LaunchedEffect(openInfoMarker, marker.latLng) {
+                                if (openInfoMarker == marker.latLng) {
+                                    markerState.showInfoWindow()
+                                } else {
+                                    markerState.hideInfoWindow()
+                                }
+                            }
                             Marker(
                                 state = markerState,
                                 title = marker.title,
-                                icon = PinBitmapFactory.icon(marker.markerUiType, emphasis),
-                                alpha = if (emphasis == PinEmphasis.Dimmed) 0.35f else 1f,
+                                icon = PinBitmapFactory.icon(marker.markerUiType, pinSizePx),
+                                anchor = Offset(0.5f, 0.5f),
+                                alpha = if (emphasis == PinEmphasis.Dimmed) 0.4f else 1f,
                                 zIndex =
                                     when (emphasis) {
                                         PinEmphasis.Highlighted -> 2f
-                                        PinEmphasis.Default -> if (marker.markerUiType.isActionable()) 1f else 0f
+                                        PinEmphasis.Default -> 1f
                                         PinEmphasis.Dimmed -> 0f
                                     },
                                 onClick = {
@@ -169,14 +221,22 @@ fun MapScreen(
                                             selectedPoiId = pin.poiId
                                             selectedCoordinateId = pin.coordinateId
                                         }
-                                        true
-                                    } else if (marker.markerUiType.isActionable()) {
-                                        labeledTitle = null
-                                        onMarkerSelected(marker.title, marker.markerUiType)
-                                        true
                                     } else {
-                                        labeledTitle = marker.title
-                                        true
+                                        // Dimmed pins stay tappable. Dimming says "not part of
+                                        // what you asked for", not "unavailable", and zIndex
+                                        // already lets a highlighted pin win an overlap.
+                                        openInfoMarker = marker.latLng
+                                    }
+                                    true
+                                },
+                                onInfoWindowClick = {
+                                    if (pinEditor == null) {
+                                        onMarkerSelected(marker.title, marker.markerUiType)
+                                    }
+                                },
+                                onInfoWindowClose = {
+                                    if (openInfoMarker == marker.latLng) {
+                                        openInfoMarker = null
                                     }
                                 },
                             )
@@ -185,8 +245,23 @@ fun MapScreen(
                     if (pinEditor != null) {
                         Crosshair(modifier = Modifier.align(Alignment.Center))
                     }
+                    // Overlaid rather than stacked above the map. In a Column it cost the map
+                    // its own height, which leaves almost nothing on a compact height window.
+                    if (showPinEditorToggle && pinEditor == null) {
+                        Button(
+                            onClick = { onPinEditorOpenChange(true) },
+                            modifier =
+                                Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(top = if (mapModel.isFullscreen) 72.dp else 0.dp)
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                        ) {
+                            Text("Standorte korrigieren")
+                        }
+                    }
                     if (mapModel.showLegend && pinEditor == null) {
                         Legend(
+                            types = mapModel.markers.map { it.markerUiType }.toPersistentSet(),
                             modifier =
                                 if (highlightedTitles != null) {
                                     Modifier
@@ -199,54 +274,41 @@ fun MapScreen(
                                 },
                         )
                     }
-                    if (labeledTitle != null && pinEditor == null) {
-                        Surface(
-                            modifier =
-                                Modifier
-                                    .align(Alignment.BottomCenter)
-                                    .padding(
-                                        bottom = mapBottomPadding + 8.dp,
-                                        start = 8.dp,
-                                        end = 8.dp,
-                                    ),
-                            shape = MaterialTheme.shapes.small,
-                            color = MaterialTheme.colorScheme.surface,
-                            shadowElevation = 4.dp,
-                        ) {
-                            Text(
-                                text = labeledTitle!!,
-                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                                style = MaterialTheme.typography.titleSmall,
-                            )
-                        }
-                    }
-                }
-                if (pinEditor != null) {
-                    PinEditorPanel(
-                        pinEditor = pinEditor,
-                        previewLatLng = cameraPositionState.position.target,
-                        onSelectPin = { pin ->
-                            selectedPoiId = pin.poiId
-                            selectedCoordinateId = pin.coordinateId
-                        },
-                        onApply = { coordinateId ->
-                            val target = cameraPositionState.position.target
-                            onEvent(
-                                MapEvent.ApplyLatLng(
-                                    coordinateId,
-                                    target.latitude,
-                                    target.longitude,
-                                ),
-                            )
-                        },
-                        onClose = { editorOpen = false },
-                    )
                 }
             }
         }
 
         is MapModel.Loading -> {
             // TODO("implement loading")
+        }
+    }
+}
+
+// Two slots so the map keeps its enclosing scope. Extracting it would mean threading about
+// ten parameters through just to reuse it in both arrangements.
+@Composable
+private fun MapEditorLayout(
+    sideBySide: Boolean,
+    showPanel: Boolean,
+    panel: @Composable (Modifier) -> Unit,
+    modifier: Modifier = Modifier,
+    map: @Composable (Modifier) -> Unit,
+) {
+    if (sideBySide && showPanel) {
+        BoxWithConstraints(modifier.fillMaxSize()) {
+            // Keep the map at least half the width on a narrow two pane window.
+            val paneWidth = minOf(EDITOR_PANE_WIDTH, maxWidth / 2)
+            Row(Modifier.fillMaxSize()) {
+                map(Modifier.weight(1f).fillMaxHeight())
+                panel(Modifier.width(paneWidth).fillMaxHeight())
+            }
+        }
+    } else {
+        Column(modifier.fillMaxSize()) {
+            map(Modifier.weight(1f).fillMaxWidth())
+            if (showPanel) {
+                panel(Modifier.fillMaxWidth())
+            }
         }
     }
 }
@@ -270,66 +332,24 @@ private fun Crosshair(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Legend(modifier: Modifier = Modifier) {
+fun Legend(
+    types: ImmutableSet<MarkerUiType>,
+    modifier: Modifier = Modifier,
+) {
     Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.small,
         color = MaterialTheme.colorScheme.surfaceVariant,
     ) {
         Column(Modifier.padding(4.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    Modifier
-                        .size(8.dp)
-                        .background(Color(0xFFFF08F2)),
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Veranstaltungsort", style = MaterialTheme.typography.labelSmall)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    Modifier
-                        .size(8.dp)
-                        .background(Color(0xFF9C2CF3)),
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Stand", style = MaterialTheme.typography.labelSmall)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    Modifier
-                        .size(8.dp)
-                        .background(Color(0xFF00C853)),
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Attraktion", style = MaterialTheme.typography.labelSmall)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    Modifier
-                        .size(8.dp)
-                        .background(Color(0xFF0092F1)),
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "WC", style = MaterialTheme.typography.labelSmall)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    Modifier
-                        .size(8.dp)
-                        .background(Color(0xFFFF0827)),
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Erste Hilfe", style = MaterialTheme.typography.labelSmall)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    Modifier
-                        .size(8.dp)
-                        .background(Color(0xFF3535F3)),
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Bus", style = MaterialTheme.typography.labelSmall)
+            for (type in MarkerUiType.entries) {
+                if (type !in types) continue
+                val swatch = Color(AndroidColor.HSVToColor(floatArrayOf(PinBitmapFactory.hueFor(type), 1f, 1f)))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(8.dp).background(swatch))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(text = type.germanLabel(), style = MaterialTheme.typography.labelSmall)
+                }
             }
         }
     }

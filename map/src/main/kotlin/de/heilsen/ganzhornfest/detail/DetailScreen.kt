@@ -2,6 +2,7 @@ package de.heilsen.ganzhornfest.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +27,7 @@ fun DetailScreen(
     modifier: Modifier = Modifier,
 ) {
     if (model !is DetailModel.Success) return
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxSize()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -44,6 +45,8 @@ fun DetailScreen(
             when (model.type) {
                 DetailType.Club -> "Angebot"
                 DetailType.Offer -> "Vereine"
+                DetailType.Poi -> "Kategorie"
+                DetailType.PoiCategory -> "Standorte"
             }
         Text(
             modifier =
@@ -53,7 +56,7 @@ fun DetailScreen(
             text = sectionTitle,
             style = MaterialTheme.typography.titleMedium,
         )
-        LazyColumn {
+        LazyColumn(modifier = Modifier.weight(1f)) {
             items(items = model.items, itemContent = { item ->
                 Card(
                     modifier =
@@ -62,8 +65,10 @@ fun DetailScreen(
                             .padding(horizontal = 8.dp, vertical = 4.dp),
                     onClick = {
                         when (model.type) {
-                            DetailType.Club -> onItemClicked(item.name, DetailType.Offer)
-                            DetailType.Offer -> onItemClicked(item.name, DetailType.Club)
+                            DetailType.Club -> onItemClicked(item.routeKey, DetailType.Offer)
+                            DetailType.Offer -> onItemClicked(item.routeKey, DetailType.Club)
+                            DetailType.Poi -> onItemClicked(item.routeKey, DetailType.PoiCategory)
+                            DetailType.PoiCategory -> onItemClicked(item.routeKey, DetailType.Poi)
                         }
                     },
                 ) {

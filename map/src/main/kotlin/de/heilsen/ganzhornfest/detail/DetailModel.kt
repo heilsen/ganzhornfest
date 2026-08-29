@@ -17,17 +17,20 @@ sealed interface DetailModel {
 
 fun DetailModel.Success.highlightTitles(): ImmutableSet<String> =
     when (type) {
-        DetailType.Club -> persistentSetOf(title)
-        DetailType.Offer -> items.map { it.name }.toPersistentSet()
+        DetailType.Club, DetailType.Poi -> persistentSetOf(title)
+        DetailType.Offer, DetailType.PoiCategory -> items.map { it.name }.toPersistentSet()
     }
 
 data class DetailItem(
     val name: String,
     val description: String? = null,
+    val routeKey: String = name,
 )
 
 @Keep
 enum class DetailType {
     Club,
     Offer,
+    Poi,
+    PoiCategory,
 }

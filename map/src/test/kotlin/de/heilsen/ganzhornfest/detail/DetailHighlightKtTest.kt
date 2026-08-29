@@ -16,6 +16,16 @@ class DetailHighlightKtTest :
             model.highlightTitles() shouldBe persistentSetOf("Sängerbund")
         }
 
+        "poi detail highlights the poi title" {
+            val model =
+                DetailModel.Success(
+                    title = "WC",
+                    type = DetailType.Poi,
+                    items = listOf(DetailItem("WC", routeKey = "WC")),
+                )
+            model.highlightTitles() shouldBe persistentSetOf("WC")
+        }
+
         "offer detail highlights every club in the list" {
             val model =
                 DetailModel.Success(
@@ -24,5 +34,15 @@ class DetailHighlightKtTest :
                     items = listOf(DetailItem("Sängerbund"), DetailItem("Sportverein")),
                 )
             model.highlightTitles() shouldBe persistentSetOf("Sängerbund", "Sportverein")
+        }
+
+        "poi category detail highlights every poi in the list" {
+            val model =
+                DetailModel.Success(
+                    title = "Attraktion",
+                    type = DetailType.PoiCategory,
+                    items = listOf(DetailItem("Karussell"), DetailItem("Blumentombola")),
+                )
+            model.highlightTitles() shouldBe persistentSetOf("Karussell", "Blumentombola")
         }
     })

@@ -26,7 +26,8 @@
 - [ ] Polish map presentation and performance
   - Revisit the default `HYBRID` map type for the main festival map
   - Cache/precompute `MarkerUi.icon` instead of creating a `BitmapDescriptor` on every access
-  - Keep the marker legend aligned with actual marker colors and resource strings
+  - [x] Keep the marker legend colors aligned with the actual marker colors (labels are
+    still hardcoded German strings, not resources, tracked below)
 
 - [ ] Finish Info and Program screen polish
   - Replace hardcoded counts/text in `InfoScreen` with DB-backed values and string resources

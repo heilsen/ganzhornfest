@@ -9,5 +9,13 @@ sealed interface DetailEvent {
         val offerName: String,
     ) : DetailEvent
 
+    data class Poi(
+        val name: String,
+    ) : DetailEvent
+
+    data class PoiCategory(
+        val typeName: String,
+    ) : DetailEvent
+
     data object Init : DetailEvent
 }

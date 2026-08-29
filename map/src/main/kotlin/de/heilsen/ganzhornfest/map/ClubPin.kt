@@ -57,10 +57,8 @@ private val extraPinLabel =
         101L to "B Hauptbühne",
         102L to "C Bühne Karlsplatz",
         201L to "D Karussell",
-        301L to "WC Urban-/Engelstraße",
-        302L to "WC Stadtmauer",
-        303L to "WC Urban-/Schulgasse",
-        304L to "WC Schindlerstraße",
+        // The WC coordinates used to need labels here because every WC poi was called "WC".
+        // They carry their own street name now, so the poi name is enough.
         401L to "A Erste Hilfe (ASB)",
         501L to "ZOB (Ballei)",
     )

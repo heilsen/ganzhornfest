@@ -201,6 +201,7 @@ fun MapSearchBar(
                     onEvent,
                     onSearchResultClicked = { header, category ->
                         onEvent(SearchEvent.OpenResult)
+                        keyboardController?.hide()
                         onSearchResultClicked(header, category)
                     },
                     resourcesProvider,

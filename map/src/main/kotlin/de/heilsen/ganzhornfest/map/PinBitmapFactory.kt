@@ -2,27 +2,24 @@ package de.heilsen.ganzhornfest.map
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Path
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.util.concurrent.ConcurrentHashMap
+import android.graphics.Color as AndroidColor
 
 object PinBitmapFactory {
-    private data class Key(
-        val type: MarkerUiType,
-        val emphasis: PinEmphasis,
-    )
+    private val cache = ConcurrentHashMap<CacheKey, BitmapDescriptor>()
 
-    private val cache = ConcurrentHashMap<Key, BitmapDescriptor>()
-
+    // The stock defaultMarker teardrop is about 27x43dp and anchors at its tip, so its tap
+    // target covers 10x17m of ground at zoom 18 and sits entirely north of the coordinate.
+    // Stands are a median 11m apart, so a pin swallowed taps meant for its neighbour.
     fun icon(
         type: MarkerUiType,
-        emphasis: PinEmphasis,
+        sizePx: Int,
     ): BitmapDescriptor =
-        cache.getOrPut(Key(type, emphasis)) {
-            BitmapDescriptorFactory.fromBitmap(draw(type, emphasis))
+        cache.getOrPut(CacheKey(type, sizePx)) {
+            BitmapDescriptorFactory.fromBitmap(dotBitmap(colorFor(type), sizePx))
         }
 
     internal fun hueFor(type: MarkerUiType): Float =
@@ -36,58 +33,39 @@ object PinBitmapFactory {
             MarkerUiType.BUS_STOP -> BitmapDescriptorFactory.HUE_BLUE
         }
 
-    private fun draw(
-        type: MarkerUiType,
-        emphasis: PinEmphasis,
+    private fun colorFor(type: MarkerUiType): Int = AndroidColor.HSVToColor(floatArrayOf(hueFor(type), 1f, 1f))
+
+    // The white ring keeps the dot readable on the HYBRID aerial imagery.
+    private fun dotBitmap(
+        color: Int,
+        sizePx: Int,
     ): Bitmap {
-        val actionable = type.isActionable()
-        val selected = emphasis == PinEmphasis.Highlighted
-        val scale =
-            when {
-                selected -> 1.15f
-                actionable -> 1f
-                else -> 0.72f
-            }
-        val saturation =
-            when {
-                !actionable && emphasis != PinEmphasis.Highlighted -> 0.45f
-                else -> 1f
-            }
-        val size = (48f * scale).toInt().coerceAtLeast(28)
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+        val centre = sizePx / 2f
+        val ring = sizePx / 8f
+        val radius = centre - ring / 2f
         val canvas = Canvas(bitmap)
-        val cx = size / 2f
-        val cy = size * 0.38f
-        val radius = size * 0.28f
-        val fill = Color.HSVToColor(floatArrayOf(hueFor(type), saturation, 1f))
-        if (selected) {
-            val halo =
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = Color.WHITE
-                    style = Paint.Style.FILL
-                }
-            canvas.drawCircle(cx, cy, radius * 1.35f, halo)
-        }
-        val paint =
+        canvas.drawCircle(
+            centre,
+            centre,
+            radius,
+            Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = color },
+        )
+        canvas.drawCircle(
+            centre,
+            centre,
+            radius,
             Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                color = fill
-                style = Paint.Style.FILL
-            }
-        val path =
-            Path().apply {
-                addCircle(cx, cy, radius, Path.Direction.CW)
-                moveTo(cx - radius * 0.72f, cy + radius * 0.5f)
-                lineTo(cx, size * 0.95f)
-                lineTo(cx + radius * 0.72f, cy + radius * 0.5f)
-                close()
-            }
-        canvas.drawPath(path, paint)
-        val hole =
-            Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                color = Color.WHITE
-                style = Paint.Style.FILL
-            }
-        canvas.drawCircle(cx, cy, radius * 0.32f, hole)
+                this.color = AndroidColor.WHITE
+                style = Paint.Style.STROKE
+                strokeWidth = ring
+            },
+        )
         return bitmap
     }
+
+    private data class CacheKey(
+        val type: MarkerUiType,
+        val sizePx: Int,
+    )
 }
