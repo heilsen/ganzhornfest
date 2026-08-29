@@ -116,6 +116,10 @@ fun MapSearchBar(
 
     SearchBar(
         modifier = modifier,
+        colors =
+            SearchBarDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+            ),
         inputField = {
             SearchBarDefaults.InputField(
                 modifier = Modifier.focusRequester(focusRequester),
@@ -141,7 +145,11 @@ fun MapSearchBar(
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "zurück")
                         }
                     } else {
-                        Icon(Icons.Default.Search, contentDescription = null)
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
                     }
                 },
                 trailingIcon = {

@@ -14,9 +14,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,8 +27,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -34,6 +39,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -59,29 +66,24 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class, ExperimentalMaterial3Api::class)
 @Composable
 fun InfoScreen(
-    clubCount: Int,
+    clubCount: Int?,
     modifier: Modifier = Modifier,
 ) {
-    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    val today = remember { Clock.System.todayIn(TimeZone.currentSystemDefault()) }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val collapsedFraction = scrollBehavior.state.collapsedFraction
     val wine = MaterialTheme.colorScheme.primary
     val paper = MaterialTheme.colorScheme.surface
     val darkTheme = isSystemInDarkTheme()
-    val heroOverlay =
-        if (darkTheme) {
+    // Dark mode does not animate with the scroll, so it can be a plain remembered brush.
+    // Light mode fades with collapsedFraction, so its brush is rebuilt in drawBehind below,
+    // at draw time instead of composition time.
+    val darkHeroOverlayBrush =
+        remember(paper) {
             Brush.verticalGradient(
                 0f to paper.copy(alpha = 0.7f),
                 0.22f to paper.copy(alpha = 0.35f),
                 0.55f to paper.copy(alpha = 0.2f),
                 1f to paper,
-            )
-        } else {
-            Brush.verticalGradient(
-                0f to Color.Transparent,
-                0.35f to Color.Transparent,
-                0.65f to paper.copy(alpha = 0.7f * (1f - collapsedFraction)),
-                1f to paper.copy(alpha = 1f - collapsedFraction),
             )
         }
 
@@ -97,12 +99,30 @@ fun InfoScreen(
                     modifier =
                         Modifier
                             .matchParentSize()
-                            .graphicsLayer { alpha = 1f - collapsedFraction },
+                            .graphicsLayer { alpha = 1f - scrollBehavior.state.collapsedFraction },
                 )
                 Box(
-                    Modifier
-                        .matchParentSize()
-                        .background(heroOverlay),
+                    modifier =
+                        Modifier
+                            .matchParentSize()
+                            .let {
+                                if (darkTheme) {
+                                    it.background(darkHeroOverlayBrush)
+                                } else {
+                                    it.drawBehind {
+                                        val collapsedFraction = scrollBehavior.state.collapsedFraction
+                                        drawRect(
+                                            brush =
+                                                Brush.verticalGradient(
+                                                    0f to Color.Transparent,
+                                                    0.35f to Color.Transparent,
+                                                    0.65f to paper.copy(alpha = 0.7f * (1f - collapsedFraction)),
+                                                    1f to paper.copy(alpha = 1f - collapsedFraction),
+                                                ),
+                                        )
+                                    }
+                                }
+                            },
                 )
                 LargeTopAppBar(
                     title = {
@@ -116,7 +136,7 @@ fun InfoScreen(
                                 fontFamily = GanzhornfestSans,
                                 fontWeight = FontWeight.SemiBold,
                             )
-                            if (collapsedFraction < 0.5f) {
+                            if (scrollBehavior.state.collapsedFraction < 0.5f) {
                                 Text(
                                     text =
                                         stringResource(
@@ -176,10 +196,12 @@ private fun DateChipRow(
         modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        FestivalEdition.days.forEachIndexed { index, date ->
+        // zip, not forEachIndexed + hours[index]: a day added to FestivalEdition.days without a
+        // matching opening_hours_* string truncates to the shorter list instead of crashing.
+        FestivalEdition.days.zip(hours).forEach { (date, hoursText) ->
             DateChip(
                 date = date,
-                hours = hours[index],
+                hours = hoursText,
                 highlighted = date == today,
                 modifier = Modifier.weight(1f),
             )
@@ -200,14 +222,26 @@ private fun DateChip(
         if (highlighted) {
             MaterialTheme.colorScheme.secondaryContainer
         } else {
-            MaterialTheme.colorScheme.surfaceContainerLowest
+            MaterialTheme.colorScheme.surfaceContainerHighest
         }
+    val border =
+        if (highlighted) {
+            BorderStroke(2.dp, wine)
+        } else {
+            BorderStroke(1.dp, wine.copy(alpha = 0.35f))
+        }
+    val todayDescription = stringResource(R.string.today)
     Surface(
-        modifier = modifier,
+        modifier =
+            modifier.semantics(mergeDescendants = true) {
+                if (highlighted) {
+                    stateDescription = todayDescription
+                }
+            },
         shape = MaterialTheme.shapes.medium,
         color = container,
         contentColor = ink,
-        border = BorderStroke(1.dp, wine.copy(alpha = 0.35f)),
+        border = border,
         shadowElevation = 1.dp,
     ) {
         Column(Modifier.padding(horizontal = 12.dp, vertical = 12.dp)) {
@@ -234,6 +268,7 @@ private fun LocationCard(modifier: Modifier = Modifier) {
         Column(Modifier.padding(16.dp)) {
             Text(
                 text = stringResource(R.string.location_title),
+                modifier = Modifier.padding(bottom = 12.dp),
                 style = infoCaptionStyle(),
             )
             Text(
@@ -251,18 +286,29 @@ private fun SundayShoppingBanner(modifier: Modifier = Modifier) {
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)),
+        shadowElevation = 1.dp,
     ) {
-        Text(
+        Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-            text = stringResource(R.string.sunday_shopping),
-            style = infoNoteStyle(),
-        )
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ShoppingCart,
+                contentDescription = null,
+            )
+            Text(
+                text = stringResource(R.string.sunday_shopping),
+                style = infoNoteStyle(),
+            )
+        }
     }
 }
 
 @Composable
 private fun ClubsCard(
-    clubCount: Int,
+    clubCount: Int?,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -270,11 +316,15 @@ private fun ClubsCard(
         colors = infoCardColors(),
     ) {
         Column(Modifier.padding(16.dp)) {
-            Text(
-                text = pluralStringResource(R.plurals.clubs_intro, clubCount, clubCount),
-                modifier = Modifier.padding(bottom = 12.dp),
-                style = infoCaptionStyle(),
-            )
+            // Skip the headline while clubCount is still loading, instead of flashing an
+            // incorrect "0 Neckarsulmer Vereine" until the DB flow's first emission arrives.
+            if (clubCount != null) {
+                Text(
+                    text = pluralStringResource(R.plurals.clubs_intro, clubCount, clubCount),
+                    modifier = Modifier.padding(bottom = 12.dp),
+                    style = infoCaptionStyle(),
+                )
+            }
             Text(
                 style = infoNoteStyle(),
                 text =
@@ -365,6 +415,11 @@ private fun OfficialLinksCard(modifier: Modifier = Modifier) {
     val instagramHashtagUrl = stringResource(R.string.instagram_hashtag_url)
     val facebookUrl = stringResource(R.string.facebook_url)
     val facebookHashtagUrl = stringResource(R.string.facebook_hashtag_url)
+    val fontsLabel = stringResource(R.string.fonts_label)
+    val sourceSans3 = stringResource(R.string.fonts_source_sans_3)
+    val sourceSans3Url = stringResource(R.string.fonts_source_sans_3_url)
+    val fraunces = stringResource(R.string.fonts_fraunces)
+    val frauncesUrl = stringResource(R.string.fonts_fraunces_url)
     Card(
         modifier.fillMaxWidth(),
         colors = infoCardColors(),
@@ -410,6 +465,19 @@ private fun OfficialLinksCard(modifier: Modifier = Modifier) {
                         }
                     },
             )
+            Text(
+                style = infoNoteStyle(),
+                text =
+                    officialInfoItem(fontsLabel) {
+                        withLink(LinkAnnotation.Url(sourceSans3Url)) {
+                            withStyle(linkStyle) { append(sourceSans3) }
+                        }
+                        append(", ")
+                        withLink(LinkAnnotation.Url(frauncesUrl)) {
+                            withStyle(linkStyle) { append(fraunces) }
+                        }
+                    },
+            )
         }
     }
 }
@@ -417,7 +485,7 @@ private fun OfficialLinksCard(modifier: Modifier = Modifier) {
 @Composable
 private fun infoCardColors() =
     CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
         contentColor = MaterialTheme.colorScheme.onSurface,
     )
 

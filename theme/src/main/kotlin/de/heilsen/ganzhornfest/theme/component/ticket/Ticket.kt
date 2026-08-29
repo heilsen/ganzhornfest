@@ -28,18 +28,12 @@ fun Ticket(
 ) {
     val outline = MaterialTheme.colorScheme.outline
     val darkTheme = isSystemInDarkTheme()
-    val ticketPaper =
-        if (darkTheme) {
-            MaterialTheme.colorScheme.surfaceContainerHighest
-        } else {
-            MaterialTheme.colorScheme.surfaceContainerLowest
-        }
     Card(
         modifier = modifier,
         shape = TicketShape(),
         colors =
             CardDefaults.cardColors(
-                containerColor = ticketPaper,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                 contentColor = MaterialTheme.colorScheme.onSurface,
             ),
         border =

@@ -35,7 +35,7 @@ fun SelectionCard(
         modifier = modifier,
         colors =
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                 contentColor = MaterialTheme.colorScheme.onSurface,
             ),
     ) {
@@ -118,21 +118,20 @@ fun <T> Selection(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun selectionTextFieldColors(): TextFieldColors {
-    val paper = MaterialTheme.colorScheme.surfaceContainerLowest
+    val paper = MaterialTheme.colorScheme.surfaceContainerHighest
     val ink = MaterialTheme.colorScheme.onSurface
+    // No disabled* overrides beyond the indicator: M3's default 38%-alpha disabled slots are
+    // what make a disabled field like Bus's origin read as non-interactive next to the two
+    // tappable dropdowns beside it.
     return ExposedDropdownMenuDefaults.textFieldColors(
         focusedContainerColor = paper,
         unfocusedContainerColor = paper,
-        disabledContainerColor = paper,
         focusedTextColor = ink,
         unfocusedTextColor = ink,
-        disabledTextColor = ink,
         focusedLabelColor = MaterialTheme.colorScheme.primary,
         unfocusedLabelColor = ink,
-        disabledLabelColor = ink,
         focusedTrailingIconColor = ink,
         unfocusedTrailingIconColor = ink,
-        disabledTrailingIconColor = ink,
         disabledIndicatorColor = MaterialTheme.colorScheme.outline,
     )
 }

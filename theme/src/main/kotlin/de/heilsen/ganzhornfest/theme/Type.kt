@@ -1,58 +1,26 @@
 package de.heilsen.ganzhornfest.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.googlefonts.GoogleFont
-import androidx.compose.ui.text.font.Font as ResourceFont
-import androidx.compose.ui.text.googlefonts.Font as GoogleFontFont
 
-private val googleFontProvider =
-    GoogleFont.Provider(
-        providerAuthority = "com.google.android.gms.fonts",
-        providerPackage = "com.google.android.gms",
-        certificates = R.array.com_google_android_gms_fonts_certs,
-    )
-
+// Both families are bundled TTFs, not downloaded from GMS. A downloadable font with no
+// bundled fallback silently degrades to the platform sans on a non-GMS device or a cold
+// offline launch, and Source Sans 3 was already bundled, so querying GMS for it too just
+// meant three redundant network requests for a font already in the APK.
 val GanzhornfestSerif =
     FontFamily(
-        GoogleFontFont(
-            googleFont = GoogleFont("Fraunces"),
-            fontProvider = googleFontProvider,
-            weight = FontWeight.Normal,
-        ),
-        GoogleFontFont(
-            googleFont = GoogleFont("Fraunces"),
-            fontProvider = googleFontProvider,
-            weight = FontWeight.Medium,
-        ),
-        GoogleFontFont(
-            googleFont = GoogleFont("Fraunces"),
-            fontProvider = googleFontProvider,
-            weight = FontWeight.SemiBold,
-        ),
+        Font(R.font.fraunces_regular, FontWeight.Normal),
+        Font(R.font.fraunces_medium, FontWeight.Medium),
+        Font(R.font.fraunces_semibold, FontWeight.SemiBold),
     )
 
 val GanzhornfestSans =
     FontFamily(
-        GoogleFontFont(
-            googleFont = GoogleFont("Source Sans 3"),
-            fontProvider = googleFontProvider,
-            weight = FontWeight.Normal,
-        ),
-        ResourceFont(R.font.source_sans_3_regular, FontWeight.Normal),
-        GoogleFontFont(
-            googleFont = GoogleFont("Source Sans 3"),
-            fontProvider = googleFontProvider,
-            weight = FontWeight.Medium,
-        ),
-        ResourceFont(R.font.source_sans_3_medium, FontWeight.Medium),
-        GoogleFontFont(
-            googleFont = GoogleFont("Source Sans 3"),
-            fontProvider = googleFontProvider,
-            weight = FontWeight.SemiBold,
-        ),
-        ResourceFont(R.font.source_sans_3_semibold, FontWeight.SemiBold),
+        Font(R.font.source_sans_3_regular, FontWeight.Normal),
+        Font(R.font.source_sans_3_medium, FontWeight.Medium),
+        Font(R.font.source_sans_3_semibold, FontWeight.SemiBold),
     )
 
 fun ganzhornfestTypography(): Typography {

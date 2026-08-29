@@ -8,6 +8,11 @@ Update `year`, `editionNumber`, and `days`. This is the single source of truth f
 the edition year and festival dates. All derived displays (app bar title, official
 name, InfoScreen date labels) update automatically.
 
+If the number of days changes, add or remove a matching `opening_hours_*` string in
+step 2. Info's date chip row zips `days` against that string list, so a mismatch
+silently drops chips instead of crashing. `FestivalEditionTest` in `core-api` asserts
+the day count as a tripwire for this.
+
 ## 2. `info-api/src/main/res/values/strings.xml`
 
 Update the opening hours for each day:

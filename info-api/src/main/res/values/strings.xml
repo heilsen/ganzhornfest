@@ -8,9 +8,10 @@
     <string name="opening_hours_saturday">16:00 - 01:00</string>
     <string name="opening_hours_sunday">11:00 - 00:00</string>
     <string name="opening_hours_monday">11:00 - 01:00</string>
+    <string name="today">Heute</string>
     <plurals name="clubs_intro">
-        <item quantity="one">%d Neckarsulmer Verein bietet</item>
-        <item quantity="other">%d Neckarsulmer Vereine bieten</item>
+        <item quantity="one">%d Neckarsulmer Verein bietet:</item>
+        <item quantity="other">%d Neckarsulmer Vereine bieten:</item>
     </plurals>
     <string name="sunday_shopping">Verkaufsoffener Sonntag\n06.09. von 12:00 - 17:00 Uhr.</string>
     <string name="bus_title">Kostenloser Bus</string>
@@ -26,4 +27,9 @@
     <string name="instagram_hashtag_url">https://www.instagram.com/explore/tags/ganzhornfest/</string>
     <string name="facebook_url">https://www.facebook.com/ganzhornfest.neckarsulm/</string>
     <string name="facebook_hashtag_url">https://www.facebook.com/hashtag/ganzhornfest</string>
+    <string name="fonts_label">Schriften</string>
+    <string name="fonts_source_sans_3">Source Sans 3</string>
+    <string name="fonts_source_sans_3_url">https://fonts.google.com/specimen/Source+Sans+3</string>
+    <string name="fonts_fraunces">Fraunces</string>
+    <string name="fonts_fraunces_url">https://fonts.google.com/specimen/Fraunces</string>
 </resources>

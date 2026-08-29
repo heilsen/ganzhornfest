@@ -72,12 +72,12 @@ import de.heilsen.ganzhornfest.detail.highlightTitles
 import de.heilsen.ganzhornfest.di.getValue
 import de.heilsen.ganzhornfest.di.rememberAppGraph
 import de.heilsen.ganzhornfest.info.InfoScreen
+import de.heilsen.ganzhornfest.info.InfoViewModel
 import de.heilsen.ganzhornfest.map.MapModel
 import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.map.MapViewModel
 import de.heilsen.ganzhornfest.map.MarkerUiType
 import de.heilsen.ganzhornfest.navigation.Destination
-import de.heilsen.ganzhornfest.poi.PoiRepository
 import de.heilsen.ganzhornfest.program.ProgramEvent
 import de.heilsen.ganzhornfest.program.ProgramScreen
 import de.heilsen.ganzhornfest.program.ProgramViewModel
@@ -97,7 +97,22 @@ interface EntryPoint {
     val mapViewModel: MapViewModel
     val searchViewModel: SearchViewModel
     val detailViewModel: DetailViewModel
-    val poiRepository: PoiRepository
+    val infoViewModel: InfoViewModel
+}
+
+// EntryPoint's ViewModels are unscoped in the DI graph, so reading them off the
+// interface builds a fresh instance every time. Reading all six once into this
+// holder, then remembering the holder, keeps MainScreen from recreating them (and
+// restarting their underlying molecule flows) on every navigation.
+private class MainViewModels(
+    entryPoint: EntryPoint,
+) {
+    val busViewModel: BusViewModel = entryPoint.busViewModel
+    val programViewModel: ProgramViewModel = entryPoint.programViewModel
+    val mapViewModel: MapViewModel = entryPoint.mapViewModel
+    val searchViewModel: SearchViewModel = entryPoint.searchViewModel
+    val detailViewModel: DetailViewModel = entryPoint.detailViewModel
+    val infoViewModel: InfoViewModel = entryPoint.infoViewModel
 }
 
 @Preview(name = "Light Mode")
@@ -117,17 +132,13 @@ fun MainScreen() {
     }
 
     val entryPoint: EntryPoint by rememberAppGraph()
-    val busViewModel: BusViewModel = entryPoint.busViewModel
-    val programViewModel: ProgramViewModel = entryPoint.programViewModel
-    val mapViewModel: MapViewModel = entryPoint.mapViewModel
-    // Unscoped Metro injection. Remember so the search session survives Map leaving composition.
-    val searchViewModel = remember { entryPoint.searchViewModel }
-    // Same reason. A fresh instance per recomposition would lose the model the sheet reads,
-    // since the detail event is only pushed when the route changes.
-    val detailViewModel: DetailViewModel = remember { entryPoint.detailViewModel }
-    val poiRepository: PoiRepository = entryPoint.poiRepository
-    val clubCount by poiRepository.countClubs().collectAsStateWithLifecycle(initialValue = 0L)
-    val isInfo = currentDestination?.hasRoute<Destination.Info>() == true
+    val viewModels = remember(entryPoint) { MainViewModels(entryPoint) }
+    val busViewModel = viewModels.busViewModel
+    val programViewModel = viewModels.programViewModel
+    val mapViewModel = viewModels.mapViewModel
+    val searchViewModel = viewModels.searchViewModel
+    val detailViewModel = viewModels.detailViewModel
+    val infoViewModel = viewModels.infoViewModel
 
     GanzhornfestTheme {
         Scaffold(
@@ -145,11 +156,12 @@ fun MainScreen() {
                             unselectedTextColor = MaterialTheme.colorScheme.onSurface,
                             indicatorColor = MaterialTheme.colorScheme.primaryContainer,
                         )
+                    val infoSelected = currentDestination?.hasRoute<Destination.Info>() ?: false
                     NavigationBarItem(
-                        isInfo,
+                        infoSelected,
                         icon = {
                             Icon(
-                                imageVector = if (isInfo) Icons.Filled.Info else Icons.Outlined.Info,
+                                imageVector = if (infoSelected) Icons.Filled.Info else Icons.Outlined.Info,
                                 contentDescription = stringResource(R.string.info),
                             )
                         },
@@ -225,26 +237,12 @@ fun MainScreen() {
                 }
             },
         ) { innerPadding ->
+            // Each route applies innerPadding to its own root instead of one shared modifier:
+            // a value gated on the current destination flips the instant navigate() commits,
+            // before the outgoing screen's cross-fade finishes, so a shared modifier jumped
+            // under the status bar mid-transition.
             val layoutDirection = LocalLayoutDirection.current
-            // Info draws a collapsing hero image under the status bar, so it skips the top
-            // inset that every other route takes from the Scaffold.
-            val hostPadding =
-                if (isInfo) {
-                    PaddingValues(
-                        start = innerPadding.calculateStartPadding(layoutDirection),
-                        top = 0.dp,
-                        end = innerPadding.calculateEndPadding(layoutDirection),
-                        bottom = innerPadding.calculateBottomPadding(),
-                    )
-                } else {
-                    innerPadding
-                }
-            Box(
-                Modifier
-                    .padding(hostPadding)
-                    .consumeWindowInsets(hostPadding)
-                    .fillMaxSize(),
-            ) {
+            Box(Modifier.fillMaxSize()) {
                 NavHost(
                     navController = navController,
                     startDestination = Destination.Map,
@@ -275,16 +273,40 @@ fun MainScreen() {
                         ProgramScreen(
                             programModel,
                             onEvent = programViewModel::take,
+                            modifier =
+                                Modifier
+                                    .padding(innerPadding)
+                                    .consumeWindowInsets(innerPadding),
                         )
                     }
                     composable<Destination.Info> {
-                        InfoScreen(clubCount = clubCount.toInt())
+                        val infoModel by infoViewModel.models.collectAsStateWithLifecycle()
+                        // Info manages its own top inset with the collapsing hero app bar, so it
+                        // only takes the start/end/bottom portion of innerPadding here.
+                        val infoPadding =
+                            PaddingValues(
+                                start = innerPadding.calculateStartPadding(layoutDirection),
+                                top = 0.dp,
+                                end = innerPadding.calculateEndPadding(layoutDirection),
+                                bottom = innerPadding.calculateBottomPadding(),
+                            )
+                        InfoScreen(
+                            clubCount = infoModel.clubCount,
+                            modifier =
+                                Modifier
+                                    .padding(infoPadding)
+                                    .consumeWindowInsets(infoPadding),
+                        )
                     }
                     composable<Destination.Bus> {
                         val busModel by busViewModel.models.collectAsStateWithLifecycle()
                         BusScreen(
                             busModel,
                             onEvent = busViewModel::take,
+                            modifier =
+                                Modifier
+                                    .padding(innerPadding)
+                                    .consumeWindowInsets(innerPadding),
                         )
                     }
                 }
@@ -296,6 +318,10 @@ fun MainScreen() {
                         detailViewModel = detailViewModel,
                         navController = navController,
                         isDetail = currentDestination?.hasRoute<Destination.Detail>() == true,
+                        modifier =
+                            Modifier
+                                .padding(innerPadding)
+                                .consumeWindowInsets(innerPadding),
                     )
                 }
             }
@@ -311,6 +337,7 @@ private fun MapDetailOverlay(
     detailViewModel: DetailViewModel,
     navController: NavHostController,
     isDetail: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
     val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
@@ -330,7 +357,7 @@ private fun MapDetailOverlay(
 
     val sidePanel = isSidePanelLayout()
 
-    BoxWithConstraints(Modifier.fillMaxSize()) {
+    BoxWithConstraints(modifier.fillMaxSize()) {
         // Keep the map at least half the width on a narrow two pane window.
         val paneWidth = minOf(DETAIL_PANE_WIDTH, maxWidth / 2)
         if (sidePanel) {

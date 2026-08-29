@@ -21,7 +21,6 @@ include(
     ":bus-impl",
     ":core-api",
     ":core-impl",
-    ":core:datetime-api",
     ":data",
     ":database",
     ":di-api",

@@ -73,9 +73,13 @@ fun formatToLocalDateTime(
         timeFormat,
     )
 
+// The pattern is a fixed German day-dot-month layout, so the locale is pinned rather
+// than following Locale.getDefault(). A single instance is safe here: it is only ever
+// called from composition on the main thread, and SimpleDateFormat is not thread safe.
+private val weekdayDateFormat = SimpleDateFormat("EE, dd.MM.", Locale.GERMANY)
+
 fun formatToLocalWeekdayDate(localDate: LocalDate): String =
-    SimpleDateFormat("EE, dd.MM.", Locale.getDefault())
-        .format(localDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds())
+    weekdayDateFormat.format(localDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds())
 
 fun dayOfTheWeek(localDate: LocalDateTime): String = dayOfTheWeek(localDate.date)
 

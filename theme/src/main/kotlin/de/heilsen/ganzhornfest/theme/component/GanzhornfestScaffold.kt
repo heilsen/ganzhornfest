@@ -53,8 +53,8 @@ fun GanzhornfestScaffold(
 fun GanzhornfestTopAppBar(
     topAppBarColors: TopAppBarColors =
         TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            scrolledContainerColor = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             titleContentColor = MaterialTheme.colorScheme.primary,
             navigationIconContentColor = MaterialTheme.colorScheme.primary,
             actionIconContentColor = MaterialTheme.colorScheme.primary,
@@ -68,7 +68,6 @@ fun GanzhornfestTopAppBar(
                 LocalTextStyle provides
                     MaterialTheme.typography.titleLarge.copy(
                         fontFamily = GanzhornfestSans,
-                        color = MaterialTheme.colorScheme.primary,
                     ),
                 content = title,
             )

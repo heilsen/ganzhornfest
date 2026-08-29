@@ -60,10 +60,10 @@ internal val LightColorScheme =
         surfaceBright = Paper,
         surfaceDim = Color(0xFFE8DCC8),
         surfaceContainerLowest = Paper,
-        surfaceContainerLow = Color(0xFFFFF8F0),
-        surfaceContainer = Color(0xFFF0E6D8),
-        surfaceContainerHigh = Color(0xFFE8DCC8),
-        surfaceContainerHighest = Paper,
+        surfaceContainerLow = Color(0xFFFBF4EA),
+        surfaceContainer = Color(0xFFF3EADC),
+        surfaceContainerHigh = Color(0xFFEBE0CE),
+        surfaceContainerHighest = Color(0xFFE3D6C0),
     )
 
 internal val DarkColorScheme =
@@ -99,8 +99,8 @@ internal val DarkColorScheme =
         scrim = Color(0xFF000000),
         surfaceBright = Color(0xFF3D2E27),
         surfaceDim = NightInk,
-        surfaceContainerLowest = Color(0xFF32241E),
-        surfaceContainerLow = Color(0xFF221A16),
+        surfaceContainerLowest = Color(0xFF16100D),
+        surfaceContainerLow = Color(0xFF1F1712),
         surfaceContainer = NightSurface,
         surfaceContainerHigh = Color(0xFF332620),
         surfaceContainerHighest = Color(0xFF3D2E27),
