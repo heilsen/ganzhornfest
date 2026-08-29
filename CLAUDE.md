@@ -6,7 +6,7 @@ SQLDelight live in `README.md`.
 ## Workflow
 
 Isolate each change in a git worktree off `main` so parallel agents do not share
-a working tree. Prefer the host's worktree tool when it has one.
+a working tree.
 
 Branch as `<type>/<slug>`. Type is one of feat, fix, refactor, chore, build,
 docs.
