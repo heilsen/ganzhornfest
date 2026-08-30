@@ -15,11 +15,11 @@ class PinBitmapFactoryTest :
             }
         }
 
-        "highlighting a slate WC clamps saturation to the floor" {
+        "highlighting a pale WC clamps saturation to the floor" {
             PinBitmapFactory.hsvFor(MarkerUiType.WC, PinEmphasis.Highlighted)[1] shouldBe 0.75f
         }
 
-        "highlighting a dark slate bus stop clamps value to the floor" {
+        "highlighting a near-black bus stop clamps value to the floor" {
             PinBitmapFactory.hsvFor(MarkerUiType.BUS_STOP, PinEmphasis.Highlighted)[2] shouldBe 0.80f
         }
 

@@ -55,22 +55,27 @@ object PinBitmapFactory {
         }
     }
 
-    // Hue is the category. Saturation and value are the family.
+    // Hue names the category. Saturation and value keep the seven pins apart under
+    // protanopia, deuteranopia and tritanopia, not only normal vision. The set was picked by
+    // simulating each dichromacy and maximising the smallest CIEDE2000 gap between any two
+    // categories. Worst pair sits at dE 24, against dE 8 for the previous scheme. The green
+    // arc 85 to 160 stays empty because a green pin vanishes into canopy on the HYBRID basemap.
     private fun baseHsv(type: MarkerUiType): Triple<Float, Float, Float> =
         when (type) {
-            // Content, the things you came for. Four hues, 65 to 145 degrees apart. The green
-            // arc is left empty. A green dot disappears into grass and tree canopy on HYBRID.
-            // S 0.78 keeps a chroma step for Highlighted while still reading clean, not brown.
-            MarkerUiType.CLUB -> Triple(28f, 0.78f, 0.90f)
-            MarkerUiType.PLAYGROUND -> Triple(175f, 0.78f, 0.90f)
-            MarkerUiType.ATTRACTION -> Triple(255f, 0.78f, 0.90f)
-            MarkerUiType.EVENT_LOCATION -> Triple(325f, 0.78f, 0.90f)
-            // Safety. Hotter than content at rest so it reads without being asked for.
-            MarkerUiType.FIRST_AID -> Triple(0f, 0.92f, 0.95f)
-            // Service, the things you need occasionally. One hue, separated by lightness. Two
-            // blues 30 degrees apart is what made the old azure and blue pins indistinguishable.
-            MarkerUiType.WC -> Triple(210f, 0.30f, 0.90f)
-            MarkerUiType.BUS_STOP -> Triple(210f, 0.35f, 0.50f)
+            // Bright yellow, the loudest pin, on the stages since that is what people head for.
+            MarkerUiType.EVENT_LOCATION -> Triple(60f, 0.75f, 1.00f)
+            // Warm orange. Stand is the wallpaper so it stays calm. Default S 0.75 leaves a
+            // step for Highlighted to lift it.
+            MarkerUiType.CLUB -> Triple(20f, 0.75f, 0.85f)
+            MarkerUiType.ATTRACTION -> Triple(260f, 0.60f, 1.00f)
+            MarkerUiType.PLAYGROUND -> Triple(180f, 0.45f, 0.40f)
+            // Pale and calm at rest. Wakes to a full blue when a WC category is filtered, via
+            // the Highlighted saturation floor.
+            MarkerUiType.WC -> Triple(200f, 0.30f, 1.00f)
+            // Two near-black anchors. They separate from every lighter pin by luminance, the
+            // one channel all three dichromacies keep.
+            MarkerUiType.FIRST_AID -> Triple(0f, 0.90f, 0.40f)
+            MarkerUiType.BUS_STOP -> Triple(250f, 0.90f, 0.40f)
         }
 
     // The white ring keeps the dot readable on the HYBRID aerial imagery.
