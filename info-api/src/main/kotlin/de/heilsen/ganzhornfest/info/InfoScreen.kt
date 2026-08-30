@@ -373,7 +373,7 @@ private fun BusCard(modifier: Modifier = Modifier) {
                 text =
                     buildAnnotatedString {
                         append(
-                            "An den Festtagen dürfen alle Busse in Neckarsulm kostenlos genutzt werden (gilt nicht für Rufauto-Fahrten). Dieser Service wird ermöglicht durch die Stadt Neckarsulm, den HNV und die Busunternehmen FMO, OVR und Zartmann. Die Fahrpläne befinden sich auf den Aushängen an den Haltestellen sowie unter ",
+                            "Die Fahrpläne befinden sich auf den Aushängen an den Haltestellen sowie unter ",
                         )
                         withLink(LinkAnnotation.Url("https://www.neckarsulmer-stadtbus.de")) {
                             withStyle(
