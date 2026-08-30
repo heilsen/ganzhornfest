@@ -144,7 +144,7 @@ INSERT INTO busConnection VALUES(NULL,8,'2025-09-08T21:36:00+02:00');
 -- Update ClubOffer
 UPDATE offer SET name = 'Aperol Spritz' WHERE id = 10;
 UPDATE offer SET description = 'nur Montag mittag' WHERE id = 212;
-INSERT INTO offer VALUES(79,1,'Saftschorle',NULL);
+INSERT OR REPLACE INTO offer VALUES(79,1,'Saftschorle',NULL);
 INSERT INTO offer VALUES(80,1,'Aperol',NULL);
 INSERT INTO offer VALUES(81,1,'Lillet',NULL);
 INSERT INTO offer VALUES(226, 2, 'Wedges',NULL);

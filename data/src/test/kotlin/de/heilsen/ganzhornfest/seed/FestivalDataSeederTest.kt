@@ -20,8 +20,6 @@ import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
-import java.io.File
-import java.io.InputStream
 import java.util.UUID
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.ExperimentalTime
@@ -139,24 +137,6 @@ class FestivalDataSeederTest :
                 .shouldNotBeEmpty()
         }
     })
-
-private fun parseShippedFestival(): Pair<Manifest, FestivalData> {
-    val manifest = openShippedFestivalAsset("festival/manifest.json").use(::parseManifest)
-    val data =
-        openShippedFestivalAsset("festival/data.json").use { stream ->
-            parseFestivalData(stream, manifest.year, manifest.timezone)
-        }
-    return manifest to data
-}
-
-private fun openShippedFestivalAsset(name: String): InputStream {
-    FestivalDataSeederTest::class.java.classLoader
-        ?.getResourceAsStream(name)
-        ?.let { return it }
-    val relative = "app/src/main/assets/$name"
-    val file = listOf(File(relative), File("../$relative")).firstOrNull { it.isFile }
-    return file?.inputStream() ?: error("Missing shipped $name")
-}
 
 private fun sampleFestivalData(
     poiName: String,

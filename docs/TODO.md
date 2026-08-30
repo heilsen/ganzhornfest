@@ -56,7 +56,7 @@
 - [ ] Tighten database schema integrity and query performance
   - Add explicit foreign keys where missing
   - Add indexes for frequent lookups used by search and other list/detail flows
-  - Add migration tests for SQLDelight
+  - [x] Add migration tests for SQLDelight (`MigrationPathTest`, one fixture per shipped release)
 
 - [x] Improve info/statistics queries
   - [x] Add the missing count queries needed for `InfoScreen` instead of manually maintained numbers
@@ -65,7 +65,7 @@
 
 - [ ] Expand automated tests
   - Add presenter/view model tests for bus, program, search, map, and detail flows
-  - Add DB integration and migration tests
+  - Add DB integration tests (migration path tests done, see `MigrationPathTest`)
   - Add UI tests for navigation paths such as Search -> Detail and Map -> Detail
 
 - [ ] Add CI and static analysis
