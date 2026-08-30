@@ -152,10 +152,14 @@ fun MapScreen(
                 },
             ) { mapModifier ->
                 Box(mapModifier) {
+                    // The east edge runs well past the stands to keep the ZOB (Ballei) bus stop
+                    // reachable. It sits about 100m east of the festival core at lng 9.227315, so
+                    // a tighter bound clamped the camera short of it and clipped the pin at every
+                    // zoom except the two most zoomed out. This value is the stop plus a margin.
                     val ganzhornfestArea =
                         LatLngBounds(
                             LatLng(49.18859845006538, 9.219649084689227),
-                            LatLng(49.19498798073398, 9.225975728423913),
+                            LatLng(49.19498798073398, 9.228),
                         )
                     // The only marker whose info window is open, identified by its LatLng since
                     // a club with two stands, such as DLRG, has two markers under one title.
