@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.map
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -45,7 +48,6 @@ import com.google.maps.android.compose.rememberUpdatedMarkerState
 import de.heilsen.ganzhornfest.theme.isSidePanelLayout
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.toPersistentSet
-import android.graphics.Color as AndroidColor
 
 // Wide enough for the Standort dropdown and the apply row without crowding the map.
 private val EDITOR_PANE_WIDTH = 360.dp
@@ -53,6 +55,11 @@ private val EDITOR_PANE_WIDTH = 360.dp
 // Small enough that the tap target stays close to the dot you see. A wider pin covers
 // neighbouring stands, which sit a median 11m apart.
 private val PIN_DIAMETER = 16.dp
+
+// Highlighted pins are the few you asked for and zIndex 2 already wins any overlap, so the
+// crowding that sizes PIN_DIAMETER does not apply to them.
+private val PIN_DIAMETER_HIGHLIGHTED = 22.dp
+private val PIN_DIAMETER_DIMMED = 14.dp
 
 @PreviewLightDark
 @Composable
@@ -145,10 +152,14 @@ fun MapScreen(
                 },
             ) { mapModifier ->
                 Box(mapModifier) {
+                    // The east edge runs well past the stands to keep the ZOB (Ballei) bus stop
+                    // reachable. It sits about 100m east of the festival core at lng 9.227315, so
+                    // a tighter bound clamped the camera short of it and clipped the pin at every
+                    // zoom except the two most zoomed out. This value is the stop plus a margin.
                     val ganzhornfestArea =
                         LatLngBounds(
                             LatLng(49.18859845006538, 9.219649084689227),
-                            LatLng(49.19498798073398, 9.225975728423913),
+                            LatLng(49.19498798073398, 9.228),
                         )
                     // The only marker whose info window is open, identified by its LatLng since
                     // a club with two stands, such as DLRG, has two markers under one title.
@@ -165,7 +176,14 @@ fun MapScreen(
                                 mapModel.markers.singleOrNull { it.title in titles }?.latLng
                             }
                     }
-                    val pinSizePx = with(LocalDensity.current) { PIN_DIAMETER.roundToPx() }
+                    val (highlightedPx, defaultPx, dimmedPx) =
+                        with(LocalDensity.current) {
+                            Triple(
+                                PIN_DIAMETER_HIGHLIGHTED.roundToPx(),
+                                PIN_DIAMETER.roundToPx(),
+                                PIN_DIAMETER_DIMMED.roundToPx(),
+                            )
+                        }
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
                         cameraPositionState = cameraPositionState,
@@ -192,6 +210,12 @@ fun MapScreen(
                         for (marker in mapModel.markers) {
                             val markerState = rememberUpdatedMarkerState(position = marker.latLng)
                             val emphasis = resolvePinEmphasis(marker.title, highlightedTitles)
+                            val pinSizePx =
+                                when (emphasis) {
+                                    PinEmphasis.Highlighted -> highlightedPx
+                                    PinEmphasis.Default -> defaultPx
+                                    PinEmphasis.Dimmed -> dimmedPx
+                                }
                             LaunchedEffect(openInfoMarker, marker.latLng) {
                                 if (openInfoMarker == marker.latLng) {
                                     markerState.showInfoWindow()
@@ -202,9 +226,9 @@ fun MapScreen(
                             Marker(
                                 state = markerState,
                                 title = marker.title,
-                                icon = PinBitmapFactory.icon(marker.markerUiType, pinSizePx),
+                                icon = PinBitmapFactory.icon(marker.markerUiType, emphasis, pinSizePx),
                                 anchor = Offset(0.5f, 0.5f),
-                                alpha = if (emphasis == PinEmphasis.Dimmed) 0.4f else 1f,
+                                alpha = if (emphasis == PinEmphasis.Dimmed) 0.5f else 1f,
                                 zIndex =
                                     when (emphasis) {
                                         PinEmphasis.Highlighted -> 2f
@@ -260,8 +284,16 @@ fun MapScreen(
                         }
                     }
                     if (mapModel.showLegend && pinEditor == null) {
+                        val highlightedTypes =
+                            highlightedTitles?.let { titles ->
+                                mapModel.markers
+                                    .filter { resolvePinEmphasis(it.title, titles) == PinEmphasis.Highlighted }
+                                    .map { it.markerUiType }
+                                    .toPersistentSet()
+                            }
                         Legend(
                             types = mapModel.markers.map { it.markerUiType }.toPersistentSet(),
+                            highlightedTypes = highlightedTypes,
                             modifier =
                                 if (highlightedTitles != null) {
                                     Modifier
@@ -335,6 +367,9 @@ private fun Crosshair(modifier: Modifier = Modifier) {
 fun Legend(
     types: ImmutableSet<MarkerUiType>,
     modifier: Modifier = Modifier,
+    // Null while no detail is open, every swatch rests. Otherwise the swatch tracks the pin,
+    // bright for a highlighted category and faded for one the map has dimmed.
+    highlightedTypes: ImmutableSet<MarkerUiType>? = null,
 ) {
     Surface(
         modifier = modifier,
@@ -344,9 +379,21 @@ fun Legend(
         Column(Modifier.padding(4.dp)) {
             for (type in MarkerUiType.entries) {
                 if (type !in types) continue
-                val swatch = Color(AndroidColor.HSVToColor(floatArrayOf(PinBitmapFactory.hueFor(type), 1f, 1f)))
+                val emphasis =
+                    when {
+                        highlightedTypes == null -> PinEmphasis.Default
+                        type in highlightedTypes -> PinEmphasis.Highlighted
+                        else -> PinEmphasis.Dimmed
+                    }
+                val swatch = Color(PinBitmapFactory.swatchColor(type, emphasis))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(8.dp).background(swatch))
+                    Box(
+                        Modifier
+                            .size(10.dp)
+                            .alpha(if (emphasis == PinEmphasis.Dimmed) 0.5f else 1f)
+                            .background(swatch, CircleShape)
+                            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape),
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(text = type.germanLabel(), style = MaterialTheme.typography.labelSmall)
                 }
