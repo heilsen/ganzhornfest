@@ -16,24 +16,58 @@ object PinBitmapFactory {
     // Stands are a median 11m apart, so a pin swallowed taps meant for its neighbour.
     fun icon(
         type: MarkerUiType,
+        emphasis: PinEmphasis,
         sizePx: Int,
     ): BitmapDescriptor =
-        cache.getOrPut(CacheKey(type, sizePx)) {
-            BitmapDescriptorFactory.fromBitmap(dotBitmap(colorFor(type), sizePx))
+        cache.getOrPut(CacheKey(type, emphasis, sizePx)) {
+            BitmapDescriptorFactory.fromBitmap(dotBitmap(colorFor(type, emphasis), sizePx))
         }
 
-    internal fun hueFor(type: MarkerUiType): Float =
+    // The legend swatch has to match the pin at rest. Deriving both from one function keeps
+    // them from drifting apart. The old swatch used full saturation and did not match.
+    internal fun restingColor(type: MarkerUiType): Int = colorFor(type, PinEmphasis.Default)
+
+    private fun colorFor(
+        type: MarkerUiType,
+        emphasis: PinEmphasis,
+    ): Int = AndroidColor.HSVToColor(hsvFor(type, emphasis))
+
+    // Emphasis scales whatever the family set, so one rule covers all seven types. The floors
+    // on Highlighted matter more than the multipliers. A slate WC has to become a real blue
+    // when you ask for toilets, and a dark slate bus stop has to get brighter, not just bigger.
+    internal fun hsvFor(
+        type: MarkerUiType,
+        emphasis: PinEmphasis,
+    ): FloatArray {
+        val (hue, saturation, value) = baseHsv(type)
+        return when (emphasis) {
+            PinEmphasis.Highlighted ->
+                floatArrayOf(
+                    hue,
+                    (saturation * 1.35f).coerceIn(0.75f, 1f),
+                    (value * 1.10f).coerceIn(0.80f, 0.98f),
+                )
+            PinEmphasis.Default -> floatArrayOf(hue, saturation, value)
+            PinEmphasis.Dimmed -> floatArrayOf(hue, saturation * 0.35f, value * 0.75f)
+        }
+    }
+
+    // Hue is the category. Saturation and value are the family.
+    private fun baseHsv(type: MarkerUiType): Triple<Float, Float, Float> =
         when (type) {
-            MarkerUiType.CLUB -> BitmapDescriptorFactory.HUE_VIOLET
-            MarkerUiType.EVENT_LOCATION -> BitmapDescriptorFactory.HUE_MAGENTA
-            MarkerUiType.PLAYGROUND -> BitmapDescriptorFactory.HUE_ORANGE
-            MarkerUiType.ATTRACTION -> BitmapDescriptorFactory.HUE_GREEN
-            MarkerUiType.WC -> BitmapDescriptorFactory.HUE_AZURE
-            MarkerUiType.FIRST_AID -> BitmapDescriptorFactory.HUE_RED
-            MarkerUiType.BUS_STOP -> BitmapDescriptorFactory.HUE_BLUE
+            // Content, the things you came for. Four hues, 70 to 135 degrees apart. The green
+            // arc is left empty. A green dot disappears into grass and tree canopy on HYBRID.
+            MarkerUiType.CLUB -> Triple(40f, 0.70f, 0.85f)
+            MarkerUiType.PLAYGROUND -> Triple(175f, 0.70f, 0.85f)
+            MarkerUiType.ATTRACTION -> Triple(255f, 0.70f, 0.85f)
+            MarkerUiType.EVENT_LOCATION -> Triple(325f, 0.70f, 0.85f)
+            // Safety. Hotter than content at rest so it reads without being asked for.
+            MarkerUiType.FIRST_AID -> Triple(0f, 0.85f, 0.90f)
+            // Service, the things you need occasionally. One hue, separated by lightness. Two
+            // blues 30 degrees apart is what made the old azure and blue pins indistinguishable.
+            MarkerUiType.WC -> Triple(210f, 0.30f, 0.90f)
+            MarkerUiType.BUS_STOP -> Triple(210f, 0.35f, 0.50f)
         }
-
-    private fun colorFor(type: MarkerUiType): Int = AndroidColor.HSVToColor(floatArrayOf(hueFor(type), 1f, 1f))
 
     // The white ring keeps the dot readable on the HYBRID aerial imagery.
     private fun dotBitmap(
@@ -66,6 +100,7 @@ object PinBitmapFactory {
 
     private data class CacheKey(
         val type: MarkerUiType,
+        val emphasis: PinEmphasis,
         val sizePx: Int,
     )
 }
