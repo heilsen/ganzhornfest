@@ -77,7 +77,7 @@ import de.heilsen.ganzhornfest.bus.BusViewModel
 import de.heilsen.ganzhornfest.detail.DetailEvent
 import de.heilsen.ganzhornfest.detail.DetailModel
 import de.heilsen.ganzhornfest.detail.DetailScreen
-import de.heilsen.ganzhornfest.detail.DetailType
+import de.heilsen.ganzhornfest.detail.DetailTarget
 import de.heilsen.ganzhornfest.detail.DetailViewModel
 import de.heilsen.ganzhornfest.detail.highlightTitles
 import de.heilsen.ganzhornfest.di.getValue
@@ -89,6 +89,8 @@ import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.map.MapViewModel
 import de.heilsen.ganzhornfest.map.MarkerUiType
 import de.heilsen.ganzhornfest.navigation.Destination
+import de.heilsen.ganzhornfest.navigation.toDestination
+import de.heilsen.ganzhornfest.navigation.toTarget
 import de.heilsen.ganzhornfest.program.ProgramEvent
 import de.heilsen.ganzhornfest.program.ProgramScreen
 import de.heilsen.ganzhornfest.program.ProgramViewModel
@@ -138,7 +140,8 @@ fun MainScreen() {
         derivedStateOf {
             val dest = navBackStackEntry?.destination
             dest?.hasRoute<Destination.Map>() == true ||
-                dest?.hasRoute<Destination.Detail>() == true
+                dest?.hasRoute<Destination.Detail>() == true ||
+                dest?.hasRoute<Destination.CategoryDetail>() == true
         }
     }
 
@@ -263,15 +266,14 @@ fun MainScreen() {
                     }
                     composable<Destination.Detail> { navBackStackEntry ->
                         val detail: Destination.Detail = navBackStackEntry.toRoute()
-                        val detailEvent: DetailEvent =
-                            when (detail.type) {
-                                DetailType.Club -> DetailEvent.Club(detail.title)
-                                DetailType.Offer -> DetailEvent.Offer(detail.title)
-                                DetailType.Poi -> DetailEvent.Poi(detail.title)
-                                DetailType.PoiCategory -> DetailEvent.PoiCategory(detail.title)
-                            }
-                        LaunchedEffect(detailViewModel, detailEvent) {
-                            detailViewModel.take(detailEvent)
+                        LaunchedEffect(detailViewModel, detail) {
+                            detailViewModel.take(DetailEvent.Open(detail.toTarget()))
+                        }
+                    }
+                    composable<Destination.CategoryDetail> { navBackStackEntry ->
+                        val detail: Destination.CategoryDetail = navBackStackEntry.toRoute()
+                        LaunchedEffect(detailViewModel, detail) {
+                            detailViewModel.take(DetailEvent.Open(detail.toTarget()))
                         }
                     }
                     composable<Destination.Program> { navBackStackEntry ->
@@ -318,12 +320,16 @@ fun MainScreen() {
                     // The map draws behind the status bar. Everything floating over it re-applies
                     // the top inset for itself, see MapPane and MapScreen.
                     val mapPadding = innerPadding.withoutTop()
+                    val isDetail =
+                        currentDestination?.hasRoute<Destination.Detail>() == true ||
+                            currentDestination?.hasRoute<Destination.CategoryDetail>() == true
                     MapDetailOverlay(
                         mapViewModel = mapViewModel,
                         searchViewModel = searchViewModel,
                         detailViewModel = detailViewModel,
                         navController = navController,
-                        isDetail = currentDestination?.hasRoute<Destination.Detail>() == true,
+                        isDetail = isDetail,
+                        detailEntryKey = navBackStackEntry?.id,
                         modifier =
                             Modifier
                                 .padding(mapPadding)
@@ -358,6 +364,7 @@ private fun MapDetailOverlay(
     detailViewModel: DetailViewModel,
     navController: NavHostController,
     isDetail: Boolean,
+    detailEntryKey: String?,
     modifier: Modifier = Modifier,
 ) {
     val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
@@ -403,8 +410,8 @@ private fun MapDetailOverlay(
                         DetailScreen(
                             model = shownSuccess ?: detailModel,
                             onBackClick = { navController.popBackStack() },
-                            onItemClicked = { searchTerm, type ->
-                                navController.navigate(Destination.Detail(searchTerm, type))
+                            onItemClicked = { target ->
+                                navController.navigate(target.toDestination())
                             },
                             // The inset goes on the content, not the Surface, so the pane still
                             // paints its tonal background up to the top edge.
@@ -420,6 +427,7 @@ private fun MapDetailOverlay(
             DetailSheetLayout(
                 halfScreen = maxHeight / 2,
                 isDetail = isDetail,
+                detailEntryKey = detailEntryKey,
                 detailModel = detailModel,
                 shownSuccess = shownSuccess,
                 navController = navController,
@@ -446,6 +454,7 @@ private fun MapDetailOverlay(
 private fun DetailSheetLayout(
     halfScreen: Dp,
     isDetail: Boolean,
+    detailEntryKey: String?,
     detailModel: DetailModel,
     shownSuccess: DetailModel.Success?,
     navController: NavHostController,
@@ -460,7 +469,7 @@ private fun DetailSheetLayout(
             confirmValueChange = remember { { _: SheetValue -> true } },
         )
     val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
-    LaunchedEffect(isDetail, (detailModel as? DetailModel.Success)?.title) {
+    LaunchedEffect(isDetail, detailEntryKey) {
         if (isDetail) {
             sheetState.partialExpand()
         } else {
@@ -495,8 +504,8 @@ private fun DetailSheetLayout(
                 DetailScreen(
                     model = shownSuccess ?: detailModel,
                     onBackClick = { navController.popBackStack() },
-                    onItemClicked = { searchTerm, type ->
-                        navController.navigate(Destination.Detail(searchTerm, type))
+                    onItemClicked = { target ->
+                        navController.navigate(target.toDestination())
                     },
                     modifier =
                         Modifier
@@ -538,19 +547,18 @@ private fun MapPane(
             mapBottomPadding = mapBottomPadding,
             pinEditorOpen = pinEditorOpen,
             onPinEditorOpenChange = { pinEditorOpen = it },
-            onMarkerSelected = { title, type ->
-                when (type) {
-                    MarkerUiType.CLUB -> {
-                        navController.navigate(Destination.Detail(title, DetailType.Club))
-                    }
+            onMarkerSelected = { marker ->
+                when (marker.markerUiType) {
+                    MarkerUiType.CLUB ->
+                        navController.navigate(DetailTarget.Club(marker.poiId).toDestination())
                     MarkerUiType.EVENT_LOCATION,
                     MarkerUiType.PLAYGROUND,
-                    -> navController.navigate(Destination.Program(title))
+                    -> navController.navigate(Destination.Program(marker.title))
                     MarkerUiType.BUS_STOP -> navController.navigate(Destination.Bus)
                     MarkerUiType.ATTRACTION,
                     MarkerUiType.WC,
                     MarkerUiType.FIRST_AID,
-                    -> navController.navigate(Destination.Detail(title, DetailType.Poi))
+                    -> navController.navigate(DetailTarget.Poi(marker.poiId).toDestination())
                 }
             },
         )
@@ -575,15 +583,15 @@ private fun MapPane(
             MapSearchBar(
                 searchModel = searchModel,
                 onEvent = { searchViewModel.take(it) },
-                onSearchResultClicked = { item, category ->
-                    val type =
+                onSearchResultClicked = { id, category ->
+                    val target =
                         when (category) {
                             Category.Food,
                             Category.Drink,
-                            -> DetailType.Offer
-                            Category.Club -> DetailType.Club
+                            -> DetailTarget.Offer(id)
+                            Category.Club -> DetailTarget.Club(id)
                         }
-                    navController.navigate(Destination.Detail(item, type))
+                    navController.navigate(target.toDestination())
                 },
                 modifier =
                     Modifier

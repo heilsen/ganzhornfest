@@ -24,9 +24,9 @@ class SearchPresenterTest :
             it("only queries the final query after rapid successive Search events") {
                 val showResults = mockk<ShowSearchResultsUseCase>()
                 every { showResults("b", persistentSetOf(Category.Club)) } returns
-                    flowOf(persistentListOf(SearchModel.Result("b-result", "", Category.Club)))
+                    flowOf(persistentListOf(SearchModel.Result(1, "b-result", "", Category.Club)))
                 every { showResults("ba", persistentSetOf(Category.Club)) } returns
-                    flowOf(persistentListOf(SearchModel.Result("ba-result", "", Category.Club)))
+                    flowOf(persistentListOf(SearchModel.Result(2, "ba-result", "", Category.Club)))
                 val presenter = SearchPresenter(showResults)
                 val events = MutableSharedFlow<SearchEvent>(extraBufferCapacity = 20)
 
@@ -42,7 +42,7 @@ class SearchPresenterTest :
 
                         val model = expectMostRecentItem() as SearchModel.Data
                         model.results shouldBe
-                            persistentListOf(SearchModel.Result("ba-result", "", Category.Club))
+                            persistentListOf(SearchModel.Result(2, "ba-result", "", Category.Club))
 
                         cancelAndIgnoreRemainingEvents()
                     }

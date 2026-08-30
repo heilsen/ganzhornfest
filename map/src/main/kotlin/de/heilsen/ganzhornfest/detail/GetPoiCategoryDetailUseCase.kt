@@ -13,17 +13,16 @@ class GetPoiCategoryDetailUseCase
     constructor(
         private val getMarkers: GetMarkersUseCase,
     ) {
-        operator fun invoke(typeName: String): Flow<DetailModel.Success> =
+        operator fun invoke(type: MarkerUiType): Flow<DetailModel.Success> =
             getMarkers().map { markers ->
-                val type = runCatching { MarkerUiType.valueOf(typeName) }.getOrNull()
                 DetailModel.Success(
-                    title = type?.germanLabel().orEmpty(),
-                    type = DetailType.PoiCategory,
+                    title = type.germanLabel(),
+                    target = DetailTarget.Category(type),
                     items =
                         markers
                             .filter { it.markerUiType == type }
-                            .distinctBy { it.title }
-                            .map { DetailItem(it.title) }
+                            .distinctBy { it.poiId }
+                            .map { DetailItem(it.title, target = DetailTarget.Poi(it.poiId)) }
                             .sortedWith(compareBy(germanAlphaComparator(), DetailItem::name)),
                 )
             }

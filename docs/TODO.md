@@ -3,7 +3,7 @@
 ## High Priority
 
 - [ ] Fix detail/navigation architecture
-  - Replace title-based detail routing with stable IDs
+  - [x] Replace title-based detail routing with stable IDs
   - Scope screen state to the `NavBackStackEntry` instead of using app-wide shared view models
   - Remove the `DetailEvent` push from `MainScreen` before navigation
   - Add deep-link and back stack restoration support once routes are ID-based

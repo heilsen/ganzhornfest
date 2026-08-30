@@ -16,15 +16,17 @@ class ClubCoordinatesRepository
         fun getPoiCoordinates(): Flow<List<MarkerDTO>> =
             ganzhornfestDb
                 .poiCoordinateQueries
-                .selectAll(mapper = { name, type, lat, lng -> MarkerDTO(name, type, LatLng(lat, lng)) })
+                .selectAll(mapper = { poiId, name, type, lat, lng -> MarkerDTO(poiId, name, type, LatLng(lat, lng)) })
                 .asFlow()
                 .mapToList(Dispatchers.IO)
 
         fun getClubCoordinates(clubName: String): Flow<List<MarkerDTO>> =
             ganzhornfestDb
                 .poiCoordinateQueries
-                .selectByClubName(clubName, mapper = { name, lat, lng -> MarkerDTO(name, "club", LatLng(lat, lng)) })
-                .asFlow()
+                .selectByClubName(
+                    clubName,
+                    mapper = { poiId, name, lat, lng -> MarkerDTO(poiId, name, "club", LatLng(lat, lng)) },
+                ).asFlow()
                 .mapToList(Dispatchers.IO)
 
         fun getClubCoordinatesByOffer(offerName: String): Flow<List<MarkerDTO>> =
@@ -32,7 +34,7 @@ class ClubCoordinatesRepository
                 .poiCoordinateQueries
                 .selectByOfferName(
                     offerName,
-                    mapper = { name, lat, lng -> MarkerDTO(name, "club", LatLng(lat, lng)) },
+                    mapper = { poiId, name, lat, lng -> MarkerDTO(poiId, name, "club", LatLng(lat, lng)) },
                 ).asFlow()
                 .mapToList(Dispatchers.IO)
 
@@ -63,6 +65,7 @@ data class ClubPinRow(
 )
 
 data class MarkerDTO(
+    val poiId: Long,
     val name: String,
     val type: String,
     val latLng: LatLng,

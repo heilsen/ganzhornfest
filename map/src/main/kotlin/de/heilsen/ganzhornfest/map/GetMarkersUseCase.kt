@@ -16,7 +16,7 @@ class GetMarkersUseCase
                 .getPoiCoordinates()
                 .map { markerList ->
                     markerList
-                        .mapNotNull { (name, type, latLng) ->
+                        .mapNotNull { (poiId, name, type, latLng) ->
                             val markerUiType =
                                 when (type) {
                                     "club" -> MarkerUiType.CLUB
@@ -29,6 +29,7 @@ class GetMarkersUseCase
                                     else -> null
                                 } ?: return@mapNotNull null
                             MarkerUi(
+                                poiId = poiId,
                                 title = name,
                                 markerUiType = markerUiType,
                                 latLng = latLng,

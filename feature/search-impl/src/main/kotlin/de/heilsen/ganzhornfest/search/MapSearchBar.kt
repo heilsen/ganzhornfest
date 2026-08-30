@@ -72,12 +72,12 @@ fun MapSearchBar(
             persistentListOf(Category.Food, Category.Drink, Category.Club),
             persistentSetOf(Category.Food, Category.Drink),
             persistentListOf(
-                SearchModel.Result("Result Header 1", "Result Description 1", Category.Food),
-                SearchModel.Result("Result Header 2", "", Category.Drink),
+                SearchModel.Result(1, "Result Header 1", "Result Description 1", Category.Food),
+                SearchModel.Result(2, "Result Header 2", "", Category.Drink),
             ),
         ),
     onEvent: (SearchEvent) -> Unit = {},
-    onSearchResultClicked: (String, Category) -> Unit = { _, _ -> },
+    onSearchResultClicked: (Long, Category) -> Unit = { _, _ -> },
 ) {
     val entryPoint: EntryPoint by rememberAppGraph()
     val resourcesProvider = entryPoint.resourcesProvider
@@ -216,10 +216,10 @@ fun MapSearchBar(
                 SearchResults(
                     searchModel,
                     onEvent,
-                    onSearchResultClicked = { header, category ->
+                    onSearchResultClicked = { id, category ->
                         onEvent(SearchEvent.OpenResult)
                         keyboardController?.hide()
-                        onSearchResultClicked(header, category)
+                        onSearchResultClicked(id, category)
                     },
                     resourcesProvider,
                 )
@@ -234,7 +234,7 @@ fun MapSearchBar(
 private fun SearchResults(
     searchModel: SearchModel.Data,
     onEvent: (SearchEvent) -> Unit,
-    onSearchResultClicked: (String, Category) -> Unit,
+    onSearchResultClicked: (Long, Category) -> Unit,
     resourcesProvider: ResourcesProvider,
 ) {
     Column(Modifier.padding(horizontal = 16.dp)) {
@@ -284,7 +284,7 @@ private fun SearchResults(
                 items(searchModel.results) { result ->
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = { onSearchResultClicked(result.header, result.category) },
+                        onClick = { onSearchResultClicked(result.id, result.category) },
                     ) {
                         Column(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),

@@ -4,21 +4,24 @@ import de.heilsen.ganzhornfest.club.data.ClubRepository
 import de.heilsen.ganzhornfest.core.germanAlphaComparator
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 
 class GetClubDetailUseCase
     @Inject
     constructor(
         private val clubRepository: ClubRepository,
     ) {
-        operator fun invoke(clubName: String): Flow<DetailModel.Success> =
-            clubRepository.getOffersByClub(clubName).map { offers ->
+        operator fun invoke(poiId: Long): Flow<DetailModel.Success> =
+            combine(
+                clubRepository.getClubName(poiId),
+                clubRepository.getOffersByClub(poiId),
+            ) { name, offers ->
                 DetailModel.Success(
-                    title = clubName,
-                    type = DetailType.Club,
+                    title = name.orEmpty(),
+                    target = DetailTarget.Club(poiId),
                     items =
                         offers
-                            .map { (name, description) -> DetailItem(name, description) }
+                            .map { DetailItem(it.name, it.description, DetailTarget.Offer(it.offerId)) }
                             .sortedWith(compareBy(germanAlphaComparator(), DetailItem::name)),
                 )
             }

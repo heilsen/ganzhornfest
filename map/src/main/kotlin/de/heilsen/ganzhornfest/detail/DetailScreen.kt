@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 fun DetailScreen(
     model: DetailModel,
     onBackClick: () -> Unit,
-    onItemClicked: (String, DetailType) -> Unit,
+    onItemClicked: (DetailTarget) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (model !is DetailModel.Success) return
@@ -42,11 +42,11 @@ fun DetailScreen(
             )
         }
         val sectionTitle =
-            when (model.type) {
-                DetailType.Club -> "Angebot"
-                DetailType.Offer -> "Vereine"
-                DetailType.Poi -> "Kategorie"
-                DetailType.PoiCategory -> "Standorte"
+            when (model.target) {
+                is DetailTarget.Club -> "Angebot"
+                is DetailTarget.Offer -> "Vereine"
+                is DetailTarget.Poi -> "Kategorie"
+                is DetailTarget.Category -> "Standorte"
             }
         Text(
             modifier =
@@ -63,14 +63,7 @@ fun DetailScreen(
                         Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp, vertical = 4.dp),
-                    onClick = {
-                        when (model.type) {
-                            DetailType.Club -> onItemClicked(item.routeKey, DetailType.Offer)
-                            DetailType.Offer -> onItemClicked(item.routeKey, DetailType.Club)
-                            DetailType.Poi -> onItemClicked(item.routeKey, DetailType.PoiCategory)
-                            DetailType.PoiCategory -> onItemClicked(item.routeKey, DetailType.Poi)
-                        }
-                    },
+                    onClick = { onItemClicked(item.target) },
                 ) {
                     Column(Modifier.padding(16.dp)) {
                         Text(text = item.name, style = MaterialTheme.typography.headlineSmall)

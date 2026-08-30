@@ -60,7 +60,7 @@ class ShowSearchResultsUseCaseImpl
                         list
                             .filter { item -> item.matches(queryTokens, locale, aliasesByOffer[item.id].orEmpty()) }
                             .map { item ->
-                                SearchModel.Result(item.name, item.description ?: "", Category.Food, item.clubs)
+                                SearchModel.Result(item.id, item.name, item.description ?: "", Category.Food, item.clubs)
                             }
                     }
 
@@ -70,7 +70,7 @@ class ShowSearchResultsUseCaseImpl
                         list
                             .filter { item -> item.matches(queryTokens, locale, aliasesByOffer[item.id].orEmpty()) }
                             .map { item ->
-                                SearchModel.Result(item.name, item.description ?: "", Category.Drink, item.clubs)
+                                SearchModel.Result(item.id, item.name, item.description ?: "", Category.Drink, item.clubs)
                             }
                     }
 
@@ -78,7 +78,7 @@ class ShowSearchResultsUseCaseImpl
                     poiRepository.getAll().map { list ->
                         list
                             .filter { item -> queryTokens.all { token -> item.name.matchesSearch(token, locale) } }
-                            .map { item -> SearchModel.Result(item.name, "", Category.Club) }
+                            .map { item -> SearchModel.Result(item.id, item.name, "", Category.Club) }
                     }
             }
 
