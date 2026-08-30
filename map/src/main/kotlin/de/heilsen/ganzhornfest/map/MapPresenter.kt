@@ -5,9 +5,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import dev.zacsweers.metro.Inject
+import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class MapPresenter
@@ -27,12 +28,16 @@ class MapPresenter
 
         @Composable
         fun present(): MapModel {
-            val markers by remember {
-                getMarkers().catch {
-                    Timber.e(it, "Failed to load map markers")
-                    emit(persistentSetOf())
-                }
-            }.collectAsState(initial = persistentSetOf())
+            val markerModel by remember {
+                getMarkers()
+                    .map<PersistentSet<MarkerUi>, MapModel> { MapModel.Data(markers = it) }
+                    .catch {
+                        Timber.e(it, "Failed to load map markers")
+                        emit(MapModel.Error)
+                    }
+            }.collectAsState(initial = null)
+            // The pin editor is a debug tool. A failed pin query empties the editor list,
+            // it does not take the map down with it.
             val pins by remember {
                 getClubPins().catch {
                     Timber.e(it, "Failed to load pin editor list")
@@ -40,9 +45,10 @@ class MapPresenter
                 }
             }.collectAsState(initial = persistentListOf())
 
-            return MapModel.Data(
-                markers = markers,
-                pins = pins,
-            )
+            return when (val model = markerModel) {
+                null -> MapModel.Loading()
+                is MapModel.Data -> model.copy(pins = pins)
+                else -> model
+            }
         }
     }

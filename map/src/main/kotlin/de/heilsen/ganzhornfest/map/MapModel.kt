@@ -17,6 +17,8 @@ sealed class MapModel(
     data class Loading(
         override val isFullscreen: Boolean = true,
     ) : MapModel(isFullscreen)
+
+    data object Error : MapModel()
 }
 
 data class PinEditorModel(

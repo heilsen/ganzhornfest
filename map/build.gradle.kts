@@ -50,6 +50,7 @@ dependencies {
 
     testImplementation(libs.kotest.runner.junit5)
     testImplementation(libs.mockk)
+    testImplementation(libs.molecule.runtime)
     testImplementation(libs.turbine)
     testImplementation(libs.kotlinx.coroutines.test)
 }

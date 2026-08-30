@@ -381,6 +381,10 @@ private fun MapDetailOverlay(
         }
     }
     val shownSuccess = lastSuccess.takeIf { isDetail }
+    // A failed load beats the cache. Otherwise detail to detail navigation keeps showing the
+    // previous item while the new one is broken.
+    val shownModel: DetailModel =
+        if (detailModel is DetailModel.Error) detailModel else shownSuccess ?: detailModel
     val highlightTitles: Set<String>? = shownSuccess?.highlightTitles()
 
     val sidePanel = isSidePanelLayout()
@@ -408,7 +412,7 @@ private fun MapDetailOverlay(
                         tonalElevation = 1.dp,
                     ) {
                         DetailScreen(
-                            model = shownSuccess ?: detailModel,
+                            model = shownModel,
                             onBackClick = { navController.popBackStack() },
                             onItemClicked = { target ->
                                 navController.navigate(target.toDestination())
@@ -428,8 +432,7 @@ private fun MapDetailOverlay(
                 halfScreen = maxHeight / 2,
                 isDetail = isDetail,
                 detailEntryKey = detailEntryKey,
-                detailModel = detailModel,
-                shownSuccess = shownSuccess,
+                shownModel = shownModel,
                 navController = navController,
             ) { mapBottomPadding, showSearchBar ->
                 MapPane(
@@ -455,8 +458,7 @@ private fun DetailSheetLayout(
     halfScreen: Dp,
     isDetail: Boolean,
     detailEntryKey: String?,
-    detailModel: DetailModel,
-    shownSuccess: DetailModel.Success?,
+    shownModel: DetailModel,
     navController: NavHostController,
     content: @Composable (mapBottomPadding: Dp, showSearchBar: Boolean) -> Unit,
 ) {
@@ -502,7 +504,7 @@ private fun DetailSheetLayout(
                 // end of the drag.
                 val clearsStatusBar = sheetState.targetValue == SheetValue.Expanded
                 DetailScreen(
-                    model = shownSuccess ?: detailModel,
+                    model = shownModel,
                     onBackClick = { navController.popBackStack() },
                     onItemClicked = { target ->
                         navController.navigate(target.toDestination())
