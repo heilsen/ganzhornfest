@@ -27,9 +27,4 @@
     <string name="instagram_hashtag_url">https://www.instagram.com/explore/tags/ganzhornfest/</string>
     <string name="facebook_url">https://www.facebook.com/ganzhornfest.neckarsulm/</string>
     <string name="facebook_hashtag_url">https://www.facebook.com/hashtag/ganzhornfest</string>
-    <string name="fonts_label">Schriften</string>
-    <string name="fonts_source_sans_3">Source Sans 3</string>
-    <string name="fonts_source_sans_3_url">https://fonts.google.com/specimen/Source+Sans+3</string>
-    <string name="fonts_fraunces">Fraunces</string>
-    <string name="fonts_fraunces_url">https://fonts.google.com/specimen/Fraunces</string>
 </resources>

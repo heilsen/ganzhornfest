@@ -415,11 +415,6 @@ private fun OfficialLinksCard(modifier: Modifier = Modifier) {
     val instagramHashtagUrl = stringResource(R.string.instagram_hashtag_url)
     val facebookUrl = stringResource(R.string.facebook_url)
     val facebookHashtagUrl = stringResource(R.string.facebook_hashtag_url)
-    val fontsLabel = stringResource(R.string.fonts_label)
-    val sourceSans3 = stringResource(R.string.fonts_source_sans_3)
-    val sourceSans3Url = stringResource(R.string.fonts_source_sans_3_url)
-    val fraunces = stringResource(R.string.fonts_fraunces)
-    val frauncesUrl = stringResource(R.string.fonts_fraunces_url)
     Card(
         modifier.fillMaxWidth(),
         colors = infoCardColors(),
@@ -462,19 +457,6 @@ private fun OfficialLinksCard(modifier: Modifier = Modifier) {
                         append("  ")
                         withLink(LinkAnnotation.Url(facebookHashtagUrl)) {
                             withStyle(linkStyle) { append(hashtag) }
-                        }
-                    },
-            )
-            Text(
-                style = infoNoteStyle(),
-                text =
-                    officialInfoItem(fontsLabel) {
-                        withLink(LinkAnnotation.Url(sourceSans3Url)) {
-                            withStyle(linkStyle) { append(sourceSans3) }
-                        }
-                        append(", ")
-                        withLink(LinkAnnotation.Url(frauncesUrl)) {
-                            withStyle(linkStyle) { append(fraunces) }
                         }
                     },
             )
