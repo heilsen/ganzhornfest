@@ -60,12 +60,13 @@ object PinBitmapFactory {
         when (type) {
             // Content, the things you came for. Four hues, 65 to 145 degrees apart. The green
             // arc is left empty. A green dot disappears into grass and tree canopy on HYBRID.
-            MarkerUiType.CLUB -> Triple(30f, 0.70f, 0.85f)
-            MarkerUiType.PLAYGROUND -> Triple(175f, 0.70f, 0.85f)
-            MarkerUiType.ATTRACTION -> Triple(255f, 0.70f, 0.85f)
-            MarkerUiType.EVENT_LOCATION -> Triple(325f, 0.70f, 0.85f)
+            // S 0.78 keeps a chroma step for Highlighted while still reading clean, not brown.
+            MarkerUiType.CLUB -> Triple(28f, 0.78f, 0.90f)
+            MarkerUiType.PLAYGROUND -> Triple(175f, 0.78f, 0.90f)
+            MarkerUiType.ATTRACTION -> Triple(255f, 0.78f, 0.90f)
+            MarkerUiType.EVENT_LOCATION -> Triple(325f, 0.78f, 0.90f)
             // Safety. Hotter than content at rest so it reads without being asked for.
-            MarkerUiType.FIRST_AID -> Triple(0f, 0.85f, 0.90f)
+            MarkerUiType.FIRST_AID -> Triple(0f, 0.92f, 0.95f)
             // Service, the things you need occasionally. One hue, separated by lightness. Two
             // blues 30 degrees apart is what made the old azure and blue pins indistinguishable.
             MarkerUiType.WC -> Triple(210f, 0.30f, 0.90f)
