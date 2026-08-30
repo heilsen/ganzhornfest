@@ -3,7 +3,10 @@ package de.heilsen.ganzhornfest.main
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +14,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.DirectionsBus
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
@@ -36,9 +46,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -63,6 +72,7 @@ import de.heilsen.ganzhornfest.detail.highlightTitles
 import de.heilsen.ganzhornfest.di.getValue
 import de.heilsen.ganzhornfest.di.rememberAppGraph
 import de.heilsen.ganzhornfest.info.InfoScreen
+import de.heilsen.ganzhornfest.info.InfoViewModel
 import de.heilsen.ganzhornfest.map.MapModel
 import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.map.MapViewModel
@@ -87,6 +97,22 @@ interface EntryPoint {
     val mapViewModel: MapViewModel
     val searchViewModel: SearchViewModel
     val detailViewModel: DetailViewModel
+    val infoViewModel: InfoViewModel
+}
+
+// EntryPoint's ViewModels are unscoped in the DI graph, so reading them off the
+// interface builds a fresh instance every time. Reading all six once into this
+// holder, then remembering the holder, keeps MainScreen from recreating them (and
+// restarting their underlying molecule flows) on every navigation.
+private class MainViewModels(
+    entryPoint: EntryPoint,
+) {
+    val busViewModel: BusViewModel = entryPoint.busViewModel
+    val programViewModel: ProgramViewModel = entryPoint.programViewModel
+    val mapViewModel: MapViewModel = entryPoint.mapViewModel
+    val searchViewModel: SearchViewModel = entryPoint.searchViewModel
+    val detailViewModel: DetailViewModel = entryPoint.detailViewModel
+    val infoViewModel: InfoViewModel = entryPoint.infoViewModel
 }
 
 @Preview(name = "Light Mode")
@@ -106,23 +132,38 @@ fun MainScreen() {
     }
 
     val entryPoint: EntryPoint by rememberAppGraph()
-    val busViewModel: BusViewModel = entryPoint.busViewModel
-    val programViewModel: ProgramViewModel = entryPoint.programViewModel
-    val mapViewModel: MapViewModel = entryPoint.mapViewModel
-    // Unscoped Metro injection. Remember so the search session survives Map leaving composition.
-    val searchViewModel = remember { entryPoint.searchViewModel }
-    // Same reason. A fresh instance per recomposition would lose the model the sheet reads,
-    // since the detail event is only pushed when the route changes.
-    val detailViewModel: DetailViewModel = remember { entryPoint.detailViewModel }
+    val viewModels = remember(entryPoint) { MainViewModels(entryPoint) }
+    val busViewModel = viewModels.busViewModel
+    val programViewModel = viewModels.programViewModel
+    val mapViewModel = viewModels.mapViewModel
+    val searchViewModel = viewModels.searchViewModel
+    val detailViewModel = viewModels.detailViewModel
+    val infoViewModel = viewModels.infoViewModel
 
     GanzhornfestTheme {
         Scaffold(
             bottomBar = {
-                NavigationBar {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    tonalElevation = 0.dp,
+                ) {
+                    val wine = MaterialTheme.colorScheme.primary
+                    val itemColors =
+                        NavigationBarItemDefaults.colors(
+                            selectedIconColor = wine,
+                            selectedTextColor = wine,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                        )
+                    val infoSelected = currentDestination?.hasRoute<Destination.Info>() ?: false
                     NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Info>() ?: false,
+                        infoSelected,
                         icon = {
-                            Icon(Icons.Default.Info, stringResource(R.string.info))
+                            Icon(
+                                imageVector = if (infoSelected) Icons.Filled.Info else Icons.Outlined.Info,
+                                contentDescription = stringResource(R.string.info),
+                            )
                         },
                         onClick = {
                             navController.navigate(Destination.Info) {
@@ -132,11 +173,15 @@ fun MainScreen() {
                             }
                         },
                         label = { Text(stringResource(R.string.info)) },
+                        colors = itemColors,
                     )
                     NavigationBarItem(
                         isMapSurface,
                         icon = {
-                            Icon(Icons.Default.LocationOn, stringResource(R.string.map))
+                            Icon(
+                                imageVector = if (isMapSurface) Icons.Filled.LocationOn else Icons.Outlined.LocationOn,
+                                contentDescription = stringResource(R.string.map),
+                            )
                         },
                         onClick = {
                             // Detail sits on the map surface, so this tab is already
@@ -149,11 +194,16 @@ fun MainScreen() {
                             }
                         },
                         label = { Text(stringResource(R.string.map)) },
+                        colors = itemColors,
                     )
+                    val programSelected = currentDestination?.hasRoute<Destination.Program>() ?: false
                     NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Program>() ?: false,
+                        programSelected,
                         icon = {
-                            Icon(Icons.Default.DateRange, stringResource(R.string.program))
+                            Icon(
+                                imageVector = if (programSelected) Icons.Filled.DateRange else Icons.Outlined.DateRange,
+                                contentDescription = stringResource(R.string.program),
+                            )
                         },
                         onClick = {
                             navController.navigate(Destination.Program()) {
@@ -163,13 +213,15 @@ fun MainScreen() {
                             }
                         },
                         label = { Text(stringResource(R.string.program)) },
+                        colors = itemColors,
                     )
+                    val busSelected = currentDestination?.hasRoute<Destination.Bus>() ?: false
                     NavigationBarItem(
-                        currentDestination?.hasRoute<Destination.Bus>() ?: false,
+                        busSelected,
                         icon = {
                             Icon(
-                                ImageVector.vectorResource(id = de.heilsen.ganzhornfest.bus.api.R.drawable.ic_directions_bus_filled_24),
-                                stringResource(R.string.bustimes),
+                                imageVector = if (busSelected) Icons.Filled.DirectionsBus else Icons.Outlined.DirectionsBus,
+                                contentDescription = stringResource(R.string.bustimes),
                             )
                         },
                         onClick = {
@@ -180,16 +232,17 @@ fun MainScreen() {
                             }
                         },
                         label = { Text(stringResource(R.string.bustimes)) },
+                        colors = itemColors,
                     )
                 }
             },
         ) { innerPadding ->
-            Box(
-                Modifier
-                    .padding(innerPadding)
-                    .consumeWindowInsets(innerPadding)
-                    .fillMaxSize(),
-            ) {
+            // Each route applies innerPadding to its own root instead of one shared modifier:
+            // a value gated on the current destination flips the instant navigate() commits,
+            // before the outgoing screen's cross-fade finishes, so a shared modifier jumped
+            // under the status bar mid-transition.
+            val layoutDirection = LocalLayoutDirection.current
+            Box(Modifier.fillMaxSize()) {
                 NavHost(
                     navController = navController,
                     startDestination = Destination.Map,
@@ -220,16 +273,40 @@ fun MainScreen() {
                         ProgramScreen(
                             programModel,
                             onEvent = programViewModel::take,
+                            modifier =
+                                Modifier
+                                    .padding(innerPadding)
+                                    .consumeWindowInsets(innerPadding),
                         )
                     }
                     composable<Destination.Info> {
-                        InfoScreen()
+                        val infoModel by infoViewModel.models.collectAsStateWithLifecycle()
+                        // Info manages its own top inset with the collapsing hero app bar, so it
+                        // only takes the start/end/bottom portion of innerPadding here.
+                        val infoPadding =
+                            PaddingValues(
+                                start = innerPadding.calculateStartPadding(layoutDirection),
+                                top = 0.dp,
+                                end = innerPadding.calculateEndPadding(layoutDirection),
+                                bottom = innerPadding.calculateBottomPadding(),
+                            )
+                        InfoScreen(
+                            clubCount = infoModel.clubCount,
+                            modifier =
+                                Modifier
+                                    .padding(infoPadding)
+                                    .consumeWindowInsets(infoPadding),
+                        )
                     }
                     composable<Destination.Bus> {
                         val busModel by busViewModel.models.collectAsStateWithLifecycle()
                         BusScreen(
                             busModel,
                             onEvent = busViewModel::take,
+                            modifier =
+                                Modifier
+                                    .padding(innerPadding)
+                                    .consumeWindowInsets(innerPadding),
                         )
                     }
                 }
@@ -241,6 +318,10 @@ fun MainScreen() {
                         detailViewModel = detailViewModel,
                         navController = navController,
                         isDetail = currentDestination?.hasRoute<Destination.Detail>() == true,
+                        modifier =
+                            Modifier
+                                .padding(innerPadding)
+                                .consumeWindowInsets(innerPadding),
                     )
                 }
             }
@@ -256,6 +337,7 @@ private fun MapDetailOverlay(
     detailViewModel: DetailViewModel,
     navController: NavHostController,
     isDetail: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     val mapModel by mapViewModel.models.collectAsStateWithLifecycle()
     val searchModel by searchViewModel.models.collectAsStateWithLifecycle()
@@ -275,7 +357,7 @@ private fun MapDetailOverlay(
 
     val sidePanel = isSidePanelLayout()
 
-    BoxWithConstraints(Modifier.fillMaxSize()) {
+    BoxWithConstraints(modifier.fillMaxSize()) {
         // Keep the map at least half the width on a narrow two pane window.
         val paneWidth = minOf(DETAIL_PANE_WIDTH, maxWidth / 2)
         if (sidePanel) {

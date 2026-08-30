@@ -8,6 +8,14 @@ android {
     namespace = "de.heilsen.ganzhornfest.core.api"
     compileSdk = 37
     defaultConfig.minSdk = 24
+
+    testOptions {
+        unitTests {
+            all { test ->
+                test.useJUnitPlatform()
+            }
+        }
+    }
 }
 kotlin.jvmToolchain(21)
 
@@ -22,4 +30,6 @@ dependencies {
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    testImplementation(libs.kotest.runner.junit5)
 }

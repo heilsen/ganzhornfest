@@ -44,6 +44,11 @@
   - Remove the `MainScreen` navigation TODO by emitting navigation effects instead of navigating inline
   - Keep presenters/view models predictable and easier to test
 
+- [ ] Move ViewModels off the app graph
+  - Provide them through `viewModel()` with a Metro-backed factory instead of reading them from `EntryPoint` in composition
+  - Unblocks scoping screen state to the `NavBackStackEntry`
+  - `remember` at the read site in `MainScreen` is the interim workaround
+
 - [ ] Reduce lifecycle-sensitive presenter state
   - Revisit presenter-local `mutableStateOf` usage in `BusPresenter`, `ProgramPresenter`, and `SearchPresenter`
   - Keep presenter state derivation consistent across features
@@ -53,8 +58,8 @@
   - Add indexes for frequent lookups used by search and other list/detail flows
   - Add migration tests for SQLDelight
 
-- [ ] Improve info/statistics queries
-  - Add the missing count queries needed for `InfoScreen` instead of manually maintained numbers
+- [x] Improve info/statistics queries
+  - [x] Add the missing count queries needed for `InfoScreen` instead of manually maintained numbers
 
 ## Quality, Tooling, And Release
 
@@ -85,6 +90,7 @@
 
 - [ ] Improve release readiness and privacy
   - Standardize logging and avoid sensitive logs in release builds
+  - Add a licences screen for bundled OFL fonts (Source Sans 3, Fraunces) instead of raw resource links from Info
 
 - [ ] Finish resource, accessibility, and preview coverage
   - Move remaining hardcoded UI text into string resources

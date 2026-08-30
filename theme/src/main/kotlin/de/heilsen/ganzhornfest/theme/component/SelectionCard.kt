@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -14,6 +15,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +31,14 @@ fun SelectionCard(
     modifier: Modifier = Modifier,
     header: @Composable () -> Unit = {},
 ) {
-    Card(modifier = modifier) {
+    Card(
+        modifier = modifier,
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+            ),
+    ) {
         Column(Modifier.padding(8.dp)) {
             header()
             val columnCount =
@@ -80,6 +89,7 @@ fun <T> Selection(
             singleLine = true,
             label = { Text(selectedItemLabel) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = selectionTextFieldColors(),
         )
         ExposedDropdownMenu(
             expanded = expanded,
@@ -103,6 +113,27 @@ fun <T> Selection(
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun selectionTextFieldColors(): TextFieldColors {
+    val paper = MaterialTheme.colorScheme.surfaceContainerHighest
+    val ink = MaterialTheme.colorScheme.onSurface
+    // No disabled* overrides beyond the indicator: M3's default 38%-alpha disabled slots are
+    // what make a disabled field like Bus's origin read as non-interactive next to the two
+    // tappable dropdowns beside it.
+    return ExposedDropdownMenuDefaults.textFieldColors(
+        focusedContainerColor = paper,
+        unfocusedContainerColor = paper,
+        focusedTextColor = ink,
+        unfocusedTextColor = ink,
+        focusedLabelColor = MaterialTheme.colorScheme.primary,
+        unfocusedLabelColor = ink,
+        focusedTrailingIconColor = ink,
+        unfocusedTrailingIconColor = ink,
+        disabledIndicatorColor = MaterialTheme.colorScheme.outline,
+    )
 }
 
 data class SelectionConfig<T>(

@@ -10,6 +10,7 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toInstant
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Instant
@@ -71,6 +72,14 @@ fun formatToLocalDateTime(
         dateFormat,
         timeFormat,
     )
+
+// The pattern is a fixed German day-dot-month layout, so the locale is pinned rather
+// than following Locale.getDefault(). A single instance is safe here: it is only ever
+// called from composition on the main thread, and SimpleDateFormat is not thread safe.
+private val weekdayDateFormat = SimpleDateFormat("EE, dd.MM.", Locale.GERMANY)
+
+fun formatToLocalWeekdayDate(localDate: LocalDate): String =
+    weekdayDateFormat.format(localDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds())
 
 fun dayOfTheWeek(localDate: LocalDateTime): String = dayOfTheWeek(localDate.date)
 

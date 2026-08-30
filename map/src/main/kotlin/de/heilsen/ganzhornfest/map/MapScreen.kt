@@ -374,7 +374,7 @@ fun Legend(
     Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.small,
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
     ) {
         Column(Modifier.padding(4.dp)) {
             for (type in MarkerUiType.entries) {

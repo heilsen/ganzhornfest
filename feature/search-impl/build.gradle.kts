@@ -31,7 +31,6 @@ dependencies {
     implementation(project(":feature:search-api"))
     implementation(project(":core-api"))
     implementation(project(":presenter-api"))
-    implementation(project(":core:datetime-api"))
     implementation(project(":data"))
     implementation(project(":theme"))
     implementation(libs.molecule.runtime)

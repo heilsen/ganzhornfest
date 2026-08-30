@@ -84,9 +84,6 @@ android {
         resValues = true
     }
 
-    // Required so the java.time usage in :core:datetime-api is desugared into the APK.
-    compileOptions.isCoreLibraryDesugaringEnabled = true
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -116,8 +113,6 @@ kotlin {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
-
     implementation(project(":presenter-api"))
     implementation(project(":bus-api"))
     implementation(project(":bus-impl"))
@@ -145,6 +140,7 @@ dependencies {
     implementation(libs.bundles.androidx)
 
     implementation(libs.bundles.androidx.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
     debugImplementation(libs.bundles.androidx.compose.debug)
 
     implementation(libs.play.services.maps)
