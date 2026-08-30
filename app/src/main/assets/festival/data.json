@@ -3615,8 +3615,8 @@
     {
       "id": 11,
       "busLine": "91/692",
-      "stops": "Amorbach",
-      "destination": "Dahenfeld"
+      "stops": null,
+      "destination": "Amorbach"
     },
     {
       "id": 12,
@@ -3629,108 +3629,40 @@
       "busLine": "94",
       "stops": null,
       "destination": "Obereisesheim"
+    },
+    {
+      "id": 14,
+      "busLine": "624",
+      "stops": "Viktorshöhe",
+      "destination": "Dahenfeld"
+    },
+    {
+      "id": 15,
+      "busLine": "624/N20",
+      "stops": "Viktorshöhe",
+      "destination": "Dahenfeld"
     }
   ],
   "busConnections": [
     {
       "id": null,
       "busLineId": 11,
-      "departure": "09-07T19:18"
+      "departure": "09-07T19:37"
     },
     {
       "id": null,
       "busLineId": 11,
-      "departure": "09-07T19:48"
+      "departure": "09-07T20:37"
     },
     {
       "id": null,
       "busLineId": 11,
-      "departure": "09-07T22:48"
+      "departure": "09-07T22:07"
     },
     {
       "id": null,
-      "busLineId": 12,
-      "departure": "09-05T19:48"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-05T20:48"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-05T21:48"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-05T22:48"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-05T23:42"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-06T19:03"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-06T19:48"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-06T20:20"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-06T21:18"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-06T22:18"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-07T19:20"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-07T19:48"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-07T20:18"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-07T21:03"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-07T22:27"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-07T23:07"
-    },
-    {
-      "id": null,
-      "busLineId": 12,
-      "departure": "09-07T23:42"
+      "busLineId": 11,
+      "departure": "09-07T23:54"
     },
     {
       "id": null,
@@ -3755,12 +3687,12 @@
     {
       "id": null,
       "busLineId": 2,
-      "departure": "09-05T23:18"
+      "departure": "09-05T21:33"
     },
     {
       "id": null,
       "busLineId": 2,
-      "departure": "09-06T01:31"
+      "departure": "09-05T23:23"
     },
     {
       "id": null,
@@ -3770,12 +3702,7 @@
     {
       "id": null,
       "busLineId": 2,
-      "departure": "09-06T21:12"
-    },
-    {
-      "id": null,
-      "busLineId": 2,
-      "departure": "09-06T23:33"
+      "departure": "09-06T21:33"
     },
     {
       "id": null,
@@ -3795,12 +3722,17 @@
     {
       "id": null,
       "busLineId": 2,
-      "departure": "09-07T23:48"
+      "departure": "09-07T22:48"
     },
     {
       "id": null,
       "busLineId": 2,
-      "departure": "09-08T01:31"
+      "departure": "09-07T23:48"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
+      "departure": "09-05T19:03"
     },
     {
       "id": null,
@@ -3840,6 +3772,11 @@
     {
       "id": null,
       "busLineId": 3,
+      "departure": "09-07T19:03"
+    },
+    {
+      "id": null,
+      "busLineId": 3,
       "departure": "09-07T19:48"
     },
     {
@@ -3850,17 +3787,7 @@
     {
       "id": null,
       "busLineId": 3,
-      "departure": "09-07T20:48"
-    },
-    {
-      "id": null,
-      "busLineId": 3,
       "departure": "09-07T21:18"
-    },
-    {
-      "id": null,
-      "busLineId": 3,
-      "departure": "09-07T21:48"
     },
     {
       "id": null,
@@ -3870,22 +3797,7 @@
     {
       "id": null,
       "busLineId": 3,
-      "departure": "09-07T22:48"
-    },
-    {
-      "id": null,
-      "busLineId": 3,
       "departure": "09-07T23:18"
-    },
-    {
-      "id": null,
-      "busLineId": 5,
-      "departure": "09-06T01:31"
-    },
-    {
-      "id": null,
-      "busLineId": 5,
-      "departure": "09-06T23:33"
     },
     {
       "id": null,
@@ -3939,18 +3851,18 @@
     },
     {
       "id": null,
-      "busLineId": 8,
-      "departure": "09-07T19:36"
+      "busLineId": 14,
+      "departure": "09-06T23:33"
     },
     {
       "id": null,
-      "busLineId": 8,
-      "departure": "09-07T20:36"
+      "busLineId": 15,
+      "departure": "09-06T01:31"
     },
     {
       "id": null,
-      "busLineId": 8,
-      "departure": "09-07T21:36"
+      "busLineId": 15,
+      "departure": "09-08T01:31"
     }
   ],
   "programs": [

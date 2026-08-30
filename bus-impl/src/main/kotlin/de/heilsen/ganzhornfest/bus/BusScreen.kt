@@ -1,15 +1,12 @@
 package de.heilsen.ganzhornfest.bus
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -50,22 +47,11 @@ fun BusScreen(
         title = { Text(stringResource(id = ApiR.string.bus_screen_title)) },
         modifier = modifier,
     ) {
-        Box {
-            Column {
-                when (busModel) {
-                    BusModel.Loading -> LoadingScreen()
-                    is BusModel.Data -> BusScreenSuccess(busModel, onEvent)
-                }
+        Column {
+            when (busModel) {
+                BusModel.Loading -> LoadingScreen()
+                is BusModel.Data -> BusScreenSuccess(busModel, onEvent)
             }
-            Text(
-                modifier =
-                    Modifier
-                        .align(Alignment.BottomEnd)
-                        .background(MaterialTheme.colorScheme.surface),
-                textAlign = TextAlign.End,
-                text = "Angaben ohne Gewähr",
-                style = MaterialTheme.typography.labelSmall,
-            )
         }
     }
 }
@@ -110,7 +96,7 @@ private fun Connections(
     if (connections.isEmpty()) {
         EmptyScreen {
             Text(
-                text = "Bitte die Auswahl oben ändern",
+                text = "An diesem Tag fährt kein Bus zu diesem Ziel.\nBitte die Auswahl oben ändern.",
                 textAlign = TextAlign.Center,
             )
         }
