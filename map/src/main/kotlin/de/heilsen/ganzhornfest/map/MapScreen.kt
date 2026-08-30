@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -279,8 +280,16 @@ fun MapScreen(
                         }
                     }
                     if (mapModel.showLegend && pinEditor == null) {
+                        val highlightedTypes =
+                            highlightedTitles?.let { titles ->
+                                mapModel.markers
+                                    .filter { resolvePinEmphasis(it.title, titles) == PinEmphasis.Highlighted }
+                                    .map { it.markerUiType }
+                                    .toPersistentSet()
+                            }
                         Legend(
                             types = mapModel.markers.map { it.markerUiType }.toPersistentSet(),
+                            highlightedTypes = highlightedTypes,
                             modifier =
                                 if (highlightedTitles != null) {
                                     Modifier
@@ -354,6 +363,9 @@ private fun Crosshair(modifier: Modifier = Modifier) {
 fun Legend(
     types: ImmutableSet<MarkerUiType>,
     modifier: Modifier = Modifier,
+    // Null while no detail is open, every swatch rests. Otherwise the swatch tracks the pin,
+    // bright for a highlighted category and faded for one the map has dimmed.
+    highlightedTypes: ImmutableSet<MarkerUiType>? = null,
 ) {
     Surface(
         modifier = modifier,
@@ -363,11 +375,18 @@ fun Legend(
         Column(Modifier.padding(4.dp)) {
             for (type in MarkerUiType.entries) {
                 if (type !in types) continue
-                val swatch = Color(PinBitmapFactory.restingColor(type))
+                val emphasis =
+                    when {
+                        highlightedTypes == null -> PinEmphasis.Default
+                        type in highlightedTypes -> PinEmphasis.Highlighted
+                        else -> PinEmphasis.Dimmed
+                    }
+                val swatch = Color(PinBitmapFactory.swatchColor(type, emphasis))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         Modifier
                             .size(10.dp)
+                            .alpha(if (emphasis == PinEmphasis.Dimmed) 0.5f else 1f)
                             .background(swatch, CircleShape)
                             .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape),
                     )

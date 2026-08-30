@@ -23,9 +23,12 @@ object PinBitmapFactory {
             BitmapDescriptorFactory.fromBitmap(dotBitmap(colorFor(type, emphasis), sizePx))
         }
 
-    // The legend swatch has to match the pin at rest. Deriving both from one function keeps
-    // them from drifting apart. The old swatch used full saturation and did not match.
-    internal fun restingColor(type: MarkerUiType): Int = colorFor(type, PinEmphasis.Default)
+    // The legend swatch has to match the pin it labels, in whatever emphasis that pin
+    // currently has. Both derive their colour here, so they cannot drift apart.
+    internal fun swatchColor(
+        type: MarkerUiType,
+        emphasis: PinEmphasis,
+    ): Int = colorFor(type, emphasis)
 
     private fun colorFor(
         type: MarkerUiType,
@@ -55,9 +58,9 @@ object PinBitmapFactory {
     // Hue is the category. Saturation and value are the family.
     private fun baseHsv(type: MarkerUiType): Triple<Float, Float, Float> =
         when (type) {
-            // Content, the things you came for. Four hues, 70 to 135 degrees apart. The green
+            // Content, the things you came for. Four hues, 65 to 145 degrees apart. The green
             // arc is left empty. A green dot disappears into grass and tree canopy on HYBRID.
-            MarkerUiType.CLUB -> Triple(40f, 0.70f, 0.85f)
+            MarkerUiType.CLUB -> Triple(30f, 0.70f, 0.85f)
             MarkerUiType.PLAYGROUND -> Triple(175f, 0.70f, 0.85f)
             MarkerUiType.ATTRACTION -> Triple(255f, 0.70f, 0.85f)
             MarkerUiType.EVENT_LOCATION -> Triple(325f, 0.70f, 0.85f)
