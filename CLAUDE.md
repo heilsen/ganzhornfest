@@ -8,9 +8,6 @@ SQLDelight live in `README.md`.
 Isolate each change in a git worktree off `main` so parallel agents do not share
 a working tree.
 
-Branch as `<type>/<slug>`. Type is one of feat, fix, refactor, chore, build,
-docs.
-
 Copy `local.properties` into the worktree. Gradle reads `google_maps_key` at
 configuration time and fails without it. Do not copy `keystore.properties`.
 `./gradlew check` never signs.
