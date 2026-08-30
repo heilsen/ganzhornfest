@@ -24,13 +24,13 @@ object PinBitmapFactory {
 
     internal fun hueFor(type: MarkerUiType): Float =
         when (type) {
-            MarkerUiType.CLUB -> BitmapDescriptorFactory.HUE_VIOLET
-            MarkerUiType.EVENT_LOCATION -> BitmapDescriptorFactory.HUE_MAGENTA
-            MarkerUiType.PLAYGROUND -> BitmapDescriptorFactory.HUE_ORANGE
-            MarkerUiType.ATTRACTION -> BitmapDescriptorFactory.HUE_GREEN
-            MarkerUiType.WC -> BitmapDescriptorFactory.HUE_AZURE
-            MarkerUiType.FIRST_AID -> BitmapDescriptorFactory.HUE_RED
-            MarkerUiType.BUS_STOP -> BitmapDescriptorFactory.HUE_BLUE
+            MarkerUiType.CLUB -> 32f // #FF8800
+            MarkerUiType.EVENT_LOCATION -> 275f // #9500FF
+            MarkerUiType.PLAYGROUND -> 330f // #FF0080
+            MarkerUiType.ATTRACTION -> 55f // #FFEA00
+            MarkerUiType.WC -> 180f // #00FFFF
+            MarkerUiType.FIRST_AID -> 0f // #FF0000
+            MarkerUiType.BUS_STOP -> 220f // #0055FF
         }
 
     private fun colorFor(type: MarkerUiType): Int = AndroidColor.HSVToColor(floatArrayOf(hueFor(type), 1f, 1f))
