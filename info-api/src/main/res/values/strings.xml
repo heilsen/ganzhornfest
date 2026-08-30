@@ -14,7 +14,7 @@
         <item quantity="other">%d Neckarsulmer Vereine bieten:</item>
     </plurals>
     <string name="sunday_shopping">Verkaufsoffener Sonntag\n06.09. von 12:00 - 17:00 Uhr.</string>
-    <string name="bus_title">Kostenloser Bus</string>
+    <string name="bus_title">Bus</string>
     <string name="official_info_title">Offizielle Informationen</string>
     <string name="official_website_label">Webseite</string>
     <string name="official_website">ganzhornfest.com</string>
