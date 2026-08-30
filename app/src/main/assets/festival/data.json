@@ -3801,11 +3801,6 @@
     },
     {
       "id": null,
-      "busLineId": 5,
-      "departure": "09-06T23:33"
-    },
-    {
-      "id": null,
       "busLineId": 6,
       "departure": "09-05T19:48"
     },
