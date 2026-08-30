@@ -49,9 +49,15 @@ this path. Do not put content `INSERT`s in `.sq` or `.sqm` files.
 ## 4. Schema-only changes
 
 Schema still lives in the `.sq` files. Add a new
-`database/src/main/sqldelight/migrations/<n>.sqm` when the schema changes. Do not edit
-`1.sqm`, `2.sqm`, `3.sqm`, or `4.sqm`. Do not turn on `verifyMigrations`. The empty
-`databases/1.db` snapshot is intentional. `5.sqm` creates `seedMeta`.
+`database/src/main/sqldelight/migrations/<n>.sqm` when the schema changes. New `.sqm`
+files are schema only. Content comes from the JSON seeder. `1.sqm` and `2.sqm` shipped
+in 2026.1.1 and must not be edited. `3.sqm` creates `offerAlias`, its index, and
+`seedMeta`. Do not turn on `verifyMigrations`. The empty `databases/1.db` snapshot is
+intentional.
+
+`MigrationPathTest` in `:data` replays the frozen `.sq` seed of every shipped release
+and asserts the upgrade lands on the fresh schema. When a version ships, freeze its
+seed into `data/src/test/resources/migrations/` and add a `Release` row.
 
 ## 5. Pin editor (debug builds)
 
