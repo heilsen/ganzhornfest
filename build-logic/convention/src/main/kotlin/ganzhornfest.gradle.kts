@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 // Shared convention for all Ganzhornfest modules.
@@ -20,4 +21,15 @@ val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 // so this fires exactly once per module regardless of plugin declaration order.
 pluginManager.withPlugin("com.android.base") {
     dependencies.add("lintChecks", libs.findLibrary("compose-lint-checks").get())
+}
+
+// kotlinx.datetime.LocalDate and kotlin.time.Instant are unstable to Compose and sit in model
+// classes across the feature modules, so presenters holding them never skip. The root config
+// file marks them stable. Wired here rather than in each of the eleven Compose modules.
+pluginManager.withPlugin("org.jetbrains.kotlin.plugin.compose") {
+    extensions.configure<ComposeCompilerGradlePluginExtension> {
+        stabilityConfigurationFiles.add(
+            isolated.rootProject.projectDirectory.file("compose_compiler_config.conf"),
+        )
+    }
 }
