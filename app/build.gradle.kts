@@ -45,21 +45,24 @@ android {
         "Unknown -PsigningConfig='$signingConfigName'. Use 'release' or 'upload'."
     }
 
+    // Both configs are declared even when only one key is on hand. CI carries the
+    // upload key alone, so a missing entry leaves that config unconfigured instead
+    // of failing configuration.
     signingConfigs {
         create("release") {
-            if (keystoreProps != null) {
-                storeFile = file(keystoreProps["storeFile"] as String)
-                storePassword = keystoreProps["storePassword"] as String
-                keyAlias = keystoreProps["release.keyAlias"] as String
-                keyPassword = keystoreProps["release.keyPassword"] as String
+            keystoreProps.signingKeys("release")?.let { keys ->
+                storeFile = file(keys.storeFile)
+                storePassword = keys.storePassword
+                keyAlias = keys.keyAlias
+                keyPassword = keys.keyPassword
             }
         }
         create("upload") {
-            if (keystoreProps != null) {
-                storeFile = file(keystoreProps["storeFile"] as String)
-                storePassword = keystoreProps["storePassword"] as String
-                keyAlias = keystoreProps["upload.keyAlias"] as String
-                keyPassword = keystoreProps["upload.keyPassword"] as String
+            keystoreProps.signingKeys("upload")?.let { keys ->
+                storeFile = file(keys.storeFile)
+                storePassword = keys.storePassword
+                keyAlias = keys.keyAlias
+                keyPassword = keys.keyPassword
             }
         }
     }
@@ -158,6 +161,28 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.ui.test.junit4)
+}
+
+private class SigningKeys(
+    val storeFile: String,
+    val storePassword: String,
+    val keyAlias: String,
+    val keyPassword: String,
+)
+
+/**
+ * Reads the store plus the `<name>.keyAlias` and `<name>.keyPassword` pair.
+ * Returns null when any of them is missing, so a keystore holding only one of
+ * the two keys still configures.
+ */
+private fun Properties?.signingKeys(name: String): SigningKeys? {
+    val props = this ?: return null
+    return SigningKeys(
+        storeFile = props.getProperty("storeFile") ?: return null,
+        storePassword = props.getProperty("storePassword") ?: return null,
+        keyAlias = props.getProperty("$name.keyAlias") ?: return null,
+        keyPassword = props.getProperty("$name.keyPassword") ?: return null,
+    )
 }
 
 private fun readProperties(fileName: String): Properties {
