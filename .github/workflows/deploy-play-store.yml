@@ -26,16 +26,13 @@ jobs:
           UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
         run: |
           echo "$UPLOAD_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
-          # The release signingConfig is never used here, the build passes
-          # -PsigningConfig=upload. Gradle still reads both key entries, so the
-          # release ones mirror the upload values.
+          # Only the upload key. The build passes -PsigningConfig=upload and the
+          # release config stays unconfigured.
           cat > keystore.properties <<EOF
           storeFile=$RUNNER_TEMP/upload.jks
           storePassword=$KEYSTORE_STORE_PASSWORD
           upload.keyAlias=$UPLOAD_KEY_ALIAS
           upload.keyPassword=$UPLOAD_KEY_PASSWORD
-          release.keyAlias=$UPLOAD_KEY_ALIAS
-          release.keyPassword=$UPLOAD_KEY_PASSWORD
           EOF
       - name: Build release bundle
         run: ./gradlew bundleRelease -PsigningConfig=upload --stacktrace
