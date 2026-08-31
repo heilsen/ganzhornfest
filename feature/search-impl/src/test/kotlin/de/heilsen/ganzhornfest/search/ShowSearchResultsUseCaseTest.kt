@@ -14,6 +14,7 @@ import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.coroutines.flow.flowOf
+import timber.log.Timber
 import java.util.Locale
 
 class ShowSearchResultsUseCaseTest :
@@ -272,6 +273,36 @@ class ShowSearchResultsUseCaseTest :
                         )
                     awaitComplete()
                 }
+            }
+
+            // The search term is user input and can arrive from voice dictation. Timber trees are
+            // process global, so anything logged here reaches every planted tree, release ones
+            // included. This asserts the term reaches no tree at all rather than checking the
+            // shape of the code, so it still fires if the logging comes back somewhere else on
+            // the flow's construction path.
+            it("never logs the search term") {
+                val messages = mutableListOf<String>()
+                val recordingTree =
+                    object : Timber.Tree() {
+                        override fun log(
+                            priority: Int,
+                            tag: String?,
+                            message: String,
+                            t: Throwable?,
+                        ) {
+                            messages += message
+                        }
+                    }
+                Timber.plant(recordingTree)
+                try {
+                    showSearchResults("Apfelküchle", persistentSetOf(Category.Food)).test {
+                        awaitItem()
+                        awaitComplete()
+                    }
+                } finally {
+                    Timber.uproot(recordingTree)
+                }
+                messages.any { it.contains("Apfelküchle") } shouldBe false
             }
         }
     })

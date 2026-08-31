@@ -46,6 +46,8 @@ class BusPresenter
                 }
             }
             LaunchedEffect(destination) {
+                // One of four fixed village names, never user input. It is the state a timetable
+                // crash needs to be reproducible.
                 crashReporter.setCustomKey("bus_destination", destination)
             }
             val start = departureDate.atTime(19, 0)
