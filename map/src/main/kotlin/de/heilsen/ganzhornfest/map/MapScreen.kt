@@ -31,9 +31,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
@@ -60,6 +62,11 @@ private val PIN_DIAMETER = 16.dp
 // crowding that sizes PIN_DIAMETER does not apply to them.
 private val PIN_DIAMETER_HIGHLIGHTED = 22.dp
 private val PIN_DIAMETER_DIMMED = 14.dp
+
+// newLatLngBounds throws when this padding leaves no room in the view, which happens whenever
+// the GoogleMap view is still 0-sized (first frame, mid rotation). The padding is clamped to the
+// live view size below, so this is only the preferred value when the map is big enough for it.
+private const val HIGHLIGHT_BOUNDS_PADDING_PX = 160
 
 @PreviewLightDark
 @Composable
@@ -99,13 +106,17 @@ fun MapScreen(
                 rememberCameraPositionState {
                     position = CameraPosition.fromLatLngZoom(center, 18f)
                 }
+            // Zero until the GoogleMap view below reports its first layout. newLatLngBounds
+            // needs this to clamp its padding, so the effect below waits for it too.
+            var mapSizePx by remember { mutableStateOf(IntSize.Zero) }
             LaunchedEffect(pinEditor?.selected?.poiId, pinEditor?.selected?.coordinateId) {
                 val target = pinEditor?.selected?.latLng ?: return@LaunchedEffect
                 cameraPositionState.animate(CameraUpdateFactory.newLatLngZoom(target, 19f))
             }
-            LaunchedEffect(highlightedTitles, mapModel.markers) {
+            LaunchedEffect(highlightedTitles, mapModel.markers, mapSizePx) {
                 val titles = highlightedTitles ?: return@LaunchedEffect
                 if (titles.isEmpty() || pinEditor != null) return@LaunchedEffect
+                if (mapSizePx.width == 0 || mapSizePx.height == 0) return@LaunchedEffect
                 val targets = mapModel.markers.filter { it.title in titles }
                 if (targets.isEmpty()) return@LaunchedEffect
                 val update =
@@ -114,7 +125,12 @@ fun MapScreen(
                     } else {
                         val bounds = LatLngBounds.Builder()
                         targets.forEach { bounds.include(it.latLng) }
-                        CameraUpdateFactory.newLatLngBounds(bounds.build(), 160)
+                        // Padding must leave at least a sliver of view on the smaller axis or
+                        // newLatLngBounds throws, so clamp it to the view size we actually have.
+                        val padding =
+                            (minOf(mapSizePx.width, mapSizePx.height) / 2 - 1)
+                                .coerceIn(0, HIGHLIGHT_BOUNDS_PADDING_PX)
+                        CameraUpdateFactory.newLatLngBounds(bounds.build(), padding)
                     }
                 cameraPositionState.animate(update)
             }
@@ -185,7 +201,7 @@ fun MapScreen(
                             )
                         }
                     GoogleMap(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().onSizeChanged { mapSizePx = it },
                         cameraPositionState = cameraPositionState,
                         // Maps centres the camera target in the non-padded region, but the
                         // crosshair is drawn at the geometric centre. Any padding would offset
