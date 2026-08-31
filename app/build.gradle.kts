@@ -70,6 +70,7 @@ android {
         }
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles +=
                 listOf(
                     getDefaultProguardFile("proguard-android-optimize.txt"),
