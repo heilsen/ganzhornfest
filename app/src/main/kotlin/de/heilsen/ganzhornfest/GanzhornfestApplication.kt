@@ -7,7 +7,6 @@ import de.heilsen.ganzhornfest.di.AppComponent
 import de.heilsen.ganzhornfest.di.AppComponentProvider
 import de.heilsen.ganzhornfest.di.appGraph
 import de.heilsen.ganzhornfest.di.getValue
-import de.heilsen.ganzhornfest.map.initializeMapsRenderer
 import de.heilsen.ganzhornfest.seed.FestivalDataSeeder
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.createGraphFactory
@@ -40,6 +39,5 @@ class GanzhornfestApplication :
         Timber.plant(*timberTrees.toTypedArray())
         crashReporter.setCustomKey("db_schema_version", GanzhornfestDb.Schema.version.toString())
         festivalDataSeeder.seedIfNeeded()
-        initializeMapsRenderer(this)
     }
 }
