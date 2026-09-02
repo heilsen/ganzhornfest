@@ -81,8 +81,8 @@
     },
     {
       "id": 8,
-      "lat": 49.19136370429802,
-      "lng": 9.222749775748882
+      "lat": 49.19133463120688,
+      "lng": 9.222738252113196
     },
     {
       "id": 9,
@@ -402,6 +402,11 @@
       "typeId": 1
     },
     {
+      "id": 8,
+      "name": "Herzmahl e.V.",
+      "typeId": 1
+    },
+    {
       "id": 9,
       "name": "Internationales Gremium",
       "typeId": 1
@@ -538,8 +543,8 @@
     },
     {
       "id": 43,
-      "name": "Blumentombola",
-      "typeId": 7
+      "name": "Grenzenlose Tierhilfe",
+      "typeId": 1
     },
     {
       "id": 101,
@@ -642,6 +647,11 @@
       "id": null,
       "poiId": 7,
       "coordinateId": 7
+    },
+    {
+      "id": null,
+      "poiId": 8,
+      "coordinateId": 8
     },
     {
       "id": null,
@@ -2138,7 +2148,7 @@
     {
       "id": 310,
       "typeId": 3,
-      "name": "Tombola",
+      "name": "Blumentombola",
       "description": null
     }
   ],
@@ -2744,6 +2754,21 @@
       "id": null,
       "poiId": 7,
       "offerId": 43
+    },
+    {
+      "id": null,
+      "poiId": 8,
+      "offerId": 2
+    },
+    {
+      "id": null,
+      "poiId": 8,
+      "offerId": 12
+    },
+    {
+      "id": null,
+      "poiId": 8,
+      "offerId": 106
     },
     {
       "id": null,
@@ -3549,6 +3574,11 @@
       "id": null,
       "poiId": 39,
       "offerId": 53
+    },
+    {
+      "id": null,
+      "poiId": 43,
+      "offerId": 310
     }
   ],
   "busLines": [

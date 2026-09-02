@@ -75,6 +75,32 @@ class FestivalDataIntegrityTest :
 
             eventLocation.id shouldBe 2L
         }
+
+        // Grenzenlose Tierhilfe and Herzmahl e.V. both fell out of the seed when content moved
+        // from 1.sqm to data.json, and no test noticed. A dropped club takes its clubOffer and
+        // poiCoordinate rows with it, so nothing is left pointing at a missing id and the
+        // foreign key check above stays green. Guard the other direction: a club with no offers
+        // renders an empty detail sheet, and a club with no coordinate never gets a map pin.
+        "every club poi has offers and a place on the map" {
+            val data = loadFestivalData()
+
+            val clubPoiTypeId = data.poiTypes.single { it.name == "club" }.id
+            val clubs = data.pois.filter { it.typeId == clubPoiTypeId }
+            val poiIdsWithOffers = data.clubOffers.map { it.poiId }.toSet()
+            val poiIdsWithCoordinates = data.poiCoordinates.map { it.poiId }.toSet()
+
+            val problems =
+                buildList {
+                    clubs
+                        .filter { it.id !in poiIdsWithOffers }
+                        .forEach { add("club ${it.id} (${it.name}) has no clubOffer row") }
+                    clubs
+                        .filter { it.id !in poiIdsWithCoordinates }
+                        .forEach { add("club ${it.id} (${it.name}) has no poiCoordinate row") }
+                }
+
+            problems shouldBe emptyList()
+        }
     })
 
 private fun loadFestivalData(): FestivalData {
