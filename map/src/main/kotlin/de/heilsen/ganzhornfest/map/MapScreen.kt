@@ -8,13 +8,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +59,9 @@ import kotlinx.collections.immutable.toPersistentSet
 
 // Wide enough for the Standort dropdown and the apply row without crowding the map.
 private val EDITOR_PANE_WIDTH = 360.dp
+
+// Room for the search bar that floats over the map, so Maps centres the camera below it.
+private val SEARCH_BAR_CAMERA_INSET = 72.dp
 
 // Small enough that the tap target stays close to the dot you see. A wider pin covers
 // neighbouring stands, which sit a median 11m apart.
@@ -211,7 +220,7 @@ fun MapScreen(
                                 PaddingValues(0.dp)
                             } else {
                                 PaddingValues(
-                                    top = if (mapModel.isFullscreen) 72.dp else 0.dp,
+                                    top = topInsetHeight() + SEARCH_BAR_CAMERA_INSET,
                                     bottom = mapBottomPadding,
                                 )
                             },
@@ -293,7 +302,8 @@ fun MapScreen(
                             modifier =
                                 Modifier
                                     .align(Alignment.TopEnd)
-                                    .padding(top = if (mapModel.isFullscreen) 72.dp else 0.dp)
+                                    .windowInsetsPadding(topInset())
+                                    .padding(top = SEARCH_BAR_CAMERA_INSET)
                                     .padding(horizontal = 8.dp, vertical = 4.dp),
                         ) {
                             Text("Standorte korrigieren")
@@ -314,6 +324,7 @@ fun MapScreen(
                                 if (highlightedTitles != null) {
                                     Modifier
                                         .align(Alignment.TopStart)
+                                        .windowInsetsPadding(topInset())
                                         .padding(top = 80.dp, start = 4.dp)
                                 } else {
                                     Modifier
@@ -331,6 +342,16 @@ fun MapScreen(
         }
     }
 }
+
+// The map draws behind the status bar, so the chrome floating over it re-applies that inset.
+// Only the top: the bottom is the navigation bar, which the map surface already applied.
+@Composable
+private fun topInset(): WindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
+
+// Camera padding takes a Dp rather than a WindowInsets, and asPaddingValues() is not consumption
+// aware, so this reads the raw top inset on purpose. Nothing consumed it.
+@Composable
+private fun topInsetHeight(): Dp = topInset().asPaddingValues().calculateTopPadding()
 
 // Two slots so the map keeps its enclosing scope. Extracting it would mean threading about
 // ten parameters through just to reuse it in both arrangements.

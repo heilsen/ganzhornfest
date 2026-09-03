@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nothing reads these yet, the licences screen is still on the backlog, so resource shrinking
+     would drop them. They ship anyway: the app bundles Fraunces and Source Sans 3 and OFL 1.1
+     requires the notice to travel with the fonts. This lives in :theme because :theme owns the
+     fonts and so owns the obligation. Note raw/keep is an ordinary resource name, so an app
+     module res/raw/keep.xml would override this file and silently drop these rules. No
+     tools:shrinkMode here on purpose: a library should not dictate app wide shrink mode, and the
+     default of safe is what we want. -->
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@raw/ofl_fraunces,@raw/ofl_source_sans_3" />

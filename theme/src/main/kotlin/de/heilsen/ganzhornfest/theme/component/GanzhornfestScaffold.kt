@@ -48,7 +48,8 @@ fun GanzhornfestScaffold(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// P6 edge-to-edge owns this file, see docs/plans/06-edge-to-edge.md
+// No modifier slot on purpose. Callers style GanzhornfestScaffold, not the bar inside it, and
+// topAppBarColors leads so a caller can override just the colours positionally.
 @Suppress("ComposeModifierMissing", "ComposeParameterOrder")
 fun GanzhornfestTopAppBar(
     topAppBarColors: TopAppBarColors =
@@ -79,7 +80,7 @@ fun GanzhornfestTopAppBar(
 
 @PreviewDefault
 @Composable
-// P6 edge-to-edge owns this file, see docs/plans/06-edge-to-edge.md
+// A preview takes no modifier.
 @Suppress("ComposeModifierMissing")
 fun GanzhornfestScaffoldPreview() {
     GanzhornfestTheme {

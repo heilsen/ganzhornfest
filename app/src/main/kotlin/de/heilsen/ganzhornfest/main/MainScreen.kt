@@ -1,17 +1,26 @@
 package de.heilsen.ganzhornfest.main
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.DirectionsBus
@@ -46,6 +55,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -241,7 +252,6 @@ fun MainScreen() {
             // a value gated on the current destination flips the instant navigate() commits,
             // before the outgoing screen's cross-fade finishes, so a shared modifier jumped
             // under the status bar mid-transition.
-            val layoutDirection = LocalLayoutDirection.current
             Box(Modifier.fillMaxSize()) {
                 NavHost(
                     navController = navController,
@@ -281,15 +291,8 @@ fun MainScreen() {
                     }
                     composable<Destination.Info> {
                         val infoModel by infoViewModel.models.collectAsStateWithLifecycle()
-                        // Info manages its own top inset with the collapsing hero app bar, so it
-                        // only takes the start/end/bottom portion of innerPadding here.
-                        val infoPadding =
-                            PaddingValues(
-                                start = innerPadding.calculateStartPadding(layoutDirection),
-                                top = 0.dp,
-                                end = innerPadding.calculateEndPadding(layoutDirection),
-                                bottom = innerPadding.calculateBottomPadding(),
-                            )
+                        // Info manages its own top inset with the collapsing hero app bar.
+                        val infoPadding = innerPadding.withoutTop()
                         InfoScreen(
                             clubCount = infoModel.clubCount,
                             modifier =
@@ -312,6 +315,9 @@ fun MainScreen() {
                 }
 
                 if (isMapSurface) {
+                    // The map draws behind the status bar. Everything floating over it re-applies
+                    // the top inset for itself, see MapPane and MapScreen.
+                    val mapPadding = innerPadding.withoutTop()
                     MapDetailOverlay(
                         mapViewModel = mapViewModel,
                         searchViewModel = searchViewModel,
@@ -320,13 +326,28 @@ fun MainScreen() {
                         isDetail = currentDestination?.hasRoute<Destination.Detail>() == true,
                         modifier =
                             Modifier
-                                .padding(innerPadding)
-                                .consumeWindowInsets(innerPadding),
+                                .padding(mapPadding)
+                                .consumeWindowInsets(mapPadding),
                     )
                 }
             }
         }
     }
+}
+
+// Info's collapsing hero and the map both bleed under the status bar. Dropping the top here
+// leaves that inset unconsumed, so anything inside can claim it with
+// WindowInsets.safeDrawing.only(WindowInsetsSides.Top). The bottom stays consumed: the bottom
+// bar is opaque, so drawing under it buys nothing.
+@Composable
+private fun PaddingValues.withoutTop(): PaddingValues {
+    val layoutDirection = LocalLayoutDirection.current
+    return PaddingValues(
+        start = calculateStartPadding(layoutDirection),
+        top = 0.dp,
+        end = calculateEndPadding(layoutDirection),
+        bottom = calculateBottomPadding(),
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -385,7 +406,12 @@ private fun MapDetailOverlay(
                             onItemClicked = { searchTerm, type ->
                                 navController.navigate(Destination.Detail(searchTerm, type))
                             },
-                            modifier = Modifier.fillMaxSize(),
+                            // The inset goes on the content, not the Surface, so the pane still
+                            // paints its tonal background up to the top edge.
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .windowInsetsPadding(topInset()),
                         )
                     }
                 }
@@ -459,13 +485,23 @@ private fun DetailSheetLayout(
         sheetDragHandle = { BottomSheetDefaults.DragHandle() },
         sheetContent = {
             if (isDetail) {
+                // The map behind bleeds under the status bar and this sheet can be dragged all
+                // the way up, so at full expansion its content re-applies the inset the map gave
+                // up. Only then: at peek the sheet sits at half screen and the padding would just
+                // push the back arrow down for nothing. targetValue, not currentValue, so the
+                // padding arrives while the sheet is still moving instead of snapping in at the
+                // end of the drag.
+                val clearsStatusBar = sheetState.targetValue == SheetValue.Expanded
                 DetailScreen(
                     model = shownSuccess ?: detailModel,
                     onBackClick = { navController.popBackStack() },
                     onItemClicked = { searchTerm, type ->
                         navController.navigate(Destination.Detail(searchTerm, type))
                     },
-                    modifier = Modifier.fillMaxSize(),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(top = if (clearsStatusBar) topInsetHeight() else 0.dp),
                 )
             }
         },
@@ -518,6 +554,23 @@ private fun MapPane(
                 }
             },
         )
+        // The map bleeds under the status bar and the imagery there is dark satellite tiles, so
+        // in light theme the system icons would be dark on dark. A surface tinted scrim keeps them
+        // readable in both themes without mutating bar appearance per route. A plain Box with a
+        // background takes no pointer input, so map gestures still pass through.
+        val scrim = MaterialTheme.colorScheme.surface
+        Box(
+            Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth()
+                .windowInsetsTopHeight(topInset())
+                .background(
+                    Brush.verticalGradient(
+                        0f to scrim.copy(alpha = 0.65f),
+                        1f to Color.Transparent,
+                    ),
+                ),
+        )
         if (showSearchBar && !pinEditorOpen) {
             MapSearchBar(
                 searchModel = searchModel,
@@ -532,8 +585,24 @@ private fun MapPane(
                         }
                     navController.navigate(Destination.Detail(item, type))
                 },
-                modifier = Modifier.align(Alignment.TopCenter),
+                modifier =
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        // Applied here, not inside MapSearchBar: the component scales its own
+                        // windowInsets by expansion progress, so a collapsed bar relying on that
+                        // would sit at y=0 under the clock.
+                        .windowInsetsPadding(topInset()),
             )
         }
     }
 }
+
+// The status bar plus any top display cutout. Nothing consumed the top inset, so safeDrawing
+// resolves to exactly that. Read only the top: the bottom would be the navigation bar, which the
+// map surface already applied.
+@Composable
+private fun topInset(): WindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
+
+// Same inset as a Dp, for the places that pad conditionally rather than always.
+@Composable
+private fun topInsetHeight(): Dp = topInset().asPaddingValues().calculateTopPadding()

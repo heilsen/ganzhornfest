@@ -26,6 +26,10 @@
 - [ ] Polish map presentation and performance
   - Revisit the default `HYBRID` map type for the main festival map
   - Cache/precompute `MarkerUi.icon` instead of creating a `BitmapDescriptor` on every access
+  - Delete `MapModel.isFullscreen`
+    - It defaults to true and is never set false. The camera padding branches that read it
+      were collapsed into `SEARCH_BAR_CAMERA_INSET` plus the status bar inset, so the field
+      is now unread.
   - [x] Keep the marker legend colors aligned with the actual marker colors (labels are
     still hardcoded German strings, not resources, tracked below)
 
@@ -82,15 +86,38 @@
 - [ ] Improve build and repo hygiene
   - Stop reading `local.properties` during Gradle configuration
 
-- [ ] Modernize Android setup
-  - Add edge-to-edge/insets handling
+- [x] Modernize Android setup
+  - [x] Add edge-to-edge/insets handling
+    - The map draws behind the status bar under a theme-adaptive scrim, and the chrome
+      over it re-applies the top inset for itself.
+    - The expanded search bar clears the keyboard. `adjustResize` is set for API 24 to 29.
+  - [x] Replace the AppCompat theme parent and move the splash to core-splashscreen, so
+    API 24 to 30 gets a themed splash too
+  - [x] Enable release resource shrinking
+  - [x] Declare `android:roundIcon`
 
-- [ ] Update project documentation
-  - Rewrite the README to describe the current Kotlin/Compose/SQLDelight app instead of the old Ionic/Cordova stack
+- [x] Update project documentation
+  - [x] Rewrite the README to describe the current Kotlin/Compose/SQLDelight app instead of the old Ionic/Cordova stack
+    - Also fixed machine-local absolute links, a module that does not exist, the bottom
+      nav order, and the missing `LICENSE` file the README claimed.
 
 - [ ] Improve release readiness and privacy
-  - Standardize logging and avoid sensitive logs in release builds
-  - Add a licences screen for bundled OFL fonts (Source Sans 3, Fraunces) instead of raw resource links from Info
+  - [x] Standardize logging and avoid sensitive logs in release builds
+    - Timber was already the single facade. The leak was `ShowSearchResultsUseCaseImpl`
+      logging the raw search term at INFO on every emission, now removed. The
+      `CrashlyticsTree` priority floor moved from the `log()` body into `isLoggable()`,
+      so nothing below WARN is even formatted, and `DebugTree` is debug-only, so in
+      release VERBOSE, DEBUG and INFO have no sink at all.
+    - `bus_destination` stays. It is one of four fixed village names, never free text.
+  - [ ] Surface third-party licences through cashapp/licensee (`app.cash.licensee`)
+    - Check AGP 9.x / Gradle 9.5 compatibility before picking a version. Do not pin one
+      until that is confirmed.
+    - Licensee reports the POM-declared licences of Gradle dependencies, so it covers the
+      library set but not bundled assets. The two OFL font texts
+      (`theme/src/main/res/raw/ofl_fraunces.txt`, `ofl_source_sans_3.txt`) are not in its
+      output and need a hand-written entry shown alongside the generated list.
+    - Those two files are referenced by nothing and are only kept in the APK by
+      `theme/src/main/res/raw/keep.xml`. A screen that reads them removes that need.
 
 - [ ] Finish resource, accessibility, and preview coverage
   - Move remaining hardcoded UI text into string resources

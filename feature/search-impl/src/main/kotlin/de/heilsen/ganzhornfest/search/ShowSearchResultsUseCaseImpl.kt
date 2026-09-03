@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import java.util.Locale
 
 @ContributesBinding(AppScope::class)
@@ -32,9 +31,6 @@ class ShowSearchResultsUseCaseImpl
             searchTerm: String,
             categories: PersistentSet<Category>,
         ): Flow<PersistentList<SearchModel.Result>> {
-            Timber.tag("ShowSearchResults").i("searchTerm: $searchTerm")
-            Timber.tag("ShowSearchResults").i("categories: $categories")
-
             if (categories.isEmpty()) return flowOf(persistentListOf())
 
             val locale = configurationProvider.getLocale()

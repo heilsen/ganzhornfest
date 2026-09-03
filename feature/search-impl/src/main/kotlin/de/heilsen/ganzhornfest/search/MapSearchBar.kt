@@ -10,7 +10,9 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -115,7 +117,14 @@ fun MapSearchBar(
         }
 
     SearchBar(
-        modifier = modifier,
+        // Expanded, the bar fills the pane and the result list runs under the keyboard. The
+        // collapsed bar is top aligned, so this is a no-op there.
+        modifier = modifier.imePadding(),
+        // The map surface hands the status bar inset in through modifier. SearchBarDefaults
+        // would add its own on top again as the bar expands, and asPaddingValues() inside the
+        // component is not consumption aware, so the caller's consumeWindowInsets cannot cancel
+        // it.
+        windowInsets = WindowInsets(0, 0, 0, 0),
         colors =
             SearchBarDefaults.colors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
