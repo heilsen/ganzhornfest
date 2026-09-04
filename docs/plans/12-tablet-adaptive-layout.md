@@ -1,22 +1,10 @@
-# P12 · Tablet and landscape adaptive layout — Wave 3, blocked
-
-## ⚠ Blocked
-
-Wave 3. Two collisions:
-
-- **P8 (`refactor/nav-ids-and-scoped-vms`) rewrites `app/.../main/MainScreen.kt`.** This plan
-  replaces the `Scaffold` + `NavigationBar` in the same file. Start only after P8 has merged,
-  then re-read `MainScreen.kt` fresh. The `file:line` citations below are against `main` at
-  `e182fe6` and will drift.
-- **P4 and P5 both own `bus-impl/**`.** Step 2 caps the content width of `BusScreen`. Land P4
-  and P5 first.
-
-Do not start this worktree until P8, P4 and P5 are on `main`.
+# P12 · Tablet and landscape adaptive layout — Wave 3
 
 ## Goal
 
 Programm, Info and Busfahrplan stop reading as a stretched phone on tablets and in landscape.
-Navigation moves to a rail at medium width and up, and stays a bottom bar on compact.
+Navigation moves to whichever component Material recommends for the window. Content below the
+top app bars is capped to a centred 600 dp column.
 
 ## Why now
 
@@ -25,78 +13,71 @@ single columns with a bottom `NavigationBar` pinned under 800 dp of white space 
 Info and Busfahrplan screens. Those are the `assets/playstore/2026/tablet-*.png` shots, which are
 gitignored and local only. See `docs/playstore-capture.md`.
 
-`theme/src/main/kotlin/de/heilsen/ganzhornfest/theme/WindowLayout.kt:15-19` is the app's only
-adaptive primitive. `isSidePanelLayout()` is consumed in exactly two places:
-`app/.../main/MainScreen.kt:358` (Detail as a side pane) and `map/.../map/MapScreen.kt` (pin
-editor gate). Nothing else in the app reacts to width.
-
-`app/.../main/MainScreen.kt:144-240`: a `Scaffold` whose `bottomBar` is a four-item
-`NavigationBar` (`Info`, `Karte`, `Programm`, `Busfahrplan`). It renders at the bottom at every
-width. There is no `NavigationRail` or `NavigationSuiteScaffold` anywhere in the tree.
-
-`grep -rn 'NavigationRail\|WindowSizeClass\|NavigationSuite' docs/plans/` returns nothing. No
-existing plan covers this.
-
-## Worktree
-
-```bash
-/start-implement feat tablet-adaptive-layout
-```
+`theme/src/main/kotlin/de/heilsen/ganzhornfest/theme/WindowLayout.kt` is the app's only other
+adaptive primitive. `isSidePanelLayout()` is consumed in exactly two places: `MainScreen.kt`
+(Detail as a side pane) and `map/.../map/MapScreen.kt` (pin editor gate). This plan leaves that
+file alone.
 
 ## Files owned
 
 - `app/src/main/kotlin/de/heilsen/ganzhornfest/main/MainScreen.kt` — swap the navigation
   container.
-- `theme/src/main/kotlin/de/heilsen/ganzhornfest/theme/WindowLayout.kt` — a second helper for
-  the navigation-type decision if `NavigationSuiteScaffold`'s default is not right.
-- `theme/src/main/kotlin/de/heilsen/ganzhornfest/theme/` — a new `ConstrainedContent`
-  composable for step 2.
-- `program/src/main/kotlin/de/heilsen/ganzhornfest/program/ProgramScreen.kt`
-- `bus-impl/src/main/kotlin/de/heilsen/ganzhornfest/bus/BusScreen.kt`
-- `info-api` or wherever `InfoScreen` lives — the width cap only.
-- `gradle/libs.versions.toml` — add `material3-adaptive-navigation-suite`.
+- `theme/src/main/kotlin/de/heilsen/ganzhornfest/theme/component/ConstrainedContent.kt` — new,
+  the width cap.
+- `theme/src/main/kotlin/de/heilsen/ganzhornfest/theme/component/GanzhornfestScaffold.kt` — wrap
+  its content slot in the cap, so Programm and Bus need no edit.
+- `info-api/src/main/kotlin/de/heilsen/ganzhornfest/info/InfoScreen.kt` — cap the card column,
+  keep the scroll full width.
+- `gradle/libs.versions.toml`, `app/build.gradle.kts` — the navigation-suite dependency, which
+  bumps material3 to 1.4.0.
 
-**Do not touch:** `:map` internals (P9), `.sq` files, `Destination.kt` and navigation routing
-(P8), presenter logic in any module.
+**Do not touch:** `ProgramScreen.kt` and `BusScreen.kt` (the cap reaches them through
+`GanzhornfestScaffold`), `WindowLayout.kt`, `:map` internals, `.sq` files, `Destination.kt` and
+navigation routing, presenter logic in any module.
 
 ## Steps
 
-1. **Add the navigation-suite dependency.** `gradle/libs.versions.toml:60` already has
-   `androidx.compose.material3.adaptive:adaptive:1.3.0`. Add
-   `androidx.compose.material3:material3-adaptive-navigation-suite` next to it, same version
-   catalog section. Wire it into `app/build.gradle.kts`.
-   *Verify:* `./gradlew :app:dependencies` shows the module, project compiles.
+1. **Add the navigation-suite dependency.** `androidx.compose.material3:material3-adaptive-navigation-suite`
+   on the same version ref as material3. Its POM pins material3 to `[1.4.0]` strictly, so the
+   `androidx-compose-material` alias goes 1.3.2 to 1.4.0. That bump drops the transitive
+   `material-icons-core`, so `theme`, `info-api` and `map` now declare it.
+   *Verify:* `./gradlew check` before any code change.
 
 2. **Cap and centre the single-column screens.** New `ConstrainedContent` composable in
-   `:theme`: `Box(Modifier.fillMaxWidth())` with an inner
-   `Modifier.widthIn(max = 600.dp).align(Alignment.TopCenter)`. Wrap the list content of
-   `ProgramScreen`, `BusScreen` and `InfoScreen`. This is the cheapest change with the largest
-   visual payoff. Do it first so it lands even if step 3 stalls.
-   *Verify:* re-run the tablet capture from the Play-assets task
-   (`adb shell wm size 1440x2560`, landscape). `03-programm.png` and `05-bus.png` show a
-   centred column, not full-bleed.
+   `:theme`: a `Box` filling the width with an inner `Modifier.widthIn(max = 600.dp)` centred.
+   Wrap the content slot of `GanzhornfestScaffold`, which covers Programm and Bus with no edit
+   to either file. Wrap the card column in `InfoScreen` by hand, since it owns its own
+   `Scaffold`. The scroll stays full width so a fling anywhere works.
+   *Verify:* `./gradlew check`. Render the `ConstrainedContent` preview.
 
-3. **Replace `Scaffold` + `NavigationBar` with `NavigationSuiteScaffold`.** In `MainScreen.kt`,
-   the four `NavigationBarItem` blocks become `NavigationSuiteScaffold`'s
-   `navigationSuiteItems`. Its default `navigationSuiteType` from
-   `currentWindowAdaptiveInfoV2()` gives a bottom bar in the Compact width class and a rail at
-   Medium and up, which is exactly the desired behaviour. Keep the existing
-   `NavigationBarItemDefaults.colors` styling via `NavigationSuiteItemColors`.
-   *Verify:* on the phone emulator at default size the bottom bar is unchanged. At
-   `wm size 1440x2560` landscape a left rail appears and the content fills the freed height.
-
-4. **Optional: Programm as a multi-column grid at expanded width.** Only if steps 2 and 3 land
-   cleanly. `LazyVerticalGrid(GridCells.Adaptive(320.dp))` for the ticket cards when
-   `isWidthAtLeastBreakpoint(WIDTH_DP_EXPANDED_LOWER_BOUND)`.
-   *Verify:* two or more columns of ticket cards on the tablet, one column on the phone.
+3. **Replace `Scaffold` + `NavigationBar` with `NavigationSuiteScaffold`.** In `MainScreen.kt`
+   the four `NavigationBarItem` blocks become `NavigationSuiteItem` calls inside
+   `NavigationSuiteScaffold` from `material3-adaptive-navigation-suite`. One
+   `NavigationSuiteType` value drives them, read straight from
+   `NavigationSuiteScaffoldDefaults.navigationSuiteType(currentWindowAdaptiveInfoV2())` with no
+   app-side override. It returns the expressive types: compact width gets
+   `ShortNavigationBarCompact`, a wide but short window gets `ShortNavigationBarMedium` with
+   icons beside labels, everything wider and taller gets `WideNavigationRailCollapsed`. The
+   components are the expressive `ShortNavigationBar` and `WideNavigationRail`, both stable in
+   1.4.0. A bar-less `Scaffold` stays nested inside purely to keep producing the `innerPadding`
+   every route already consumes.
+   *Verify:* `./gradlew :app:assembleDebug`, then the manual pass on phone portrait, phone
+   landscape and a tablet.
 
 ## Tests
 
-Layout-only change, no presenter logic touched. `./gradlew check` (lint, ktlint, existing unit
-tests) is the gate. Add a `ConstrainedContent` preview at two widths if `:theme` has a preview
-pattern.
+Layout-only change, no presenter logic touched. `./gradlew check` is the gate.
+
+## Out of scope
+
+- Any app-side override of the Material navigation type, including forcing a rail on a landscape
+  phone.
+- `LazyVerticalGrid` for Programm at expanded width. `docs/plans/03-program-timetable.md`
+  rewrites that file into a timetable anyway.
+- Info's two-column layout and its 220 dp `LargeTopAppBar` hero.
+- Overriding `WideNavigationRail`'s window insets for a display cutout.
 
 ## Done when
 
-`./gradlew check` passes, the tablet capture shows centred content and a rail, the phone is
-visually unchanged, then `/create-pr`.
+`./gradlew check` passes, the manual pass shows capped content and the recommended navigation
+component at each size, then `/create-pr`.

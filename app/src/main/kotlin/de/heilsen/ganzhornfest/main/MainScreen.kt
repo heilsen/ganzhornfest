@@ -2,6 +2,7 @@ package de.heilsen.ganzhornfest.main
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,13 +36,17 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.ShortNavigationBarItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.WideNavigationRailDefaults
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItem
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
@@ -155,186 +160,203 @@ fun MainScreen() {
     val infoViewModel = viewModels.infoViewModel
 
     GanzhornfestTheme {
-        Scaffold(
-            bottomBar = {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    tonalElevation = 0.dp,
-                ) {
-                    val wine = MaterialTheme.colorScheme.primary
-                    val itemColors =
-                        NavigationBarItemDefaults.colors(
-                            selectedIconColor = wine,
-                            selectedTextColor = wine,
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            unselectedTextColor = MaterialTheme.colorScheme.onSurface,
-                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+        val suiteType =
+            NavigationSuiteScaffoldDefaults.navigationSuiteType(currentWindowAdaptiveInfoV2())
+        val wine = MaterialTheme.colorScheme.primary
+        // One NavigationItemColors serves every type. ShortNavigationBarItemDefaults and
+        // WideNavigationRailItemDefaults return the same type. selectedIndicatorColor is what the
+        // 1.3.x NavigationBarItemDefaults called indicatorColor.
+        val itemColors =
+            ShortNavigationBarItemDefaults.colors(
+                selectedIconColor = wine,
+                selectedTextColor = wine,
+                selectedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+            )
+        NavigationSuiteScaffold(
+            navigationItems = {
+                val infoSelected = currentDestination?.hasRoute<Destination.Info>() ?: false
+                NavigationSuiteItem(
+                    selected = infoSelected,
+                    onClick = {
+                        navController.navigate(Destination.Info) {
+                            popUpTo(Destination.Map) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (infoSelected) Icons.Filled.Info else Icons.Outlined.Info,
+                            contentDescription = stringResource(R.string.info),
                         )
-                    val infoSelected = currentDestination?.hasRoute<Destination.Info>() ?: false
-                    NavigationBarItem(
-                        infoSelected,
-                        icon = {
-                            Icon(
-                                imageVector = if (infoSelected) Icons.Filled.Info else Icons.Outlined.Info,
-                                contentDescription = stringResource(R.string.info),
-                            )
-                        },
-                        onClick = {
-                            navController.navigate(Destination.Info) {
-                                popUpTo(Destination.Map) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        label = { Text(stringResource(R.string.info)) },
-                        colors = itemColors,
-                    )
-                    NavigationBarItem(
-                        isMapSurface,
-                        icon = {
-                            Icon(
-                                imageVector = if (isMapSurface) Icons.Filled.LocationOn else Icons.Outlined.LocationOn,
-                                contentDescription = stringResource(R.string.map),
-                            )
-                        },
-                        onClick = {
-                            // Detail sits on the map surface, so this tab is already
-                            // selected while a detail is open. Tapping it means "back to
-                            // the plain map". Restoring state here would put the saved
-                            // detail, or whatever was pushed on top of it, straight back.
-                            navController.navigate(Destination.Map) {
-                                popUpTo(Destination.Map)
-                                launchSingleTop = true
-                            }
-                        },
-                        label = { Text(stringResource(R.string.map)) },
-                        colors = itemColors,
-                    )
-                    val programSelected = currentDestination?.hasRoute<Destination.Program>() ?: false
-                    NavigationBarItem(
-                        programSelected,
-                        icon = {
-                            Icon(
-                                imageVector = if (programSelected) Icons.Filled.DateRange else Icons.Outlined.DateRange,
-                                contentDescription = stringResource(R.string.program),
-                            )
-                        },
-                        onClick = {
-                            navController.navigate(Destination.Program()) {
-                                popUpTo(Destination.Map) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        label = { Text(stringResource(R.string.program)) },
-                        colors = itemColors,
-                    )
-                    val busSelected = currentDestination?.hasRoute<Destination.Bus>() ?: false
-                    NavigationBarItem(
-                        busSelected,
-                        icon = {
-                            Icon(
-                                imageVector = if (busSelected) Icons.Filled.DirectionsBus else Icons.Outlined.DirectionsBus,
-                                contentDescription = stringResource(R.string.bustimes),
-                            )
-                        },
-                        onClick = {
-                            navController.navigate(Destination.Bus) {
-                                popUpTo(Destination.Map) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        label = { Text(stringResource(R.string.bustimes)) },
-                        colors = itemColors,
-                    )
-                }
+                    },
+                    label = { Text(stringResource(R.string.info)) },
+                    navigationSuiteType = suiteType,
+                    colors = itemColors,
+                )
+                NavigationSuiteItem(
+                    selected = isMapSurface,
+                    onClick = {
+                        // Detail sits on the map surface, so this tab is already
+                        // selected while a detail is open. Tapping it means "back to
+                        // the plain map". Restoring state here would put the saved
+                        // detail, or whatever was pushed on top of it, straight back.
+                        navController.navigate(Destination.Map) {
+                            popUpTo(Destination.Map)
+                            launchSingleTop = true
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (isMapSurface) Icons.Filled.LocationOn else Icons.Outlined.LocationOn,
+                            contentDescription = stringResource(R.string.map),
+                        )
+                    },
+                    label = { Text(stringResource(R.string.map)) },
+                    navigationSuiteType = suiteType,
+                    colors = itemColors,
+                )
+                val programSelected = currentDestination?.hasRoute<Destination.Program>() ?: false
+                NavigationSuiteItem(
+                    selected = programSelected,
+                    onClick = {
+                        navController.navigate(Destination.Program()) {
+                            popUpTo(Destination.Map) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (programSelected) Icons.Filled.DateRange else Icons.Outlined.DateRange,
+                            contentDescription = stringResource(R.string.program),
+                        )
+                    },
+                    label = { Text(stringResource(R.string.program)) },
+                    navigationSuiteType = suiteType,
+                    colors = itemColors,
+                )
+                val busSelected = currentDestination?.hasRoute<Destination.Bus>() ?: false
+                NavigationSuiteItem(
+                    selected = busSelected,
+                    onClick = {
+                        navController.navigate(Destination.Bus) {
+                            popUpTo(Destination.Map) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (busSelected) Icons.Filled.DirectionsBus else Icons.Outlined.DirectionsBus,
+                            contentDescription = stringResource(R.string.bustimes),
+                        )
+                    },
+                    label = { Text(stringResource(R.string.bustimes)) },
+                    navigationSuiteType = suiteType,
+                    colors = itemColors,
+                )
             },
-        ) { innerPadding ->
-            // Each route applies innerPadding to its own root instead of one shared modifier:
-            // a value gated on the current destination flips the instant navigate() commits,
-            // before the outgoing screen's cross-fade finishes, so a shared modifier jumped
-            // under the status bar mid-transition.
-            Box(Modifier.fillMaxSize()) {
-                NavHost(
-                    navController = navController,
-                    startDestination = Destination.Map,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    composable<Destination.Map> {
-                        // UI lives in the map overlay. Keep this destination for back stack.
-                    }
-                    composable<Destination.Detail> { navBackStackEntry ->
-                        val detail: Destination.Detail = navBackStackEntry.toRoute()
-                        LaunchedEffect(detailViewModel, detail) {
-                            detailViewModel.take(DetailEvent.Open(detail.toTarget()))
-                        }
-                    }
-                    composable<Destination.CategoryDetail> { navBackStackEntry ->
-                        val detail: Destination.CategoryDetail = navBackStackEntry.toRoute()
-                        LaunchedEffect(detailViewModel, detail) {
-                            detailViewModel.take(DetailEvent.Open(detail.toTarget()))
-                        }
-                    }
-                    composable<Destination.Program> { navBackStackEntry ->
-                        val route: Destination.Program = navBackStackEntry.toRoute()
-                        LaunchedEffect(programViewModel, route.stage) {
-                            route.stage?.let { programViewModel.take(ProgramEvent.ChangeLocation(it)) }
-                        }
-                        val programModel by programViewModel.models.collectAsStateWithLifecycle()
-                        ProgramScreen(
-                            programModel,
-                            onEvent = programViewModel::take,
-                            modifier =
-                                Modifier
-                                    .padding(innerPadding)
-                                    .consumeWindowInsets(innerPadding),
-                        )
-                    }
-                    composable<Destination.Info> {
-                        val infoModel by infoViewModel.models.collectAsStateWithLifecycle()
-                        // Info manages its own top inset with the collapsing hero app bar.
-                        val infoPadding = innerPadding.withoutTop()
-                        InfoScreen(
-                            clubCount = infoModel.clubCount,
-                            modifier =
-                                Modifier
-                                    .padding(infoPadding)
-                                    .consumeWindowInsets(infoPadding),
-                        )
-                    }
-                    composable<Destination.Bus> {
-                        val busModel by busViewModel.models.collectAsStateWithLifecycle()
-                        BusScreen(
-                            busModel,
-                            onEvent = busViewModel::take,
-                            modifier =
-                                Modifier
-                                    .padding(innerPadding)
-                                    .consumeWindowInsets(innerPadding),
-                        )
-                    }
-                }
-
-                if (isMapSurface) {
-                    // The map draws behind the status bar. Everything floating over it re-applies
-                    // the top inset for itself, see MapPane and MapScreen.
-                    val mapPadding = innerPadding.withoutTop()
-                    val isDetail =
-                        currentDestination?.hasRoute<Destination.Detail>() == true ||
-                            currentDestination?.hasRoute<Destination.CategoryDetail>() == true
-                    MapDetailOverlay(
-                        mapViewModel = mapViewModel,
-                        searchViewModel = searchViewModel,
-                        detailViewModel = detailViewModel,
+            navigationSuiteType = suiteType,
+            navigationSuiteColors =
+                NavigationSuiteDefaults.colors(
+                    shortNavigationBarContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    wideNavigationRailColors =
+                        WideNavigationRailDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        ),
+                ),
+            // The rail default is Top, which glues four items under the status bar on a tall tablet.
+            navigationItemVerticalArrangement = Arrangement.Center,
+        ) {
+            Scaffold { innerPadding ->
+                // Each route applies innerPadding to its own root instead of one shared modifier:
+                // a value gated on the current destination flips the instant navigate() commits,
+                // before the outgoing screen's cross-fade finishes, so a shared modifier jumped
+                // under the status bar mid-transition.
+                Box(Modifier.fillMaxSize()) {
+                    NavHost(
                         navController = navController,
-                        isDetail = isDetail,
-                        detailEntryKey = navBackStackEntry?.id,
-                        modifier =
-                            Modifier
-                                .padding(mapPadding)
-                                .consumeWindowInsets(mapPadding),
-                    )
+                        startDestination = Destination.Map,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        composable<Destination.Map> {
+                            // UI lives in the map overlay. Keep this destination for back stack.
+                        }
+                        composable<Destination.Detail> { navBackStackEntry ->
+                            val detail: Destination.Detail = navBackStackEntry.toRoute()
+                            LaunchedEffect(detailViewModel, detail) {
+                                detailViewModel.take(DetailEvent.Open(detail.toTarget()))
+                            }
+                        }
+                        composable<Destination.CategoryDetail> { navBackStackEntry ->
+                            val detail: Destination.CategoryDetail = navBackStackEntry.toRoute()
+                            LaunchedEffect(detailViewModel, detail) {
+                                detailViewModel.take(DetailEvent.Open(detail.toTarget()))
+                            }
+                        }
+                        composable<Destination.Program> { navBackStackEntry ->
+                            val route: Destination.Program = navBackStackEntry.toRoute()
+                            LaunchedEffect(programViewModel, route.stage) {
+                                route.stage?.let { programViewModel.take(ProgramEvent.ChangeLocation(it)) }
+                            }
+                            val programModel by programViewModel.models.collectAsStateWithLifecycle()
+                            ProgramScreen(
+                                programModel,
+                                onEvent = programViewModel::take,
+                                modifier =
+                                    Modifier
+                                        .padding(innerPadding)
+                                        .consumeWindowInsets(innerPadding),
+                            )
+                        }
+                        composable<Destination.Info> {
+                            val infoModel by infoViewModel.models.collectAsStateWithLifecycle()
+                            // Info manages its own top inset with the collapsing hero app bar.
+                            val infoPadding = innerPadding.withoutTop()
+                            InfoScreen(
+                                clubCount = infoModel.clubCount,
+                                modifier =
+                                    Modifier
+                                        .padding(infoPadding)
+                                        .consumeWindowInsets(infoPadding),
+                            )
+                        }
+                        composable<Destination.Bus> {
+                            val busModel by busViewModel.models.collectAsStateWithLifecycle()
+                            BusScreen(
+                                busModel,
+                                onEvent = busViewModel::take,
+                                modifier =
+                                    Modifier
+                                        .padding(innerPadding)
+                                        .consumeWindowInsets(innerPadding),
+                            )
+                        }
+                    }
+
+                    if (isMapSurface) {
+                        // The map draws behind the status bar. Everything floating over it re-applies
+                        // the top inset for itself, see MapPane and MapScreen.
+                        val mapPadding = innerPadding.withoutTop()
+                        val isDetail =
+                            currentDestination?.hasRoute<Destination.Detail>() == true ||
+                                currentDestination?.hasRoute<Destination.CategoryDetail>() == true
+                        MapDetailOverlay(
+                            mapViewModel = mapViewModel,
+                            searchViewModel = searchViewModel,
+                            detailViewModel = detailViewModel,
+                            navController = navController,
+                            isDetail = isDetail,
+                            detailEntryKey = navBackStackEntry?.id,
+                            modifier =
+                                Modifier
+                                    .padding(mapPadding)
+                                    .consumeWindowInsets(mapPadding),
+                        )
+                    }
                 }
             }
         }

@@ -39,10 +39,9 @@ fun GanzhornfestScaffold(
             )
         },
     ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues),
-            content = content,
-        )
+        ConstrainedContent(Modifier.padding(paddingValues)) {
+            Column(content = content)
+        }
     }
 }
 

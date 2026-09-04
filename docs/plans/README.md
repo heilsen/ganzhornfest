@@ -63,7 +63,7 @@ splitting it into its own tiny PR immediately; the plan file describes this expl
 | # | Branch | Footprint | Blocked by | One-line |
 |---|---|---|---|---|
 | P11 | `feat/accessibility` | every UI module plus `build-logic/` | all of Wave 1 and Wave 2 | Lint gate for every module, then a TalkBack, touch target, string and font scale sweep |
-| P12 | `feat/tablet-adaptive-layout` | `app/.../MainScreen.kt`, `theme/**`, `program/**`, `bus-impl/**`, `libs.versions.toml` | P8, P4, P5 | `NavigationSuiteScaffold` for a rail at width, cap single-column content at ~600 dp |
+| P12 | shipped | `app/.../MainScreen.kt`, `theme/component/**`, `info-api/.../InfoScreen.kt`, `libs.versions.toml` | none | `NavigationSuiteScaffold` picks the nav component per window, cap single-column content at 600 dp |
 
 ## Deliberately excluded from this batch
 
