@@ -85,9 +85,6 @@
   - Add DB integration tests (migration path tests done, see `MigrationPathTest`)
   - Add UI tests for navigation paths such as Search -> Detail and Map -> Detail
 
-- [ ] Improve build and repo hygiene
-  - Stop reading `local.properties` during Gradle configuration
-
 - [ ] Modernize Android setup
   - Add edge-to-edge/insets handling
   - Add a `<monochrome>` layer to the adaptive icon. There is none, so Android 13+ themed icons

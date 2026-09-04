@@ -43,16 +43,20 @@ The app provides festival information in German, including:
 ## Requirements
 
 - JDK 21
-- Android SDK / build tools compatible with `compileSdk 37`
-- `local.properties` with a Google Maps API key:
+- Android SDK / build tools compatible with `compileSdk 37`, located via
+  `ANDROID_HOME` or a `sdk.dir` line in `local.properties`
+
+The build works with no Google Maps key. The map renders blank without one. To
+get a working map, add the key to `GRADLE_USER_HOME/gradle.properties` (usually
+`~/.gradle/gradle.properties`):
 
 ```properties
-google_maps_key=YOUR_API_KEY_HERE
+ganzhornfest.mapsKey=YOUR_API_KEY_HERE
 ```
 
-The current Gradle setup reads `local.properties` during configuration from
-[`app/build.gradle.kts`](app/build.gradle.kts), so a missing key can break builds
-earlier than expected.
+CI passes the same value through the `GANZHORNFEST_MAPS_KEY` environment
+variable. The build reads it from
+[`app/build.gradle.kts`](app/build.gradle.kts).
 
 The app ships German only. `localeFilters` is set to `de`, the default `values/`
 resources *are* the German ones, and there is no `values-de`.
@@ -117,9 +121,9 @@ Working conventions, the git-worktree-per-change workflow, and the writing style
 live in [`CLAUDE.md`](CLAUDE.md).
 
 CI runs `./gradlew assembleDebug check` on JDK 21 for every push to `main` and
-every PR against it. The workflow writes `local.properties` from the
-`GOOGLE_MAPS_KEY` repository secret, so a fork without that secret fails during
-Gradle configuration. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+every PR against it. It passes the `GOOGLE_MAPS_KEY` repository secret to Gradle
+as an environment variable. A fork without that secret still builds. The map
+renders blank. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Screenshots
 

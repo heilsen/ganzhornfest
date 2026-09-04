@@ -29,10 +29,13 @@ android {
             localeFilters += setOf("de")
         }
 
-        // TODO: don't read properties in configuration phase
-        val localProperties = readProperties("local.properties")
+        val mapsKey =
+            providers
+                .environmentVariable("GANZHORNFEST_MAPS_KEY")
+                .orElse(providers.gradleProperty("ganzhornfest.mapsKey"))
+                .getOrElse("")
 
-        resValue("string", "google_maps_key", localProperties["google_maps_key"] as String)
+        resValue("string", "google_maps_key", mapsKey)
     }
 
     val keystoreProps =
