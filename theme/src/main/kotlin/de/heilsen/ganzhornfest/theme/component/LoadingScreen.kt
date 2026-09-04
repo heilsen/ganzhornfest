@@ -12,12 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-@Composable
 // P4 reworks this component, see docs/plans/04-loading-error-states.md
-@Suppress("ComposeModifierMissing")
-fun LoadingScreen() {
+@Composable
+fun LoadingScreen(modifier: Modifier = Modifier.fillMaxSize()) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
