@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -43,12 +44,15 @@ fun DetailScreen(
                 modifier = Modifier.padding(end = 16.dp),
             )
         }
-        // LoadingScreen and ErrorScreen fillMaxSize, and in a Column that means the full
-        // incoming height, not what is left under the header. The weighted Box bounds them.
+        // The bottom sheet measures sheetContent taller than what is actually peeking on
+        // screen. LoadingScreen and ErrorScreen center within their full height by default,
+        // which lands them below the visible area. Wrap their height here so they sit at
+        // this Box's top instead.
         Box(Modifier.weight(1f)) {
+            val loadingOrErrorModifier = Modifier.fillMaxWidth().wrapContentHeight()
             when (model) {
-                DetailModel.Loading -> LoadingScreen()
-                DetailModel.Error -> ErrorScreen()
+                DetailModel.Loading -> LoadingScreen(loadingOrErrorModifier)
+                DetailModel.Error -> ErrorScreen(loadingOrErrorModifier)
                 is DetailModel.Success -> DetailContent(model, onItemClicked)
             }
         }

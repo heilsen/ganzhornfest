@@ -17,11 +17,11 @@ import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 
 @Composable
 fun ErrorScreen(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.fillMaxSize(),
     message: String = "Daten konnten nicht geladen werden",
 ) {
     Column(
-        modifier.fillMaxSize(),
+        modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
