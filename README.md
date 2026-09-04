@@ -123,7 +123,7 @@ Gradle configuration. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 
 ## Screenshots
 
-Recent screenshots are available in [`assets/screenshots`](assets/screenshots).
+Recent screenshots are available in `assets/playstore/<year>/`.
 
 ## Status
 
