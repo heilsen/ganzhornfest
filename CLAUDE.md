@@ -8,9 +8,10 @@ SQLDelight live in `README.md`.
 Isolate each change in a git worktree off `main` so parallel agents do not share
 a working tree.
 
-Copy `local.properties` into the worktree. Gradle reads `google_maps_key` at
-configuration time and fails without it. Do not copy `keystore.properties`.
-`./gradlew check` never signs.
+A worktree needs no setup. The build reads the Maps key from an environment
+variable or a Gradle property, falling back to an empty string. It resolves the
+SDK from `ANDROID_HOME`. Do not copy `keystore.properties`. `./gradlew check`
+never signs.
 
 When the change is ready, run `./gradlew check`, then commit, push, and open a
 PR against `main`.
