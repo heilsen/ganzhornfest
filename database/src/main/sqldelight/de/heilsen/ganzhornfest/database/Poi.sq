@@ -6,6 +6,9 @@ SELECT * FROM poi;
 selectClubs:
 SELECT * FROM poi WHERE typeId = 1;
 
+selectNameById:
+SELECT name FROM poi WHERE id = :id;
+
 selectStages:
 SELECT * FROM poi WHERE typeId = 2;
 

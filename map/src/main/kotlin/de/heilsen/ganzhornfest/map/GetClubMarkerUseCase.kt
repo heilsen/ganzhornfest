@@ -16,8 +16,9 @@ class GetClubMarkerUseCase
                 .getClubCoordinates(clubName)
                 .map { markerList ->
                     markerList
-                        .map { (name, _, latLng) ->
+                        .map { (poiId, name, _, latLng) ->
                             MarkerUi(
+                                poiId = poiId,
                                 title = name,
                                 latLng = latLng,
                                 markerUiType = MarkerUiType.CLUB,

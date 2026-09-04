@@ -18,28 +18,28 @@ class DetailPresenter
         fun present(events: Flow<DetailEvent>): DetailModel {
             val event: DetailEvent by events.collectAsState(initial = DetailEvent.Init as DetailEvent)
 
-            return when (val detailEvent = event) {
-                is DetailEvent.Club -> {
-                    val model by getClubDetail(detailEvent.clubName).collectAsState(initial = null)
+            val open = event as? DetailEvent.Open ?: return DetailModel.Loading
+
+            return when (val target = open.target) {
+                is DetailTarget.Club -> {
+                    val model by getClubDetail(target.poiId).collectAsState(initial = null)
                     model ?: DetailModel.Loading
                 }
 
-                is DetailEvent.Offer -> {
-                    val model by getOfferDetail(detailEvent.offerName).collectAsState(initial = null)
+                is DetailTarget.Offer -> {
+                    val model by getOfferDetail(target.offerId).collectAsState(initial = null)
                     model ?: DetailModel.Loading
                 }
 
-                is DetailEvent.Poi -> {
-                    val model by getPoiDetail(detailEvent.name).collectAsState(initial = null)
+                is DetailTarget.Poi -> {
+                    val model by getPoiDetail(target.poiId).collectAsState(initial = null)
                     model ?: DetailModel.Loading
                 }
 
-                is DetailEvent.PoiCategory -> {
-                    val model by getPoiCategoryDetail(detailEvent.typeName).collectAsState(initial = null)
+                is DetailTarget.Category -> {
+                    val model by getPoiCategoryDetail(target.type).collectAsState(initial = null)
                     model ?: DetailModel.Loading
                 }
-
-                DetailEvent.Init -> DetailModel.Loading
             }
         }
     }

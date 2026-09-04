@@ -1,21 +1,21 @@
 CREATE TABLE poiCoordinate (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, coordinateId INTEGER NOT NULL);
 
 selectAll:
-SELECT poi.name AS poiName, pt.name AS type, c.lat, c.lng
+SELECT poi.id AS poiId, poi.name AS poiName, pt.name AS type, c.lat, c.lng
 FROM poiCoordinate AS pc
 INNER JOIN poi ON pc.poiId = poi.id
 INNER JOIN poiType AS pt ON poi.typeId = pt.id
 INNER JOIN coordinate AS c ON pc.coordinateId = c.id;
 
 selectByClubName:
-SELECT poi.name AS poiName, c.lat, c.lng
+SELECT poi.id AS poiId, poi.name AS poiName, c.lat, c.lng
 FROM poiCoordinate AS pc
 INNER JOIN poi ON pc.poiId = poi.id
 INNER JOIN coordinate AS c ON pc.coordinateId = c.id
 WHERE poi.typeId = 1 AND poi.name LIKE '%' || :name || '%';
 
 selectByOfferName:
-SELECT poi.name AS poiName, c.lat, c.lng
+SELECT poi.id AS poiId, poi.name AS poiName, c.lat, c.lng
 FROM poi
 INNER JOIN clubOffer ON clubOffer.poiId = poi.id
 INNER JOIN offer ON offer.id = clubOffer.offerId

@@ -1,19 +1,17 @@
 CREATE TABLE clubOffer (id INTEGER PRIMARY KEY AUTOINCREMENT, poiId INTEGER NOT NULL, offerId INTEGER NOT NULL);
 
-selectOffersByClubName:
-SELECT offer.name, offer.description
+selectOffersByPoiId:
+SELECT offer.id, offer.name, offer.description
 FROM clubOffer
-INNER JOIN poi ON clubOffer.poiId = poi.id
 INNER JOIN offer ON offer.id = clubOffer.offerId
-WHERE poi.name LIKE '%' || :name || '%'
+WHERE clubOffer.poiId = :poiId
 ORDER BY offer.name COLLATE NOCASE;
 
-selectClubsByOfferName:
-SELECT DISTINCT poi.name
-FROM poi
-INNER JOIN clubOffer ON clubOffer.poiId = poi.id
-INNER JOIN offer ON offer.id = clubOffer.offerId
-WHERE offer.name LIKE '%' || :name || '%'
+selectClubsByOfferId:
+SELECT DISTINCT poi.id, poi.name
+FROM clubOffer
+INNER JOIN poi ON poi.id = clubOffer.poiId
+WHERE clubOffer.offerId = :offerId
 ORDER BY poi.name COLLATE NOCASE;
 
 insert:

@@ -83,7 +83,7 @@ fun MapScreen(
     modifier: Modifier = Modifier,
     mapModel: MapModel = MapModel.Loading(),
     highlightedTitles: Set<String>? = null,
-    onMarkerSelected: (String, MarkerUiType) -> Unit = { _, _ -> },
+    onMarkerSelected: (MarkerUi) -> Unit = {},
     onEvent: (MapEvent) -> Unit = {},
     showPinEditorToggle: Boolean = false,
     mapBottomPadding: Dp = 8.dp,
@@ -280,7 +280,7 @@ fun MapScreen(
                                 },
                                 onInfoWindowClick = {
                                     if (pinEditor == null) {
-                                        onMarkerSelected(marker.title, marker.markerUiType)
+                                        onMarkerSelected(marker)
                                     }
                                 },
                                 onInfoWindowClose = {

@@ -24,15 +24,15 @@ class ShowSearchResultsUseCaseTest :
                 every { getAllFood() } returns
                     flowOf(
                         listOf(
-                            OfferSearchResult(1, "Apfelküchle", null, ""),
-                            OfferSearchResult(2, "Pommes", "mit Mayo", ""),
+                            OfferSearchResult(11, "Apfelküchle", null, ""),
+                            OfferSearchResult(12, "Pommes", "mit Mayo", ""),
                         ),
                     )
                 every { getAllDrinks() } returns
                     flowOf(
                         listOf(
-                            OfferSearchResult(1, "Weißbier", null, ""),
-                            OfferSearchResult(2, "Cola", "ein alkoholfreies Getränk", ""),
+                            OfferSearchResult(21, "Weißbier", null, ""),
+                            OfferSearchResult(22, "Cola", "ein alkoholfreies Getränk", ""),
                         ),
                     )
                 every { getAliases() } returns flowOf(emptyList())
@@ -72,8 +72,8 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("", persistentSetOf(Category.Food)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Apfelküchle", "", Category.Food),
-                            SearchModel.Result("Pommes", "mit Mayo", Category.Food),
+                            SearchModel.Result(11, "Apfelküchle", "", Category.Food),
+                            SearchModel.Result(12, "Pommes", "mit Mayo", Category.Food),
                         )
                     awaitComplete()
                 }
@@ -82,7 +82,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("alkoholfrei", persistentSetOf(Category.Drink)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Cola", "ein alkoholfreies Getränk", Category.Drink),
+                            SearchModel.Result(22, "Cola", "ein alkoholfreies Getränk", Category.Drink),
                         )
                     awaitComplete()
                 }
@@ -91,8 +91,8 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("sport", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
-                            SearchModel.Result("Sportverein", "", Category.Club),
+                            SearchModel.Result(5, "Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
+                            SearchModel.Result(2, "Sportverein", "", Category.Club),
                         )
                     awaitComplete()
                 }
@@ -101,13 +101,13 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("", persistentSetOf(Category.Food, Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Apfelküchle", "", Category.Food),
-                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
-                            SearchModel.Result("Förderverein der Feuerwehr NSU", "", Category.Club),
-                            SearchModel.Result("Pommes", "mit Mayo", Category.Food),
-                            SearchModel.Result("Sängerbund", "", Category.Club),
-                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
-                            SearchModel.Result("Sportverein", "", Category.Club),
+                            SearchModel.Result(11, "Apfelküchle", "", Category.Food),
+                            SearchModel.Result(3, "Arbeiter-Samariter-Bund", "", Category.Club),
+                            SearchModel.Result(4, "Förderverein der Feuerwehr NSU", "", Category.Club),
+                            SearchModel.Result(12, "Pommes", "mit Mayo", Category.Food),
+                            SearchModel.Result(1, "Sängerbund", "", Category.Club),
+                            SearchModel.Result(5, "Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
+                            SearchModel.Result(2, "Sportverein", "", Category.Club),
                         )
                     awaitComplete()
                 }
@@ -116,7 +116,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("ue", persistentSetOf(Category.Food)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                            SearchModel.Result(11, "Apfelküchle", "", Category.Food),
                         )
                     awaitComplete()
                 }
@@ -125,7 +125,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("u", persistentSetOf(Category.Food)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                            SearchModel.Result(11, "Apfelküchle", "", Category.Food),
                         )
                     awaitComplete()
                 }
@@ -134,7 +134,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("ü", persistentSetOf(Category.Food)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Apfelküchle", "", Category.Food),
+                            SearchModel.Result(11, "Apfelküchle", "", Category.Food),
                         )
                     awaitComplete()
                 }
@@ -143,7 +143,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("weiss", persistentSetOf(Category.Drink)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Weißbier", "", Category.Drink),
+                            SearchModel.Result(21, "Weißbier", "", Category.Drink),
                         )
                     awaitComplete()
                 }
@@ -152,7 +152,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("saenger", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Sängerbund", "", Category.Club),
+                            SearchModel.Result(1, "Sängerbund", "", Category.Club),
                         )
                     awaitComplete()
                 }
@@ -161,7 +161,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("ASB", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
+                            SearchModel.Result(3, "Arbeiter-Samariter-Bund", "", Category.Club),
                         )
                     awaitComplete()
                 }
@@ -170,7 +170,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("AS", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Arbeiter-Samariter-Bund", "", Category.Club),
+                            SearchModel.Result(3, "Arbeiter-Samariter-Bund", "", Category.Club),
                         )
                     awaitComplete()
                 }
@@ -179,7 +179,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("FV", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Förderverein der Feuerwehr NSU", "", Category.Club),
+                            SearchModel.Result(4, "Förderverein der Feuerwehr NSU", "", Category.Club),
                         )
                     awaitComplete()
                 }
@@ -188,7 +188,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("sun tennis", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
+                            SearchModel.Result(5, "Sport-Union Neckarsulm - Tischtennis", "", Category.Club),
                         )
                     awaitComplete()
                 }
@@ -197,7 +197,7 @@ class ShowSearchResultsUseCaseTest :
                 showSearchResults("cola alkoholfrei", persistentSetOf(Category.Drink)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Cola", "ein alkoholfreies Getränk", Category.Drink),
+                            SearchModel.Result(22, "Cola", "ein alkoholfreies Getränk", Category.Drink),
                         )
                     awaitComplete()
                 }
@@ -219,7 +219,7 @@ class ShowSearchResultsUseCaseTest :
                 aliasShowSearchResults("Grillwurst", persistentSetOf(Category.Food)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Bratwurst", "", Category.Food, "ASB"),
+                            SearchModel.Result(105, "Bratwurst", "", Category.Food, "ASB"),
                         )
                     awaitComplete()
                 }
@@ -241,7 +241,7 @@ class ShowSearchResultsUseCaseTest :
                 aliasShowSearchResults("Wo gibt es eine Grillwurst?", persistentSetOf(Category.Food)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Bratwurst", "", Category.Food, "ASB"),
+                            SearchModel.Result(105, "Bratwurst", "", Category.Food, "ASB"),
                         )
                     awaitComplete()
                 }
@@ -267,9 +267,9 @@ class ShowSearchResultsUseCaseTest :
                 umlautShowSearchResults("", persistentSetOf(Category.Club)).test {
                     awaitItem() shouldBe
                         persistentListOf(
-                            SearchModel.Result("Samstagsverein", "", Category.Club),
-                            SearchModel.Result("Sängerbund 1830", "", Category.Club),
-                            SearchModel.Result("SC Amorbach", "", Category.Club),
+                            SearchModel.Result(3, "Samstagsverein", "", Category.Club),
+                            SearchModel.Result(2, "Sängerbund 1830", "", Category.Club),
+                            SearchModel.Result(1, "SC Amorbach", "", Category.Club),
                         )
                     awaitComplete()
                 }

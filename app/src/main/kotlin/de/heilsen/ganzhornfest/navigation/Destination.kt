@@ -1,6 +1,7 @@
 package de.heilsen.ganzhornfest.navigation
 
 import de.heilsen.ganzhornfest.detail.DetailType
+import de.heilsen.ganzhornfest.map.MarkerUiType
 import kotlinx.serialization.Serializable
 
 sealed interface Destination {
@@ -20,7 +21,12 @@ sealed interface Destination {
 
     @Serializable
     data class Detail(
-        val title: String,
+        val id: Long,
         val type: DetailType,
+    ) : Destination
+
+    @Serializable
+    data class CategoryDetail(
+        val category: MarkerUiType,
     ) : Destination
 }

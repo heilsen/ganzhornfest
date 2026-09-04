@@ -19,31 +19,31 @@ class GetPoiDetailUseCaseTest :
             every { getMarkers() } returns
                 flowOf(
                     persistentSetOf(
-                        MarkerUi("Toiletten Marktplatz", LatLng(1.0, 1.0), MarkerUiType.WC),
-                        MarkerUi("Sängerbund", LatLng(2.0, 2.0), MarkerUiType.CLUB),
+                        MarkerUi(1, "Toiletten Marktplatz", LatLng(1.0, 1.0), MarkerUiType.WC),
+                        MarkerUi(2, "Sängerbund", LatLng(2.0, 2.0), MarkerUiType.CLUB),
                     ),
                 )
             val useCase = GetPoiDetailUseCase(getMarkers)
 
-            useCase("Toiletten Marktplatz").test {
+            useCase(1).test {
                 awaitItem() shouldBe
                     DetailModel.Success(
                         title = "Toiletten Marktplatz",
-                        type = DetailType.Poi,
-                        items = listOf(DetailItem(name = "WC", routeKey = "WC")),
+                        target = DetailTarget.Poi(1),
+                        items = listOf(DetailItem(name = "WC", target = DetailTarget.Category(MarkerUiType.WC))),
                     )
                 awaitComplete()
             }
         }
 
-        "returns no card when the title matches no marker" {
+        "returns no card when the id matches no marker" {
             val getMarkers = mockk<GetMarkersUseCase>()
             every { getMarkers() } returns flowOf(persistentSetOf())
             val useCase = GetPoiDetailUseCase(getMarkers)
 
-            useCase("Unbekannt").test {
+            useCase(999).test {
                 awaitItem() shouldBe
-                    DetailModel.Success(title = "Unbekannt", type = DetailType.Poi, items = emptyList())
+                    DetailModel.Success(title = "", target = DetailTarget.Poi(999), items = emptyList())
                 awaitComplete()
             }
         }

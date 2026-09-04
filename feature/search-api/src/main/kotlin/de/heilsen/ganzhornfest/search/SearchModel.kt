@@ -18,6 +18,7 @@ sealed interface SearchModel {
     data object Loading : SearchModel
 
     data class Result(
+        val id: Long,
         val header: String,
         val description: String,
         val category: Category,

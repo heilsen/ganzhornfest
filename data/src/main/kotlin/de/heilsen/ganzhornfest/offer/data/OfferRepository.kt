@@ -2,6 +2,7 @@ package de.heilsen.ganzhornfest.offer.data
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOneOrNull
 import de.heilsen.ganzhornfest.database.GanzhornfestDb
 import de.heilsen.ganzhornfest.database.Offer
 import de.heilsen.ganzhornfest.database.OfferAlias
@@ -34,6 +35,12 @@ class OfferRepository
                     OfferSearchResult(id, name, description, clubs ?: "")
                 }.asFlow()
                 .mapToList(Dispatchers.IO)
+
+        fun getOfferName(offerId: Long): Flow<String?> =
+            ganzhornfestDb.offerQueries
+                .selectNameById(offerId)
+                .asFlow()
+                .mapToOneOrNull(Dispatchers.IO)
 
         fun getAliases(): Flow<List<OfferAlias>> =
             ganzhornfestDb.offerAliasQueries

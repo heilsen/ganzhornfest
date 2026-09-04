@@ -14,23 +14,23 @@ import kotlinx.coroutines.flow.flowOf
 
 class GetPoiCategoryDetailUseCaseTest :
     StringSpec({
-        "deduplicates markers that share a title, like a club with two stands" {
+        "deduplicates markers that share a poi id, like a club with two stands" {
             val getMarkers = mockk<GetMarkersUseCase>()
             every { getMarkers() } returns
                 flowOf(
                     persistentSetOf(
-                        MarkerUi("DLRG", LatLng(1.0, 1.0), MarkerUiType.CLUB),
-                        MarkerUi("DLRG", LatLng(2.0, 2.0), MarkerUiType.CLUB),
+                        MarkerUi(1, "DLRG", LatLng(1.0, 1.0), MarkerUiType.CLUB),
+                        MarkerUi(1, "DLRG", LatLng(2.0, 2.0), MarkerUiType.CLUB),
                     ),
                 )
             val useCase = GetPoiCategoryDetailUseCase(getMarkers)
 
-            useCase("CLUB").test {
+            useCase(MarkerUiType.CLUB).test {
                 awaitItem() shouldBe
                     DetailModel.Success(
                         title = "Stand",
-                        type = DetailType.PoiCategory,
-                        items = listOf(DetailItem("DLRG")),
+                        target = DetailTarget.Category(MarkerUiType.CLUB),
+                        items = listOf(DetailItem("DLRG", target = DetailTarget.Poi(1))),
                     )
                 awaitComplete()
             }
@@ -41,18 +41,22 @@ class GetPoiCategoryDetailUseCaseTest :
             every { getMarkers() } returns
                 flowOf(
                     persistentSetOf(
-                        MarkerUi("WC (Urbanstraße)", LatLng(3.0, 3.0), MarkerUiType.WC),
-                        MarkerUi("WC (Engelgasse)", LatLng(1.0, 1.0), MarkerUiType.WC),
+                        MarkerUi(10, "WC (Urbanstraße)", LatLng(3.0, 3.0), MarkerUiType.WC),
+                        MarkerUi(11, "WC (Engelgasse)", LatLng(1.0, 1.0), MarkerUiType.WC),
                     ),
                 )
             val useCase = GetPoiCategoryDetailUseCase(getMarkers)
 
-            useCase("WC").test {
+            useCase(MarkerUiType.WC).test {
                 awaitItem() shouldBe
                     DetailModel.Success(
                         title = "WC",
-                        type = DetailType.PoiCategory,
-                        items = listOf(DetailItem("WC (Engelgasse)"), DetailItem("WC (Urbanstraße)")),
+                        target = DetailTarget.Category(MarkerUiType.WC),
+                        items =
+                            listOf(
+                                DetailItem("WC (Engelgasse)", target = DetailTarget.Poi(11)),
+                                DetailItem("WC (Urbanstraße)", target = DetailTarget.Poi(10)),
+                            ),
                     )
                 awaitComplete()
             }
@@ -63,33 +67,24 @@ class GetPoiCategoryDetailUseCaseTest :
             every { getMarkers() } returns
                 flowOf(
                     persistentSetOf(
-                        MarkerUi("Karussell", LatLng(1.0, 1.0), MarkerUiType.ATTRACTION),
-                        MarkerUi("Blumentombola", LatLng(2.0, 2.0), MarkerUiType.ATTRACTION),
-                        MarkerUi("Sängerbund", LatLng(3.0, 3.0), MarkerUiType.CLUB),
+                        MarkerUi(20, "Karussell", LatLng(1.0, 1.0), MarkerUiType.ATTRACTION),
+                        MarkerUi(21, "Blumentombola", LatLng(2.0, 2.0), MarkerUiType.ATTRACTION),
+                        MarkerUi(22, "Sängerbund", LatLng(3.0, 3.0), MarkerUiType.CLUB),
                     ),
                 )
             val useCase = GetPoiCategoryDetailUseCase(getMarkers)
 
-            useCase("ATTRACTION").test {
+            useCase(MarkerUiType.ATTRACTION).test {
                 awaitItem() shouldBe
                     DetailModel.Success(
                         title = "Attraktion",
-                        type = DetailType.PoiCategory,
-                        items = listOf(DetailItem("Blumentombola"), DetailItem("Karussell")),
+                        target = DetailTarget.Category(MarkerUiType.ATTRACTION),
+                        items =
+                            listOf(
+                                DetailItem("Blumentombola", target = DetailTarget.Poi(21)),
+                                DetailItem("Karussell", target = DetailTarget.Poi(20)),
+                            ),
                     )
-                awaitComplete()
-            }
-        }
-
-        "returns an empty list for an unknown type name" {
-            val getMarkers = mockk<GetMarkersUseCase>()
-            every { getMarkers() } returns
-                flowOf(persistentSetOf(MarkerUi("WC", LatLng(1.0, 1.0), MarkerUiType.WC)))
-            val useCase = GetPoiCategoryDetailUseCase(getMarkers)
-
-            useCase("NOT_A_TYPE").test {
-                awaitItem() shouldBe
-                    DetailModel.Success(title = "", type = DetailType.PoiCategory, items = emptyList())
                 awaitComplete()
             }
         }

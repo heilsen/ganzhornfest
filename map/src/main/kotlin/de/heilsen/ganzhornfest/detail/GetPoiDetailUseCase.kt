@@ -11,15 +11,17 @@ class GetPoiDetailUseCase
     constructor(
         private val getMarkers: GetMarkersUseCase,
     ) {
-        operator fun invoke(poiName: String): Flow<DetailModel.Success> =
+        operator fun invoke(poiId: Long): Flow<DetailModel.Success> =
             getMarkers().map { markers ->
-                val type = markers.firstOrNull { it.title == poiName }?.markerUiType
+                val marker = markers.firstOrNull { it.poiId == poiId }
                 DetailModel.Success(
-                    title = poiName,
-                    type = DetailType.Poi,
+                    title = marker?.title.orEmpty(),
+                    target = DetailTarget.Poi(poiId),
                     items =
                         listOfNotNull(
-                            type?.let { DetailItem(name = it.germanLabel(), routeKey = it.name) },
+                            marker?.markerUiType?.let {
+                                DetailItem(name = it.germanLabel(), target = DetailTarget.Category(it))
+                            },
                         ),
                 )
             }

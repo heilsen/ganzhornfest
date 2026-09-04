@@ -19,6 +19,9 @@ GROUP BY offer.id;
 selectAllOthers:
 SELECT * FROM offer WHERE typeId = 3;
 
+selectNameById:
+SELECT name FROM offer WHERE id = :id;
+
 selectOthersByName:
 SELECT * FROM offer
 WHERE typeId = 3
