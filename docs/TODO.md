@@ -8,10 +8,10 @@
   - Remove the `DetailEvent` push from `MainScreen` before navigation
   - Add deep-link and back stack restoration support once routes are ID-based
 
-- [ ] Fill in missing loading and error states
-  - Show a proper loading state in `MapScreen`
-  - Show a proper loading state in `DetailScreen`
-  - Add a reusable error state for failed DB/data loads instead of blank screens
+- [x] Fill in missing loading and error states
+  - [x] Show a proper loading state in `MapScreen`
+  - [x] Show a proper loading state in `DetailScreen`
+  - [x] Add a reusable error state for failed DB/data loads instead of blank screens
 
 - [ ] Use real festival opening times in time-based features
   - Stop hardcoding the bus start time to `19:00`

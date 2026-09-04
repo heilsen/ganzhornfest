@@ -9,6 +9,8 @@ import kotlinx.collections.immutable.toPersistentSet
 sealed interface DetailModel {
     data object Loading : DetailModel
 
+    data object Error : DetailModel
+
     data class Success(
         val title: String,
         val target: DetailTarget,

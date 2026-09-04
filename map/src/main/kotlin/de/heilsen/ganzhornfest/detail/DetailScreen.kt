@@ -1,5 +1,6 @@
 package de.heilsen.ganzhornfest.detail
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import de.heilsen.ganzhornfest.theme.component.ErrorScreen
+import de.heilsen.ganzhornfest.theme.component.LoadingScreen
 
 @Composable
 fun DetailScreen(
@@ -26,7 +29,6 @@ fun DetailScreen(
     onItemClicked: (DetailTarget) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (model !is DetailModel.Success) return
     Column(modifier = modifier.fillMaxSize()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -36,11 +38,30 @@ fun DetailScreen(
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, "zurück")
             }
             Text(
-                text = model.title,
+                text = (model as? DetailModel.Success)?.title.orEmpty(),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(end = 16.dp),
             )
         }
+        // LoadingScreen and ErrorScreen fillMaxSize, and in a Column that means the full
+        // incoming height, not what is left under the header. The weighted Box bounds them.
+        Box(Modifier.weight(1f)) {
+            when (model) {
+                DetailModel.Loading -> LoadingScreen()
+                DetailModel.Error -> ErrorScreen()
+                is DetailModel.Success -> DetailContent(model, onItemClicked)
+            }
+        }
+    }
+}
+
+@Composable
+private fun DetailContent(
+    model: DetailModel.Success,
+    onItemClicked: (DetailTarget) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier.fillMaxSize()) {
         val sectionTitle =
             when (model.target) {
                 is DetailTarget.Club -> "Angebot"
