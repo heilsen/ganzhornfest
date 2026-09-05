@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @PreviewFontScale
 @PreviewScreenSizes
 @Composable
-fun HorizontalDivider(modifier: Modifier = Modifier) {
+internal fun HorizontalDivider(modifier: Modifier = Modifier) {
     Spacer(
         modifier =
             modifier

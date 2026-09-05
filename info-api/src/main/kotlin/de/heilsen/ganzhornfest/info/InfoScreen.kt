@@ -51,7 +51,7 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.core.FestivalEdition
-import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.core.compose.preview.DefaultPreviews
 import de.heilsen.ganzhornfest.core.datetime.formatToLocalWeekdayDate
 import de.heilsen.ganzhornfest.info.api.R
 import de.heilsen.ganzhornfest.theme.GanzhornfestSans
@@ -496,9 +496,9 @@ private fun officialInfoItem(
     links()
 }
 
-@PreviewDefault
+@DefaultPreviews
 @Composable
-fun InfoScreenPreview() {
+private fun InfoScreenPreview() {
     GanzhornfestTheme {
         InfoScreen(clubCount = 34)
     }

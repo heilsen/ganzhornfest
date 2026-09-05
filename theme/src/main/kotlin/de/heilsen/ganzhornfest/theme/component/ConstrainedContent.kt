@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.core.compose.preview.DefaultPreviews
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 
 // Text lines past roughly 600 dp get hard to track back to the next line, and a tablet has far
@@ -26,11 +26,11 @@ fun ConstrainedContent(
     }
 }
 
-@PreviewDefault
+@DefaultPreviews
 @Composable
 // A preview takes no modifier.
 @Suppress("ComposeModifierMissing")
-fun ConstrainedContentPreview() {
+private fun ConstrainedContentPreview() {
     GanzhornfestTheme {
         ConstrainedContent {
             Text("The quick brown fox jumps over the lazy dog. ".repeat(12))

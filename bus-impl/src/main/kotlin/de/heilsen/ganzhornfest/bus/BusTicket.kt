@@ -16,7 +16,7 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.bus.preview.BusTicketPreviewParameterProvider
-import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.core.compose.preview.DefaultPreviews
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 import de.heilsen.ganzhornfest.theme.component.ticket.Ticket
 
@@ -99,8 +99,8 @@ fun BusTicket(
 }
 
 @Composable
-@PreviewDefault
-fun BusTicketPreview(
+@DefaultPreviews
+private fun BusTicketPreview(
     @PreviewParameter(BusTicketPreviewParameterProvider::class)
     busConnectionToShowDate: Pair<BusConnection, Boolean>,
 ) {

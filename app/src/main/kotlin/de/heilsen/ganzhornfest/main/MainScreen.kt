@@ -89,6 +89,7 @@ import de.heilsen.ganzhornfest.di.getValue
 import de.heilsen.ganzhornfest.di.rememberAppGraph
 import de.heilsen.ganzhornfest.info.InfoScreen
 import de.heilsen.ganzhornfest.info.InfoViewModel
+import de.heilsen.ganzhornfest.map.MapEvent
 import de.heilsen.ganzhornfest.map.MapModel
 import de.heilsen.ganzhornfest.map.MapScreen
 import de.heilsen.ganzhornfest.map.MapViewModel
@@ -101,6 +102,7 @@ import de.heilsen.ganzhornfest.program.ProgramScreen
 import de.heilsen.ganzhornfest.program.ProgramViewModel
 import de.heilsen.ganzhornfest.search.Category
 import de.heilsen.ganzhornfest.search.MapSearchBar
+import de.heilsen.ganzhornfest.search.SearchEvent
 import de.heilsen.ganzhornfest.search.SearchModel
 import de.heilsen.ganzhornfest.search.SearchViewModel
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
@@ -423,8 +425,8 @@ private fun MapDetailOverlay(
                     isDetail = isDetail,
                     showSearchBar = true,
                     mapBottomPadding = 8.dp,
-                    mapViewModel = mapViewModel,
-                    searchViewModel = searchViewModel,
+                    onMapEvent = mapViewModel::onEvent,
+                    onSearchEvent = searchViewModel::take,
                     navController = navController,
                     modifier = Modifier.weight(1f).fillMaxHeight(),
                 )
@@ -464,8 +466,8 @@ private fun MapDetailOverlay(
                     isDetail = isDetail,
                     showSearchBar = showSearchBar,
                     mapBottomPadding = mapBottomPadding,
-                    mapViewModel = mapViewModel,
-                    searchViewModel = searchViewModel,
+                    onMapEvent = mapViewModel::onEvent,
+                    onSearchEvent = searchViewModel::take,
                     navController = navController,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -554,8 +556,8 @@ private fun MapPane(
     isDetail: Boolean,
     showSearchBar: Boolean,
     mapBottomPadding: Dp,
-    mapViewModel: MapViewModel,
-    searchViewModel: SearchViewModel,
+    onMapEvent: (MapEvent) -> Unit,
+    onSearchEvent: (SearchEvent) -> Unit,
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
@@ -566,7 +568,7 @@ private fun MapPane(
         MapScreen(
             mapModel = mapModel,
             highlightedTitles = highlightTitles,
-            onEvent = mapViewModel::onEvent,
+            onEvent = onMapEvent,
             showPinEditorToggle = BuildConfig.DEBUG && !isDetail,
             mapBottomPadding = mapBottomPadding,
             pinEditorOpen = pinEditorOpen,
@@ -606,7 +608,7 @@ private fun MapPane(
         if (showSearchBar && !pinEditorOpen) {
             MapSearchBar(
                 searchModel = searchModel,
-                onEvent = { searchViewModel.take(it) },
+                onEvent = onSearchEvent,
                 onSearchResultClicked = { id, category ->
                     val target =
                         when (category) {

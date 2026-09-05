@@ -82,6 +82,9 @@ private val PIN_DIAMETER_DIMMED = 14.dp
 private const val HIGHLIGHT_BOUNDS_PADDING_PX = 160
 
 @PreviewLightDark
+// The real component, not a preview-only wrapper. It stays public for :app to call, so the
+// preview-must-be-private rule does not apply here.
+@Suppress("ComposePreviewPublic")
 @Composable
 fun MapScreen(
     modifier: Modifier = Modifier,
@@ -400,6 +403,12 @@ private fun MapStatusOverlay(
 
 // Two slots so the map keeps its enclosing scope. Extracting it would mean threading about
 // ten parameters through just to reuse it in both arrangements.
+// sideBySide and showPanel can each flip live (rotation, the editor toggle), which moves
+// map's call site between the Row and Column branch below. That resets remember state inside
+// it, including the GoogleMap view itself, so opening the editor on a side-by-side layout
+// reloads the map instead of just adding the panel beside it. Pre-existing behaviour, not
+// caused by this dependency bump. Left as is here. Worth its own fix.
+@Suppress("SlotReused")
 @Composable
 private fun MapEditorLayout(
     sideBySide: Boolean,
