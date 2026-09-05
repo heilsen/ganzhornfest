@@ -57,6 +57,7 @@ import de.heilsen.ganzhornfest.info.api.R
 import de.heilsen.ganzhornfest.theme.GanzhornfestSans
 import de.heilsen.ganzhornfest.theme.GanzhornfestSerif
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
+import de.heilsen.ganzhornfest.theme.component.ConstrainedContent
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
@@ -161,21 +162,29 @@ fun InfoScreen(
             }
         },
     ) { innerPadding ->
+        // The scroll stays full width so a fling anywhere on a tablet works. Only the cards are
+        // capped and centred.
         Column(
             Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
-                .padding(top = 12.dp, bottom = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+                .verticalScroll(rememberScrollState()),
         ) {
-            LocationCard()
-            DateChipRow(today = today)
-            SundayShoppingBanner()
-            ClubsCard(clubCount = clubCount)
-            BusCard()
-            OfficialLinksCard()
+            ConstrainedContent {
+                Column(
+                    Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 12.dp, bottom = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    LocationCard()
+                    DateChipRow(today = today)
+                    SundayShoppingBanner()
+                    ClubsCard(clubCount = clubCount)
+                    BusCard()
+                    OfficialLinksCard()
+                }
+            }
         }
     }
 }

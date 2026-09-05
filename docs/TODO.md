@@ -2,10 +2,10 @@
 
 ## High Priority
 
-- [ ] Fix tablet-adaption
-  - The app has no `NavigationRail` or `ListDetailPaneScaffold`, so Programm, Info and Bus keep the bottom
-  `NavigationBar` and a single column at any width. They read as a stretched phone.
-   `docs/plans/12-tablet-adaptive-layout.md` tracks the fix.
+- [x] Fix tablet-adaption
+  - Navigation moved from the pinned bottom `NavigationBar` to the Material-recommended component
+    per window, and Programm, Info and Bus content is capped to a centred 600 dp column.
+    `docs/plans/12-tablet-adaptive-layout.md` records what shipped.
 
 - [ ] Fix detail/navigation architecture
   - [x] Replace title-based detail routing with stable IDs
@@ -50,13 +50,6 @@
 - [ ] Consider small product additions
   - [x] Instagram deep link
   - In-app review prompt
-
-- [ ] Adapt navigation and layout for tablets and landscape
-  - The bottom `NavigationBar` stays pinned at any width. Programm, Info and Bus render as a
-    stretched single column on tablets. The 2026 tablet captures show it. Those files are local
-    only. See `docs/playstore-capture.md`.
-  - `NavigationSuiteScaffold` for a rail at medium width and up, plus a content width cap on
-    the single-column screens. Tracked in `docs/plans/12-tablet-adaptive-layout.md`.
 
 ## Architecture And Data
 

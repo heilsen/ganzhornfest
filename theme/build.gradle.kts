@@ -16,6 +16,8 @@ dependencies {
     implementation(project(":core-api"))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material)
+    // material3 1.4.0 dropped the transitive material-icons-core.
+    implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.foundation.android)
