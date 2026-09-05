@@ -33,8 +33,6 @@ ktlint.
 - Match the existing patterns in the module you touch.
 - When changing persisted data, edit the SQLDelight `.sq` schema and migrations.
   Do not patch generated artifacts.
-- `docs/TODO.md` is the canonical backlog. Check it before proposing work that
-  might already be tracked.
 
 ## Testing
 

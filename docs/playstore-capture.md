@@ -27,8 +27,7 @@ The 2026 run shipped `versionName 2026.2.1`.
   `adb shell cmd locale set-app-locales de.heilsen.ganzhornfest --locales de-DE`. This also flips
   `Locale.getDefault()` for the app process, which the date and time formatters depend on. Skip it
   and the dates render in the device locale. The 2024 tablet run predates this step and shipped with
-  `Saturday, August 31, 2024` and `4:00 PM` in the Programm and Bus shots. See the locale note in
-  `docs/plans/05-bus-opening-hours.md`.
+  `Saturday, August 31, 2024` and `4:00 PM` in the Programm and Bus shots.
 - Light theme (default).
 - Status bar cleaned with SysUI demo mode:
   ```bash
@@ -63,7 +62,7 @@ AVD `Medium_Tablet_API_34` (native 1600x2560 at 320 dpi).
 
 Only the Karte screen is truly tablet-adapted. Programm, Info and Bus keep the bottom
 `NavigationBar` and a single column at any width, so they read as a stretched phone. Play needs a
-minimum of four shots. `docs/plans/12-tablet-adaptive-layout.md` tracks the fix.
+minimum of four shots.
 
 ## Flatten to RGB
 

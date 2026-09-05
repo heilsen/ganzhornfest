@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-// P4 reworks this component, see docs/plans/04-loading-error-states.md
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier.fillMaxSize()) {
     Column(

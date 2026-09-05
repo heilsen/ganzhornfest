@@ -26,7 +26,6 @@ import kotlinx.datetime.LocalDate
 import java.text.DateFormat
 
 @Composable
-// P3 rewrites this file into a timetable layout, see docs/plans/03-program-timetable.md
 @Suppress("ComposeParameterOrder")
 fun ProgramScreen(
     programModel: ProgramModel,
@@ -50,7 +49,6 @@ fun ProgramScreen(
 }
 
 @Composable
-// P3 rewrites this file into a timetable layout, see docs/plans/03-program-timetable.md
 @Suppress("ComposeModifierMissing")
 fun ProgramScreenSuccess(
     programModel: ProgramModel.Data,

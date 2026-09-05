@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -33,10 +32,7 @@ import kotlinx.datetime.LocalDate
 import java.text.DateFormat
 import de.heilsen.ganzhornfest.bus.api.R as ApiR
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// P4 (docs/plans/04-loading-error-states.md) and P5 (docs/plans/05-bus-opening-hours.md)
-// both own bus-impl/**.
 @Suppress("ComposeParameterOrder")
 fun BusScreen(
     busModel: BusModel,

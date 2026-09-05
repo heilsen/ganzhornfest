@@ -29,7 +29,7 @@ fun VerticalCards(
 
 @PreviewDefault
 @Composable
-@Suppress("ComposeModifierMissing") // P9 owns :map, see docs/plans/09-map-polish.md
+@Suppress("ComposeModifierMissing")
 fun HorizontalCards(
     @PreviewParameter(SampleProvider::class) messages: ImmutableList<String>,
 ) {
