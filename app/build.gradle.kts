@@ -166,6 +166,13 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // play-services-maps still pins androidx.fragment 1.0.0. Nothing else in the graph
+    // raises it, so the shipped bundle carries a 2018 Fragment and Play Console flags it.
+    // No code here touches a Fragment API, so a constraint is enough.
+    constraints {
+        implementation(libs.androidx.fragment)
+    }
 }
 
 private class SigningKeys(
