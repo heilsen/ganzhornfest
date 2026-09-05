@@ -18,7 +18,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.core.compose.preview.DefaultPreviews
 import de.heilsen.ganzhornfest.theme.GanzhornfestSans
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 
@@ -77,11 +77,11 @@ fun GanzhornfestTopAppBar(
     )
 }
 
-@PreviewDefault
+@DefaultPreviews
 @Composable
 // A preview takes no modifier.
 @Suppress("ComposeModifierMissing")
-fun GanzhornfestScaffoldPreview() {
+private fun GanzhornfestScaffoldPreview() {
     GanzhornfestTheme {
         GanzhornfestScaffold(
             title = { Text("Title") },

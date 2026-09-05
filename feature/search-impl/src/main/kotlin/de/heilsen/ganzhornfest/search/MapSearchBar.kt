@@ -47,7 +47,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import de.heilsen.ganzhornfest.core.ResourcesProvider
-import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.core.compose.preview.DefaultPreviews
 import de.heilsen.ganzhornfest.di.getValue
 import de.heilsen.ganzhornfest.di.rememberAppGraph
 import de.heilsen.ganzhornfest.search.impl.R
@@ -62,7 +62,10 @@ interface EntryPoint {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@PreviewDefault
+@DefaultPreviews
+// The real component, not a preview-only wrapper. It stays public for :app to call, so the
+// preview-must-be-private rule does not apply here.
+@Suppress("ComposePreviewPublic")
 @Composable
 fun MapSearchBar(
     modifier: Modifier = Modifier,

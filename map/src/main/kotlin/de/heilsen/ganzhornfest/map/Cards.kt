@@ -14,23 +14,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.core.compose.preview.DefaultPreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-@PreviewDefault
+@DefaultPreviews
 @Composable
-fun VerticalCards(
+private fun VerticalCards(
     @PreviewParameter(SampleProvider::class) messages: ImmutableList<String>,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {},
 ) {
 }
 
-@PreviewDefault
+@DefaultPreviews
 @Composable
 @Suppress("ComposeModifierMissing")
-fun HorizontalCards(
+private fun HorizontalCards(
     @PreviewParameter(SampleProvider::class) messages: ImmutableList<String>,
 ) {
     LazyHorizontalGrid(

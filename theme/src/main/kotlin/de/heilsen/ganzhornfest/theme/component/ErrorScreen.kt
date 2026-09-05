@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import de.heilsen.ganzhornfest.core.compose.preview.PreviewDefault
+import de.heilsen.ganzhornfest.core.compose.preview.DefaultPreviews
 import de.heilsen.ganzhornfest.theme.GanzhornfestTheme
 
 @Composable
@@ -39,9 +39,9 @@ fun ErrorScreen(
     }
 }
 
-@PreviewDefault
+@DefaultPreviews
 @Composable
 @Suppress("ComposeModifierMissing")
-fun ErrorScreenPreview() {
+private fun ErrorScreenPreview() {
     GanzhornfestTheme { ErrorScreen() }
 }
