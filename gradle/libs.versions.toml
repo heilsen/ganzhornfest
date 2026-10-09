@@ -34,7 +34,7 @@ metro = "1.4.5"
 mockk = "1.14.11"
 molecule = "2.2.0"
 play-services-maps = "20.0.0"
-sqldelight = "2.4.0"
+sqldelight = "2.4.1"
 timber = "5.0.1"
 turbine = "1.2.1"
 
